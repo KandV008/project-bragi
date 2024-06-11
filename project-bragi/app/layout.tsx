@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ThemeToggle from "./components/themeToggle";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      
+      <header className="p-4 flex justify-end">
+        <ThemeToggle />
+      </header>
       <body className={inter.className}>{children}</body>
+  
     </html>
+
+    
   );
 }
