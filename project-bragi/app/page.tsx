@@ -5,6 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import SmallButtonWithIcon from "./components/smallButtonWithIcon";
 import SearchBar from "./components/searchBar";
+import Logo from "./components/logo";
 
 export default function Home() {
   return (
@@ -28,6 +29,8 @@ export default function Home() {
       </div>
 
       <SearchBar />
+
+      <Logo />
     </>
   );
 }
