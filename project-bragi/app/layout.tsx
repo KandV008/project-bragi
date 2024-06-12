@@ -17,15 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      
-      <header className="p-4 flex justify-end">
-        <ThemeToggle />
-      </header>
-      <body className={inter.className}>{children}</body>
-  
-    </html>
-
-    
-  );
+      <html lang="en">
+        <head>
+          <title>Your Title</title>
+          {/* Other head elements like meta tags, link tags etc. */}
+        </head>
+        <body className={`${inter.className} bg-white dark:bg-black min-h-screen`}>
+          <header className="p-4 flex justify-end">
+            <ThemeToggle />
+          </header>
+          {children}
+        </body>
+      </html>
+    );
 }
