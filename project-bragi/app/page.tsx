@@ -1,11 +1,10 @@
-import DownHeader from "./components/downHeader";
-import HeaderBody from "./components/headerBody";
+import Header from "./components/header";
+
 
 export default function Home() {
   return (
     <>
-        <HeaderBody />
-        <DownHeader />
+      <Header />
     </>
   );
 }
