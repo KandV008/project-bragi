@@ -23,7 +23,7 @@ export default function RootLayout({
           {/* Other head elements like meta tags, link tags etc. */}
           <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         </head>
-        <body className={`${inter.className} bg-white dark:bg-black min-h-screen`}>
+        <body className={`${inter.className} bg-white dark:bg-black flex flex-col min-h-screen`}>
           <header className="p-4 flex justify-end">
             <ThemeToggle />
           </header>
