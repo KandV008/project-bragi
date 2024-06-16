@@ -1,13 +1,15 @@
+import Footer from "./components/footer/footer";
+import DownFooter from "./components/footer/downFooter";
+import FooterBody from "./components/footer/footerBody";
 import Header from "./components/header/header";
-import Product from "./components/searchPage/product";
-import ProductContainer from "./components/searchPage/productContainer";
-
+import SearchPage from "./components/searchPage/searchPage";
 
 export default function Home() {
   return (
     <>
       <Header />
-      <ProductContainer />
+      <SearchPage />
+      <Footer />
     </>
   );
 }

@@ -10,7 +10,7 @@ import Logo from "./logo";
 export default function HeaderBody() {
   return (
     <>
-      <div className="flex flex-col space-y-4 md:flex-row justify-center items-center md:space-x-8 lg:space-x-6">
+      <div className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
         <Logo />
         <SearchBar />
         <div className="flex flex-row sm:space-x-4 lg:space-x-0">

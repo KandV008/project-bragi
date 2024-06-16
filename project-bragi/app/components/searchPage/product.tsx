@@ -8,7 +8,7 @@ export default function Product() {
       className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5
     bg-primary0 dark:bg-secondary2 border-solid border-2  border-primary2 dark:border-secondary1 text-primary2 dark:text-secondary0
     rounded rounded-tr-3xl 
-    md:w-48 xl:w-64"
+    md:w-48 xl:w-64 h-fit"
     >
       <section className="flex flex-col items-center justify-between gap-3">
         <Image
