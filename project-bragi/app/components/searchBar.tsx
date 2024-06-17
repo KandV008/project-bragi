@@ -17,7 +17,7 @@ export default function SearchBar() {
                 dark:placeholder:text-secondary2 placeholder:text-primary2 placeholder:font-bold
                 hover:bg-primary1 hover:border-primary2 hover:border-2
                 hover:dark:bg-secondary1 hover:dark:border-secondary0"
-          placeholder="Search on Page"
+          placeholder="Buscar productos"
           required
         />
       </form>
