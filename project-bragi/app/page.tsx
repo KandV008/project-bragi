@@ -4,12 +4,13 @@ import FooterBody from "./components/footer/footerBody";
 import Header from "./components/header/header";
 import SearchPage from "./components/searchPage/searchPage";
 import MainPage from "./components/mainPage/mainPage";
+import AboutProductPage from "./components/aboutProductPage/aboutProductPage";
 
 export default function Home() {
   return (
     <>
       <Header />
-      <MainPage />
+      <AboutProductPage />
       <Footer />
     </>
   );
