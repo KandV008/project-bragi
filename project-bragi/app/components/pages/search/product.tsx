@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 
 export default function Product() {
   return (
-    <article
+    <Link
+      href="/search/about"
       className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5
     bg-primary0 dark:bg-secondary2 border-solid border-2  border-primary2 dark:border-secondary1 text-primary2 dark:text-secondary0
     rounded rounded-tr-3xl 
@@ -61,6 +63,6 @@ export default function Product() {
           </button>
         </form>
       </section>
-    </article>
+    </Link>
   );
 }

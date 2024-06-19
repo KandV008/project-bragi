@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 
 export default function ProductOptions() {
   return (
@@ -86,17 +87,21 @@ export default function ProductOptions() {
             <li>Servicio Completo Gratuito de Audiometría</li>
           </ul>
         </div>
-        <button
-          className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
-        border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700"
-        >
-          <div className="flex flex-row place-self-center gap-3">
-          <div className=" mr-0 md:mr-2 xl:mr-0">
-            <FontAwesomeIcon icon={faCartShopping} className="" />
-          </div>
-          <span className="text-base font-black">Añadir a la cesta</span>
-          </div>
-        </button>
+
+        <Link
+        href="/">
+          <button
+            className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
+          border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700"
+          >
+            <div className="flex flex-row place-self-center gap-3">
+            <div className=" mr-0 md:mr-2 xl:mr-0">
+              <FontAwesomeIcon icon={faCartShopping} className="" />
+            </div>
+            <span className="text-base font-black">Añadir a la cesta</span>
+            </div>
+          </button>
+        </Link>
       </article>
     </div>
   );

@@ -1,6 +1,8 @@
-export default function SmallButton({ text }) {
+import Link from 'next/link';
+
+export default function SmallButton({ text, href }) {
     return (
-      <>
+      <Link href={href}>
         <button className=" py-1 px-2 sm:h-10 lg:h-12  
                         min-w-8 sm:w-40 lg:w-48 rounded    
                     bg-white dark:bg-stone-700
@@ -10,6 +12,6 @@ export default function SmallButton({ text }) {
               {text}
           </div>
         </button>
-      </>
+      </Link>
     );
   }
