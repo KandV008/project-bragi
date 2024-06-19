@@ -3,6 +3,8 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeToggle from "./components/themeToggle";
+import Header from "./components/header/header";
+import Footer from "./components/footer/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +29,9 @@ export default function RootLayout({
           <header className="p-4 flex justify-end">
             <ThemeToggle />
           </header>
+          <Header />
           {children}
+          <Footer />
         </body>
       </html>
     );

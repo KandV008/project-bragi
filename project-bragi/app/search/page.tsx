@@ -1,8 +1,8 @@
-import Filter from "./filter";
-import ProductContainer from "./productContainer";
+import Filter from "../components/pages/search/filter";
+import ProductContainer from "../components/pages/search/productContainer";
 
 
-export default function SearchPage(){
+export default function Page(){
     return (
         <main className="flex flex-grow  justify-center space-x-2 py-5 sm:w-5/6 xl:w-4/6 place-self-center ">
             <Filter />

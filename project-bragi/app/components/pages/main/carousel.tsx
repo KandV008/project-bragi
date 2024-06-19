@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SmallButton from "../smallButton";
+import SmallButton from "../../smallButton";
 
 export default function CarouselWithAction() {
   return (
@@ -22,7 +22,7 @@ export default function CarouselWithAction() {
             si encuentra un audífono comparable a mejor precio en la calle. 
             </article>
             <div className="flex justify-center gap-2">
-              <SmallButton text="Pida ya su cita"/>
+              <SmallButton text="Pida ya su cita" href="localhost:3000/"/>
             </div>
           </div>
         </div>

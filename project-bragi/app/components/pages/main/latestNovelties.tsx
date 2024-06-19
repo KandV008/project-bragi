@@ -1,4 +1,4 @@
-import Product from "../searchPage/product";
+import Product from "../search/product";
 
 export default function LatestNovelties() {
   return (
