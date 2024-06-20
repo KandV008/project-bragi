@@ -1,6 +1,11 @@
 import Link from 'next/link';
 
-export default function SmallButton({ text, href }) {
+interface SmallButtonProps {
+  text: string;
+  href: string;
+}
+
+export default function SmallButton({ text, href }: SmallButtonProps) {
     return (
       <Link href={href}>
         <button className=" py-1 px-2 sm:h-10 lg:h-12  

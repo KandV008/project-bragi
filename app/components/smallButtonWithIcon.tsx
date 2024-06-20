@@ -1,6 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-export default function SmallButtonWithIcon({ icon, text, subtext }) {
+interface SmallButtonWithIconProps {
+  icon: IconDefinition;
+  text: string;
+  subtext: string;
+}
+
+export default function SmallButtonWithIcon({ icon, text, subtext }: SmallButtonWithIconProps) {
   return (
     <button
       className="flex items-start cursor-pointer py-1 px-2 2xl:h-12  

@@ -1,4 +1,8 @@
-export default function NavButton({ text }) {
+interface NavButtonProps {
+  text: string;
+}
+
+export default function NavButton({ text }: NavButtonProps) {
   return (
     <>
       <button className=" py-1 px-2 h-10 w-28 min-h-4 min-w-4 hover:rounded                    
