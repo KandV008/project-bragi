@@ -1,5 +1,4 @@
 
-
 export default function DownFooter() {
     return (
       <section className="flex flex-row text-primary2 dark:text-secondary0 text-sm md:text-base">

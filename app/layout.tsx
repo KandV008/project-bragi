@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Inter } from "next/font/google";
 import "./globals.css";
-import ThemeToggle from "./components/themeToggle";
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
+import ThemeToggle from "./components/common/themeToggle";
+import Header from "./components/common/header";
+import Footer from "./components/common/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -4,7 +4,7 @@ import Certifications from "./components/pages/main/certifications";
 import LatestNovelties from "./components/pages/main/latestNovelties";
 import PageReviews from "./components/pages/main/pageReviews";
 import WorkingFlow from "./components/pages/main/workingFlow";
-import SearchBar from "./components/searchBar";
+import SearchBar from "./components/common/searchBar";
 import SmallButton from "./components/smallButton";
 
 export default function Home() {

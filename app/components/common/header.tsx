@@ -1,6 +1,5 @@
-import DownHeader from "./downHeader";
-import HeaderBody from "./headerBody";
-
+import DownHeader from "./header/downHeader";
+import HeaderBody from "./header/headerBody";
 
 export default function Header(){
     return (
