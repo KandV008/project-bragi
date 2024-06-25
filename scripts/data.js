@@ -24,57 +24,57 @@ const docs = [
             {
                 color: "P1",
                 images: [
-                    "./products/audeo-lumity/L-R/P1/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P1.tif",
-                    "./products/audeo-lumity/L-R/P1/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P1.tif",
+                    "/products/audeo-lumity/L-R/P1/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P1.png",
+                    "/products/audeo-lumity/L-R/P1/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P1.png",
                 ],
             },
             {
                 color: "P3",
                 images: [
-                    "./products/audeo-lumity/L-R/P3/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P3.tif",
-                    "./products/audeo-lumity/L-R/P3/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P3.tif",
+                    "/products/audeo-lumity/L-R/P3/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P3.png",
+                    "/products/audeo-lumity/L-R/P3/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P3.png",
                 ],
             },
             {
                 color: "P4",
                 images: [
-                    "./products/audeo-lumity/L-R/P4/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P4.tif",
-                    "./products/audeo-lumity/L-R/P4/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P4.tif",
+                    "/products/audeo-lumity/L-R/P4/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P4.png",
+                    "/products/audeo-lumity/L-R/P4/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P4.png",
                 ],
             },
             {
                 color: "P5",
                 images: [
-                    "./products/audeo-lumity/L-R/P5/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P5.tif",
-                    "./products/audeo-lumity/L-R/P5/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P5.tif",
+                    "/products/audeo-lumity/L-R/P5/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P5.png",
+                    "/products/audeo-lumity/L-R/P5/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P5.png",
                 ],
             },
             {
                 color: "P6",
                 images: [
-                    "./products/audeo-lumity/L-R/P6/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P6.tif",
-                    "./products/audeo-lumity/L-R/P6/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P6.tif",
+                    "/products/audeo-lumity/L-R/P6/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P6.png",
+                    "/products/audeo-lumity/L-R/P6/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P6.png",
                 ],
             },
             {
                 color: "P7",
                 images: [
-                    "./products/audeo-lumity/L-R/P7/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P7.tif",
-                    "./products/audeo-lumity/L-R/P7/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P7.tif",
+                    "/products/audeo-lumity/L-R/P7/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P7.png",
+                    "/products/audeo-lumity/L-R/P7/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P7.png",
                 ],
             },
             {
                 color: "P8",
                 images: [
-                    "./products/audeo-lumity/L-R/P8/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P8.tif",
-                    "./products/audeo-lumity/L-R/P8/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P8.tif",
+                    "/products/audeo-lumity/L-R/P8/PH_Packshot_Audeo_L-R_xReceiver_050-0889-P8.png",
+                    "/products/audeo-lumity/L-R/P8/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-P8.png",
                 ],
             },
             {
                 color: "H0",
                 images: [
-                    "./products/audeo-lumity/L-R/H0/PH_Packshot_Audeo_L-R_xReceiver_050-0889-H0.tif",
-                    "./products/audeo-lumity/L-R/H0/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-H0.tif",
+                    "/products/audeo-lumity/L-R/H0/PH_Packshot_Audeo_L-R_xReceiver_050-0889-H0.png",
+                    "/products/audeo-lumity/L-R/H0/PH_Packshot_Audeo_L-R_xReceiver_without_logo_050-0889-H0.png",
                 ],
             },
         ],
@@ -96,57 +96,57 @@ const docs = [
             {
                 color: "P1",
                 images: [
-                    "./products/audeo-lumity/L-RT/P1/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P1.tif",
-                    "./products/audeo-lumity/L-Rt/P1/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P1.tif",
+                    "/products/audeo-lumity/L-RT/P1/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P1.png",
+                    "/products/audeo-lumity/L-Rt/P1/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P1.png",
                 ],
             },
             {
                 color: "P3",
                 images: [
-                    "./products/audeo-lumity/L-RT/P3/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P3.tif",
-                    "./products/audeo-lumity/L-Rt/P3/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P3.tif",
+                    "/products/audeo-lumity/L-RT/P3/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P3.png",
+                    "/products/audeo-lumity/L-Rt/P3/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P3.png",
                 ],
             },
             {
                 color: "P4",
                 images: [
-                    "./products/audeo-lumity/L-RT/P4/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P4.tif",
-                    "./products/audeo-lumity/L-Rt/P4/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P4.tif",
+                    "/products/audeo-lumity/L-RT/P4/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P4.png",
+                    "/products/audeo-lumity/L-Rt/P4/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P4.png",
                 ],
             },
             {
                 color: "P5",
                 images: [
-                    "./products/audeo-lumity/L-RT/P5/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P5.tif",
-                    "./products/audeo-lumity/L-Rt/P5/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P5.tif",
+                    "/products/audeo-lumity/L-RT/P5/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P5.png",
+                    "/products/audeo-lumity/L-Rt/P5/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P5.png",
                 ],
             },
             {
                 color: "P6",
                 images: [
-                    "./products/audeo-lumity/L-RT/P6/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P6.tif",
-                    "./products/audeo-lumity/L-Rt/P6/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P6.tif",
+                    "/products/audeo-lumity/L-RT/P6/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P6.png",
+                    "/products/audeo-lumity/L-Rt/P6/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P6.png",
                 ],
             },
             {
                 color: "P7",
                 images: [
-                    "./products/audeo-lumity/L-RT/P7/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P7.tif",
-                    "./products/audeo-lumity/L-Rt/P7/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P7.tif",
+                    "/products/audeo-lumity/L-RT/P7/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P7.png",
+                    "/products/audeo-lumity/L-Rt/P7/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P7.png",
                 ],
             },
             {
                 color: "P8",
                 images: [
-                    "./products/audeo-lumity/L-RT/P8/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P8.tif",
-                    "./products/audeo-lumity/L-Rt/P8/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P8.tif",
+                    "/products/audeo-lumity/L-RT/P8/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-P8.png",
+                    "/products/audeo-lumity/L-Rt/P8/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-P8.png",
                 ],
             },
             {
                 color: "H0",
                 images: [
-                    "./products/audeo-lumity/L-RT/H0/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-H0.tif",
-                    "./products/audeo-lumity/L-Rt/H0/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-H0.tif",
+                    "/products/audeo-lumity/L-RT/H0/PH_Packshot_Audeo_L-RT_xReceiver_050-1000-H0.png",
+                    "/products/audeo-lumity/L-Rt/H0/PH_Packshot_Audeo_L-RT_xReceiver_without_logo_050-1000-H0.png",
                 ],
             },
         ],

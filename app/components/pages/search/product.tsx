@@ -3,7 +3,14 @@ import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
-export default function Product() {
+interface ProductProps {
+  image: string;
+  name: string;
+  brand: string;
+  price: string;
+}
+
+export default function Product({image, name, brand, price}: ProductProps) {
   return (
     <Link
       href="/search/about"
@@ -14,7 +21,7 @@ export default function Product() {
     >
       <section className="flex flex-col items-center justify-between gap-3">
         <Image
-          src="/placeholder-product.jpg"
+          src={image}
           width={150}
           height={150}
           alt="Placeholder" // TODO Add the real image
@@ -22,13 +29,13 @@ export default function Product() {
         />
         <div className="flex flex-col text-center">
           <span className="text-xs md:self-start md:text-sm xl:text-lg font-bold ">
-            Audeo Lumity L50-RT
+            {name}
           </span>
           <span className="text-xs md:self-start md:text-sm xl:text-base ">
-            Phonak
+            {brand}
           </span>
           <span className="text-sm md:self-end md:text-base xl:text-xl font-bold ">
-            1.599,00€
+            {price}€
           </span>
         </div>
       </section>

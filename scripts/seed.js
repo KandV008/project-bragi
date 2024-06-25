@@ -1,4 +1,3 @@
-// seed.js
 require("dotenv").config({ path: ".env.local" });
 
 const { MongoClient, ServerApiVersion } = require("mongodb"); // Use require instead of import
@@ -24,6 +23,7 @@ async function run() {
 
     // database and collection code goes here
     const db = client.db("Product-DDBB");
+    await deleteDocuments(db)
     const coll = db.collection("products");
 
     // insert code goes here
@@ -37,6 +37,20 @@ async function run() {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
+}
+
+async function deleteDocuments(db) {
+  // Get the documents collection
+  const collection = db.collection('yourCollectionName');
+  
+  // Delete all documents from the collection
+  collection.deleteMany({}, function(err, result) {
+    if (err) {
+      console.error('Error deleting documents', err);
+    } else {
+      console.log(result.deletedCount + ' documents deleted');
+    }
+  });
 }
 
 run().catch(console.dir);
