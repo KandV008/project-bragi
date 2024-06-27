@@ -19,9 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en">
+      <html lang="es">
         <head>
-          <title>Your Title</title>
+          <title>Project Bragi</title>
           {/* Other head elements like meta tags, link tags etc. */}
           <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         </head>

@@ -13,7 +13,7 @@ export default function CarouselWithAction() {
           className="h-full w-full object-cover"
         />
         <div className="absolute w-full sm:w-1/2 inset-0 grid h-full place-items-center bg-black/75">
-          <div className="p-3 w-5/6 sm:w-3/4 text-center">
+          <div className="p-3 w-5/6 sm:w-3/4 text-center text-white">
             <h1 className="mb-4 text-xl sm:text-3xl md:text-4xl lg:text-5xl">
               Pida una cita gratuita
             </h1>
