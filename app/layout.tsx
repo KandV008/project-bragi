@@ -30,6 +30,7 @@ export default function RootLayout({
             <ThemeToggle />
           </header>
           <Header />
+          <div className="mt-20"></div>
           {children}
           <Footer />
         </body>
