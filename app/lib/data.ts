@@ -31,7 +31,27 @@ export async function getAllProducts(): Promise<ProductEntity[]> {
           products.push(mapDocumentToProduct(doc));
         });
       } finally {
-        // Ensures that the client will close when you finish/error
+        await client.close();
+      }
+
+      return products;
+}
+
+export async function getLatestNovelties(): Promise<ProductEntity[]> {
+  let products: ProductEntity[] = [];  
+  
+  try {
+        await client.connect();
+
+        const db = client.db("Product-DDBB");
+        const coll = db.collection("products");
+
+        const cursor = coll.find().sort({ _id: -1 }).limit(4);
+
+        await cursor.forEach((doc: any) => {
+          products.push(mapDocumentToProduct(doc));
+        });
+      } finally {
         await client.close();
       }
 
@@ -55,7 +75,6 @@ export async function getProduct(id:string | null): Promise<ProductEntity | null
 
     return mapDocumentToProduct(product)
   } finally {
-    // Ensures that the client will close when you finish/error
     await client.close();
   }
 }
