@@ -1,3 +1,12 @@
+import { AdaptationRange } from "./enums/AdaptionRange";
+import { Brand } from "./enums/Brand";
+import { Category } from "./enums/Category";
+import { Color, ColorDefinition } from "./enums/Color";
+import { DegreeOfLoss } from "./enums/DegreeOfLoss";
+import { EarLocation } from "./enums/EarLocation";
+import { LevelOfDiscretion } from "./enums/LevelOfDiscretion";
+import { UseDefinition, Uses } from "./enums/Uses";
+
 export interface ProductEntity {
     id: string;
     name: string;
@@ -7,7 +16,7 @@ export interface ProductEntity {
     colors: ProductColor[];
     include: string[];
     adaptation_range: AdaptationRange;
-    dust_water_resistance: number;
+    dust_water_resistance: boolean;
     brand: Brand;
     location: EarLocation;
     level_of_discretion: LevelOfDiscretion;
@@ -33,70 +42,11 @@ export function mapDocumentToProduct(product: any): ProductEntity {
         location: EarLocation[product.location as keyof typeof EarLocation],
         level_of_discretion: LevelOfDiscretion[product.level_of_discretion as keyof typeof LevelOfDiscretion],
         degree_of_loss: DegreeOfLoss[product.degree_of_loss as keyof typeof DegreeOfLoss],
-        uses: product.uses.map((use: string) => Uses[use as keyof typeof Uses]),
+        uses: product.uses.map((use: string) => Uses[use as keyof typeof Uses] as UseDefinition),
     };
 }
 
-interface ProductColor {
-    color: Color;
+export interface ProductColor {
+    color: ColorDefinition;
     images: string[];
 }
-
-enum Color {
-    P1 = "Beige Sand",
-    P3 = "Sandalwood",
-    P4 = "Brown",
-    P5 = "Champagne",
-    P6 = "Silver gray",
-    P7 = "Graphite",
-    P8 = "Velvety black",
-    Q2 = "Electric green",
-    Q3 = "Caribbean Pirate",
-    T3 = "Precious Rose",
-    H0 = "Beige",
-}
-
-enum Category {
-    EARPHONE = "EARPHONE",
-    ACCESSORY = "ACCESSORY",
-}
-
-enum AdaptationRange {
-    MILD = "MILD",
-    MODERATE = "MODERATE",
-    SEVERE = "SEVERE",
-    PROFOUND = "PROFOUND",
-}
-
-enum Brand {
-    PHONAK = "PHONAK",
-}
-
-enum EarLocation {
-    RETROAURICULAR = "RETROAURICULAR",
-    INTRACANAL = "INTRACANAL",
-    CIC = "CIC",
-    RIC = "RIC",
-}
-
-enum LevelOfDiscretion {
-    VISIBLE = "VISIBLE",
-    DISCREET = "DISCREET",
-    IMPERCEPTIBLE = "IMPERCEPTIBLE",
-}
-
-enum DegreeOfLoss {
-    MILD = "MILD",
-    MODERATE = "MODERATE",
-    SEVERE = "SEVERE",
-    PROFOUND = "PROFOUND",
-}
-
-enum Uses {
-    CHAT = "CHAT",
-    IN_GROUP = "IN_GROUP",
-    LEISURE = "LEISURE",
-    TELEPHONE = "TELEPHONE",
-    TV = "TV",
-}
-

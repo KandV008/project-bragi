@@ -4,16 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 interface ProductProps {
+  id: string;
   image: string;
   name: string;
   brand: string;
   price: string;
 }
 
-export default function Product({image, name, brand, price}: ProductProps) {
+export default function Product({id, image, name, brand, price}: ProductProps) {
   return (
     <Link
-      href="/search/about"
+      href={`/search/about/${id}`} 
       className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5
     bg-primary0 dark:bg-secondary2 border-solid border-2  border-primary2 dark:border-secondary1 text-primary2 dark:text-secondary0
     rounded rounded-tr-3xl 
@@ -24,7 +25,7 @@ export default function Product({image, name, brand, price}: ProductProps) {
           src={image}
           width={150}
           height={150}
-          alt="Placeholder" // TODO Add the real image
+          alt={"img-" + id}
           className="size-28 md:size-40 xl:size-56"
         />
         <div className="flex flex-col text-center">
