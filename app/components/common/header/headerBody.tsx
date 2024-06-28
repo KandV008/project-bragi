@@ -3,7 +3,7 @@ import {
   faHeart,
   faCartShopping,
 } from "@fortawesome/free-solid-svg-icons";
-import SmallButtonWithIcon from "../../smallButtonWithIcon";
+import SmallButtonWithIcon from "../../buttons/smallButtonWithIcon";
 import SearchBar from "../searchBar";
 import Logo from "./logo";
 

@@ -5,7 +5,7 @@ import LatestNovelties from "./components/pages/main/latestNovelties";
 import PageReviews from "./components/pages/main/pageReviews";
 import WorkingFlow from "./components/pages/main/workingFlow";
 import SearchBar from "./components/common/searchBar";
-import SmallButton from "./components/smallButton";
+import SmallButton from "./components/buttons/smallButton";
 
 export default function Home() {
   return (
