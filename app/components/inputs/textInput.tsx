@@ -4,11 +4,12 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 interface TextInputProps {
   id: string;
   type: "text" | "password";
+  placeholder: string;
   label: string;
   icon: IconDefinition;
 }
 
-export default function TextInput({ id, type, label, icon }: TextInputProps) {
+export default function TextInput({ id, type, placeholder, label, icon }: TextInputProps) {
   return (
     <section className="flex flex-col w-72">
       <label
@@ -28,8 +29,8 @@ export default function TextInput({ id, type, label, icon }: TextInputProps) {
         <input
           type={type}
           id={id}
-          className="w-full h-full text-black  text-xl font-bold bg-transparent cursor-pointer rounded px-1"
-          placeholder=" "
+          className="w-full h-full text-black  text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
+          placeholder={placeholder}
           autoComplete="off"
         />
         
