@@ -6,9 +6,10 @@ interface MediumButtonWithIconProps {
   text: string;
   subtext: string;
   type: 'default' | 'warning' | 'danger';
+  onClick?: () => void;
 }
 
-export default function MediumButtonWithIcon({ icon, text, subtext, type }: MediumButtonWithIconProps) {
+export default function MediumButtonWithIcon({ icon, text, subtext, type, onClick }: MediumButtonWithIconProps) {
   const bgColorClass = checkTypeMediumButton(type);
 
   return (
@@ -17,6 +18,7 @@ export default function MediumButtonWithIcon({ icon, text, subtext, type }: Medi
                   border-2 rounded-2xl border-primary2 dark:border-secondary0 
                   w-64 text-primary2 dark:text-secondary0 lg:text-left md:text-center
                   hover:bg-gray-400 hover:dark:bg-gray-700 ${bgColorClass}`}
+                  onClick={onClick}
     >
       <div className="mr-2 md:mr-0 lg:mr-2 self-center">
         <FontAwesomeIcon icon={icon} className="size-6" />

@@ -1,8 +1,20 @@
+'use client';
+
 import MediumButton from "@/app/components/buttons/mediumButton";
 import TextInput from "@/app/components/inputs/textInput";
-import { faEnvelope, faKey, faU, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import { useRouter } from 'next/navigation'; 
 
 export default function Page() {
+  const router = useRouter();
+
+  const handleLogInClick = () => {
+    // TODO Validation
+    // TODO Log In
+    router.push("/profile")
+  };
+
   return (
     <main className="flex flex-col flex-grow justify-center space-y-3 place-self-center md:space-y-10 py-5 w-11/12 xl:w-4/6">
       <section
@@ -12,24 +24,16 @@ export default function Page() {
         {/* Heading */}
         <article className="flex flex-col items-center gap-2">
         <h1 className="text-2xl font-bold text-center">
-            Bienvenid@ al club
+            ¿De vuelta por aquí?
         </h1>
         <span className="text-xl font-semibold text-center text-primary1">
-            Registrate ahora en nuetra <br />
-            web para aprovecharte de <br />
-            todas las ventajas
+            Inicia sesión para aprovechar <br />
+            las ventajas de tener una <br />
+            cuenta en Bragi
         </span>
         </article>
         {/* Log In Form */}
         <form className="flex flex-col items-center gap-5">
-          {/* Name Input */}
-          <TextInput
-            label={"Nombre"}
-            placeholder="Tu nombre"
-            icon={faUser}
-            id={"name"}
-            type={"text"}
-          ></TextInput>
           {/* Email Input */}
           <TextInput
             label={"Correo electrónico"}
@@ -46,16 +50,27 @@ export default function Page() {
             id={"pass"}
             type={"password"}
           ></TextInput>
-          {/* Log In Link */} {/* TODO */}
-          <a
-            href="/layout/error.html"
+          {/* Sign Up Link */} {/* TODO */}
+          <Link
+            href="/auth/sign-up"
             className="text-xl font-bold text-center text-black-0"
           >
-            ¿Tienes ya una cuenta? <br />  
-            <span className="text-red-500">Inicia sesión ahora mismo.</span>
-          </a>
+            ¿No tienes aún una cuenta? <br />  
+            <span className="text-red-500">Haztela ahora mismo.</span>
+          </Link>
+          {/* Recover Password Link */} {/* TODO */}
+          <Link
+            href="/" 
+            className="text-xl font-bold text-center text-black-0"
+          >
+            ¿No te acuerdas de tu <span className="text-red-500">contraseña</span>
+            ? 
+          </Link>
           {/* Confirm Button */}
-          <MediumButton text={"Registrarse"} />
+          <MediumButton 
+            text={"Iniciar Sesión"} 
+            onClick={handleLogInClick}
+          />
         </form>
       </section>
     </main>

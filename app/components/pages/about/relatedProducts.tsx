@@ -1,11 +1,8 @@
-import { ProductEntity } from "@/app/model/Product";
-import Product from "../search/product";
-import { getRelatedProducts } from "@/app/lib/data";
 import SomeProductContainer from "../../common/someProductContainer";
 import { useState, useEffect } from "react";
 
 interface RelatedProductsProps {
-  id: string, // TODO Check that the product available dont have this id
+  id: string, // TODO Check that the product available doesn't have this id
   brand: string,
   price: number
 }

@@ -1,15 +1,19 @@
 interface NavButtonProps {
   text: string;
+  onClick?: () => void;
 }
 
-export default function NavButton({ text }: NavButtonProps) {
+export default function NavButton({ text, onClick }: NavButtonProps) {
   return (
     <>
-      <button className=" py-1 px-2 h-10 w-28 min-h-4 min-w-4 hover:rounded                    
+      <button
+        className=" py-1 px-2 h-10 w-28 min-h-4 min-w-4 hover:rounded                    
                     hover:bg-gray-400 hover:border-primary2 hover:border-2
-                    hover:dark:bg-gray-700 hover:dark:border-secondary0">
+                    hover:dark:bg-gray-700 hover:dark:border-secondary0"
+        onClick={onClick}
+      >
         <div className="text-md font-semibold text-center text-primary2 dark:text-secondary0">
-            {text}
+          {text}
         </div>
       </button>
     </>
