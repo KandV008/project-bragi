@@ -4,7 +4,7 @@ import {
   faCartShopping,
 } from "@fortawesome/free-solid-svg-icons";
 import SmallButtonWithIcon from "../../buttons/smallButtonWithIcon";
-import SearchBar from "../searchBar";
+import SearchBar from "../../inputs/searchBar";
 import Logo from "./logo";
 
 export default function HeaderBody() {
