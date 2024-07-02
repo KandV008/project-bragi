@@ -26,7 +26,7 @@ export default function Product({id, image, name, brand, price}: ProductProps) {
           width={150}
           height={150}
           alt={"img-" + id}
-          className="size-28 md:size-40 xl:size-56"
+          className="size-28 md:size-40 xl:size-56 bg-white rounded"
         />
         <div className="flex flex-col text-center">
           <span className="text-xs md:self-start md:text-sm xl:text-lg font-bold ">

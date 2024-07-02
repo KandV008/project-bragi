@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import CarouselWithAction from "./components/pages/main/carousel";
 import Certifications from "./components/pages/main/certifications";

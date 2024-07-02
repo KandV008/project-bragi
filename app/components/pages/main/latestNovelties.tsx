@@ -1,6 +1,7 @@
 import SomeProductContainer from "../../common/someProductContainer";
 import { useState } from "react";
 import { useEffect } from "react";
+import { LatestNoveltiesSkeleton } from "../../common/skeletons";
 
 export default function LatestNovelties() {
   const [data, setData] = useState(null);
@@ -17,7 +18,7 @@ export default function LatestNovelties() {
     
   }, []);
 
-  if (isLoading) return <p>Loading...</p> // TODO Loanding Screen
+  if (isLoading) return (<LatestNoveltiesSkeleton />)
 
   console.log(data)
 

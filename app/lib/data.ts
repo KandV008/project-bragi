@@ -126,6 +126,6 @@ export async function getProduct(id:string | null): Promise<ProductEntity | null
 
     return mapDocumentToProduct(product)
   } finally {
-    await client.close();
+    ;
   }
 }

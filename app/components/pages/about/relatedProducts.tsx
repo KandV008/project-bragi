@@ -1,3 +1,4 @@
+import { RelatedProductsSkeleton } from "../../common/skeletons";
 import SomeProductContainer from "../../common/someProductContainer";
 import { useState, useEffect } from "react";
 
@@ -15,7 +16,7 @@ export default function RelatedProducts({ brand, price}: RelatedProductsProps) {
 
   useEffect(() => {
     if (brand && price) {
-      fetch(`/api/getRelatedProducts?brand=${brand}&price=${price}`)
+      fetch(`/api/getRelatedProducts?brand=${brand}&price=${price.toString}`)
         .then((response) => response.json())
         .then((data) => {
             setData(data)
@@ -25,10 +26,7 @@ export default function RelatedProducts({ brand, price}: RelatedProductsProps) {
     }
   }, [brand, price]);
 
-  if (isLoading) return <p>Loading...</p> // TODO Loanding Screen
-
-  console.log(data)
-
+  if (isLoading) return <RelatedProductsSkeleton /> // TODO Loanding Screen
   if (!data) return <p>No product data</p>
 
   return (
