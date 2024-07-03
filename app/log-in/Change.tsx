@@ -6,7 +6,7 @@ import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'; 
 
-export default function Page() {
+export default function Change() {
   const router = useRouter();
 
   const handleLogInClick = () => {
@@ -52,7 +52,7 @@ export default function Page() {
           ></TextInput>
           {/* Sign Up Link */} {/* TODO */}
           <Link
-            href="/auth/sign-up"
+            href="/sign-up"
             className="text-xl font-bold text-center text-black-0"
           >
             ¿No tienes aún una cuenta? <br />  

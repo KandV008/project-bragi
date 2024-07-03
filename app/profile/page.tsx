@@ -3,9 +3,12 @@
 import { faCartShopping, faHeart, faCircleXmark, faTrash } from "@fortawesome/free-solid-svg-icons";
 import MediumButtonWithIcon from "../components/buttons/mediumButtonWithIcon";
 import { useRouter } from 'next/navigation'; 
+import { useClerk } from '@clerk/nextjs';
+import { useEffect } from "react";
 
 export default function Page() {
   const router = useRouter();
+  const { signOut } = useClerk();  
 
   const handleFavoritesClick = () => {
     // TODO
@@ -16,13 +19,20 @@ export default function Page() {
   };
 
   const handleLogOutClick = () => {
-    // TODO Log Out 
-    router.push("/auth/log-in")
+    signOut({ redirectUrl : "/log-in"}) 
   };
 
-  const handleDeleteAccountClick = () => {
-    // TODO Delete Account
-    router.push("/auth/sign-up")
+  const handleDeleteAccountClick = async () => {
+    try {
+      const response = await fetch(`/api/deleteUser`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      router.push("/sign-up");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
   };
 
   return (
