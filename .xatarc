@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Krokodile-s-workspace-bq3gml.eu-central-1.xata.sh/db/ProjectBragi",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}
