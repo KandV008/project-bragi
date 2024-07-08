@@ -1,14 +1,15 @@
 require("dotenv").config({ path: ".env.local" });
 
 const { MongoClient, ServerApiVersion } = require("mongodb"); // Use require instead of import
-const { docs } = require('./data'); // Require docs from data.js
+const { docs } = require("./data"); // Require docs from data.js
+const { db } = require("@vercel/postgres");
 
 const USERNAME = process.env.USER;
 const PASSWORD = process.env.PASSWORD;
 const uri = `mongodb+srv://${USERNAME}:${PASSWORD}@clusterprojectbragi.fulvzjc.mongodb.net/?retryWrites=true&w=majority&appName=ClusterProjectBragi`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
+const clientMongoDB = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -16,14 +17,13 @@ const client = new MongoClient(uri, {
   },
 });
 
-async function run() {
+async function setMongoDB() {
   try {
     // Connect the client to the server (optional starting in v4.7)
-    await client.connect();
+    await clientMongoDB.connect();
 
     // database and collection code goes here
-    const db = client.db("Product-DDBB");
-    await deleteDocuments(db)
+    const db = clientMongoDB.db("Product-DDBB");
     const coll = db.collection("products");
 
     // insert code goes here
@@ -33,24 +33,74 @@ async function run() {
     console.log(result.insertedIds);
 
     console.log("Database seeded. You successfully connected to MongoDB!");
+  } catch (error) {
+    console.log(`ERROR: MongoDB not set.`);
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    await clientMongoDB.close();
   }
 }
 
-async function deleteDocuments(db) {
-  // Get the documents collection
-  const collection = db.collection('yourCollectionName');
-  
-  // Delete all documents from the collection
-  collection.deleteMany({}, function(err, result) {
-    if (err) {
-      console.error('Error deleting documents', err);
-    } else {
-      console.log(result.deletedCount + ' documents deleted');
-    }
-  });
+async function setPostgresSQL() {
+  try {
+    const client = await db.connect();
+
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "favourites" table with a composite primary key
+    await client.sql`
+    CREATE TABLE IF NOT EXISTS favourites (
+      product_id VARCHAR(24) NOT NULL,
+      user_id VARCHAR(36) NOT NULL,
+      PRIMARY KEY (product_id, user_id)
+    );
+  `;
+
+    console.log(`Created "favourites" table`);
+
+    // Create the "shoppingList" table with a composite primary key
+    await client.sql`
+      CREATE TABLE IF NOT EXISTS shoppingList (
+        product_id VARCHAR(24) NOT NULL,
+        user_id VARCHAR(36) NOT NULL,
+        color VARCHAR(255) NOT NULL,
+        ear_side VARCHAR(255) NOT NULL,
+        guarantee BOOLEAN NOT NULL,
+        quantity INT NOT NULL,
+        PRIMARY KEY (product_id, user_id)
+      );
+    `;
+
+    console.log(`Created "shoppingList" table`);
+  } catch (error) {
+    console.log(`ERROR: PostgresSQL not set.`);
+  }
+}
+
+async function dropTables() {
+  try {
+    const client = await db.connect();
+
+    // Drop the "favourites" table
+    await client.sql`
+      DROP TABLE IF EXISTS favourites;
+    `;
+    console.log(`Dropped "favourites" table`);
+
+    // Drop the "shoppingList" table
+    await client.sql`
+      DROP TABLE IF EXISTS shoppingList;
+    `;
+    console.log(`Dropped "shoppingList" table`);
+  } catch (error) {
+    console.error("Error dropping tables:", error);
+  }
+}
+
+async function run() {
+  await setMongoDB();
+  await dropTables();
+  await setPostgresSQL();
 }
 
 run().catch(console.dir);
