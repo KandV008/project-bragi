@@ -44,7 +44,6 @@ Currently, there are 2 entities.
 | :-: |
 | Product |
 | User |
-|
 
 ##### Product
 The products are the main entity of the application. There are organized by categories. 
@@ -55,7 +54,6 @@ Now, there is only 2 categories:
 | :-: | :-- |
 | Earphone | Id, Name, Description, Price, Color, Special Earphone Attributes |
 | Accessory | Id, Name, Description, Price, Color, Special Accesory Attributes |
-|
 
 Depending of the category, the information display will be diferent.
 
@@ -70,7 +68,6 @@ In the application there are 2 different type of user:
 | :-: | :-- |
 | Unregistered User | It can interact with all the page but not with the products |
 | Registered User | It can interact with anything |
-|
 
 #### :wrench: Functional Requirements
 
@@ -95,7 +92,6 @@ Here are the diferent actions that can do the different type of users:
 | UH-15 Search Product by filters | :heavy_check_mark: | :heavy_check_mark: |
 | UH-16 See novelties products | :heavy_check_mark: | :heavy_check_mark: |
 | UH-17 See related products | :heavy_check_mark: | :heavy_check_mark: |
-| 
 
 #### :electric_plug: Non Functional Requirements
 
