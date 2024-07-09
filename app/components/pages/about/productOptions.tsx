@@ -6,6 +6,7 @@ import { ProductColor } from "@/app/model/Product";
 import { useState } from "react";
 import { addProductToShoppingList } from "@/app/lib/action";
 import { useUser } from "@clerk/nextjs";
+import FavoriteToggleButton from "../../buttons/favoriteToggleButton";
 
 interface ProductOptionsProps {
   id: string;
@@ -176,32 +177,37 @@ export default function ProductOptions({
           </ul>
         </div>
         {/* Shopping Button */}
-        {!user ? (
-          <></>
-        ) : (
-          <form action={addProductToShoppingList}>
-            <input type="hidden" name="id" value={id} />
-            <input type="hidden" name="color" value={imgIndex} />
-            <input type="hidden" name="earSide" value={earSide} />
-            <input
-              type="hidden"
-              name="guarantee"
-              value={guarantee.toString()}
-            />
-            <button
-              type="submit"
-              className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
+        <section className="flex flex-row flex-wrap justify-start gap-3 md:gap-2 xl:gap-1">
+          {!user ? (
+            <></>
+          ) : (
+            <form action={addProductToShoppingList}>
+              <input type="hidden" name="id" value={id} />
+              <input type="hidden" name="color" value={imgIndex} />
+              <input type="hidden" name="earSide" value={earSide} />
+              <input
+                type="hidden"
+                name="guarantee"
+                value={guarantee.toString()}
+              />
+              <button
+                type="submit"
+                className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
           border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700"
-            >
-              <div className="flex flex-row place-self-center gap-3">
-                <div className=" mr-0 md:mr-2 xl:mr-0">
-                  <FontAwesomeIcon icon={faCartShopping} className="" />
+              >
+                <div className="flex flex-row place-self-center gap-3">
+                  <div className=" mr-0 md:mr-2 xl:mr-0">
+                    <FontAwesomeIcon icon={faCartShopping} className="" />
+                  </div>
+                  <span className="text-base font-black">
+                    Añadir a la cesta
+                  </span>
                 </div>
-                <span className="text-base font-black">Añadir a la cesta</span>
-              </div>
-            </button>
-          </form>
-        )}
+              </button>
+            </form>
+          )}
+          <FavoriteToggleButton productId={id} />
+        </section>
       </article>
     </div>
   );
