@@ -67,7 +67,7 @@ async function setPostgresSQL() {
         ear_side VARCHAR(255) NOT NULL,
         guarantee BOOLEAN NOT NULL,
         quantity INT NOT NULL,
-        PRIMARY KEY (product_id, user_id)
+        PRIMARY KEY (product_id, user_id, color, ear_side, guarantee)
       );
     `;
 

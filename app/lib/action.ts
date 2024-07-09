@@ -54,3 +54,38 @@ export async function toggleFavorites(formData: FormData){
         throw error;
     }
 }
+
+export async function addProductToShoppingList(formData: FormData){
+    const { userId } = auth();
+    const productId = formData.get("id");
+    const color = formData.get("color");
+    const earSide = formData.get("earSide");
+    const guarantee = formData.get("guarantee");
+
+    console.log("USER ID: " + userId)
+    console.log("PRODUCT ID: " + productId)
+    console.log("COLOR: " + color)
+    console.log("EAR SIDE: " + earSide)
+    console.log("GUARANTEE: " + guarantee)
+
+    if (!userId || !productId || !color || !earSide || !guarantee){
+        return;
+    }
+
+    try {
+        const client = await sql.connect()
+        
+        await client.query(
+            `INSERT INTO shoppingList (product_id, user_id, color, ear_side, guarantee, quantity)
+             VALUES ($1, $2, $3, $4, $5, $6)
+             ON CONFLICT (product_id, user_id, color, ear_side, guarantee)
+             DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity`,
+            [productId, userId, color, earSide, guarantee, 1]
+          );
+          
+        console.log(`Added product ${productId} to shoppingList for user ${userId}`);
+    } catch (error) {
+        console.error('Error toggling favourites:', error);
+        throw error;
+    }
+}

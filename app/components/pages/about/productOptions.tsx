@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { ProductColor } from "@/app/model/Product";
 import { useState } from "react";
+import { addProductToShoppingList } from "@/app/lib/action";
+import { useUser } from "@clerk/nextjs";
 
 interface ProductOptionsProps {
   id: string;
@@ -22,7 +24,34 @@ export default function ProductOptions({
   brand,
   include,
 }: ProductOptionsProps) {
+  const { user } = useUser();
+
   const [imgIndex, setImgIndex] = useState(0);
+  const getColorButtonClasses = (buttonName: number) => {
+    const baseClasses =
+      "size-8 md:size-6 lg:size-8 border-2 dark:border-secondary0";
+    return buttonName === imgIndex
+      ? `${baseClasses}  border-red-500`
+      : `${baseClasses} border-primary2`;
+  };
+
+  const [earSide, setEarSide] = useState("");
+  const handleEarSideButtonClick = (buttonName: string) => {
+    setEarSide(buttonName);
+  };
+
+  const getEarSideButtonClasses = (buttonName: string) => {
+    const baseClasses =
+      "h-8 w-24 border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700";
+    return buttonName === earSide
+      ? `${baseClasses} text-red-500 bg-red-200 border-red-500`
+      : `${baseClasses} text-primary2 bg-primary0 border-primary2`;
+  };
+
+  const [guarantee, setGuarantee] = useState(false);
+  const textColor = guarantee ? "text-red-500" : "text-primary2";
+  const bgColor = guarantee ? "bg-red-200" : "bg-primary0";
+  const borderColor = guarantee ? "border-red-500" : "border-primary2";
 
   return (
     <div
@@ -84,7 +113,7 @@ export default function ProductOptions({
             {colors.map((color, index) => (
               <button
                 key={color.color.name}
-                className="size-8 md:size-6 lg:size-8 border-2 border-primary2 dark:border-secondary0"
+                className={getColorButtonClasses(index)}
                 style={{ backgroundColor: color.color.hex }}
                 title={color.color.name}
                 onClick={() => setImgIndex(index)} // Update imgIndex on button click
@@ -99,13 +128,22 @@ export default function ProductOptions({
             <div className="w-full border-t mb-3 border-primary2 dark:border-secondary0"></div>
           </h3>
           <div className="flex flex-row flex-wrap gap-3">
-            <button className="h-8 w-24 border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700">
+            <button
+              className={getEarSideButtonClasses("right")}
+              onClick={() => handleEarSideButtonClick("right")}
+            >
               Derecho
             </button>
-            <button className="h-8 w-24 border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700">
+            <button
+              className={getEarSideButtonClasses("left")}
+              onClick={() => handleEarSideButtonClick("left")}
+            >
               Izquierdo
             </button>
-            <button className="h-8 w-24 border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700">
+            <button
+              className={getEarSideButtonClasses("both")}
+              onClick={() => handleEarSideButtonClick("both")}
+            >
               Ambos
             </button>
           </div>
@@ -116,7 +154,12 @@ export default function ProductOptions({
             Añadir seguro de 1 año al producto
             <div className="w-full border-t mb-3 border-primary2 dark:border-secondary0"></div>
           </h3>
-          <button className="h-8 w-24 border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700">
+          <button
+            onClick={() => {
+              setGuarantee(!guarantee);
+            }}
+            className={`h-8 w-24 border-2 rounded dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700 ${bgColor} ${borderColor} ${textColor}`}
+          >
             Añadir
           </button>
         </div>
@@ -133,19 +176,32 @@ export default function ProductOptions({
           </ul>
         </div>
         {/* Shopping Button */}
-        <Link href="/">
-          <button
-            className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
+        {!user ? (
+          <></>
+        ) : (
+          <form action={addProductToShoppingList}>
+            <input type="hidden" name="id" value={id} />
+            <input type="hidden" name="color" value={imgIndex} />
+            <input type="hidden" name="earSide" value={earSide} />
+            <input
+              type="hidden"
+              name="guarantee"
+              value={guarantee.toString()}
+            />
+            <button
+              type="submit"
+              className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
           border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700"
-          >
-            <div className="flex flex-row place-self-center gap-3">
-              <div className=" mr-0 md:mr-2 xl:mr-0">
-                <FontAwesomeIcon icon={faCartShopping} className="" />
+            >
+              <div className="flex flex-row place-self-center gap-3">
+                <div className=" mr-0 md:mr-2 xl:mr-0">
+                  <FontAwesomeIcon icon={faCartShopping} className="" />
+                </div>
+                <span className="text-base font-black">Añadir a la cesta</span>
               </div>
-              <span className="text-base font-black">Añadir a la cesta</span>
-            </div>
-          </button>
-        </Link>
+            </button>
+          </form>
+        )}
       </article>
     </div>
   );
