@@ -19,7 +19,7 @@ export default function HeaderBody() {
   };
 
   const handleFavoritesClick = () => {
-    // TODO
+    router.push("/profile/favorites")
   };
 
   const handleCartClick = () => {

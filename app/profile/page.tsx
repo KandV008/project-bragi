@@ -4,14 +4,13 @@ import { faCartShopping, faHeart, faCircleXmark, faTrash } from "@fortawesome/fr
 import MediumButtonWithIcon from "../components/buttons/mediumButtonWithIcon";
 import { useRouter } from 'next/navigation'; 
 import { useClerk } from '@clerk/nextjs';
-import { useEffect } from "react";
 
 export default function Page() {
   const router = useRouter();
   const { signOut } = useClerk();  
 
   const handleFavoritesClick = () => {
-    // TODO
+    router.push("/profile/favorites")
   };
 
   const handleCartClick = () => {

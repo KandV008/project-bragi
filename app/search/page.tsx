@@ -1,8 +1,7 @@
 import Filter from "../components/pages/search/filter";
 import ProductContainer from "../components/pages/search/productContainer";
-import { getAllProducts } from "../lib/data";
+import { getAllProducts } from "../lib/mongoData";
 import { ProductEntity } from "../model/Product";
-import Loading from "./loading";
 
 export default async function Page() {
   const allProducts: ProductEntity[] = await getAllProducts();
