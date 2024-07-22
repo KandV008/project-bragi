@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import { ProductColor } from "@/app/model/Product";
 import { useState } from "react";
 import { addProductToShoppingList } from "@/app/lib/action";

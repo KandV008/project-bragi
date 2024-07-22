@@ -155,6 +155,7 @@ export function ProductOptionsSkeleton() {
     </div>
   );
 }
+
 export function ProductDetailsSkeleton() {
   return (
     <div
@@ -365,6 +366,135 @@ export function ProductContainerSkeleton() {
         <ProductSkeleton />
         <ProductSkeleton />
         <ProductSkeleton />
+      </section>
+    </div>
+  );
+}
+
+export function ProductInformationSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative overflow-hidden rounded rounded-tr-3xl bg-gray-100 shadow-sm`}
+    >
+      <section className="flex flex-row bg-gray-100 text-primary2 gap-5 p-5 border-2  rounded rounded-tr-3xl">
+        {/* Image */}
+        <div className="flex p-4">
+          <div className="size-48  bg-gray-200 rounded" />
+        </div>
+        {/* Information */}
+        <article className="flex flex-row gap-10 rounded-md p-3">
+          {/* Product */}
+          <div className="flex flex-col gap-10">
+            {/* Name */}
+            <div className="flex flex-col">
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+              {/* Brand */}
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-16 rounded-md bg-gray-200 mb-1" />
+            </div>
+            {/* Price */}
+            <div className="flex flex-col">
+              <div className="md:self-start h-5 sm:h-6 xl:h-8 w-32 rounded-md bg-gray-200 mb-1" />
+              <div className="md:self-start h-6 sm:h-8 xl:h-10 w-20 rounded-md bg-gray-200 mb-1" />
+            </div>
+          </div>
+          {/* Choices */}
+          <div className="flex flex-col self-center">
+            {/* EarSide */}
+            <div className="flex flex-col">
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-16 rounded-md bg-gray-200 mb-1" />
+            </div>
+            {/* Guarantee */}
+            <div className="flex flex-col">
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-8 rounded-md bg-gray-200 mb-1" />{" "}
+            </div>
+            {/* Color */}
+            <div className="flex flex-col">
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+              <div className="md:self-start h-4 sm:h-5 xl:h-6 w-16 rounded-md bg-gray-200 mb-1" />{" "}
+            </div>
+          </div>
+        </article>
+        {/* Amount Button */}
+        <article className="flex flex-col gap-4 self-center">
+          <div className="md:self-center h-5 sm:h-6 xl:h-8 w-28 rounded-md bg-gray-200 mb-1" />
+          <div className="flex flex-row gap-2">
+            {/* Substract Button */}
+            <div className="h-8 w-12 md:size-10 xl:size-11 rounded-2xl border-2 bg-gray-200" />
+            {/* Amount */}
+            <div className="md:self-start h-6 sm:h-8 xl:h-11 w-8 rounded-md bg-gray-200 mb-1" />
+            {/* Addition Button */}
+            <div className="h-8 w-12 md:size-10 xl:size-11 rounded-2xl border-2 bg-gray-200" />
+          </div>
+        </article>
+      </section>
+    </div>
+  );
+}
+
+export function ShoppingListSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative overflow-hidden rounded shadow-sm p-5`}
+    >
+      <section className="flex flex-col gap-5">
+        <ProductInformationSkeleton />
+        <ProductInformationSkeleton />
+        <ProductInformationSkeleton />
+        <ProductInformationSkeleton />
+      </section>
+    </div>
+  );
+}
+
+export function SummarySkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative overflow-hidden rounded bg-gray-100 shadow-sm `}
+    >
+      <section className="sticky top-32 flex flex-col w-full justify-between p-6 border-2 rounded">
+        {/* Header */}
+        <article>
+          <div className="md:self-start h-10 w-32 rounded-md bg-gray-200 mb-1" />
+          <div className="w-full border-2 border-t mb-3"></div>
+        </article>
+        {/* Body */}
+        <article className="flex flex-col gap-3">
+          {/* Header Table */}
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+          {/* Rows Table */}
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+        </article>
+        {/* Footer */}
+        <article className="flex flex-col gap-2 ">
+          <div className="w-full border-2 border-t mb-3"></div>
+          {/* Total */}
+          <div className="flex flex-row justify-between gap-10">
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+          </div>
+          {/* Shopping Button */}
+          <div className="place-self-center">
+            <div
+              className="w-64 h-16 flex flex-row place-self-center md:place-self-start justify-center
+                          border-2 rounded bg-gray-200"
+            />
+          </div>
+        </article>
       </section>
     </div>
   );

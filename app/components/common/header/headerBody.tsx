@@ -23,7 +23,7 @@ export default function HeaderBody() {
   };
 
   const handleCartClick = () => {
-    // TODO
+    router.push("/profile/shoppingList")
   };
 
   return (

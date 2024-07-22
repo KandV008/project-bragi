@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 interface SmallButtonProps {
   text: string;
   onClick?: () => void;

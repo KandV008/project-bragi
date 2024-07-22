@@ -14,7 +14,7 @@ export default function Page() {
   };
 
   const handleCartClick = () => {
-    // TODO
+    router.push("/profile/shoppingList")
   };
 
   const handleLogOutClick = () => {
