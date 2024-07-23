@@ -61,14 +61,30 @@ export async function addProductToShoppingList(formData: FormData){
     const color = formData.get("color");
     const earSide = formData.get("earSide");
     const guarantee = formData.get("guarantee");
+    const name = formData.get("name")
+    const brand = formData.get("brand")
+    const price = formData.get("price")
+    const imageURL = formData.get("imageURL")
 
     console.log("USER ID: " + userId)
     console.log("PRODUCT ID: " + productId)
     console.log("COLOR: " + color)
     console.log("EAR SIDE: " + earSide)
     console.log("GUARANTEE: " + guarantee)
+    console.log("NAME: " + name)
+    console.log("BRAND: " + brand)
+    console.log("PRICE: " + price)
+    console.log("IMAGE URL: " + imageURL)
 
-    if (!userId || !productId || !color || !earSide || !guarantee){
+    if (!userId || !productId || !color || !earSide || !guarantee || !name || !brand || !price || !imageURL){
+        return;
+    }
+
+    const parsedPrice = parseFloat(price.toString())
+
+    console.log("PARSED PRICE: " + parsedPrice)
+
+    if (!parsedPrice){
         return;
     }
 
@@ -76,11 +92,11 @@ export async function addProductToShoppingList(formData: FormData){
         const client = await sql.connect()
         
         await client.query(
-            `INSERT INTO shoppingList (product_id, user_id, color, ear_side, guarantee, quantity)
-             VALUES ($1, $2, $3, $4, $5, $6)
+            `INSERT INTO shoppingList (product_id, user_id, color, ear_side, guarantee, quantity, name, brand, price, image_url)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
              ON CONFLICT (product_id, user_id, color, ear_side, guarantee)
              DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity`,
-            [productId, userId, color, earSide, guarantee, 1]
+            [productId, userId, color, earSide, guarantee, 1, name, brand, parsedPrice, imageURL]
           );
           
         console.log(`Added product ${productId} to shoppingList for user ${userId}`);

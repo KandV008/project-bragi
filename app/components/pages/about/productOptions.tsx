@@ -181,14 +181,16 @@ export default function ProductOptions({
             <></>
           ) : (
             <form action={addProductToShoppingList}>
+              
               <input type="hidden" name="id" value={id} />
-              <input type="hidden" name="color" value={imgIndex} />
+              <input type="hidden" name="color" value={colors[imgIndex].color.name} />
               <input type="hidden" name="earSide" value={earSide} />
-              <input
-                type="hidden"
-                name="guarantee"
-                value={guarantee.toString()}
-              />
+              <input type="hidden" name="guarantee" value={guarantee.toString()} />
+              <input type="hidden" name="name" value={name} />
+              <input type="hidden" name="brand" value={brand} />
+              <input type="hidden" name="price" value={price} />
+              <input type="hidden" name="imageURL" value={colors[imgIndex].images[0]} />
+
               <button
                 type="submit"
                 className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center

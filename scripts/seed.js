@@ -34,7 +34,7 @@ async function setMongoDB() {
 
     console.log("Database seeded. You successfully connected to MongoDB!");
   } catch (error) {
-    console.log(`ERROR: MongoDB not set.`);
+    console.log(`ERROR: MongoDB not set. ${error}`);
   } finally {
     // Ensures that the client will close when you finish/error
     await clientMongoDB.close();
@@ -60,20 +60,24 @@ async function setPostgresSQL() {
 
     // Create the "shoppingList" table with a composite primary key
     await client.sql`
-      CREATE TABLE IF NOT EXISTS shoppingList (
-        product_id VARCHAR(24) NOT NULL,
-        user_id VARCHAR(36) NOT NULL,
-        color VARCHAR(255) NOT NULL,
-        ear_side VARCHAR(255) NOT NULL,
-        guarantee BOOLEAN NOT NULL,
-        quantity INT NOT NULL,
-        PRIMARY KEY (product_id, user_id, color, ear_side, guarantee)
-      );
-    `;
+    CREATE TABLE IF NOT EXISTS shoppingList (
+      product_id VARCHAR(24) NOT NULL,
+      user_id VARCHAR(36) NOT NULL,
+      color VARCHAR(255) NOT NULL,
+      ear_side VARCHAR(255) NOT NULL,
+      guarantee BOOLEAN NOT NULL,
+      quantity INT NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      brand VARCHAR(255) NOT NULL,
+      price DOUBLE PRECISION NOT NULL,
+      image_url VARCHAR(255) NOT NULL,
+      PRIMARY KEY (product_id, user_id, color, ear_side, guarantee)
+    );
+  `;
 
     console.log(`Created "shoppingList" table`);
   } catch (error) {
-    console.log(`ERROR: PostgresSQL not set.`);
+    console.log(`ERROR: PostgresSQL not set. ${error}`);
   }
 }
 

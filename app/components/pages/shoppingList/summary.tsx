@@ -1,7 +1,14 @@
+import { ProductDTO } from "@/app/model/DTOs/ProductDTO";
 import MediumButtonWithIcon from "../../buttons/mediumButtonWithIcon";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
-export default function Summary() {
+interface SummaryProps {
+  products: ProductDTO[];
+}
+
+export default function Summary({ products }: SummaryProps) {
+  const totalPrice = products.reduce((total, product) => total + product.price * product.quantity, 0);
+  
   return (
     <section className="sticky top-32 flex flex-col w-full justify-between p-6 border-2 bg-primary0 border-primary2 text-primary2 rounded">
       {/* Header */}
@@ -19,30 +26,14 @@ export default function Summary() {
           <span className="">Coste</span>
         </div>
         {/* Rows Table */}
-        <div className="flex flex-row gap-1 justify-between">
-          <span className="">Audéo Lumity L-R</span>
-          <span className="">Champán</span>
-          <span className="">x1</span>
-          <span className="">1599€</span>
-        </div>
-        <div className="flex flex-row gap-1 justify-between">
-          <span className="">Audéo Lumity L-R</span>
-          <span className="">Champán</span>
-          <span className="">x1</span>
-          <span className="">1599€</span>
-        </div>
-        <div className="flex flex-row gap-1 justify-between">
-          <span className="">Audéo Lumity L-R</span>
-          <span className="">Champán</span>
-          <span className="">x1</span>
-          <span className="">1599€</span>
-        </div>
-        <div className="flex flex-row gap-1 justify-between">
-          <span className="">Audéo Lumity L-R</span>
-          <span className="">Champán</span>
-          <span className="">x1</span>
-          <span className="">1599€</span>
-        </div>
+        {products.map((product, index) => (
+          <div className="flex flex-row gap-1 justify-between" key={index}>
+            <span className="">{product.name}</span>
+            <span className="">{product.color}</span>
+            <span className="">x{product.quantity}</span>
+            <span className="">{product.price * product.quantity}€</span>
+          </div>
+        ))}
       </article>
       {/* Footer */}
       <article className="flex flex-col gap-2 ">
@@ -50,7 +41,7 @@ export default function Summary() {
         {/* Total */}
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
-          <span className="text-2xl font-bold text-red-1">1599€</span>
+          <span className="text-2xl font-bold text-red-1">{totalPrice}€</span>
         </div>
         {/* Shopping Button */}
         <div className="place-self-center">
@@ -58,8 +49,9 @@ export default function Summary() {
             icon={faCartShopping}
             text={"Comprar"}
             subtext={"Empezar compra"}
-            type={"warning"} 
-          /> {/* TODO Add speacial type */}
+            type={"warning"}
+          />{" "}
+          {/* TODO Add speacial type */}
         </div>
       </article>
     </section>
