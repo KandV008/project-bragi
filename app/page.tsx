@@ -1,13 +1,13 @@
 "use client";
 
-import CarouselWithAction from "./components/pages/main/carousel";
-import Certifications from "./components/pages/main/certifications";
-import LatestNovelties from "./components/pages/main/latestNovelties";
-import PageReviews from "./components/pages/main/pageReviews";
-import WorkingFlow from "./components/pages/main/workingFlow";
-import SearchBar from "./components/inputs/searchBar";
-import SmallButton from "./components/buttons/smallButton";
+import SearchBar from "./ui/components/inputs/searchBar";
+import SmallButton from "./ui/components/buttons/smallButton";
 import { useRouter } from "next/navigation";
+import CarouselWithAction from "./ui/containers/main/carousel";
+import Certifications from "./ui/containers/main/certifications";
+import LatestNovelties from "./ui/containers/main/latestNovelties";
+import PageReviews from "./ui/containers/main/pageReviews";
+import WorkingFlow from "./ui/containers/main/workingFlow";
 
 export default function Home() {
   const router = useRouter();
