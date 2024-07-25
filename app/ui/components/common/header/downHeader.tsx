@@ -7,13 +7,11 @@ export default function DownHeader() {
   const router = useRouter();
 
   const handleEarphoneClick = () => {
-    // TODO Get only Earphones
-    router.push("/search");
+    router.push("/search?category=EARPHONE");
   };
 
   const handleAccessoriesClick = () => {
-    // TODO Get only Accessories
-    router.push("/search");
+    router.push("/search?category=ACCESSORY");
   };
 
   const handleServicesClick = () => {

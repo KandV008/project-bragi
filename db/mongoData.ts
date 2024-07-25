@@ -16,8 +16,13 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function getAllProducts(): Promise<ProductEntity[]> {
+export async function getProductsByCategory(category: string | null): Promise<ProductEntity[] | null> {
   let products: ProductEntity[] = [];
+
+  if (category == null) {
+    console.log("ERROR: BRAND is null")
+    return null;
+  }
 
   try {
     await client.connect();
@@ -25,7 +30,7 @@ export async function getAllProducts(): Promise<ProductEntity[]> {
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
 
-    const cursor = coll.find();
+    const cursor = coll.find({ category: category });
 
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
