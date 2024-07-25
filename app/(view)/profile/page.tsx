@@ -2,12 +2,14 @@
 
 import { faCartShopping, faHeart, faCircleXmark, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from 'next/navigation'; 
-import { useClerk } from '@clerk/nextjs';
+import { useClerk, useUser } from '@clerk/nextjs';
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 
 export default function Page() {
   const router = useRouter();
   const { signOut } = useClerk();  
+  const { user } = useUser();
+  
 
   const handleFavoritesClick = () => {
     router.push("/profile/favorites")
@@ -22,24 +24,17 @@ export default function Page() {
   };
 
   const handleDeleteAccountClick = async () => {
-    try {
-      const response = await fetch(`/api/deleteUser`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      router.push("/sign-up");
-    } catch (error) {
-      console.error("Error deleting account:", error);
-    }
-  };
+    await user?.delete()
+    signOut()
+    router.push("/sign-up")
+  }
 
   return (
     <main className="flex flex-col flex-grow justify-center space-y-3 place-self-center md:space-y-10 py-5 w-11/12 xl:w-4/6">
       <section className="flex flex-col place-self-center p-5 items-center gap-3
       border-2 border-primary2 text-primary2 rounded-xl w-fit ">
-        <h2 className="text-3xl font-bold">KandV008</h2>
-        <h2 className="text-xl font-semibold">iv.mardeliz.software@gmail.com</h2>
+        <h2 className="text-3xl font-bold">{user?.firstName}</h2>
+        <h2 className="text-xl font-semibold">{user?.emailAddresses[0].emailAddress}</h2>
         <div className="w-full border-t mb-1 border-primary2 dark:border-secondary0"></div>
         <h1 className="text-lg">¿Qué desea hacer con su cuenta?</h1>
         <MediumButtonWithIcon
