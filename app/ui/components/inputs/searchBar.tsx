@@ -1,11 +1,15 @@
+'use client';
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { searchProducts } from "@/db/mongoData";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
+  const router = useRouter();
 
   const activeSearch = (formData: FormData) => {
-    searchProducts(formData)
+    const keyword = formData.get("keyword") as string;
+    router.push(`/search/${keyword}`)
   }
 
   return (

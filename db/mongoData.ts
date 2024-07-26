@@ -159,8 +159,7 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
   return products
 }
 
-export async function searchProducts(formData: FormData): Promise<ProductEntity[]> {
-  const keyword = formData.get("keyword") as string;
+export async function searchProducts(keyword: string | null): Promise<ProductEntity[]> {
   console.log("KEYWORD: " + keyword);
 
   let products: ProductEntity[] = [];
