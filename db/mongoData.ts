@@ -1,3 +1,5 @@
+'use server';
+
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/Product";
 
 require("dotenv").config({ path: ".env.local" });
@@ -155,4 +157,39 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
   }
 
   return products
+}
+
+export async function searchProducts(formData: FormData): Promise<ProductEntity[]> {
+  const keyword = formData.get("keyword") as string;
+  console.log("KEYWORD: " + keyword);
+
+  let products: ProductEntity[] = [];
+
+  if (!keyword) {
+    console.log("ERROR: Keyword is null or empty");
+    return products;
+  }
+
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const cursor = coll.find({
+      $or: [
+        { name: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } }
+      ]
+    });
+
+    await cursor.forEach((doc: any) => {
+      products.push(mapDocumentToProduct(doc));
+    });
+  } finally {
+    await client.close();
+  }
+
+  console.log(products)
+  return products;
 }
