@@ -30,6 +30,16 @@ This web application is in property of @KandV008 (Temporary Company).
     1. [Branding]()
     1. [Usability & Accesibility]()
     1. [Architecture]()
+1. [RoadMap]()
+    1. [v0.1 Basic Structure]()
+    1. [v0.2 Complementary Pages]()
+    1. [v0.3 Searching & Optimization]()
+    1. [v0.4 Quality of Life]()
+    1. [v0.5 Accesibility & Usability]()
+    1. [v0.6 Security]()
+    1. [v0.7 Services & Novelties]()
+    1. [v0.8 Dates]()
+    1. [v1.0 Payments]()
 1. [DataBase]()
     1. [SQL Database]()
     1. [NoSQL Database]()
@@ -132,6 +142,64 @@ Here are the diferent actions that can do the different type of users:
 <p align="center">
 <strong>Currently, there is no Architecture's Diagram...</strong>
 </p>
+
+### :hourglass_flowing_sand: RoadMap
+
+| Current Version |
+| :-: |
+| `v0.1` |
+
+<p align="center">
+<strong>These sections are previews, when the corresponding version has been completed, the section will be completed with the specific additions.</strong>
+</p>
+
+#### `v0.1` Basic Structure
+
+See [Requirements Analysis](#black_nib-requirement-analysis) to know the basic structure of the application.
+
+#### `v0.2` Complementary Pages
+
+New pages will be added to complement the basic structure of the web application.
+
+| New Pages |
+|:-: |
+| About Us |
+| Working Advice |
+| Error Advice |
+
+#### `v0.3` Searching & Optimization
+
+Searches in the different databases will be optimized. Adding pagination when browsing the available products. 
+
+The way of loading information will also be updated, improving the experience when using the different filters.
+
+We will add ways to operate via user interface with the products.
+
+The database will be complete with the relevant products.
+
+#### `v0.4` Quality of Life
+
+It will be refactored and new elements will be added to improve the user experience. 
+
+#### `v0.5` Accesibility and Usability
+
+See [Accesibility and Usability](#v05-accesibility-and-usability) to know in detail about the Accesibility and Usability of the application.
+
+#### `v0.6` Security
+
+The security of the different elements of the web will be completed, together with the differentiation between the different types of users.
+
+#### `v0.7` Services & Novelties
+
+Screens about the services available in the application will be added along with the implementation of the new entity: Novelty
+
+#### `v0.8` Dates
+
+All the logic for requesting an appointment online will be added.
+
+#### `v1.0` Payments
+
+All payment-related logic will be added, ending the application development stage.
 
 ### :dvd: DataBase
 
