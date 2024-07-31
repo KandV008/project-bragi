@@ -101,7 +101,87 @@ export async function addProductToShoppingList(formData: FormData){
           
         console.log(`Added product ${productId} to shoppingList for user ${userId}`);
     } catch (error) {
-        console.error('Error toggling favourites:', error);
+        console.error('Error adding product to the shopping list:', error);
+        throw error;
+    }
+}
+
+export async function incrementProductInShoppingList(formData: FormData) {
+    const { userId } = auth();
+    const productId = formData.get("id");
+    const color = formData.get("color");
+    const earSide = formData.get("earSide");
+    const guarantee = formData.get("guarantee");
+
+    console.log("USER ID: " + userId);
+    console.log("PRODUCT ID: " + productId);
+    console.log("COLOR: " + color);
+    console.log("EAR SIDE: " + earSide);
+    console.log("GUARANTEE: " + guarantee);
+
+    if (!userId || !productId || !color || !earSide || !guarantee) {
+        return;
+    }
+
+    try {
+        const client = await sql.connect();
+
+        const result = await client.query(
+            `UPDATE shoppingList
+             SET quantity = quantity + 1
+             WHERE product_id = $1 AND user_id = $2 AND color = $3 AND ear_side = $4 AND guarantee = $5
+             RETURNING *`,
+            [productId, userId, color, earSide, guarantee]
+        );
+
+        if (result.rowCount === 0) {
+            console.log(`Product ${productId} not found in shoppingList for user ${userId}`);
+        } else {
+            console.log(`Incremented product ${productId} in shoppingList for user ${userId}`);
+        }
+    } catch (error) {
+        console.error('Error incrementing product in the shopping list:', error);
+        throw error;
+    }
+}
+
+
+export async function decrementProductInShoppingList(formData: FormData){
+    const { userId } = auth();
+    const productId = formData.get("id");
+    const color = formData.get("color");
+    const earSide = formData.get("earSide");
+    const guarantee = formData.get("guarantee");
+
+    console.log("USER ID: " + userId);
+    console.log("PRODUCT ID: " + productId);
+    console.log("COLOR: " + color);
+    console.log("EAR SIDE: " + earSide);
+    console.log("GUARANTEE: " + guarantee);
+
+    if (!userId || !productId || !color || !earSide || !guarantee){
+        return;
+    }
+
+    try {
+        const client = await sql.connect();
+
+        await client.query(
+            `UPDATE shoppingList
+             SET quantity = quantity - 1
+             WHERE product_id = $1 AND user_id = $2 AND color = $3 AND ear_side = $4 AND guarantee = $5 AND quantity > 0`,
+            [productId, userId, color, earSide, guarantee]
+        );
+
+        await client.query(
+            `DELETE FROM shoppingList
+             WHERE product_id = $1 AND user_id = $2 AND color = $3 AND ear_side = $4 AND guarantee = $5 AND quantity = 0`,
+            [productId, userId, color, earSide, guarantee]
+        );
+
+        console.log(`Decremented product ${productId} in shoppingList for user ${userId}`);
+    } catch (error) {
+        console.error('Error decrementing product in the shopping list:', error);
         throw error;
     }
 }

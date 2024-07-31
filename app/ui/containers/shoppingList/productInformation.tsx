@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import AmountButton from "../../components/buttons/amountButton";
+import { decrementProductInShoppingList, incrementProductInShoppingList } from "@/db/action";
 
 interface ProductInformationProps{
   id: string,
@@ -83,6 +84,7 @@ export default function ProductInformation({ id, imageURL, name, brand, price, e
             color={color}
             earSide={earSide}
             guarantee={guarantee}
+            action={decrementProductInShoppingList}
           />
           {/* Amount */}
           <span className="px-5 py-2 text-2xl font-bold">{quantity}</span>
@@ -93,6 +95,7 @@ export default function ProductInformation({ id, imageURL, name, brand, price, e
             color={color}
             earSide={earSide}
             guarantee={guarantee}
+            action={incrementProductInShoppingList}
           />
         </div>
       </article>
