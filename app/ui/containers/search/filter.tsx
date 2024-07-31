@@ -1,4 +1,63 @@
-export default function Filter() {
+import { AdaptationRange } from "@/app/model/entities/enums/AdaptionRange";
+import { Brand } from "@/app/model/entities/enums/Brand";
+import { DegreeOfLoss } from "@/app/model/entities/enums/DegreeOfLoss";
+import { EarLocation } from "@/app/model/entities/enums/EarLocation";
+import { LevelOfDiscretion } from "@/app/model/entities/enums/LevelOfDiscretion";
+import { ProductEntity } from "@/app/model/entities/Product";
+import { ChangeEvent } from "react";
+
+interface FilterProps {
+  onChange: (filter: (product: ProductEntity) => boolean) => void;
+}
+
+const adaptationRangeType = "adaptation_range";
+const waterDustResistanceType = "dust_water_resistance";
+const brandType = "brand";
+const earLocationType = "location";
+const levelOfDiscretionType = "level_of_discretion";
+const degreeOfLossType = "degree_of_loss";
+
+export default function Filter({ onChange }: FilterProps) {
+  const adaptationRanges = Object.values(AdaptationRange);
+  const waterDustResistances = ["Sí", "No"];
+  const brands = Object.values(Brand);
+  const locations = Object.values(EarLocation);
+  const levelOfDiscretions = Object.values(LevelOfDiscretion);
+  const degreeOfLosses = Object.values(DegreeOfLoss);
+
+  const filterSelected =
+    (type: string) => (event: ChangeEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value;
+      console.log(type, value)
+      let filter: (product: ProductEntity) => boolean = () => true
+
+      if (type === adaptationRangeType){
+        filter = filters.adaptationRangeType(value)
+      }
+
+      if (type === waterDustResistanceType){
+        filter = filters.waterDustResistanceType(value)
+      }
+
+      if (type === brandType){
+        filter = filters.brandType(value)
+      }
+
+      if (type === earLocationType){
+        filter = filters.earLocationType(value)
+      }
+
+      if (type === levelOfDiscretionType){
+        filter = filters.levelOfDiscretionType(value)
+      }
+
+      if (type === degreeOfLossType){
+        filter = filters.degreeOfLossType(value)
+      }
+
+      onChange(filter)
+    };
+
   return (
     <section
       className=" p-5 rounded flex-col space-y-3
@@ -9,109 +68,138 @@ export default function Filter() {
       <h1 className=" w-fit text-3xl font-bold text-primary2 dark:text-secondary0">
         Filtrar por:
         <div className="w-full border-t mb-3 border-primary2 dark:border-secondary0"></div>
-
-        </h1>
+      </h1>
       {/* Adaptation Range */}
-      <article className="text-lg">
+      <article className="text-lg                                                ">
         <h1 className="text-xl font-bold">Rango de Adaptación</h1>
         <form action="" className="px-3">
-          <input type="checkbox" id="range1" name="range1" value="range1" />
-          <label htmlFor="range1"> Leve</label>
-          <br></br>
-          <input type="checkbox" id="range2" name="range2" value="range2" />
-          <label htmlFor="range2"> Moderada</label>
-          <br></br>
-          <input type="checkbox" id="range3" name="range3" value="range3" />
-          <label htmlFor="range3"> Severa</label>
-          <br></br>
-          <input type="checkbox" id="range4" name="range4" value="range4" />
-          <label htmlFor="range4"> Profunda</label>
-          <br></br>
+          {adaptationRanges.map((adaptationRange, index) => (
+            <div key={adaptationRange}>
+              <input
+                type="radio"
+                id={"range-" + index}
+                name="adaptationRange"
+                value={adaptationRange}
+                onChange={filterSelected(adaptationRangeType)}
+              />
+              <label htmlFor={"range-" + index}>{adaptationRange}</label>
+              <br></br>
+            </div>
+          ))}
         </form>
       </article>
       {/* Water Dust Resistance */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
         <form action="" className="px-3">
-          <input type="checkbox" id="range1" name="range1" value="range1" />
-          <label htmlFor="range1"> Sí</label>
-          <br></br>
-          <input type="checkbox" id="range2" name="range2" value="range2" />
-          <label htmlFor="range2"> No</label>
+          {waterDustResistances.map((adaptationRange, index) => (
+            <div key={adaptationRange}>
+              <input
+                type="radio"
+                id={"waterDustResistance-" + index}
+                name="waterDustResistance"
+                value={adaptationRange}
+                onChange={filterSelected(waterDustResistanceType)}
+              />
+              <label htmlFor={"waterDustResistance-" + index}>
+                {" "}
+                {adaptationRange}
+              </label>
+              <br></br>
+            </div>
+          ))}
         </form>
       </article>
       {/* Brand */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Marca</h1>
         <form action="" className="px-3">
-          <input type="checkbox" id="range1" name="range1" value="range1" />
-          <label htmlFor="range1"> Phonak</label>
-          <br></br>
-          <input type="checkbox" id="range2" name="range2" value="range2" />
-          <label htmlFor="range2"> Audio Service</label>
+          {brands.map((brand, index) => (
+            <div key={brand}>
+              <input
+                type="radio"
+                id={"brand-" + index}
+                name="brand"
+                value={brand}
+                onChange={filterSelected(brandType)}
+              />
+              <label htmlFor={"brand-" + index}> {brand}</label>
+              <br></br>
+            </div>
+          ))}
         </form>
       </article>
-      {/* Location */}
+      {/* Ear Location */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Ubicación</h1>
         <form action="" className="px-3">
-          <input type="checkbox" id="range1" name="range1" value="range1" />
-          <label htmlFor="range1"> Retroauricular - detrás de la oreja</label>
-          <br></br>
-          <input type="checkbox" id="range2" name="range2" value="range2" />
-          <label htmlFor="range2">
-            {" "}
-            Intracanal - dentro del canal auditivo
-          </label>
-          <br></br>
-          <input type="checkbox" id="range3" name="range3" value="range3" />
-          <label htmlFor="range3">
-            {" "}
-            CIC - completamente en el canal auditivo
-          </label>
-          <br></br>
-          <input type="checkbox" id="range4" name="range4" value="range4" />
-          <label htmlFor="range4">
-            {" "}
-            RIC - auricular dentro del conducto auditivo
-          </label>
-          <br></br>
+          {locations.map((location, index) => (
+            <div key={location}>
+              <input
+                type="radio"
+                id={"earLocation-" + index}
+                name="earLocation"
+                value={location}
+                onChange={filterSelected(earLocationType)}
+              />
+              <label htmlFor={"earLocation-" + index}> {location}</label>
+              <br></br>
+            </div>
+          ))}
         </form>
       </article>
       {/* Level of Discretion */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Nivel de discrección</h1>
         <form action="" className="px-3">
-          <input type="checkbox" id="range1" name="range1" value="range1" />
-          <label htmlFor="range1"> Visible</label>
-          <br></br>
-          <input type="checkbox" id="range2" name="range2" value="range2" />
-          <label htmlFor="range2"> Discreto</label>
-          <br></br>
-          <input type="checkbox" id="range3" name="range3" value="range3" />
-          <label htmlFor="range3"> Imperceptible</label>
+          {levelOfDiscretions.map((levelOfDiscretion, index) => (
+            <div key={levelOfDiscretion}>
+              <input
+                type="radio"
+                id={"levelOfDiscretion-" + index}
+                name="levelOfDiscretion"
+                value={levelOfDiscretion}
+                onChange={filterSelected(levelOfDiscretionType)}
+              />
+              <label htmlFor={"levelOfDiscretion-" + index}>
+                {" "}
+                {levelOfDiscretion}
+              </label>
+              <br></br>
+            </div>
+          ))}
         </form>
       </article>
       {/* Degree Of Loss */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Grado de perdida</h1>
         <form action="" className="px-3">
-          <input type="checkbox" id="range1" name="range1" value="range1" />
-          <label htmlFor="range1"> Leve</label>
-          <br></br>
-          <input type="checkbox" id="range2" name="range2" value="range2" />
-          <label htmlFor="range2"> Moderada</label>
-          <br></br>
-          <input type="checkbox" id="range3" name="range3" value="range3" />
-          <label htmlFor="range3"> Severa</label>
-          <br></br>
-          <input type="checkbox" id="range4" name="range4" value="range4" />
-          <label htmlFor="range4"> Profunda</label>
-          <br></br>
+          {degreeOfLosses.map((degreeOfLoss, index) => (
+            <div key={degreeOfLoss}>
+              <input
+                type="radio"
+                id={"degreeOfLoss-" + index}
+                name="degreeOfLoss"
+                value={degreeOfLoss}
+                onChange={filterSelected(degreeOfLossType)}
+              />
+              <label htmlFor={"degreeOfLoss-" + index}> {degreeOfLoss}</label>
+              <br></br>
+            </div>
+          ))}
         </form>
       </article>
     </section>
   );
+}
+
+const filters = {
+  adaptationRangeType: (value: string) => (product: ProductEntity) => value === product.adaptation_range,
+  waterDustResistanceType: (value: string) => (product: ProductEntity) => value === "Sí" ? true === product.dust_water_resistance : false === product.dust_water_resistance,
+  brandType: (value: string) => (product: ProductEntity) => value === product.brand,
+  earLocationType: (value: string) => (product: ProductEntity) => value === product.location,
+  levelOfDiscretionType: (value: string) => (product: ProductEntity) => value === product.level_of_discretion,
+  degreeOfLossType: (value: string) => (product: ProductEntity) => value === product.degree_of_loss
 }
 
 const shimmer =

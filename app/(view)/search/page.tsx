@@ -35,9 +35,14 @@ export default function Page() {
   if (isLoading) return <Loading />;
   if (!products) return <p>No product data</p>;
 
+  const filterAction = (filter: (product: ProductEntity) => boolean) => {
+    const filtered = products.filter(filter)
+    setProduct(filtered)
+  }
+
   return (
     <main className="flex flex-grow  justify-center space-x-2 py-5 sm:w-5/6 xl:w-4/6 place-self-center ">
-      <Filter />
+      <Filter onChange={filterAction}/>
       <div className="md:size-fit lg:px-12">
         <ProductContainer products={products} />
       </div>
