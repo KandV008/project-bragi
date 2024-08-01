@@ -23,8 +23,10 @@ export default function Product({
 }: ProductProps) {  
   return (
     <article
-      className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5
-    bg-primary0 dark:bg-secondary2 border-solid border-2  border-primary2 dark:border-secondary1 text-primary2 dark:text-secondary0
+      className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5 
+    bg-emerald-100 dark:bg-emerald-800  
+    border-emerald-900 dark:border-emerald-100 border-solid border-2
+    text-emerald-900 dark:text-emerald-100
     rounded rounded-tr-3xl 
     md:w-48 xl:w-64 h-fit"
     >
@@ -52,7 +54,11 @@ export default function Product({
         <Link
           href={`/search/about/${id}`}
           className="flex flex-row items-center justify-center md:justify-between md:px-2
-          rounded-2xl border-2 border-primary2  dark:border-secondary0  hover:bg-gray-400 hover:dark:bg-gray-700
+          rounded-2xl  
+          bg-emerald-900 text-emerald-100
+          dark:bg-emerald-100 dark:text-emerald-800
+          border-emerald-900  dark:border-emerald-100 border-2
+          hover:bg-gray-300 hover:dark:bg-gray-700
           h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40 "
         >
           <div className=" mr-0 md:mr-2 xl:mr-0">

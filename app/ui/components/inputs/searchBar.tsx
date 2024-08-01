@@ -13,7 +13,7 @@ export default function SearchBar() {
   }
 
   return (
-      <form action={activeSearch} className="relative text-primary2 dark:text-secondary2">
+      <form action={activeSearch} className="relative text-emerald-900 dark:text-emerald-100">
         <div className="absolute inset-y-0 flex pointer-events-none left-5">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </div>
@@ -22,10 +22,11 @@ export default function SearchBar() {
           id="keyword"
           name="keyword"
           className="w-full py-3 text-lg rounded-full pl-14 
-                text-primary2 dark:text-secondary2 dark:bg-secondary0 bg-primary0 
-                dark:placeholder:text-secondary2 placeholder:text-primary2 placeholder:font-bold
-                hover:bg-primary1 hover:border-primary2 hover:border-2
-                hover:dark:bg-secondary1 hover:dark:border-secondary0"
+                text-emerald-900 dark:text-emerald-100 
+                bg-emerald-200 dark:bg-emerald-600  
+                dark:placeholder:text-emerald-100 placeholder:text-emerald-900 placeholder:font-bold
+                border-emerald-900 border-2 dark:border-emerald-100
+                hover:bg-emerald-500 hover:dark:bg-emerald-500 "
           placeholder="Buscar productos"
           required
         />

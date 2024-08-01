@@ -86,7 +86,7 @@ export default function RootLayout({
           ></meta>
         </head>
         <body
-          className={`${inter.className} flex flex-col bg-white dark:bg-black min-h-screen align-middle`}
+          className={`${inter.className} flex flex-col bg-white dark:bg-emerald-950 min-h-screen align-middle`}
         >
           <header className="p-4 flex justify-end">
             <ThemeToggle />

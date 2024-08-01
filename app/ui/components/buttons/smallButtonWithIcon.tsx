@@ -14,10 +14,12 @@ export default function SmallButtonWithIcon({ icon, text, subtext, onClick }: Sm
   return (
     <button
       className="flex items-start cursor-pointer py-1 px-2 2xl:h-12  
-                    min-w-8 lg:w-28 xl:w-48
-                    text-primary2 dark:text-secondary0 lg:text-left md:text-center
-                    hover:bg-gray-400 hover:lg:rounded hover:rounded-full hover:border-primary2 hover:border-2
-                    hover:dark:bg-gray-700 hover:dark:border-secondary0"
+                    min-w-8 lg:w-28 xl:w-48 lg:text-left md:text-center
+                    text-emerald-900 dark:text-emerald-100
+                    hover:bg-gray-300 hover:dark:bg-gray-700 
+                    hover:lg:rounded hover:rounded-full 
+                    hover:border-emerald-900 hover:border-2
+                    hover:dark:border-emerald-100"
       onClick={onClick} 
     >
       <div className="mr-2 md:mr-0 lg:mr-2">

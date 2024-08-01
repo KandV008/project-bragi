@@ -31,9 +31,9 @@ export default function FavoriteToggleButton({
     setIsFavourite(!isFavourite);
   };
 
-  const textColor = isFavourite ? "text-red-500" : "text-primary2";
-  const bgColor = isFavourite ? "bg-red-200" : "bg-primary0";
-  const borderColor = isFavourite ? "border-red-500" : "border-primary2";
+  const textColor = isFavourite ? "text-rose-600" : "text-emerald-100 dark:text-emerald-800";
+  const bgColor = isFavourite ? "bg-rose-200" : "bg-emerald-900 dark:bg-emerald-100";
+  const borderColor = isFavourite ? "border-rose-600" : "border-emerald-900 dark:border-emerald-100";
 
   return (
     <>
@@ -44,8 +44,9 @@ export default function FavoriteToggleButton({
           <input type="hidden" name="id" value={id} />
           <button
             type="submit"
-            onClick={toggleFavourite}
-            className={`rounded-2xl border-2 hover:bg-gray-400 hover:dark:bg-gray-700 h-8 w-12 md:size-10 xl:size-12 ${bgColor} ${borderColor} ${textColor}`}
+            onClick={toggleFavourite} // TODO Add specific hover for state
+            className={`rounded-2xl border-2 
+              hover:bg-gray-400 hover:dark:bg-gray-700 h-8 w-12 md:size-10 xl:size-12 ${bgColor} ${borderColor} ${textColor}`}
           >
             <div className="">
               <FontAwesomeIcon icon={faHeart} className="" />
