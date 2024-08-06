@@ -57,8 +57,7 @@ export default function Product({
           rounded-2xl  
           bg-emerald-900 text-emerald-100
           dark:bg-emerald-100 dark:text-emerald-800
-          border-emerald-900  dark:border-emerald-100 border-2
-          hover:bg-gray-300 hover:dark:bg-gray-700
+          hover:bg-emerald-700 hover:dark:bg-emerald-200
           h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40 "
         >
           <div className=" mr-0 md:mr-2 xl:mr-0">

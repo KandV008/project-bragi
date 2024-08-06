@@ -1,45 +1,66 @@
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import AmountButton from "../../components/buttons/amountButton";
-import { decrementProductInShoppingList, incrementProductInShoppingList } from "@/db/action";
+import {
+  decrementProductInShoppingList,
+  incrementProductInShoppingList,
+} from "@/db/action";
 
-interface ProductInformationProps{
-  id: string,
-  imageURL: string,
-  name: string,
-  brand: string,
-  price: number,
-  earSide: string,
-  guarantee: boolean,
-  color: string,
-  quantity: number
+interface ProductInformationProps {
+  id: string;
+  imageURL: string;
+  name: string;
+  brand: string;
+  price: number;
+  earSide: string;
+  guarantee: boolean;
+  color: string;
+  quantity: number;
 }
 
-export default function ProductInformation({ id, imageURL, name, brand, price, earSide, guarantee, color, quantity }: ProductInformationProps) {
-  let showEarSide: string
-  
-  if (earSide === "right"){
-    showEarSide = "Derecho"
-  } else if (earSide === "left"){
-    showEarSide = "Izquierda"
+export default function ProductInformation({
+  id,
+  imageURL,
+  name,
+  brand,
+  price,
+  earSide,
+  guarantee,
+  color,
+  quantity,
+}: ProductInformationProps) {
+  let showEarSide: string;
+
+  if (earSide === "right") {
+    showEarSide = "Derecho";
+  } else if (earSide === "left") {
+    showEarSide = "Izquierda";
   } else {
-    showEarSide = "Ambos"
+    showEarSide = "Ambos";
   }
-  
+
   return (
-    <section className="flex flex-row bg-primary0 text-primary2 gap-5 p-5 border-2 border-primary2 rounded rounded-tr-3xl">
+    <section
+      className="flex flex-col sm:grid sm:grid-cols-2 gap-2 p-5 rounded rounded-tr-3xl
+      2xl:flex 2xl:flex-row 2xl:justify-between 2xl:gap-5 
+      bg-emerald-100 dark:bg-emerald-800
+      text-emerald-900 dark:text-emerald-100
+      border-emerald-900 dark:border-emerald-100 border-2"
+    >
       {/* Image */}
-      <Image
-        src={imageURL}
-        width={150}
-        height={150}
-        alt={"img-" + name}
-        className="size-48  bg-white rounded"
-      />
+      <>
+        <Image
+          src={imageURL}
+          width={150}
+          height={150}
+          alt={"img-" + name}
+          className="size-64 sm:size-full 2xl:size-48 bg-white rounded self-center"
+        />
+      </>
       {/* Information */}
-      <article className="flex flex-row gap-10 rounded-md p-3">
+      <article className="flex flex-col self-center 2xl:flex-row gap-5 rounded-md p-3">
         {/* Product */}
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col sm:flex-row 2xl:flex-col sm:gap-10">
           {/* Name */}
           <div className="flex flex-col">
             <span className="text-xl font-bold">{name}</span>
@@ -55,27 +76,28 @@ export default function ProductInformation({ id, imageURL, name, brand, price, e
         {/* Choices */}
         <div className="flex flex-col self-center">
           {/* EarSide */}
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:flex-row 2xl:flex-col">
             <span className="font-bold">Lado del audífono</span>
             <span className="mx-2">{showEarSide}</span>
           </div>
           {/* Guarantee */}
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:flex-row 2xl:flex-col">
             <span className="font-bold">Seguro de 1 año</span>
             <span className="mx-2">{guarantee ? "Sí" : "No"}</span>
           </div>
           {/* Color */}
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:flex-row 2xl:flex-col">
             <span className="font-bold">Color del producto</span>
             <span className="mx-2">{color}</span>
           </div>
         </div>
       </article>
       {/* Amount Button */}
-      <article className="flex flex-col gap-4 self-center">
-        <h1 className="text-2xl font-bold self-center">
-            Cantidad
-        </h1>
+      <article className="sm:col-span-2 gap-4 self-center
+      flex flex-col
+      sm:flex-row sm:justify-around 
+      2xl:flex-col 2xl:justify-center">
+        <h1 className="text-2xl font-bold self-center">Cantidad</h1>
         <div className="flex flex-row gap-2">
           {/* Substract Button */}
           <AmountButton

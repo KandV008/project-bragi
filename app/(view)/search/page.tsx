@@ -41,11 +41,11 @@ export default function Page() {
   }
 
   return (
-    <main className="flex flex-grow  justify-center space-x-2 py-5 sm:w-5/6 xl:w-4/6 place-self-center ">
+    <div className="flex flex-row w-full justify-between">
       <Filter onChange={filterAction}/>
       <div className="md:size-fit lg:px-12">
         <ProductContainer products={products} />
       </div>
-    </main>
+    </div>
   );
 }

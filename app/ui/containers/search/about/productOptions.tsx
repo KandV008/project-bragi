@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
@@ -30,11 +30,10 @@ export default function ProductOptions({
 
   const [imgIndex, setImgIndex] = useState(0);
   const getColorButtonClasses = (buttonName: number) => {
-    const baseClasses =
-      "size-8 md:size-6 lg:size-8 border-2 dark:border-secondary0";
+    const baseClasses = "size-8 md:size-6 lg:size-8 border-2";
     return buttonName === imgIndex
-      ? `${baseClasses}  border-red-500`
-      : `${baseClasses} border-primary2`;
+      ? `${baseClasses} border-rose-600`
+      : `${baseClasses} border-emerald-900 dark:border-emerald-100`;
   };
 
   const [earSide, setEarSide] = useState("");
@@ -43,22 +42,29 @@ export default function ProductOptions({
   };
 
   const getEarSideButtonClasses = (buttonName: string) => {
-    const baseClasses =
-      "h-8 w-24 border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700";
+    const baseClasses = "h-8 w-24 border-2 rounded font-bold";
     return buttonName === earSide
-      ? `${baseClasses} text-red-500 bg-red-200 border-red-500`
-      : `${baseClasses} text-primary2 bg-primary0 border-primary2`;
+      ? `${baseClasses} text-rose-600 bg-rose-200 border-rose-600`
+      : `${baseClasses} text-emerald-100 dark:text-emerald-800 bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200 border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200`;
   };
 
   const [guarantee, setGuarantee] = useState(false);
-  const textColor = guarantee ? "text-red-500" : "text-primary2";
-  const bgColor = guarantee ? "bg-red-200" : "bg-primary0";
-  const borderColor = guarantee ? "border-red-500" : "border-primary2";
+  const textColor = guarantee
+    ? "text-rose-600"
+    : "text-emerald-100 dark:text-emerald-800";
+  const bgColor = guarantee
+    ? "bg-rose-200 hover:bg-rose-300"
+    : "bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200";
+  const borderColor = guarantee
+    ? "border-rose-600"
+    : "border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200";
 
   return (
     <div
-      className="flex flex-col md:flex-row rounded rounded-tr-3xl
-     border-2 border-primary2 dark:border-secondary1 bg-primary0 dark:bg-secondary2 text-primary2 dark:text-secondary0 p-5"
+      className="flex flex-col md:flex-row rounded rounded-tr-3xl p-5
+     border-emerald-900 dark:border-emerald-100 border-2
+     bg-emerald-100 dark:bg-emerald-800 
+     text-emerald-900 dark:text-emerald-100 "
     >
       {/* Product Images */}
       <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
@@ -69,7 +75,7 @@ export default function ProductOptions({
             width={1500}
             height={1500}
             alt={"img-" + 0}
-            className="size-64 sm:size-72 lg:size-96 bg-white"
+            className="size-64 sm:size-72 lg:size-96 bg-white rounded border-2 border-emerald-900 dark:border-emerald-100"
           />
         </div>
         {/* Secondary Images */}
@@ -85,7 +91,7 @@ export default function ProductOptions({
                   width={1500}
                   height={1500}
                   alt={"img-" + index}
-                  className="size-20 sm:size-24 lg:size-32 bg-white"
+                  className="size-20 sm:size-24 lg:size-32 bg-white rounded border-2 border-emerald-900 dark:border-emerald-100"
                 />
               )}
             </>
@@ -95,9 +101,14 @@ export default function ProductOptions({
       {/* Product Options */}
       <article className="flex flex-col  md:w-1/2 md:justify-around">
         {/* Name */}
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
-          {name}
-        </h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
+            {name}
+          </h1>
+          <div className=" block xl:hidden">
+            <FavoriteToggleButton productId={id} />
+          </div>
+        </div>
         {/* Brand */}
         <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
         {/* Price */}
@@ -109,7 +120,7 @@ export default function ProductOptions({
         <div className="w-fit">
           <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
             Colores disponibles
-            <div className="w-full border-t mb-3 border-primary2 dark:border-secondary0"></div>
+            <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
           </h3>
           <div className="flex flex-row flex-wrap gap-1">
             {colors.map((color, index) => (
@@ -118,7 +129,7 @@ export default function ProductOptions({
                 className={getColorButtonClasses(index)}
                 style={{ backgroundColor: color.color.hex }}
                 title={color.color.name}
-                onClick={() => setImgIndex(index)} // Update imgIndex on button click
+                onClick={() => setImgIndex(index)}
               ></button>
             ))}
           </div>
@@ -127,7 +138,7 @@ export default function ProductOptions({
         <div className="w-fit">
           <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
             Lado del Audífono
-            <div className="w-full border-t mb-3 border-primary2 dark:border-secondary0"></div>
+            <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
           </h3>
           <div className="flex flex-row flex-wrap gap-3">
             <button
@@ -154,13 +165,13 @@ export default function ProductOptions({
         <div className="w-fit">
           <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
             Añadir seguro de 1 año al producto
-            <div className="w-full border-t mb-3 border-primary2 dark:border-secondary0"></div>
+            <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
           </h3>
           <button
             onClick={() => {
               setGuarantee(!guarantee);
             }}
-            className={`h-8 w-24 border-2 rounded dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700 ${bgColor} ${borderColor} ${textColor}`}
+            className={`h-8 w-24 border-2 rounded font-bold ${bgColor} ${borderColor} ${textColor}`}
           >
             Añadir
           </button>
@@ -169,7 +180,7 @@ export default function ProductOptions({
         <div className="mb-3 md:mb-1 lg:mb-3 w-fit">
           <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
             Incluye
-            <div className="w-full border-t mb-1 lg:mb-3 border-primary2 dark:border-secondary0"></div>
+            <div className="w-full border-t mb-1 lg:mb-3 border-emerald-900 dark:border-emerald-100"></div>
           </h3>
           <ul className="px-2 text-sm lg:text-base">
             {include.map((text) => (
@@ -178,25 +189,38 @@ export default function ProductOptions({
           </ul>
         </div>
         {/* Shopping Button */}
-        <section className="flex flex-row flex-wrap justify-start gap-3 md:gap-2 xl:gap-1">
+        <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
           {!user ? (
             <></>
           ) : (
             <form action={addProductToShoppingList}>
-              
               <input type="hidden" name="id" value={id} />
-              <input type="hidden" name="color" value={colors[imgIndex].color.name} />
+              <input
+                type="hidden"
+                name="color"
+                value={colors[imgIndex].color.name}
+              />
               <input type="hidden" name="earSide" value={earSide} />
-              <input type="hidden" name="guarantee" value={guarantee.toString()} />
+              <input
+                type="hidden"
+                name="guarantee"
+                value={guarantee.toString()}
+              />
               <input type="hidden" name="name" value={name} />
               <input type="hidden" name="brand" value={brand} />
               <input type="hidden" name="price" value={price} />
-              <input type="hidden" name="imageURL" value={colors[imgIndex].images[0]} />
+              <input
+                type="hidden"
+                name="imageURL"
+                value={colors[imgIndex].images[0]}
+              />
 
               <button
                 type="submit"
-                className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
-          border-2 rounded border-primary2 dark:border-secondary0 hover:bg-gray-400 hover:dark:bg-gray-700"
+                className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center rounded 
+                          bg-emerald-900 text-emerald-100
+                          dark:bg-emerald-100 dark:text-emerald-800
+                          hover:bg-emerald-700 hover:dark:bg-emerald-200"
               >
                 <div className="flex flex-row place-self-center gap-3">
                   <div className=" mr-0 md:mr-2 xl:mr-0">
@@ -209,7 +233,9 @@ export default function ProductOptions({
               </button>
             </form>
           )}
-          <FavoriteToggleButton productId={id} />
+          <div className="hidden xl:block">
+            <FavoriteToggleButton productId={id} />
+          </div>
         </section>
       </article>
     </div>
@@ -246,7 +272,6 @@ export function ProductOptionsSkeleton() {
           <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
           {/* Price */}
           <div className="md:self-start h-8 sm:h-10 xl:h-12 w-40 rounded-md bg-gray-200" />
-
           {/* Color Buttons */}
           <div className="w-fit">
             <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
@@ -257,7 +282,6 @@ export function ProductOptionsSkeleton() {
               <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
             </div>
           </div>
-
           {/* Hearing Aid Side Buttons */}
           <div className="w-fit">
             <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />

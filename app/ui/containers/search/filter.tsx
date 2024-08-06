@@ -61,13 +61,13 @@ export default function Filter({ onChange }: FilterProps) {
   return (
     <section
       className=" p-5 rounded flex-col space-y-3
-        bg-primary0 dark:bg-secondary2 text-primary2 dark:text-secondary0 h-full
+        bg-emerald-100 dark:bg-emerald-800 text-emerald-900 dark:text-emerald-100 h-full
         hidden md:flex w-64"
     >
       {/* Header */}
-      <h1 className=" w-fit text-3xl font-bold text-primary2 dark:text-secondary0">
+      <h1 className=" w-fit text-3xl font-bold">
         Filtrar por:
-        <div className="w-full border-t mb-3 border-primary2 dark:border-secondary0"></div>
+        <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
       </h1>
       {/* Adaptation Range */}
       <article className="text-lg                                                ">
@@ -82,7 +82,7 @@ export default function Filter({ onChange }: FilterProps) {
                 value={adaptationRange}
                 onChange={filterSelected(adaptationRangeType)}
               />
-              <label htmlFor={"range-" + index}>{adaptationRange}</label>
+              <label htmlFor={"range-" + index}> {adaptationRange}</label>
               <br></br>
             </div>
           ))}

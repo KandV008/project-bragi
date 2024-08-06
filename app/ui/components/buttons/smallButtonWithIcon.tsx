@@ -17,6 +17,7 @@ export default function SmallButtonWithIcon({ icon, text, subtext, onClick }: Sm
                     min-w-8 lg:w-28 xl:w-48 lg:text-left md:text-center
                     text-emerald-900 dark:text-emerald-100
                     hover:bg-gray-300 hover:dark:bg-gray-700 
+                    border-2 border-transparent
                     hover:lg:rounded hover:rounded-full 
                     hover:border-emerald-900 hover:border-2
                     hover:dark:border-emerald-100"
@@ -27,7 +28,7 @@ export default function SmallButtonWithIcon({ icon, text, subtext, onClick }: Sm
       </div>
       <div className="flex flex-col">
         <div className="text-sm font-semibold md:hidden lg:block">{text}</div>
-        <div className="text-xs text-primary1 dark:text-secondary1 hidden xl:block">
+        <div className="text-xs hidden xl:block">
           {subtext}
         </div>
       </div>

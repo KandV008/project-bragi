@@ -5,6 +5,7 @@ import ProductContainer from "@/app/ui/components/common/productContainer";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "../loading";
+import Filter from "@/app/ui/containers/search/filter";
 
 export default function Page(){
     const pathname = usePathname();
@@ -27,9 +28,17 @@ export default function Page(){
     if (isLoading) return <Loading />;
     if (!products) return <p>No product data</p>;
 
+    const filterAction = (filter: (product: ProductEntity) => boolean) => {
+      const filtered = products.filter(filter)
+      setProduct(filtered)
+    }
+
     return (
-        <main className="flex flex-grow  justify-center space-x-2 py-5 sm:w-5/6 xl:w-4/6 place-self-center ">
-          <ProductContainer products={products} />
-        </main>
+      <div className="flex flex-row w-full justify-between">
+      <Filter onChange={filterAction}/>
+      <div className="md:size-fit lg:px-12">
+        <ProductContainer products={products} />
+      </div>
+    </div>
     );
 }

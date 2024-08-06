@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import ThemeToggle from "./ui/components/common/themeToggle";
 import Header from "./ui/components/common/header";
 import Footer from "./ui/components/common/footer";
-import {
-  ClerkProvider
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,54 +17,56 @@ export const metadata: Metadata = {
 const localization = {
   signUp: {
     start: {
-      title: 'Bienvenid@ al club',
-      subtitle: 'Registrate ahora en nuetra web para aprovecharte de todas las ventajas',
-      actionText: '¿Tienes ya una cuenta?',
-      actionLink: 'Inicia sesión ahora mismo.',
+      title: "Bienvenid@ al club",
+      subtitle:
+        "Registrate ahora en nuetra web para aprovecharte de todas las ventajas",
+      actionText: "¿Tienes ya una cuenta?",
+      actionLink: "Inicia sesión ahora mismo.",
     },
     emailLink: {
-      title: 'Verifica tu email',
-      subtitle: 'Así podrás empezar a usar la web al completo',
-      formTitle: 'Enlace de verificación',
-      formSubtitle: 'Usa el enlace de verificación que te hemos enviado al correo',
+      title: "Verifica tu email",
+      subtitle: "Así podrás empezar a usar la web al completo",
+      formTitle: "Enlace de verificación",
+      formSubtitle:
+        "Usa el enlace de verificación que te hemos enviado al correo",
       resendButton: "¿No has recibido ningún enlace? Te lo enviamos de vuelta.",
       verified: {
-        title: 'Registro completado',
+        title: "Registro completado",
       },
       loading: {
-        title: 'Registrandote...',
+        title: "Registrandote...",
       },
       verifiedSwitchTab: {
-        title: 'Tu correo ha sido verificado',
-        subtitle: 'Volver a la pestaña recién abierta para continuar',
-        subtitleNewTab: 'Volver a la pestaña anterior para continuar',
+        title: "Tu correo ha sido verificado",
+        subtitle: "Volver a la pestaña recién abierta para continuar",
+        subtitleNewTab: "Volver a la pestaña anterior para continuar",
       },
     },
     emailCode: {
-      title: 'Verifica tu email',
-      subtitle: 'Ahí podrás revisar el código de verificación',
-      formTitle: 'Código de verificación',
-      formSubtitle: 'Introduce el código que te hemos enviado al correo',
+      title: "Verifica tu email",
+      subtitle: "Ahí podrás revisar el código de verificación",
+      formTitle: "Código de verificación",
+      formSubtitle: "Introduce el código que te hemos enviado al correo",
       resendButton: "¿No has recibido ningún código? Te lo enviamos de vuelta.",
     },
     phoneCode: {
-      title: 'Verifica tu teléfono',
-      subtitle: 'Ahí podrás revisar el código de verificación',
-      formTitle: 'Código de verificación',
-      formSubtitle: 'Introduce el código que te hemos enviado al teléfono',
+      title: "Verifica tu teléfono",
+      subtitle: "Ahí podrás revisar el código de verificación",
+      formTitle: "Código de verificación",
+      formSubtitle: "Introduce el código que te hemos enviado al teléfono",
       resendButton: "¿No has recibido ningún código? Te lo enviamos de vuelta.",
     },
     continue: {
-      title: 'Rellena los campos vacíos del formulario',
-      subtitle: 'Así podrás empezar a usar la web al completo',
-      actionText: '¿Tienes ya una cuenta?',
-      actionLink: 'Iniciar Sesión',
+      title: "Rellena los campos vacíos del formulario",
+      subtitle: "Así podrás empezar a usar la web al completo",
+      actionText: "¿Tienes ya una cuenta?",
+      actionLink: "Iniciar Sesión",
     },
   },
-  formFieldLabel__emailAddress: 'Correo electrónico',
-  formFieldLabel__password: 'Contraseña',
-  formButtonPrimary: 'Continuar',
-}
+  formFieldLabel__emailAddress: "Correo electrónico",
+  formFieldLabel__password: "Contraseña",
+  formButtonPrimary: "Continuar",
+};
 
 export default function RootLayout({
   children,
@@ -88,12 +87,12 @@ export default function RootLayout({
         <body
           className={`${inter.className} flex flex-col bg-white dark:bg-emerald-950 min-h-screen align-middle`}
         >
-          <header className="p-4 flex justify-end">
-            <ThemeToggle />
-          </header>
+          <header className="p-4 flex justify-end"></header>
           <Header />
           <div className="mt-20"></div>
-          {children}
+          <main className="flex flex-col flex-grow justify-center space-y-3 md:space-y-10 py-16 md:py-12 lg:py-10 2xl:py-5 w-11/12 xl:w-4/6 place-self-center ">
+            {children}
+          </main>
           <Footer />
         </body>
       </html>

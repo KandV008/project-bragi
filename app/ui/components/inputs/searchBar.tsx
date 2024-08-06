@@ -4,8 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 
-export default function SearchBar() {
+interface SearchBarProps{
+  isCompress: boolean
+}
+
+export default function SearchBar({ isCompress }: SearchBarProps) {
   const router = useRouter();
+
+  const placeholder = isCompress ? "Buscar" : "Buscar productos"
 
   const activeSearch = (formData: FormData) => {
     const keyword = formData.get("keyword") as string;
@@ -27,7 +33,7 @@ export default function SearchBar() {
                 dark:placeholder:text-emerald-100 placeholder:text-emerald-900 placeholder:font-bold
                 border-emerald-900 border-2 dark:border-emerald-100
                 hover:bg-emerald-500 hover:dark:bg-emerald-500 "
-          placeholder="Buscar productos"
+          placeholder={placeholder}
           required
         />
       </form>

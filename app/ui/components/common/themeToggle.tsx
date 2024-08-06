@@ -24,21 +24,23 @@ const ThemeToggle = () => {
       <button
         onClick={toggleTheme}
         id="theme-toggle"
-        className="absolute p-3 dark:bg-secondary0 bg-primary0  
-                  border-2 border-transparent top-5 right-5 w-fit rounded-2xl
-                  hover:bg-gray-400 hover:border-primary2 hover:border-2
-                  hover:dark:bg-gray-700 hover:dark:border-secondary0"
+        className=" p-3 
+                bg-emerald-200 dark:bg-emerald-600   
+                text-emerald-900 dark:text-emerald-100
+                  w-fit rounded-2xl
+                  border-2 border-transparent
+                hover:bg-emerald-500 hover:dark:bg-emerald-500"
       >
         {theme === "light" ? (
           <FontAwesomeIcon
             icon={faMoon}
-            className="w-7  text-primary2"
+            className="w-7 "
             id="theme-toggle-light-icon"
           />
         ) : (
           <FontAwesomeIcon
             icon={faSun}
-            className=" w-7 text-secondary2"
+            className="w-7"
             id="theme-toggle-dark-icon"
           />
         )}

@@ -7,14 +7,22 @@ interface SummaryProps {
 }
 
 export default function Summary({ products }: SummaryProps) {
-  const totalPrice = products.reduce((total, product) => total + product.price * product.quantity, 0);
-  
+  const totalPrice = products.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0
+  );
+
   return (
-    <section className="sticky top-32 flex flex-col w-full justify-between p-6 border-2 bg-primary0 border-primary2 text-primary2 rounded">
+    <section
+      className="sticky top-32 flex flex-col w-full rounded justify-between p-6  
+                bg-emerald-100 dark:bg-emerald-800
+                border-emerald-900 dark:border-emerald-100 border-2
+                text-emerald-900 dark:text-emerald-100"
+    >
       {/* Header */}
       <article>
         <h2 className="text-2xl font-bold">Resumen</h2>
-        <div className="w-full border-2 border-t mb-3 border-primary2 dark:border-secondary0"></div>
+        <div className="w-full border-2 border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
       </article>
       {/* Body */}
       <article className="flex flex-col gap-3">
@@ -37,7 +45,7 @@ export default function Summary({ products }: SummaryProps) {
       </article>
       {/* Footer */}
       <article className="flex flex-col gap-2 ">
-        <div className="w-full border-2 border-t mb-3 border-primary2 dark:border-secondary0"></div>
+        <div className="w-full border-2 border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
         {/* Total */}
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
@@ -49,7 +57,7 @@ export default function Summary({ products }: SummaryProps) {
             icon={faCartShopping}
             text={"Comprar"}
             subtext={"Empezar compra"}
-            type={"warning"}
+            type={"default"}
           />{" "}
           {/* TODO Add speacial type */}
         </div>
@@ -60,7 +68,6 @@ export default function Summary({ products }: SummaryProps) {
 
 const shimmer =
   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
-
 
 export function SummarySkeleton() {
   return (
