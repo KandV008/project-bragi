@@ -86,7 +86,7 @@ export default function ProductOptions({
                 <span></span>
               ) : (
                 <Image
-                  key={index}
+                  key={"img-" + index}
                   src={image}
                   width={1500}
                   height={1500}
@@ -125,7 +125,7 @@ export default function ProductOptions({
           <div className="flex flex-row flex-wrap gap-1">
             {colors.map((color, index) => (
               <button
-                key={color.color.name}
+                key={color.color.name + "-" + index}
                 className={getColorButtonClasses(index)}
                 style={{ backgroundColor: color.color.hex }}
                 title={color.color.name}
@@ -183,8 +183,8 @@ export default function ProductOptions({
             <div className="w-full border-t mb-1 lg:mb-3 border-emerald-900 dark:border-emerald-100"></div>
           </h3>
           <ul className="px-2 text-sm lg:text-base">
-            {include.map((text) => (
-              <li key={text}>{text}</li>
+            {include.map((text, index) => (
+              <li key={"li-" + index}>{text}</li>
             ))}
           </ul>
         </div>

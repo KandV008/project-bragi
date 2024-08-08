@@ -68,7 +68,7 @@ export default function ProductDetails({
           <h4 className="text-lg font-bold">Usos</h4>
           <div className="flex flex-row flex-wrap gap-5">
             {uses.map((use, index) => (
-              <div key={index} className="flex flex-col items-center">
+              <div key={use.text + "-" + index} className="flex flex-col items-center">
                 <div className="flex flex-col justify-center items-center size-10 rounded-3xl border-2 border-emerald-900 dark:border-emerald-100">
                   <FontAwesomeIcon icon={use.icon} className="w-fit" />
                 </div>

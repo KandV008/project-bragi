@@ -21,7 +21,7 @@ export interface ProductEntity {
     location: EarLocation;
     level_of_discretion: LevelOfDiscretion;
     degree_of_loss: DegreeOfLoss;
-    uses: Uses[];
+    uses: UseDefinition[];
 }
 
 export function mapDocumentToProduct(product: any): ProductEntity {
