@@ -1,3 +1,4 @@
+import SectionHeader from "@/app/ui/components/common/sectionHeader";
 import ShoppingList from "@/app/ui/containers/shoppingList/shoppingList";
 import Summary from "@/app/ui/containers/shoppingList/summary";
 import { getShoppingList } from "@/db/postgresData";
@@ -8,14 +9,7 @@ export default async function Page() {
 
   return (
     <>
-      <h1
-        className="text-emerald-900 dark:text-emerald-100
-            text-xl md:text-2xl lg:text-3xl font-bold
-            w-fit"
-      >
-        Cesta de la compra
-        <div className="w-full border-t  border-emerald-900 dark:border-emerald-100"></div>
-      </h1>
+      <SectionHeader text="Cesta de la compra" />
       <section className="flex flex-col-reverse lg:flex-row gap-3">
         <ShoppingList products={shoppingList} />
         <div className="shrink-0">

@@ -5,6 +5,7 @@ import { EarLocation } from "@/app/model/entities/enums/EarLocation";
 import { LevelOfDiscretion } from "@/app/model/entities/enums/LevelOfDiscretion";
 import { ProductEntity } from "@/app/model/entities/Product";
 import { ChangeEvent } from "react";
+import SectionHeader from "../../components/common/sectionHeader";
 
 interface FilterProps {
   onChange: (filter: (product: ProductEntity) => boolean) => void;
@@ -65,10 +66,7 @@ export default function Filter({ onChange }: FilterProps) {
         hidden md:flex w-64"
     >
       {/* Header */}
-      <h1 className=" w-fit text-3xl font-bold">
-        Filtrar por:
-        <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-      </h1>
+      <SectionHeader text="Filtrar por:" />
       {/* Adaptation Range */}
       <article className="text-lg                                                ">
         <h1 className="text-xl font-bold">Rango de Adaptación</h1>

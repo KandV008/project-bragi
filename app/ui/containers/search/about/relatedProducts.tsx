@@ -1,5 +1,6 @@
 'use client';
 
+import SectionHeader from "@/app/ui/components/common/sectionHeader";
 import SomeProductContainer, { SomeProductContainerSkeleton } from "@/app/ui/components/common/someProductContainer";
 import { useState, useEffect } from "react";
 
@@ -32,14 +33,7 @@ export default function RelatedProducts({ brand, price}: RelatedProductsProps) {
 
   return (
     <section className="flex flex-col jusify-center sm:justify-start">
-      <h1
-        className="text-emerald-900 dark:text-emerald-100
-            text-xl md:text-2xl lg:text-3xl font-bold
-            w-fit"
-      >
-        Productos relacionados
-        <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-      </h1>
+      <SectionHeader text="Productos relacionados" />
       <article className="flex flex-row flex-wrap justify-center gap-4 2xl:justify-around xl:gap-8">
         <SomeProductContainer listProducts={data}/>
       </article>
