@@ -74,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider localization={localization}>
+    <ClerkProvider localization={localization} publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="es">
         <head>
           <title>Project Bragi</title>
