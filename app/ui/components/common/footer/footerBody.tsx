@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function FooterBody() {
   return (
@@ -8,28 +9,29 @@ export default function FooterBody() {
         <h1 className=" font-bold">Información</h1>
         <div className="flex flex-col text-emerald-400 dark:text-emerald-100
         px-1 md:px-3 space-y-2 md:space-y-1  text-xs md:text-base">
-          <a className="hover:underline">Conócenos</a>
-          <a className="hover:underline">Aviso Legal</a>
-          <a className="hover:underline">Política de Cookies</a>
-          <a className="hover:underline">Política de privacidad</a>
-          <a className="hover:underline">Términos y condiciones</a>
+          <Link href="/in-development" className="hover:underline">Conócenos</Link>
+          <Link href="/in-development" className="hover:underline">Aviso Legal</Link>
+          <Link href="/in-development" className="hover:underline">Política de Cookies</Link>
+          <Link href="/in-development" className="hover:underline">Política de privacidad</Link>
+          <Link href="/in-development" className="hover:underline">Términos y condiciones</Link>
         </div>
       </article>
       <article className="flex flex-col">
         <h1 className="font-bold">Atención al cliente</h1>
         <div className="flex flex-col text-emerald-400 dark:text-emerald-100
         px-1 md:px-3 space-y-2 md:space-y-1  text-xs md:text-base">          <a className="hover:underline">Servicios</a>
-          <a className="hover:underline">Pide Cita</a>
-          <a className="hover:underline">Derecho de desistimiento</a>
-          <a className="hover:underline">Garantías</a>
+          <Link href="/in-development" className="hover:underline">Pide Cita</Link>
+          <Link href="/in-development" className="hover:underline">Derecho de desistimiento</Link>
+          <Link href="/in-development" className="hover:underline">Garantías</Link>
         </div>
       </article>
       <article className="flex flex-col">
         <h1 className="font-bold">Mi cuenta</h1>
         <div className="flex flex-col text-emerald-400 dark:text-emerald-100
-        px-1 md:px-3 space-y-2 md:space-y-1  text-xs md:text-base">          <a className="hover:underline">Mi Cuenta</a>
-          <a className="hover:underline">Mi Cesta</a>
-          <a className="hover:underline">Mis Favoritos</a>
+        px-1 md:px-3 space-y-2 md:space-y-1  text-xs md:text-base">          
+          <Link href="/profile" className="hover:underline">Mi Cuenta</Link>
+          <Link href="/profile/shoppingList" className="hover:underline">Mi Cesta</Link>
+          <Link href="/profile/favorites" className="hover:underline">Mis Favoritos</Link>
         </div>
       </article>
       <article className="flex flex-col space-y-8 justify-center">

@@ -16,15 +16,15 @@ export default function DownHeader() {
   };
 
   const handleServicesClick = () => {
-    // TODO
+    router.push("/in-development") // TODO
   };
 
   const handleContactClick = () => {
-    // TODO
+    router.push("/in-development") // TODO
   };
 
   const handleDateClick = () => {
-    // TODO
+    router.push("/in-development") // TODO
   };
 
   return (
@@ -36,7 +36,6 @@ export default function DownHeader() {
       <NavButton text="Pedir Cita" onClick={handleDateClick} />
       <div className="block 2xl:hidden">
         <ThemeToggle />
-
       </div>
     </div>
   );
