@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import SmallButton from "../../components/buttons/smallButton";
 import { useRouter } from "next/navigation";

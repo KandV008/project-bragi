@@ -1,12 +1,17 @@
+'use client';
+
 import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 
 interface SummaryProps {
   products: ProductDTO[];
 }
 
 export default function Summary({ products }: SummaryProps) {
+  const router = useRouter()
+
   const totalPrice = products.reduce(
     (total, product) => total + product.price * product.quantity,
     0
@@ -58,6 +63,7 @@ export default function Summary({ products }: SummaryProps) {
             text={"Comprar"}
             subtext={"Empezar compra"}
             type={"default"}
+            onClick={() => {router.push("/in-development")}}
           />{" "}
           {/* TODO Add speacial type */}
         </div>
