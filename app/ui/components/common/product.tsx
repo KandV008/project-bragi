@@ -53,7 +53,7 @@ export default function Product({
       <section className="flex flex-row flex-wrap justify-center gap-3 md:gap-2 xl:gap-1">
         <Link
           href={`/search/about/${id}`}
-          className="flex flex-row items-center justify-center md:justify-between md:px-2
+          className="flex flex-row items-center justify-center md:justify-around md:px-2
           rounded-2xl  
           bg-emerald-900 text-emerald-100
           dark:bg-emerald-100 dark:text-emerald-800
@@ -66,7 +66,7 @@ export default function Product({
           <span className="hidden xl:block text-sm font-black">
             Ver producto
           </span>
-          <span className="hidden md:block xl:hidden text-sm font-black ">
+          <span className="hidden md:block xl:hidden text-xs font-black">
             Ver más
           </span>
         </Link>

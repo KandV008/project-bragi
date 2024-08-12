@@ -20,7 +20,7 @@ export default function SearchBar({ isCompress }: SearchBarProps) {
 
   return (
       <form action={activeSearch} className="relative text-emerald-900 dark:text-emerald-100">
-        <div className="absolute inset-y-0 flex pointer-events-none left-5">
+        <div className="absolute inset-y-5 flex pointer-events-none left-5">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </div>
         <input
