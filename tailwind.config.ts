@@ -9,13 +9,6 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
-      /*
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-      */
       colors: {
         primary0: '#A2D9CE',
         primary1: '#138D75',
@@ -23,6 +16,15 @@ const config: Config = {
         secondary0: '#D7BDE2',
         secondary1: '#9B59B6',
         secondary2: '#512E5F',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 2s infinite',
       },
     },
   },
