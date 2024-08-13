@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ProductColor } from "@/app/model/entities/Product";
 import { addProductToShoppingList } from "@/db/action";
@@ -27,6 +27,18 @@ export default function ProductOptions({
   include,
 }: ProductOptionsProps) {
   const { user } = useUser();
+
+  const [isFavorite, setIsFavorite] = useState(false);
+  useEffect(() => {
+    if (id && user) {
+      fetch(`/api/checkFavorite?productId=${id}&userId=${user.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setIsFavorite(data);
+        })
+        .catch((error) => console.error("Error fetching product:", error));
+    }
+  }, [id, user]);
 
   const [imgIndex, setImgIndex] = useState(0);
   const getColorButtonClasses = (buttonName: number) => {
@@ -106,7 +118,7 @@ export default function ProductOptions({
             {name}
           </h1>
           <div className=" block xl:hidden">
-            <FavoriteToggleButton productId={id} />
+            <FavoriteToggleButton productId={id} isActive={isFavorite} /> 
           </div>
         </div>
         {/* Brand */}
@@ -234,7 +246,7 @@ export default function ProductOptions({
             </form>
           )}
           <div className="hidden xl:block">
-            <FavoriteToggleButton productId={id} />
+            <FavoriteToggleButton productId={id} isActive={isFavorite}/>
           </div>
         </section>
       </article>

@@ -2,12 +2,11 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
- 
+
 export async function checkFavorite(userId: string | null, productId: string | null){
     if (!userId || !productId){
         return;
     }
-    
     const client = await sql.connect()
 
     const result = await client.query(
@@ -17,6 +16,34 @@ export async function checkFavorite(userId: string | null, productId: string | n
 
     return result.rows[0].count != 0
 }
+ 
+export async function checkFavoriteList(userId: string | null, productIds: string[] | undefined) {
+    if (!userId || !productIds || productIds.length === 0) {
+        return [];
+    }
+    
+    const client = await sql.connect();
+
+    try {
+        const query = `
+            SELECT product_id, COUNT(*) AS count
+            FROM favourites
+            WHERE product_id = ANY($1::text[]) AND user_id = $2
+            GROUP BY product_id
+        `;
+
+        const result = await client.query(query, [productIds, userId]);
+        const favoritesMap = new Map(result.rows.map(row => [row.product_id, row.count > 0]));
+
+        return productIds.map(productId => favoritesMap.get(productId) || false);
+    } catch (error) {
+        console.error("Error checking favorites:", error);
+        return []; 
+    } finally {
+        client.release();
+    }
+}
+
 
 export async function toggleFavorites(formData: FormData){
     const { userId } = auth();

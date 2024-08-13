@@ -9,7 +9,10 @@ export default async function Page() {
   return (
     <section>
       <SectionHeader text="Lista de Favoritos" />
-      <ProductContainer products={favoriteProducts} />
+      <ProductContainer
+        products={favoriteProducts}
+        showMoreButton={false}
+      />
     </section>
   );
 }

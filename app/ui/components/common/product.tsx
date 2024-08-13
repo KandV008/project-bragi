@@ -12,6 +12,7 @@ interface ProductProps {
   name: string;
   brand: string;
   price: string;
+  isFavorite: boolean;
 }
 
 export default function Product({
@@ -20,6 +21,7 @@ export default function Product({
   name,
   brand,
   price,
+  isFavorite,
 }: ProductProps) {  
   return (
     <article
@@ -30,6 +32,7 @@ export default function Product({
     rounded rounded-tr-3xl 
     md:w-48 xl:w-64 h-fit"
     >
+      {/* Display */}
       <section className="flex flex-col items-center justify-between gap-3">
         <Image
           src={image}
@@ -50,6 +53,7 @@ export default function Product({
           </span>
         </div>
       </section>
+      {/* Buttons */}
       <section className="flex flex-row flex-wrap justify-center gap-3 md:gap-2 xl:gap-1">
         <Link
           href={`/search/about/${id}`}
@@ -70,7 +74,7 @@ export default function Product({
             Ver más
           </span>
         </Link>
-        <FavoriteToggleButton productId={id} />
+        <FavoriteToggleButton productId={id} isActive={isFavorite}/>
       </section>
     </article>
   );
