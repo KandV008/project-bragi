@@ -11,8 +11,10 @@ export default function Page() {
   const searchParams = useSearchParams();
   const [startIndex, setStartIndex] = useState<number>(0);
   const [endIndex, setEndIndex] = useState<number>(9);
-  const increment = 10
-  const [productCategory, setProductCategory] = useState<string | undefined>(undefined);
+  const increment = 10;
+  const [productCategory, setProductCategory] = useState<string | undefined>(
+    undefined
+  );
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -25,7 +27,9 @@ export default function Page() {
 
   useEffect(() => {
     if (productCategory) {
-      fetch(`/api/getProductsByCategory?category=${productCategory}&start=${startIndex}&end=${endIndex}`)
+      fetch(
+        `/api/getProductsByCategory?category=${productCategory}&start=${startIndex}&end=${endIndex}`
+      )
         .then((response) => response.json())
         .then((data) => {
           setProduct((prev) => prev.concat(data));
@@ -50,7 +54,9 @@ export default function Page() {
 
   return (
     <div className="flex flex-row w-full justify-between">
-      <Filter onChange={filterAction} />
+      <div className="shrink-0">
+        <Filter onChange={filterAction} products={products} />
+      </div>
       <div className="md:size-fit lg:px-12">
         <ProductContainer
           products={products}
