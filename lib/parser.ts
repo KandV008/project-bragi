@@ -1,15 +1,12 @@
-'use server';
-
-export function parseProductCategory(category: string | null): string {
-    if (!category) {
-        console.log("ERROR: CATEGORY is null or empty")
-        console.log("CATEGORY VALUE:", category)
-        throw new Error("Category is null or empty");
+export function parseString(value: string | null | undefined, attribute: string) {
+    if (!value) {
+        console.log("ERROR:", attribute, "is not valid");
+        console.log(attribute, "VALUE:", value)
+        throw new Error(`${attribute} is not valid. Value -> ${value}`)
     }
 
-    return category
+    return value
 }
-
 export function parseStartAndEndIndex(start: string | null, end: string | null) {
     let startIndex, endIndex
 
@@ -33,17 +30,7 @@ export function parseStartAndEndIndex(start: string | null, end: string | null) 
     return { startIndex, endIndex }
 }
 
-export function parseBrand(brand: string | null) {
-    if (!brand) {
-        console.log("ERROR: BRAND is null or empty")
-        console.log("BRAND VALUE:", brand)
-        throw new Error("Brand is null or empty");
-    }
-
-    return brand
-}
-
-export function parsePrice(price: string | null) {
+export function parsePrice(price: string | null | undefined) {
     if (!price || !(isNaN(parseFloat(price)))) {
         console.log("ERROR: PRICE is null or not valid number")
         console.log("PRICE VALUE:", price)
@@ -53,22 +40,34 @@ export function parsePrice(price: string | null) {
     return parseFloat(price)
 }
 
-export function parseProductId(id: string | null) {
-    if (!id) {
-        console.log("ERROR: ID is null or empty")
-        console.log("ID VALUE:", id)
-        throw new Error("Id is null or empty");
+export function parseProductIds(productIds: string[] | null | undefined) {
+    if (!productIds) {
+        console.log("ERROR: PRODUCT_IDS are null or empty");
+        console.log("PRODUCT_IDS VALUE:", productIds);
+        throw new Error("Product_Ids are null or empty");
     }
 
-    return id
+    return productIds
 }
 
-export function parseKeyword(keyword: string | null){
-    if (!keyword) {
-        console.log("ERROR: KEYWORD is null or empty");
-        console.log("KEYWORD VALUE:", keyword);
-        throw new Error("Keyword is null or empty");
-      }
+export function parseNewProductToShoppingList(formData: FormData) {
+    const productId = parseString(formData.get("id")?.toString(), "PRODUCT_ID");
+    const color = parseString(formData.get("color")?.toString(), "COLOR");
+    const earSide = parseString(formData.get("earSide")?.toString(), "EAR_SIDE");
+    const guarantee = parseString(formData.get("guarantee")?.toString(), "GUARANTEE");
+    const name = parseString(formData.get("name")?.toString(), "NAME");
+    const brand = parseString(formData.get("brand")?.toString(), "BRAND");
+    const price = parsePrice(formData.get("price")?.toString());
+    const imageURL = parseString(formData.get("imageURL")?.toString(), "IMAGE_URL")
 
-      return keyword
+    return { productId, color, earSide, guarantee, name, brand, price, imageURL }
+}
+
+export function parseUpdateOfShoppingList(formData: FormData) {
+    const productId = parseString(formData.get("id")?.toString(), "PRODUCT_ID");
+    const color = parseString(formData.get("color")?.toString(), "COLOR");
+    const earSide = parseString(formData.get("earSide")?.toString(), "EAR_SIDE");
+    const guarantee = parseString(formData.get("guarantee")?.toString(), "GUARANTEE");
+
+    return { productId, color, earSide, guarantee }
 }

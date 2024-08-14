@@ -1,7 +1,7 @@
 'use server';
 
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/Product";
-import { parseBrand, parsePrice, parseProductCategory, parseStartAndEndIndex, parseKeyword, parseProductId } from "@/lib/parser";
+import { parsePrice, parseStartAndEndIndex, parseString } from "@/lib/parser";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
 
 export async function getProductsByCategory(categoryToCheck: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
   const products: ProductEntity[] = [];
-  const checkedCategory = parseProductCategory(categoryToCheck)
+  const checkedCategory = parseString(categoryToCheck, "CATEGORY")
   const {startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
   try {
@@ -69,7 +69,7 @@ export async function getLatestNovelties(): Promise<ProductEntity[]> {
 
 export async function getRelatedProducts(brandToCheck: string | null, price: string | null): Promise<ProductEntity[] | null> {
   const products: ProductEntity[] = [];
-  const brandChecked = parseBrand(brandToCheck)
+  const brandChecked = parseString(brandToCheck, "BRAND")
   const parsedPrice = parsePrice(price)
 
   try {
@@ -104,7 +104,7 @@ export async function getRelatedProducts(brandToCheck: string | null, price: str
 }
 
 export async function getProduct(productIdToParse: string | null): Promise<ProductEntity | null> {
-  const parsedProductId = parseProductId(productIdToParse)
+  const parsedProductId = parseString(productIdToParse, "PRODUCT_ID")
 
   try {
     await client.connect();
@@ -151,7 +151,7 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
 
 export async function searchProducts(keywordToParse: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
   const products: ProductEntity[] = [];
-  const parsedKeyword = parseKeyword(keywordToParse)
+  const parsedKeyword = parseString(keywordToParse, "KEYWORD")
   const {startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
   try {
