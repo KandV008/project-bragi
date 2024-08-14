@@ -18,10 +18,8 @@ export default function LatestNovelties() {
   }, []);
 
   if (isLoading) return <LatestNoveltiesSkeleton />;
-
-  console.log(data);
-
   if (!data) return <p>No product data</p>; //TODO Add Message
+  
   return (
     <section className="flex flex-col jusify-center sm:justify-start">
       <SectionHeader text="Últimas novedades" />

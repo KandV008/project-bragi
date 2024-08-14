@@ -18,12 +18,28 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function getProductsByCategory(category: string | null): Promise<ProductEntity[] | null> {
+export async function getProductsByCategory(category: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
   let products: ProductEntity[] = [];
+  let startIndex, endIndex
 
-  if (category == null) {
-    console.log("ERROR: BRAND is null")
-    return null;
+  if (!category) {
+    console.log("ERROR: CATEGORY is null")
+    return products;
+  }
+
+  if(!start || !end){
+    console.log("START INDEX:", start, "-> Use default value")
+    startIndex = 0
+    console.log("END INDEX:", end, "-> Use default value")
+    endIndex = 9
+  } else {
+    startIndex = Number(start);
+    endIndex = Number(end);
+  
+    if (isNaN(startIndex) || isNaN(endIndex)) {
+      console.log("ERROR: START or END is not a valid number");
+      return products;
+    }
   }
 
   try {
@@ -32,15 +48,18 @@ export async function getProductsByCategory(category: string | null): Promise<Pr
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
 
-    const cursor = coll.find({ category: category });
-
+    const cursor = coll.find({ category: category })
+      .skip(startIndex)
+      .limit(endIndex - startIndex + 1);
+      
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
     });
-  } finally {
-    await client.close();
+  } catch (e){
+    console.log(e)
   }
 
+  console.log(products.map(product => product.id))
   return products;
 }
 
@@ -62,6 +81,7 @@ export async function getLatestNovelties(): Promise<ProductEntity[]> {
     await client.close();
   }
 
+  console.log(products.map(product => product.id))
   return products;
 }
 
@@ -108,6 +128,7 @@ export async function getRelatedProducts(brand: string | null, price: string | n
     await client.close();
   }
 
+  console.log(products.map(product => product.id))
   return products;
 }
 
@@ -131,6 +152,7 @@ export async function getProduct(id: string | null): Promise<ProductEntity | nul
       return null;
     }
 
+    console.log(product)
     return mapDocumentToProduct(product)
   } finally {
     ;
@@ -159,14 +181,30 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
   return products
 }
 
-export async function searchProducts(keyword: string | null): Promise<ProductEntity[]> {
+export async function searchProducts(keyword: string | null,start: string | null, end: string | null): Promise<ProductEntity[]> {
   console.log("KEYWORD: " + keyword);
 
   let products: ProductEntity[] = [];
+  let startIndex, endIndex
 
   if (!keyword) {
     console.log("ERROR: Keyword is null or empty");
     return products;
+  }
+
+  if(!start || !end){
+    console.log("START INDEX:", start, "-> Use default value")
+    startIndex = 0
+    console.log("END INDEX:", end, "-> Use default value")
+    endIndex = 9
+  } else {
+    startIndex = Number(start);
+    endIndex = Number(end);
+  
+    if (isNaN(startIndex) || isNaN(endIndex)) {
+      console.log("ERROR: START or END is not a valid number");
+      return [];
+    }
   }
 
   try {
@@ -180,7 +218,9 @@ export async function searchProducts(keyword: string | null): Promise<ProductEnt
         { name: { $regex: keyword, $options: "i" } },
         { description: { $regex: keyword, $options: "i" } }
       ]
-    });
+    })
+    .skip(startIndex)
+    .limit(endIndex - startIndex + 1);;
 
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
@@ -189,6 +229,6 @@ export async function searchProducts(keyword: string | null): Promise<ProductEnt
     await client.close();
   }
 
-  console.log(products)
+  console.log(products.map(product => product.id))
   return products;
 }

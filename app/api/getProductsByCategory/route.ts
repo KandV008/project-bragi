@@ -4,9 +4,11 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category');
+  const startIndex = searchParams.get('start');
+  const endIndex = searchParams.get('end');
 
   try {
-    const products = await getProductsByCategory(category);
+    const products = await getProductsByCategory(category, startIndex, endIndex);
 
     if (!products) {
       return NextResponse.json({ message: 'Products not found' }, { status: 404 });
