@@ -43,7 +43,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-row w-full justify-between">
-      <Filter onChange={filterAction} />
+      <Filter onChange={filterAction} products={products} />
       <div className="md:size-fit lg:px-12">
         <ProductContainer
           products={products}

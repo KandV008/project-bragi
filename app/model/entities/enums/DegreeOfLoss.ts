@@ -30,7 +30,7 @@ export function checkDegreeOfLossType(
     };
 
     products.forEach((product) => {
-        const type = product.adaptation_range;
+        const type = product.adaptationRange;
         Object.values(counts).forEach((x) => {
             if (type === x.type) x.quantity += 1;
         });

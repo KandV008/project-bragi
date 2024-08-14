@@ -19,11 +19,11 @@ export default function AboutProduct({ product }: AboutProductProps){
             />
             <ProductDetails 
                 description={product.description}
-                adaptationRange={product.adaptation_range}
-                dustWaterResistance={product.dust_water_resistance}
+                adaptationRange={product.adaptationRange}
+                dustWaterResistance={product.waterDustResistance}
                 location={product.location}
-                levelOfDiscretion={product.level_of_discretion}
-                degreeOfLoss={product.degree_of_loss}
+                levelOfDiscretion={product.levelOfDiscretion}
+                degreeOfLoss={product.degreeOfLoss}
                 uses={product.uses}
             />
         </section>

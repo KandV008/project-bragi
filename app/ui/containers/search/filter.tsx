@@ -21,19 +21,19 @@ const degreeOfLossType = "degree_of_loss";
 
 const filters = {
   adaptationRangeType: (value: string) => (product: ProductEntity) =>
-    value === product.adaptation_range,
+    value === product.adaptationRange,
   waterDustResistanceType: (value: string) => (product: ProductEntity) =>
     value === "Sí"
-      ? true === product.dust_water_resistance
-      : false === product.dust_water_resistance,
+      ? true === product.waterDustResistance
+      : false === product.waterDustResistance,
   brandType: (value: string) => (product: ProductEntity) =>
     value === product.brand,
   earLocationType: (value: string) => (product: ProductEntity) =>
     value === product.location,
   levelOfDiscretionType: (value: string) => (product: ProductEntity) =>
-    value === product.level_of_discretion,
+    value === product.levelOfDiscretion,
   degreeOfLossType: (value: string) => (product: ProductEntity) =>
-    value === product.degree_of_loss,
+    value === product.degreeOfLoss,
 };
 
 export default function Filter({ onChange, products }: FilterProps) {
@@ -250,7 +250,7 @@ function checkWaterAndDustResistanceType(products: ProductEntity[]) {
   };
 
   products.forEach((product) => {
-    if (product.dust_water_resistance) counts.YES.quantity += 1;
+    if (product.waterDustResistance) counts.YES.quantity += 1;
     else counts.NO.quantity += 1;
   });
 

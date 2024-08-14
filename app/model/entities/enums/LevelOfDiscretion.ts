@@ -27,7 +27,7 @@ export function checkLevelOfDiscretionType(
     };
 
     products.forEach((product) => {
-        const type = product.level_of_discretion;
+        const type = product.levelOfDiscretion;
         Object.values(counts).forEach((x) => {
             if (type === x.type) x.quantity += 1;
         });

@@ -15,12 +15,12 @@ export interface ProductEntity {
     description: string;
     colors: ProductColor[];
     include: string[];
-    adaptation_range: AdaptationRange;
-    dust_water_resistance: boolean;
+    adaptationRange: AdaptationRange;
+    waterDustResistance: boolean;
     brand: Brand;
     location: EarLocation;
-    level_of_discretion: LevelOfDiscretion;
-    degree_of_loss: DegreeOfLoss;
+    levelOfDiscretion: LevelOfDiscretion;
+    degreeOfLoss: DegreeOfLoss;
     uses: UseDefinition[];
 }
 
@@ -36,12 +36,12 @@ export function mapDocumentToProduct(product: any): ProductEntity {
             images: color.images,
         })),
         include: product.include,
-        adaptation_range: AdaptationRange[product.adaptation_range as keyof typeof AdaptationRange],
-        dust_water_resistance: product.dust_water_resistance,
+        adaptationRange: AdaptationRange[product.adaptation_range as keyof typeof AdaptationRange],
+        waterDustResistance: product.dust_water_resistance,
         brand: Brand[product.brand as keyof typeof Brand],
         location: EarLocation[product.location as keyof typeof EarLocation],
-        level_of_discretion: LevelOfDiscretion[product.level_of_discretion as keyof typeof LevelOfDiscretion],
-        degree_of_loss: DegreeOfLoss[product.degree_of_loss as keyof typeof DegreeOfLoss],
+        levelOfDiscretion: LevelOfDiscretion[product.level_of_discretion as keyof typeof LevelOfDiscretion],
+        degreeOfLoss: DegreeOfLoss[product.degree_of_loss as keyof typeof DegreeOfLoss],
         uses: product.uses.map((use: string) => Uses[use as keyof typeof Uses] as UseDefinition),
     };
 }

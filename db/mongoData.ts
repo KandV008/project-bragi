@@ -1,6 +1,7 @@
 'use server';
 
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/Product";
+import { parseBrand, parsePrice, parseProductCategory, parseStartAndEndIndex, parseKeyword, parseProductId } from "@/lib/parser";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -18,29 +19,10 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function getProductsByCategory(category: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
-  let products: ProductEntity[] = [];
-  let startIndex, endIndex
-
-  if (!category) {
-    console.log("ERROR: CATEGORY is null")
-    return products;
-  }
-
-  if(!start || !end){
-    console.log("START INDEX:", start, "-> Use default value")
-    startIndex = 0
-    console.log("END INDEX:", end, "-> Use default value")
-    endIndex = 9
-  } else {
-    startIndex = Number(start);
-    endIndex = Number(end);
-  
-    if (isNaN(startIndex) || isNaN(endIndex)) {
-      console.log("ERROR: START or END is not a valid number");
-      return products;
-    }
-  }
+export async function getProductsByCategory(categoryToCheck: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
+  const products: ProductEntity[] = [];
+  const checkedCategory = parseProductCategory(categoryToCheck)
+  const {startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
   try {
     await client.connect();
@@ -48,7 +30,7 @@ export async function getProductsByCategory(category: string | null, start: stri
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
 
-    const cursor = coll.find({ category: category })
+    const cursor = coll.find({ category: checkedCategory })
       .skip(startIndex)
       .limit(endIndex - startIndex + 1);
       
@@ -64,7 +46,7 @@ export async function getProductsByCategory(category: string | null, start: stri
 }
 
 export async function getLatestNovelties(): Promise<ProductEntity[]> {
-  let products: ProductEntity[] = [];
+  const products: ProductEntity[] = [];
 
   try {
     await client.connect();
@@ -85,21 +67,10 @@ export async function getLatestNovelties(): Promise<ProductEntity[]> {
   return products;
 }
 
-export async function getRelatedProducts(brand: string | null, price: string | null): Promise<ProductEntity[] | null> {
-  let products: ProductEntity[] = [];
-  let parsedPrice: number
-
-  if (brand == null) {
-    console.log("ERROR: BRAND is null")
-    return null;
-  }
-
-  if (price == null || !(isNaN(parseFloat(price)))) {
-    console.log("ERROR: PRICE is null")
-    return null;
-  }
-
-  parsedPrice = parseFloat(price)
+export async function getRelatedProducts(brandToCheck: string | null, price: string | null): Promise<ProductEntity[] | null> {
+  const products: ProductEntity[] = [];
+  const brandChecked = parseBrand(brandToCheck)
+  const parsedPrice = parsePrice(price)
 
   try {
     await client.connect();
@@ -111,7 +82,7 @@ export async function getRelatedProducts(brand: string | null, price: string | n
       {
         $match: {
           $or: [
-            { brand: { $eq: brand } },
+            { brand: { $eq: brandChecked } },
             { price: { $gte: (parsedPrice - 200), $lte: (parsedPrice + 200) } }
           ]
         }
@@ -132,11 +103,8 @@ export async function getRelatedProducts(brand: string | null, price: string | n
   return products;
 }
 
-export async function getProduct(id: string | null): Promise<ProductEntity | null> {
-  if (id == null) {
-    console.log("ERROR: ID is null")
-    return null;
-  }
+export async function getProduct(productIdToParse: string | null): Promise<ProductEntity | null> {
+  const parsedProductId = parseProductId(productIdToParse)
 
   try {
     await client.connect();
@@ -144,7 +112,7 @@ export async function getProduct(id: string | null): Promise<ProductEntity | nul
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
 
-    const objectId = new ObjectId(id);
+    const objectId = new ObjectId(parsedProductId);
     const product = await coll.findOne({ _id: objectId });
 
     if (!product) {
@@ -160,7 +128,7 @@ export async function getProduct(id: string | null): Promise<ProductEntity | nul
 }
 
 export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> {
-  let products: ProductEntity[] = [];
+  const products: ProductEntity[] = [];
   const objectIds = ids.map(id => new ObjectId(id));
 
   try {
@@ -181,31 +149,10 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
   return products
 }
 
-export async function searchProducts(keyword: string | null,start: string | null, end: string | null): Promise<ProductEntity[]> {
-  console.log("KEYWORD: " + keyword);
-
-  let products: ProductEntity[] = [];
-  let startIndex, endIndex
-
-  if (!keyword) {
-    console.log("ERROR: Keyword is null or empty");
-    return products;
-  }
-
-  if(!start || !end){
-    console.log("START INDEX:", start, "-> Use default value")
-    startIndex = 0
-    console.log("END INDEX:", end, "-> Use default value")
-    endIndex = 9
-  } else {
-    startIndex = Number(start);
-    endIndex = Number(end);
-  
-    if (isNaN(startIndex) || isNaN(endIndex)) {
-      console.log("ERROR: START or END is not a valid number");
-      return [];
-    }
-  }
+export async function searchProducts(keywordToParse: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
+  const products: ProductEntity[] = [];
+  const parsedKeyword = parseKeyword(keywordToParse)
+  const {startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
   try {
     await client.connect();
@@ -215,8 +162,8 @@ export async function searchProducts(keyword: string | null,start: string | null
 
     const cursor = coll.find({
       $or: [
-        { name: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } }
+        { name: { $regex: parsedKeyword, $options: "i" } },
+        { description: { $regex: parsedKeyword, $options: "i" } }
       ]
     })
     .skip(startIndex)
