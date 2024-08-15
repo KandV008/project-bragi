@@ -1,10 +1,35 @@
 import { ProductEntity } from "../Product";
 
+const RETROAURICULAR_VALUE = "Retroauricular - detrás de la oreja"
+const INTRACANAL_VALUE = "Intracanal - dentro del canal auditivo"
+const CIC_VALUE = "CIC - completamente en el canal auditivo"
+const RIC_VALUE = "RIC - auricular dentro del conducto auditivo"
+
 export enum EarLocation {
-    RETROAURICULAR = "Retroauricular - detrás de la oreja",
-    INTRACANAL = "Intracanal - dentro del canal auditivo",
-    CIC = "CIC - completamente en el canal auditivo",
-    RIC = "RIC - auricular dentro del conducto auditivo",
+    RETROAURICULAR = RETROAURICULAR_VALUE,
+    INTRACANAL = INTRACANAL_VALUE,
+    CIC = CIC_VALUE,
+    RIC = RIC_VALUE,
+}
+
+export function valueOfEarLocation(value: string){
+    if (value === RETROAURICULAR_VALUE){
+        return "RETROAURICULAR"
+    }
+
+    if (value === INTRACANAL_VALUE){
+        return "INTRACANAL"
+    }
+
+    if (value === CIC_VALUE){
+        return "CIC"
+    }
+
+    if (value === RIC_VALUE){
+        return "RIC"
+    }
+
+    throw Error("Value not valid")
 }
 
 export interface EarLocationQuantity {

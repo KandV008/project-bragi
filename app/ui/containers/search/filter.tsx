@@ -1,14 +1,27 @@
-import { checkAdaptationRangeType } from "@/app/model/entities/enums/AdaptionRange";
+import {
+  checkAdaptationRangeType,
+  valueOfAdaptationRange,
+} from "@/app/model/entities/enums/AdaptionRange";
 import { checkBrandType } from "@/app/model/entities/enums/Brand";
-import { checkDegreeOfLossType } from "@/app/model/entities/enums/DegreeOfLoss";
-import { checkEarLocationType } from "@/app/model/entities/enums/EarLocation";
-import { checkLevelOfDiscretionType } from "@/app/model/entities/enums/LevelOfDiscretion";
+import {
+  checkDegreeOfLossType,
+  valueOfDegreeOfLoss,
+} from "@/app/model/entities/enums/DegreeOfLoss";
+import {
+  checkEarLocationType,
+  valueOfEarLocation,
+} from "@/app/model/entities/enums/EarLocation";
+import {
+  checkLevelOfDiscretionType,
+  valueOfLevelOfDiscretion,
+} from "@/app/model/entities/enums/LevelOfDiscretion";
 import { ProductEntity } from "@/app/model/entities/Product";
 import { ChangeEvent } from "react";
 import SectionHeader from "../../components/common/sectionHeader";
+import RadioInputList from "../../components/inputs/radioInputList";
 
 interface FilterProps {
-  onChange: (filter: (product: ProductEntity) => boolean) => void;
+  onChange: (filter: string) => void;
   products: ProductEntity[];
 }
 
@@ -19,53 +32,12 @@ const earLocationType = "location";
 const levelOfDiscretionType = "level_of_discretion";
 const degreeOfLossType = "degree_of_loss";
 
-const filters = {
-  adaptationRangeType: (value: string) => (product: ProductEntity) =>
-    value === product.adaptationRange,
-  waterDustResistanceType: (value: string) => (product: ProductEntity) =>
-    value === "Sí"
-      ? true === product.waterDustResistance
-      : false === product.waterDustResistance,
-  brandType: (value: string) => (product: ProductEntity) =>
-    value === product.brand,
-  earLocationType: (value: string) => (product: ProductEntity) =>
-    value === product.location,
-  levelOfDiscretionType: (value: string) => (product: ProductEntity) =>
-    value === product.levelOfDiscretion,
-  degreeOfLossType: (value: string) => (product: ProductEntity) =>
-    value === product.degreeOfLoss,
-};
-
 export default function Filter({ onChange, products }: FilterProps) {
   const filterSelected =
     (type: string) => (event: ChangeEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement).value;
-      console.log(type, value);
-      let filter: (product: ProductEntity) => boolean = () => true;
-
-      if (type === adaptationRangeType) {
-        filter = filters.adaptationRangeType(value);
-      }
-
-      if (type === waterDustResistanceType) {
-        filter = filters.waterDustResistanceType(value);
-      }
-
-      if (type === brandType) {
-        filter = filters.brandType(value);
-      }
-
-      if (type === earLocationType) {
-        filter = filters.earLocationType(value);
-      }
-
-      if (type === levelOfDiscretionType) {
-        filter = filters.levelOfDiscretionType(value);
-      }
-
-      if (type === degreeOfLossType) {
-        filter = filters.degreeOfLossType(value);
-      }
+      const filter = `${type}:${value}`;
+      console.log("SELECTED FILTER:", filter);
 
       onChange(filter);
     };
@@ -81,31 +53,15 @@ export default function Filter({ onChange, products }: FilterProps) {
       {/* Adaptation Range */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Rango de Adaptación</h1>
-        <form action="" className="px-3">
-          {Object.values(checkAdaptationRangeType(products)).map(
-            (adaptationRange, index) =>
-              adaptationRange.quantity !== 0 ? (
-                <div key={adaptationRange}>
-                  <input
-                    type="radio"
-                    id={"range-" + index}
-                    name="adaptationRange"
-                    value={adaptationRange.type}
-                    onChange={filterSelected(adaptationRangeType)}
-                  />
-                  <label htmlFor={"range-" + index}>
-                    {" "}
-                    {adaptationRange.type} ( {adaptationRange.quantity} )
-                  </label>
-                  <br></br>
-                </div>
-              ) : (
-                <></>
-              )
-          )}
-        </form>
+        <RadioInputList
+          name={adaptationRangeType}
+          list={Object.values(checkAdaptationRangeType(products))}
+          valueOf={valueOfAdaptationRange}
+          type={adaptationRangeType}
+          onChange={filterSelected}
+        />
       </article>
-      {/* Water Dust Resistance */}
+      {/* Water Dust Resistance */} {/* TODO Convert to have a generic one */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
         <form action="" className="px-3">
@@ -117,7 +73,7 @@ export default function Filter({ onChange, products }: FilterProps) {
                     type="radio"
                     id={"waterDustResistance-" + index}
                     name="waterDustResistance"
-                    value={resistance.type}
+                    value={resistance.value}
                     onChange={filterSelected(waterDustResistanceType)}
                   />
                   <label htmlFor={"waterDustResistance-" + index}>
@@ -135,109 +91,46 @@ export default function Filter({ onChange, products }: FilterProps) {
       {/* Brand */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Marca</h1>
-        <form action="" className="px-3">
-          {Object.values(checkBrandType(products)).map((brand, index) =>
-            brand.quantity !== 0 ? (
-              <div key={brand.type}>
-                <input
-                  type="radio"
-                  id={"brand-" + index}
-                  name="brand"
-                  value={brand.type}
-                  onChange={filterSelected(brandType)}
-                />
-                <label htmlFor={"brand-" + index}>
-                  {" "}
-                  {brand.type} ( {brand.quantity} )
-                </label>
-                <br></br>
-              </div>
-            ) : (
-              <></>
-            )
-          )}
-        </form>
+        <RadioInputList
+          name={brandType}
+          list={Object.values(checkBrandType(products))}
+          valueOf={(x) => x}
+          type={brandType}
+          onChange={filterSelected}
+        />
       </article>
       {/* Ear Location */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Ubicación</h1>
-        <form action="" className="px-3">
-          {Object.values(checkEarLocationType(products)).map(
-            (location, index) =>
-              location.quantity !== 0 ? (
-                <div key={location.type}>
-                  <input
-                    type="radio"
-                    id={"earLocation-" + index}
-                    name="earLocation"
-                    value={location.type}
-                    onChange={filterSelected(earLocationType)}
-                  />
-                  <label htmlFor={"earLocation-" + index}>
-                    {" "}
-                    {location.type} ( {location.quantity} )
-                  </label>
-                  <br></br>
-                </div>
-              ) : (
-                <></>
-              )
-          )}
-        </form>
+        <RadioInputList
+          name={earLocationType}
+          list={Object.values(checkEarLocationType(products))}
+          valueOf={valueOfEarLocation}
+          type={earLocationType}
+          onChange={filterSelected}
+        />
       </article>
       {/* Level of Discretion */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Nivel de discrección</h1>
-        <form action="" className="px-3">
-          {Object.values(checkLevelOfDiscretionType(products)).map(
-            (levelOfDiscretion, index) =>
-              levelOfDiscretion.quantity !== 0 ? (
-                <div key={levelOfDiscretion.type}>
-                  <input
-                    type="radio"
-                    id={"levelOfDiscretion-" + index}
-                    name="levelOfDiscretion"
-                    value={levelOfDiscretion.type}
-                    onChange={filterSelected(levelOfDiscretionType)}
-                  />
-                  <label htmlFor={"levelOfDiscretion-" + index}>
-                    {" "}
-                    {levelOfDiscretion.type} ( {levelOfDiscretion.quantity} )
-                  </label>
-                  <br></br>
-                </div>
-              ) : (
-                <></>
-              )
-          )}
-        </form>
+        <RadioInputList
+          name={levelOfDiscretionType}
+          list={Object.values(checkLevelOfDiscretionType(products))}
+          valueOf={valueOfLevelOfDiscretion}
+          type={levelOfDiscretionType}
+          onChange={filterSelected}
+        />
       </article>
       {/* Degree Of Loss */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Grado de perdida</h1>
-        <form action="" className="px-3">
-          {Object.values(checkDegreeOfLossType(products)).map(
-            (degreeOfLoss, index) =>
-              degreeOfLoss.quantity !== 0 ? (
-                <div key={degreeOfLoss.type}>
-                  <input
-                    type="radio"
-                    id={"degreeOfLoss-" + index}
-                    name="degreeOfLoss"
-                    value={degreeOfLoss.type}
-                    onChange={filterSelected(degreeOfLossType)}
-                  />
-                  <label htmlFor={"degreeOfLoss-" + index}>
-                    {" "}
-                    {degreeOfLoss.type} ( {degreeOfLoss.quantity} )
-                  </label>
-                  <br></br>
-                </div>
-              ) : (
-                <></>
-              )
-          )}
-        </form>
+        <RadioInputList
+          name={degreeOfLossType}
+          list={Object.values(checkDegreeOfLossType(products))}
+          valueOf={valueOfDegreeOfLoss}
+          type={degreeOfLossType}
+          onChange={filterSelected}
+        />
       </article>
     </section>
   );
@@ -245,8 +138,8 @@ export default function Filter({ onChange, products }: FilterProps) {
 
 function checkWaterAndDustResistanceType(products: ProductEntity[]) {
   const counts = {
-    YES: { quantity: 0, type: "Sí" },
-    NO: { quantity: 0, type: "No" },
+    YES: { quantity: 0, type: "Sí", value: "true" },
+    NO: { quantity: 0, type: "No", value: "false" },
   };
 
   products.forEach((product) => {

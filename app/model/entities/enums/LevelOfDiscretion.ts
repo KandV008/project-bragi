@@ -1,15 +1,35 @@
 import { ProductEntity } from "../Product";
 
+const VISIBLE_VALUE = "Visible"
+const DISCREET_VALUE = "Discreto"
+const IMPERCEPTIBLE_VALUE = "Imperceptible"
+
 export enum LevelOfDiscretion {
-    VISIBLE = "Visible",
-    DISCREET = "Discreto",
-    IMPERCEPTIBLE = "Imperceptible",
+    VISIBLE = VISIBLE_VALUE,
+    DISCREET = DISCREET_VALUE,
+    IMPERCEPTIBLE = IMPERCEPTIBLE_VALUE,
 }
 
 export interface LevelOfDiscretionQuantity {
     VISIBLE: LevelOfDiscretionQuantityProps,
     DISCREET: LevelOfDiscretionQuantityProps,
     IMPERCEPTIBLE: LevelOfDiscretionQuantityProps,
+}
+
+export function valueOfLevelOfDiscretion(value: string){
+    if (value === VISIBLE_VALUE){
+        return "VISIBLE"
+    }
+
+    if (value === DISCREET_VALUE){
+        return "DISCREET"
+    }
+
+    if (value === IMPERCEPTIBLE_VALUE){
+        return "IMPERCEPTIBLE"
+    }
+
+    throw Error("Value not valid")
 }
 
 interface LevelOfDiscretionQuantityProps {

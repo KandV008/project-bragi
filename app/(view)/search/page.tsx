@@ -15,6 +15,7 @@ export default function Page() {
   const [productCategory, setProductCategory] = useState<string | undefined>(
     undefined
   );
+  const [filters, setFilters] = useState<string[]>([]);
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -26,25 +27,47 @@ export default function Page() {
   }, [searchParams]);
 
   useEffect(() => {
+    const joinFilters = filters.join(",");
     if (productCategory) {
       fetch(
-        `/api/getProductsByCategory?category=${productCategory}&start=${startIndex}&end=${endIndex}`
+        `/api/getProductsByCategory?category=${productCategory}&start=${startIndex}&end=${endIndex}&filters=${joinFilters}`
       )
         .then((response) => response.json())
         .then((data) => {
-          setProduct((prev) => prev.concat(data));
+          if(startIndex === 0){
+            setProduct(data)
+          } else {
+            setProduct((prev) => prev.concat(data));
+          }
           setLoading(false);
         })
         .catch((error) => console.error("Error fetching product:", error));
     }
-  }, [endIndex, productCategory, startIndex]);
+  }, [endIndex, filters, productCategory, startIndex]);
 
   if (isLoading) return <Loading />;
   if (!products) return <p>No product data</p>; // TODO Add message
 
-  const filterAction = (filter: (product: ProductEntity) => boolean) => {
-    const filtered = products.filter(filter);
-    setProduct(filtered);
+  const filterAction = (filter: string) => {
+    setFilters((prev) => {
+      const index = prev.findIndex((value) =>
+        value.startsWith(filter.split(",")[0])
+      );
+
+      if (index === -1) {
+        return [...prev, filter];
+      } else if (prev[index] === filter) {
+        const newFilters = [...prev];
+        newFilters.splice(index, 1);
+        return newFilters;
+      } else {
+        const newFilters = [...prev];
+        newFilters[index] = filter;
+        return newFilters;
+      }
+    });
+    setStartIndex(0)
+    setEndIndex(9)
   };
 
   const addMoreProducts = () => {

@@ -6,9 +6,10 @@ export async function GET(request: Request) {
   const category = searchParams.get('category');
   const startIndex = searchParams.get('start');
   const endIndex = searchParams.get('end');
-
+  const filters = searchParams.get('filters');
+console.log(filters)
   try {
-    const products = await getProductsByCategory(category, startIndex, endIndex);
+    const products = await getProductsByCategory(category, startIndex, endIndex, filters);
 
     if (!products) {
       return NextResponse.json({ message: 'Products not found' }, { status: 404 });

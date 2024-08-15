@@ -7,6 +7,18 @@ export function parseString(value: string | null | undefined, attribute: string)
 
     return value
 }
+
+export function parseStringList(value: string | null | undefined, attribute: string) {
+    if (!value) {
+        console.log("WARNING:", attribute, "is not valid");
+        console.log(attribute, "VALUE:", value)
+        console.log("USE DEFAULT VALUE -> [ ]")
+        return []
+    }
+
+    return value.split(",")
+}
+
 export function parseStartAndEndIndex(start: string | null, end: string | null) {
     let startIndex, endIndex
 
@@ -71,3 +83,61 @@ export function parseUpdateOfShoppingList(formData: FormData) {
 
     return { productId, color, earSide, guarantee }
 }
+
+export function parseFilters(filters: string | null) {
+    const filtersList = parseStringList(filters, "FILTERS")
+    const convertedFilters = filtersList.map((filter: string) => {
+        const component = filter.split(":")
+        return convertToObject(component[0], component[1])
+    })
+
+    return convertedFilters.reduce((prev, current) => {
+        return { ...prev, ...current };
+    }, {});}
+
+const adaptationRangeType = "adaptation_range";
+const waterDustResistanceType = "dust_water_resistance";
+const brandType = "brand";
+const earLocationType = "location";
+const levelOfDiscretionType = "level_of_discretion";
+const degreeOfLossType = "degree_of_loss";
+
+const filterFunction = {
+    adaptationRangeType: (value: string) => ({ adaptation_range: value }),
+    waterDustResistanceType: (value: string) => ({ dust_water_resistance: "true" === value }),
+    brandType: (value: string) => ({ brand: value }),
+    earLocationType: (value: string) => ({ location: value }),
+    levelOfDiscretionType: (value: string) => ({ level_of_discretion: value }),
+    degreeOfLossType: (value: string) => ({ degree_of_loss: value }),
+};
+
+function convertToObject(type: string, value: string) {
+
+    if (type === adaptationRangeType) {
+        return filterFunction.adaptationRangeType(value);
+    }
+
+    if (type === waterDustResistanceType) {
+        return filterFunction.waterDustResistanceType(value);
+    }
+
+    if (type === brandType) {
+        return filterFunction.brandType(value);
+    }
+
+    if (type === earLocationType) {
+        return filterFunction.earLocationType(value);
+    }
+
+    if (type === levelOfDiscretionType) {
+        return filterFunction.levelOfDiscretionType(value);
+    }
+
+    if (type === degreeOfLossType) {
+        return filterFunction.degreeOfLossType(value);
+    }
+
+    throw Error("FILTER not valid")
+}
+
+

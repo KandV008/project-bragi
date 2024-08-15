@@ -1,7 +1,7 @@
 'use server';
 
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/Product";
-import { parsePrice, parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { parseFilters, parsePrice, parseStartAndEndIndex, parseString } from "@/lib/parser";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -19,10 +19,12 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function getProductsByCategory(categoryToCheck: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
+export async function getProductsByCategory(categoryToCheck: string | null, start: string | null, end: string | null, filters: string | null): Promise<ProductEntity[]> {
   const products: ProductEntity[] = [];
   const checkedCategory = parseString(categoryToCheck, "CATEGORY")
+  const categoryFilter = { category: checkedCategory }
   const {startIndex, endIndex } = parseStartAndEndIndex(start, end)
+  const parsedFilters = parseFilters(filters)
 
   try {
     await client.connect();
@@ -30,7 +32,7 @@ export async function getProductsByCategory(categoryToCheck: string | null, star
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
 
-    const cursor = coll.find({ category: checkedCategory })
+    const cursor = coll.find({ ...categoryFilter, ...parsedFilters })
       .skip(startIndex)
       .limit(endIndex - startIndex + 1);
       
