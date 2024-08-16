@@ -26,8 +26,10 @@ export default function TextInput({
         {label}
       </label>
       <article
-        className="bg-primary0 flex flex-row items-center justify-center cursor-pointer text-primary2 p-3
-                    gap-2 rounded-2xl border-2 border-primary2 h-16 w-full"
+        className="flex flex-row gap-2 items-center justify-center cursor-pointer p-3 h-16 w-full
+        bg-emerald-100 dark:bg-emerald-800 
+        text-emerald-900 dar:text-emerald-100
+        border-emerald-900 dark:border-emerald-100 border-2 rounded-2xl"
       >
         <div className="flex items-center align-bottom bg-transparent ">
           <FontAwesomeIcon icon={icon} className="size-6" />
