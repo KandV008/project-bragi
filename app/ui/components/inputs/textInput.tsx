@@ -2,18 +2,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 interface TextInputProps {
-  id: string;
-  type: "text" | "password";
+  name: string;
+  type: "text" | "password" | "number";
   placeholder: string;
   label: string;
   icon: IconDefinition;
 }
 
-export default function TextInput({ id, type, placeholder, label, icon }: TextInputProps) {
+export default function TextInput({
+  name,
+  type,
+  placeholder,
+  label,
+  icon,
+}: TextInputProps) {
   return (
     <section className="flex flex-col w-72">
       <label
-        htmlFor={id}
+        htmlFor={name}
         className="bg-transparent 
             w-3/4 md:w-9/12 font-extrabold text-lg cursor-pointer "
       >
@@ -28,12 +34,13 @@ export default function TextInput({ id, type, placeholder, label, icon }: TextIn
         </div>
         <input
           type={type}
-          id={id}
+          id={name}
+          name={name}
           className="w-full h-full text-black  text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
           autoComplete="off"
+          required
         />
-        
       </article>
     </section>
   );
