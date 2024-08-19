@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ProductColor } from "@/app/model/entities/Product";
 import { addProductToShoppingList } from "@/db/action";
 import FavoriteToggleButton from "@/app/ui/components/buttons/favoriteToggleButton";
+import SubmitButton from "@/app/ui/components/buttons/submitButton";
 
 interface ProductOptionsProps {
   id: string;
@@ -226,23 +226,7 @@ export default function ProductOptions({
                 name="imageURL"
                 value={colors[imgIndex].images[0]}
               />
-
-              <button
-                type="submit"
-                className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center rounded 
-                          bg-emerald-900 text-emerald-100
-                          dark:bg-emerald-100 dark:text-emerald-800
-                          hover:bg-emerald-700 hover:dark:bg-emerald-200"
-              >
-                <div className="flex flex-row place-self-center gap-3">
-                  <div className=" mr-0 md:mr-2 xl:mr-0">
-                    <FontAwesomeIcon icon={faCartShopping} className="" />
-                  </div>
-                  <span className="text-base font-black">
-                    Añadir a la cesta
-                  </span>
-                </div>
-              </button>
+              <SubmitButton text={"Añadir a la cesta"} icon={faCartShopping} />
             </form>
           )}
           <div className="hidden xl:block">
