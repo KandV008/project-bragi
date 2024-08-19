@@ -35,7 +35,7 @@ export default function RadioInput({
   };
 
   return (
-    <section className="flex flex-col w-72">
+    <section className="flex flex-col w-full">
       <label
         htmlFor={name}
         className="bg-transparent 
@@ -43,7 +43,7 @@ export default function RadioInput({
       >
         {label}
       </label>
-      <div className="flex flex-col gap-2 font-semibold">
+      <div className="flex flex-row flex-wrap gap-2 font-semibold">
       {list.map((element, index) => (
         <article
           key={element + "-" + index}

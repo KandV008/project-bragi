@@ -17,7 +17,7 @@ export default function TextInput({
   icon,
 }: TextInputProps) {
   return (
-    <section className="flex flex-col w-72">
+    <section className="flex flex-col w-full">
       <label
         htmlFor={name}
         className="bg-transparent 

@@ -17,7 +17,7 @@ export default function MiniTextInput({
   icon,
 }: TextInputProps) {
   return (
-    <section className="flex flex-row gap-2 w-fit">
+    <section className="flex flex-row gap-2 w-full">
       <label
         htmlFor={name}
         className="bg-transparent text-center self-center
@@ -42,7 +42,6 @@ export default function MiniTextInput({
           className="w-full h-full bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
           autoComplete="off"
-          required
         />
       </article>
     </section>

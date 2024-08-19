@@ -18,7 +18,7 @@ import {
 import { ProductEntity } from "@/app/model/entities/Product";
 import { ChangeEvent } from "react";
 import SectionHeader from "../../components/common/sectionHeader";
-import RadioInputList from "../../components/inputs/radioInputList";
+import RadioInputWithQuantity from "../../components/inputs/radioInputWithQuantity";
 
 interface FilterProps {
   onChange: (filter: string) => void;
@@ -53,7 +53,7 @@ export default function Filter({ onChange, products }: FilterProps) {
       {/* Adaptation Range */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Rango de Adaptación</h1>
-        <RadioInputList
+        <RadioInputWithQuantity
           name={adaptationRangeType}
           list={Object.values(checkAdaptationRangeType(products))}
           valueOf={valueOfAdaptationRange}
@@ -91,7 +91,7 @@ export default function Filter({ onChange, products }: FilterProps) {
       {/* Brand */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Marca</h1>
-        <RadioInputList
+        <RadioInputWithQuantity
           name={brandType}
           list={Object.values(checkBrandType(products))}
           valueOf={(x) => x}
@@ -102,7 +102,7 @@ export default function Filter({ onChange, products }: FilterProps) {
       {/* Ear Location */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Ubicación</h1>
-        <RadioInputList
+        <RadioInputWithQuantity
           name={earLocationType}
           list={Object.values(checkEarLocationType(products))}
           valueOf={valueOfEarLocation}
@@ -113,7 +113,7 @@ export default function Filter({ onChange, products }: FilterProps) {
       {/* Level of Discretion */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Nivel de discrección</h1>
-        <RadioInputList
+        <RadioInputWithQuantity
           name={levelOfDiscretionType}
           list={Object.values(checkLevelOfDiscretionType(products))}
           valueOf={valueOfLevelOfDiscretion}
@@ -124,7 +124,7 @@ export default function Filter({ onChange, products }: FilterProps) {
       {/* Degree Of Loss */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Grado de perdida</h1>
-        <RadioInputList
+        <RadioInputWithQuantity
           name={degreeOfLossType}
           list={Object.values(checkDegreeOfLossType(products))}
           valueOf={valueOfDegreeOfLoss}

@@ -4,6 +4,10 @@ const RETROAURICULAR_VALUE = "Retroauricular - detrás de la oreja"
 const INTRACANAL_VALUE = "Intracanal - dentro del canal auditivo"
 const CIC_VALUE = "CIC - completamente en el canal auditivo"
 const RIC_VALUE = "RIC - auricular dentro del conducto auditivo"
+const RETROAURICULAR_NAME = "RETROAURICULAR"
+const INTRACANAL_NAME = "INTRACANAL"
+const CIC_NAME = "CIC"
+const RIC_NAME = "RIC"
 
 export enum EarLocation {
     RETROAURICULAR = RETROAURICULAR_VALUE,
@@ -12,21 +16,28 @@ export enum EarLocation {
     RIC = RIC_VALUE,
 }
 
+export const earLocationList = [
+    RETROAURICULAR_NAME,
+    INTRACANAL_NAME,
+    CIC_NAME,
+    RIC_NAME,
+]
+
 export function valueOfEarLocation(value: string){
     if (value === RETROAURICULAR_VALUE){
-        return "RETROAURICULAR"
+        return RETROAURICULAR_NAME
     }
 
     if (value === INTRACANAL_VALUE){
-        return "INTRACANAL"
+        return INTRACANAL_NAME
     }
 
     if (value === CIC_VALUE){
-        return "CIC"
+        return CIC_NAME
     }
 
     if (value === RIC_VALUE){
-        return "RIC"
+        return RIC_NAME
     }
 
     throw Error("Value not valid")
