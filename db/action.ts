@@ -1,8 +1,9 @@
 'use server';
 
-import { parseProductIds, parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList } from "@/lib/parser";
+import { parseProductIds, parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList, parsePrice, parseUses, parseInclude, parseWaterDustResistance, parseColors } from "@/lib/parser";
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
+import { addNewProduct } from "./mongoData";
 
 export async function checkFavorite(userIdToParse: string | null, productIdToParse: string | null) {
     const productId = parseString(productIdToParse, "PRODUCT_ID")
@@ -151,4 +152,41 @@ export async function decrementProductInShoppingList(formData: FormData) {
         console.error('Error decrementing product in the shopping list:', error);
         throw error;
     }
+}
+
+export async function createProduct(formData: FormData) {
+    console.log(formData)
+    const newName = parseString(formData.get("name")?.toString(), "NAME")
+    const newCategory = parseString(formData.get("category")?.toString(), "CATEGORY")
+    const newBrand = parseString(formData.get("brand")?.toString(), "BRAND")
+    const newPrice = parsePrice(formData.get("price")?.toString())
+    const newDescription = parseString(formData.get("description")?.toString(), "DESCRIPTION")
+    const newColors = parseColors(formData)
+    const newInclude = parseInclude(formData)
+    const newAdaptationRange = parseString(formData.get("adaptation_range")?.toString(), "ADAPTATION_RANGE")
+    const newWaterDustResistance = parseWaterDustResistance(formData)
+    const newEarLocation = parseString(formData.get("ear_location")?.toString(), "EAR_LOCATION")
+    const newLevelOfDiscretion = parseString(formData.get("level_of_discretion")?.toString(), "LEVEL_OF_DISCRETION")
+    const newDegreeOfLoss = parseString(formData.get("degree_of_loss")?.toString(), "DEGREE_OF_LOSS")
+    const newUses = parseUses(formData)
+
+    const newProduct = {
+        name: newName,
+        category: newCategory,
+        price: newPrice,
+        description: newDescription,
+        colors: newColors,
+        include: newInclude,
+        adaptation_range: newAdaptationRange,
+        dust_water_resistance: newWaterDustResistance,
+        brand: newBrand,
+        location: newEarLocation,
+        level_of_discretion: newLevelOfDiscretion,
+        degree_of_loss: newDegreeOfLoss,
+        uses: newUses
+    }
+
+    addNewProduct(newProduct)
+        .then(() => console.log("Product added successfully"))
+        .catch(error => console.error("Error adding product:", error));
 }

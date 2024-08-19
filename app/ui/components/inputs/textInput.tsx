@@ -42,6 +42,7 @@ export default function TextInput({
           placeholder={placeholder}
           autoComplete="off"
           required
+          step="any"
         />
       </article>
     </section>

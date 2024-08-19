@@ -206,3 +206,24 @@ export async function searchProducts(keywordToParse: string | null, start: strin
   console.log(products.map(product => product.id))
   return products;
 }
+
+export async function addNewProduct(productData: any): Promise<void> {
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const result = await coll.insertOne(productData);
+
+    if (result.acknowledged) {
+      console.log(`Product added with ID: ${result.insertedId}`);
+    } else {
+      console.error("Failed to add product.");
+    }
+  } catch (error) {
+    console.error("Error adding product:", error);
+  } finally {
+    await client.close(); 
+  }
+}

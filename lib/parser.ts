@@ -1,3 +1,7 @@
+import { colorList } from "@/app/model/entities/enums/Color";
+import { usesList } from "@/app/model/entities/enums/Uses";
+import { ProductColor } from "@/app/model/entities/Product";
+
 export function parseString(value: string | null | undefined, attribute: string) {
     if (!value) {
         console.log("ERROR:", attribute, "is not valid");
@@ -17,6 +21,16 @@ export function parseStringList(value: string | null | undefined, attribute: str
     }
 
     return value.split(",")
+}
+
+export function parseNumber(value: string | null | undefined, attribute: string) {
+    if (!value || isNaN(parseInt(value))) {
+        console.log("ERROR:", attribute, "is not valid");
+        console.log(attribute, "VALUE:", value)
+        throw new Error(`${attribute} is not valid. Value -> ${value}`)
+    }
+
+    return parseInt(value)
 }
 
 export function parseStartAndEndIndex(start: string | null, end: string | null) {
@@ -43,7 +57,7 @@ export function parseStartAndEndIndex(start: string | null, end: string | null) 
 }
 
 export function parsePrice(price: string | null | undefined) {
-    if (!price || !(isNaN(parseFloat(price)))) {
+    if (!price || isNaN(parseFloat(price))) {
         console.log("ERROR: PRICE is null or not valid number")
         console.log("PRICE VALUE:", price)
         throw new Error("Price is null or not valid number");
@@ -93,7 +107,8 @@ export function parseFilters(filters: string | null) {
 
     return convertedFilters.reduce((prev, current) => {
         return { ...prev, ...current };
-    }, {});}
+    }, {});
+}
 
 const adaptationRangeType = "adaptation_range";
 const waterDustResistanceType = "dust_water_resistance";
@@ -138,6 +153,67 @@ function convertToObject(type: string, value: string) {
     }
 
     throw Error("FILTER not valid")
+}
+
+export function parseUses(formData: FormData): string[] {
+    const parse: string[] = []
+    usesList.forEach((element) => {
+        if (formData.get(element) !== null) {
+            const use = parseString(formData.get(element)?.toString(), element)
+            parse.push(use)
+        }
+    })
+    return parse
+}
+function getIncrementalValues(formData: FormData, counter: number, tag: string) {
+    const values: string[] = []
+
+    for (let i = 1; i <= counter; i += 1) {
+        const data = formData.get(`${tag}-${i}`)
+
+        if (data === '') {
+            continue
+        }
+
+        const element = parseString(data?.toString(), tag)
+        values.push(element)
+    }
+
+    return values
+}
+
+export function parseInclude(formData: FormData) {
+    const counter = parseNumber(formData.get("INCLUDE")?.toString(), "INCLUDE_COUNTER")
+    return getIncrementalValues(formData, counter, "INCLUDE")
+}
+
+export function parseWaterDustResistance(formData: FormData) {
+    const resistanceElement = formData.get("YES")
+
+    if (resistanceElement === null) {
+        return false
+    }
+
+    const resistance = parseString(resistanceElement.toString(), "WATER DUST RESISTANCE")
+    return resistance === "YES"
+}
+
+export function parseColors(formData: FormData) {
+    const colors: any[] = []
+
+    colorList.forEach((element) => {
+        const counter = parseNumber(formData.get(element)?.toString(), element)
+        const imageURLs = getIncrementalValues(formData, counter, element)
+        
+        if (imageURLs.length !== 0){
+            colors.push({
+                color: element,
+                images: imageURLs
+            })
+        }
+    })
+
+    return colors
 }
 
 

@@ -20,19 +20,24 @@ export default function IncrementalTextInput({
     icon,
 }: TextInputProps) {
     const [inputs, setInputs] = useState([{ id: 1, counter: 1 }]);
+    const [counter, setCounter] = useState(1)
 
     const addInput = () => {
         setInputs([...inputs, { id: inputs.length + 1, counter: inputs.length + 1 }]);
+        setCounter(prev => prev + 1)
+
     };
 
     const removeInput = () => {
         if (inputs.length > 1) {
             setInputs(inputs.slice(0, -1));
+            setCounter(prev => prev - 1)
         }
     };
 
     return (
         <section>
+            <input type="hidden" value={counter} name={name} />
             <label
                 htmlFor={name}
                 className="bg-transparent 

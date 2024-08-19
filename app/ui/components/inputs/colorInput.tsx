@@ -1,4 +1,4 @@
-import { Color } from "@/app/model/entities/enums/Color";
+import { colorList } from "@/app/model/entities/enums/Color";
 import IncrementalTextInput from "./incrementalTextInput";
 import { faPaintBrush } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,9 +20,9 @@ export default function ColorInput({
       >
         {label}
       </label>
-      {Object.values(Color).map((element, index) => 
-      <div key={element.name + "-" + index}>
-              <IncrementalTextInput name={element.name} type={"text"} placeholder={element.name} label={element.name} icon={faPaintBrush} />
+      {colorList.map((element, index) => 
+      <div key={element + "-" + index}>
+              <IncrementalTextInput name={element} type={"text"} placeholder={element + " image ULR"} label={element} icon={faPaintBrush} />
       </div>
       )}
     </section>

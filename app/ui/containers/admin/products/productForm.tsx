@@ -6,7 +6,7 @@ import { Category } from "@/app/model/entities/enums/Category";
 import { degreeOfLossList } from "@/app/model/entities/enums/DegreeOfLoss";
 import { earLocationList } from "@/app/model/entities/enums/EarLocation";
 import { levelOfDiscretionList } from "@/app/model/entities/enums/LevelOfDiscretion";
-import { Uses } from "@/app/model/entities/enums/Uses";
+import { Uses, usesList } from "@/app/model/entities/enums/Uses";
 import SubmitButton from "@/app/ui/components/buttons/submitButton";
 import SectionHeader from "@/app/ui/components/common/sectionHeader";
 import CheckBoxInput from "@/app/ui/components/inputs/checkBoxInput";
@@ -75,7 +75,7 @@ export default function ProductForm() {
       <ColorInput name={"color"} label={"Colores disponibles del producto"} />
       {/* Includes */}
       <IncrementalTextInput
-        name={"include"}
+        name={"INCLUDE"}
         type={"text"}
         placeholder={"Incluye..."}
         label={"Incluye el producto"}
@@ -93,7 +93,7 @@ export default function ProductForm() {
       <CheckBoxInput
         name={"water_dust_resistance"}
         label={"Resistencia al Agua y al Polvo"}
-        list={["Sí"]}
+        list={["YES"]}
         type={""}
       />
       {/* Ear Location */}
@@ -124,7 +124,7 @@ export default function ProductForm() {
       <CheckBoxInput
         name={"uses"}
         label={"Usos del producto"}
-        list={Object.values(Uses).map((x) => x.text)}
+        list={usesList}
         type={""}
       />
       {/* Submit Button */}
