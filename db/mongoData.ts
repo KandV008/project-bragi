@@ -19,11 +19,36 @@ const client = new MongoClient(uri, {
   },
 });
 
+export async function getAllProducts(start: string | null, end: string | null) {
+  const products: ProductEntity[] = [];
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
+
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const cursor = coll.find()
+      .skip(startIndex)
+      .limit(endIndex - startIndex + 1);
+
+    await cursor.forEach((doc: any) => {
+      products.push(mapDocumentToProduct(doc));
+    });
+  } catch (e) {
+    console.log(e)
+  }
+
+  console.log(products.map(product => product.id))
+  return products;
+}
+
 export async function getProductsByCategory(categoryToCheck: string | null, start: string | null, end: string | null, filters: string | null): Promise<ProductEntity[]> {
   const products: ProductEntity[] = [];
   const checkedCategory = parseString(categoryToCheck, "CATEGORY")
   const categoryFilter = { category: checkedCategory }
-  const {startIndex, endIndex } = parseStartAndEndIndex(start, end)
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
   const parsedFilters = parseFilters(filters)
 
   try {
@@ -35,11 +60,11 @@ export async function getProductsByCategory(categoryToCheck: string | null, star
     const cursor = coll.find({ ...categoryFilter, ...parsedFilters })
       .skip(startIndex)
       .limit(endIndex - startIndex + 1);
-      
+
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
     });
-  } catch (e){
+  } catch (e) {
     console.log(e)
   }
 
@@ -154,7 +179,7 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
 export async function searchProducts(keywordToParse: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
   const products: ProductEntity[] = [];
   const parsedKeyword = parseString(keywordToParse, "KEYWORD")
-  const {startIndex, endIndex } = parseStartAndEndIndex(start, end)
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
   try {
     await client.connect();
@@ -168,8 +193,8 @@ export async function searchProducts(keywordToParse: string | null, start: strin
         { description: { $regex: parsedKeyword, $options: "i" } }
       ]
     })
-    .skip(startIndex)
-    .limit(endIndex - startIndex + 1);;
+      .skip(startIndex)
+      .limit(endIndex - startIndex + 1);;
 
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
