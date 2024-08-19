@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from "react";
-import TextInput from "./textInput";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import MiniTextInput from "./miniTextInput";
 
 interface TextInputProps {
     name: string;
@@ -42,7 +42,7 @@ export default function IncrementalTextInput({
             </label>
             <div className="px-5">
                 {inputs.map(input => (
-                    <TextInput
+                    <MiniTextInput
                         key={input.id}
                         name={`${name}-${input.counter}`}
                         type={type}
