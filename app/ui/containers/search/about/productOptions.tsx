@@ -8,6 +8,7 @@ import { ProductColor } from "@/app/model/entities/Product";
 import { addProductToShoppingList } from "@/db/action";
 import FavoriteToggleButton from "@/app/ui/components/buttons/favoriteToggleButton";
 import SubmitButton from "@/app/ui/components/buttons/submitButton";
+import ColorButton from "@/app/ui/components/buttons/colorButton";
 
 interface ProductOptionsProps {
   id: string;
@@ -41,13 +42,6 @@ export default function ProductOptions({
   }, [id, user]);
 
   const [imgIndex, setImgIndex] = useState(0);
-  const getColorButtonClasses = (buttonName: number) => {
-    const baseClasses = "size-8 md:size-6 lg:size-8 border-2";
-    return buttonName === imgIndex
-      ? `${baseClasses} border-rose-600`
-      : `${baseClasses} border-emerald-900 dark:border-emerald-100`;
-  };
-
   const [earSide, setEarSide] = useState("");
   const handleEarSideButtonClick = (buttonName: string) => {
     setEarSide(buttonName);
@@ -134,17 +128,7 @@ export default function ProductOptions({
             Colores disponibles
             <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
           </h3>
-          <div className="flex flex-row flex-wrap gap-1">
-            {colors.map((color, index) => (
-              <button
-                key={color.color.name + "-" + index}
-                className={getColorButtonClasses(index)}
-                style={{ backgroundColor: color.color.hex }}
-                title={color.color.name}
-                onClick={() => setImgIndex(index)}
-              ></button>
-            ))}
-          </div>
+          <ColorButton colors={colors} action={(index: number) => setImgIndex(index)} />
         </div>
         {/* Hearing Aid Side Buttons */}
         <div className="w-fit">
