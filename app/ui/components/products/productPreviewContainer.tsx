@@ -36,7 +36,7 @@ export default function ProductPreviewContainer({
 
   return (
     <section className="flex flex-col gap-10">
-      <article className="flex flex-wrap gap-4 lg:gap-8 self-center shrink-0 w-fit">
+      <article className="flex flex-wrap gap-4 justify-center lg:gap-8 self-center shrink-0 w-fit">
         {products.map((product, index) => (
           <ProductPreview
             key={product.id}

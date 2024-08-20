@@ -56,7 +56,7 @@ export default function IncrementalTextInput({
             >
                 {label}
             </label>
-            <div className="px-5">
+            <article className="flex flex-col px-5 justify-center">
                 {inputs.map(input => (
                     <MiniTextInput
                         key={input.id}
@@ -68,13 +68,15 @@ export default function IncrementalTextInput({
                         value={values ? values[input.id-1] : ""}
                     />
                 ))}
+                <div className="flex flex-row mt-2 gap-2">
                 <button type="button" onClick={addInput} className="mr-2 hover:underline">
                     Añadir otro campo
                 </button>
                 <button type="button" onClick={removeInput} className="hover:underline">
                     Quitar último campo
                 </button>
-            </div>
+                </div>
+            </article>
         </section>
     );
 }

@@ -48,7 +48,7 @@ export default function ProductForm({ product }: FormProps) {
   return (
     <form
       action={actionForm}
-      className="flex flex-col gap-5 p-10 
+      className="flex flex-col gap-5 p-5 sm:p-10 
                    bg-emerald-50 dark:bg-emerald-800
                    border-emerald-900 dark:border-emerald-100 border-2 rounded-xl"
     >

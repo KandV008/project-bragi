@@ -41,7 +41,7 @@ export default function Page() {
     <div className="flex flex-col gap-10 w-full justify-between">
       {/* Actions */}
       <section className="flex flex-center shrink-0 justify-center">
-        <div className="fixed top-36">
+        <div className="fixed top-44 md:top-36">
           <MediumButtonWithIcon
             icon={faPlus}
             text={"Crear Producto"}

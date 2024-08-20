@@ -19,7 +19,7 @@ export default function MiniTextInput({
   value,
 }: TextInputProps) {
   return (
-    <section className="flex flex-row gap-2 w-full">
+    <section className="flex flex-col sm:flex-row gap-2 w-full">
       <label
         htmlFor={name}
         className="bg-transparent text-center self-center

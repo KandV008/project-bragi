@@ -5,7 +5,7 @@ import {
   faLeftLong,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { useClerk, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 
 export default function Page() {
