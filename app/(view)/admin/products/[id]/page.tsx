@@ -8,6 +8,7 @@ import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
 import SectionHeader from "@/app/ui/components/common/sectionHeader";
 import Image from "next/image";
+import { actionDelete } from "@/db/action";
 
 export default function Page() {
   const pathname = usePathname();
@@ -30,6 +31,7 @@ export default function Page() {
     }
   }, [productId]);
 
+
   if (isLoading) return <>Loading...</>;
   if (!product) return <p>No product data</p>;
   return (
@@ -50,6 +52,7 @@ export default function Page() {
           text={"Borrar Producto"}
           subtext={"Eliminar para siempre"}
           type={"danger"}
+          onClick={() => {actionDelete(productId)}}
         />{" "}
       </section>
       {/* Display */}

@@ -21,7 +21,7 @@ export default function RelatedProducts({
 
   useEffect(() => {
     if (brand && price) {
-      fetch(`/api/getRelatedProducts?brand=${brand}&price=${price.toString}`)
+      fetch(`/api/getRelatedProducts?brand=${brand}&price=${price.toString()}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data);

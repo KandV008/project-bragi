@@ -5,7 +5,7 @@ import { sql } from '@vercel/postgres';
 import { getProductsByIds } from "./mongoData";
 import { ProductDTO, mapDocumentToProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import { ProductEntity } from "@/app/model/entities/Product";
-import { parseStartAndEndIndex } from "@/lib/parser";
+import { parseStartAndEndIndex, parseString } from "@/lib/parser";
 
 export async function getFavorites(start: string | null, end: string | null): Promise<ProductEntity[]> {
   const { userId } = auth();
@@ -34,4 +34,48 @@ export async function getShoppingList(): Promise<ProductDTO[]> {
   )
 
   return result.rows.map(row => mapDocumentToProductDTO(row))
+}
+
+export async function deleteProductInFavorites(productId: string | null | undefined) {
+  const id = parseString(productId, "PRODUCT_ID");
+
+  try {
+    const { userId } = auth();
+    const client = await sql.connect();
+
+    const result = await client.query(
+      `DELETE FROM favourites WHERE user_id = $1 AND product_id = $2`,
+      [userId, id]
+    );
+
+    if (result.rowCount === 1) {
+      console.log(`Product with ID: ${id} has been removed from favorites.`);
+    } else {
+      console.error(`Failed to remove product with ID: ${id} from favorites. Product not found.`);
+    }
+  } catch (error) {
+    console.error("Error removing product from favorites:", error);
+  }
+}
+
+export async function deleteProductInShoppingList(productId: string | null | undefined) {
+  const id = parseString(productId, "PRODUCT_ID");
+
+  try {
+    const { userId } = auth();
+    const client = await sql.connect();
+
+    const result = await client.query(
+      `DELETE FROM shoppingList WHERE user_id = $1 AND product_id = $2`,
+      [userId, id]
+    );
+
+    if (result.rowCount === 1) {
+      console.log(`Product with ID: ${id} has been removed from the shopping list.`);
+    } else {
+      console.error(`Failed to remove product with ID: ${id} from the shopping list. Product not found.`);
+    }
+  } catch (error) {
+    console.error("Error removing product from shopping list:", error);
+  }
 }

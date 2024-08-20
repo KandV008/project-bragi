@@ -3,7 +3,9 @@
 import { parseProductIds, parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList, parsePrice, parseUses, parseInclude, parseWaterDustResistance, parseColors } from "@/lib/parser";
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
-import { addNewProduct } from "./mongoData";
+import { addNewProduct, deleteProduct } from "./mongoData";
+import { deleteProductInFavorites, deleteProductInShoppingList } from "./postgresData";
+import { redirect } from 'next/navigation';
 
 export async function checkFavorite(userIdToParse: string | null, productIdToParse: string | null) {
     const productId = parseString(productIdToParse, "PRODUCT_ID")
@@ -189,4 +191,16 @@ export async function createProduct(formData: FormData) {
     addNewProduct(newProduct)
         .then(() => console.log("Product added successfully"))
         .catch(error => console.error("Error adding product:", error));
+
+    redirect("/admin/products")
+}
+
+export async function actionDelete(productId: string | undefined | null) {
+    const id = parseString(productId, "PRODUCT_ID");
+
+    deleteProduct(id)
+    deleteProductInFavorites(id)
+    deleteProductInShoppingList(id)
+
+    redirect("/admin/products")
 }

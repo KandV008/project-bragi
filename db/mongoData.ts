@@ -227,3 +227,29 @@ export async function addNewProduct(productData: any): Promise<void> {
     await client.close(); 
   }
 }
+
+
+export async function deleteProduct(productId: string | undefined | null): Promise<void> {
+  const id = parseString(productId, "PRODUCT_ID");
+  
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const objectId = new ObjectId(id);
+    const result = await coll.deleteOne({ _id: objectId });
+
+    if (result.deletedCount === 1) {
+      console.log(`Product with ID: ${id} has been deleted.`);
+    } else {
+      console.error(`Failed to delete product with ID: ${id}. Product not found.`);
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  } finally {
+    await client.close();
+  }
+}
+
