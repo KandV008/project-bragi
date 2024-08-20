@@ -6,10 +6,16 @@ import MiniTextInput from "./miniTextInput";
 
 interface TextInputProps {
     name: string;
-    type: "text" | "password" | "number";
+    type: "text" | "number";
     placeholder: string;
     label: string;
     icon: IconDefinition;
+    values?: string[]
+}
+
+interface InputCounter{
+    id: number;
+    counter: number;
 }
 
 export default function IncrementalTextInput({
@@ -18,9 +24,14 @@ export default function IncrementalTextInput({
     placeholder,
     label,
     icon,
+    values,
 }: TextInputProps) {
-    const [inputs, setInputs] = useState([{ id: 1, counter: 1 }]);
-    const [counter, setCounter] = useState(1)
+    const [inputs, setInputs] = useState<InputCounter[]>(
+        values 
+            ? values.map((_, index) => ({ id: index + 1, counter: index + 1 })) 
+            : [{ id: 1, counter: 1 }]
+    );    
+    const [counter, setCounter] = useState(values ? values.length : 1)
 
     const addInput = () => {
         setInputs([...inputs, { id: inputs.length + 1, counter: inputs.length + 1 }]);
@@ -54,6 +65,7 @@ export default function IncrementalTextInput({
                         placeholder={`${placeholder} ${input.counter}`}
                         label={`Añadir ${input.counter}`}
                         icon={icon}
+                        value={values ? values[input.id-1] : ""}
                     />
                 ))}
                 <button type="button" onClick={addInput} className="mr-2 hover:underline">

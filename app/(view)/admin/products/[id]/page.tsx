@@ -2,7 +2,7 @@
 
 import { ProductColor, ProductEntity } from "@/app/model/entities/Product";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
@@ -13,6 +13,7 @@ import { actionDelete } from "@/db/action";
 export default function Page() {
   const pathname = usePathname();
   const productId = pathname.split("/").pop();
+  const router = useRouter()
 
   const [imgIndex, setImgIndex] = useState(0);
 
@@ -31,9 +32,9 @@ export default function Page() {
     }
   }, [productId]);
 
-
   if (isLoading) return <>Loading...</>;
   if (!product) return <p>No product data</p>;
+
   return (
     <div
       className="flex flex-col gap-3
@@ -46,13 +47,14 @@ export default function Page() {
           text={"Editar Producto"}
           subtext={"Actualizar las atributos"}
           type={"warning"}
+          onClick={() => router.push(`/admin/products/${productId}/update`)}
         />
         <MediumButtonWithIcon
           icon={faEraser}
           text={"Borrar Producto"}
           subtext={"Eliminar para siempre"}
           type={"danger"}
-          onClick={() => {actionDelete(productId)}}
+          onClick={() => actionDelete(productId)}
         />{" "}
       </section>
       {/* Display */}

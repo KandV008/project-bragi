@@ -6,16 +6,16 @@ interface CheckBoxInputProps {
   name: string;
   label: string;
   list: any[];
-  type: string;
-  onChange?: (type: string) => (event: ChangeEvent<HTMLInputElement>) => void;
+  values?: string[];
 }
 
 export default function CheckBoxInput({
   name,
   label,
   list,
+  values,
 }: CheckBoxInputProps) {
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>(values ? values : []);
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -59,6 +59,7 @@ export default function CheckBoxInput({
               name={element}
               value={element}
               onChange={handleCheckboxChange}
+              checked={selectedValues.includes(element)}
             />
             <label htmlFor={name + "-" + index}> {element}</label>
             <br />

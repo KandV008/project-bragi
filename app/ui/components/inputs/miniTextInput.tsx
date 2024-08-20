@@ -7,6 +7,7 @@ interface TextInputProps {
   placeholder: string;
   label: string;
   icon: IconDefinition;
+  value?: string
 }
 
 export default function MiniTextInput({
@@ -15,6 +16,7 @@ export default function MiniTextInput({
   placeholder,
   label,
   icon,
+  value,
 }: TextInputProps) {
   return (
     <section className="flex flex-row gap-2 w-full">
@@ -42,6 +44,7 @@ export default function MiniTextInput({
           className="w-full h-full bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
           autoComplete="off"
+          value={value}
         />
       </article>
     </section>

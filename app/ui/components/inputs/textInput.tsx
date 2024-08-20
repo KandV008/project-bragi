@@ -7,6 +7,7 @@ interface TextInputProps {
   placeholder: string;
   label: string;
   icon: IconDefinition;
+  value?: string
 }
 
 export default function TextInput({
@@ -15,6 +16,7 @@ export default function TextInput({
   placeholder,
   label,
   icon,
+  value,
 }: TextInputProps) {
   return (
     <section className="flex flex-col w-full">
@@ -43,6 +45,7 @@ export default function TextInput({
           autoComplete="off"
           required
           step="any"
+          value={value}
         />
       </article>
     </section>

@@ -1,6 +1,5 @@
 import { colorList } from "@/app/model/entities/enums/Color";
 import { usesList } from "@/app/model/entities/enums/Uses";
-import { ProductColor } from "@/app/model/entities/Product";
 
 export function parseString(value: string | null | undefined, attribute: string) {
     if (!value) {
@@ -216,4 +215,35 @@ export function parseColors(formData: FormData) {
     return colors
 }
 
+export function parseProductForm(formData: FormData){
+    const newName = parseString(formData.get("name")?.toString(), "NAME")
+    const newCategory = parseString(formData.get("category")?.toString(), "CATEGORY")
+    const newBrand = parseString(formData.get("brand")?.toString(), "BRAND")
+    const newPrice = parsePrice(formData.get("price")?.toString())
+    const newDescription = parseString(formData.get("description")?.toString(), "DESCRIPTION")
+    const newColors = parseColors(formData)
+    const newInclude = parseInclude(formData)
+    const newAdaptationRange = parseString(formData.get("adaptation_range")?.toString(), "ADAPTATION_RANGE")
+    const newWaterDustResistance = parseWaterDustResistance(formData)
+    const newEarLocation = parseString(formData.get("ear_location")?.toString(), "EAR_LOCATION")
+    const newLevelOfDiscretion = parseString(formData.get("level_of_discretion")?.toString(), "LEVEL_OF_DISCRETION")
+    const newDegreeOfLoss = parseString(formData.get("degree_of_loss")?.toString(), "DEGREE_OF_LOSS")
+    const newUses = parseUses(formData)
+
+    return {
+        name: newName,
+        category: newCategory,
+        price: newPrice,
+        description: newDescription,
+        colors: newColors,
+        include: newInclude,
+        adaptation_range: newAdaptationRange,
+        dust_water_resistance: newWaterDustResistance,
+        brand: newBrand,
+        location: newEarLocation,
+        level_of_discretion: newLevelOfDiscretion,
+        degree_of_loss: newDegreeOfLoss,
+        uses: newUses
+    }
+}
 

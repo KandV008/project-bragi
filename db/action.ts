@@ -1,9 +1,9 @@
 'use server';
 
-import { parseProductIds, parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList, parsePrice, parseUses, parseInclude, parseWaterDustResistance, parseColors } from "@/lib/parser";
+import { parseProductIds, parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList, parsePrice, parseUses, parseInclude, parseWaterDustResistance, parseColors, parseProductForm } from "@/lib/parser";
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
-import { addNewProduct, deleteProduct } from "./mongoData";
+import { createProduct, deleteProduct, updateProduct } from "./mongoData";
 import { deleteProductInFavorites, deleteProductInShoppingList } from "./postgresData";
 import { redirect } from 'next/navigation';
 
@@ -156,43 +156,26 @@ export async function decrementProductInShoppingList(formData: FormData) {
     }
 }
 
-export async function createProduct(formData: FormData) {
-    console.log(formData)
-    const newName = parseString(formData.get("name")?.toString(), "NAME")
-    const newCategory = parseString(formData.get("category")?.toString(), "CATEGORY")
-    const newBrand = parseString(formData.get("brand")?.toString(), "BRAND")
-    const newPrice = parsePrice(formData.get("price")?.toString())
-    const newDescription = parseString(formData.get("description")?.toString(), "DESCRIPTION")
-    const newColors = parseColors(formData)
-    const newInclude = parseInclude(formData)
-    const newAdaptationRange = parseString(formData.get("adaptation_range")?.toString(), "ADAPTATION_RANGE")
-    const newWaterDustResistance = parseWaterDustResistance(formData)
-    const newEarLocation = parseString(formData.get("ear_location")?.toString(), "EAR_LOCATION")
-    const newLevelOfDiscretion = parseString(formData.get("level_of_discretion")?.toString(), "LEVEL_OF_DISCRETION")
-    const newDegreeOfLoss = parseString(formData.get("degree_of_loss")?.toString(), "DEGREE_OF_LOSS")
-    const newUses = parseUses(formData)
+export async function actionCreate(formData: FormData) {
+    const newProduct = parseProductForm(formData)
 
-    const newProduct = {
-        name: newName,
-        category: newCategory,
-        price: newPrice,
-        description: newDescription,
-        colors: newColors,
-        include: newInclude,
-        adaptation_range: newAdaptationRange,
-        dust_water_resistance: newWaterDustResistance,
-        brand: newBrand,
-        location: newEarLocation,
-        level_of_discretion: newLevelOfDiscretion,
-        degree_of_loss: newDegreeOfLoss,
-        uses: newUses
-    }
-
-    addNewProduct(newProduct)
+    createProduct(newProduct)
         .then(() => console.log("Product added successfully"))
         .catch(error => console.error("Error adding product:", error));
 
     redirect("/admin/products")
+}
+
+export async function actionUpdate(formData: FormData) {
+    const id = parseString(formData.get("id")?.toString(), "PRODUCT_ID")
+    const newProduct = parseProductForm(formData)
+    const updatedProduct = { _id: id, ...newProduct }
+
+    updateProduct(updatedProduct)
+        .then(() => console.log("Product updated successfully"))
+        .catch(error => console.error("Error adding product:", error));
+
+    redirect(`/admin/products/${id}`)
 }
 
 export async function actionDelete(productId: string | undefined | null) {

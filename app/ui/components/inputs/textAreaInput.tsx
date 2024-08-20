@@ -6,6 +6,7 @@ interface TextInputProps {
   placeholder: string;
   label: string;
   icon: IconDefinition;
+  value?: string;
 }
 
 export default function TextAreaInput({
@@ -13,6 +14,7 @@ export default function TextAreaInput({
   placeholder,
   label,
   icon,
+  value,
 }: TextInputProps) {
   return (
     <section className="flex flex-col w-full">
@@ -35,10 +37,12 @@ export default function TextAreaInput({
         <textarea
           id={name}
           name={name}
-          className="w-full h-full text-black  text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
+          className="w-full h-full text-black text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
           autoComplete="off"
           required
+          value={value}
+          
         />
       </article>
     </section>

@@ -1,12 +1,25 @@
 "use client";
 
-import { adaptationRangeList } from "@/app/model/entities/enums/AdaptionRange";
+import {
+  adaptationRangeList,
+  valueOfAdaptationRange,
+} from "@/app/model/entities/enums/AdaptionRange";
 import { Brand } from "@/app/model/entities/enums/Brand";
 import { Category } from "@/app/model/entities/enums/Category";
-import { degreeOfLossList } from "@/app/model/entities/enums/DegreeOfLoss";
-import { earLocationList } from "@/app/model/entities/enums/EarLocation";
-import { levelOfDiscretionList } from "@/app/model/entities/enums/LevelOfDiscretion";
-import { Uses, usesList } from "@/app/model/entities/enums/Uses";
+import {
+  degreeOfLossList,
+  valueOfDegreeOfLoss,
+} from "@/app/model/entities/enums/DegreeOfLoss";
+import {
+  earLocationList,
+  valueOfEarLocation,
+} from "@/app/model/entities/enums/EarLocation";
+import {
+  levelOfDiscretionList,
+  valueOfLevelOfDiscretion,
+} from "@/app/model/entities/enums/LevelOfDiscretion";
+import { usesList, valueOfUses } from "@/app/model/entities/enums/Uses";
+import { ProductEntity } from "@/app/model/entities/Product";
 import SubmitButton from "@/app/ui/components/buttons/submitButton";
 import SectionHeader from "@/app/ui/components/common/sectionHeader";
 import CheckBoxInput from "@/app/ui/components/inputs/checkBoxInput";
@@ -15,7 +28,7 @@ import IncrementalTextInput from "@/app/ui/components/inputs/incrementalTextInpu
 import RadioInput from "@/app/ui/components/inputs/radioInput";
 import TextAreaInput from "@/app/ui/components/inputs/textAreaInput";
 import TextInput from "@/app/ui/components/inputs/textInput";
-import { createProduct } from "@/db/action";
+import { actionCreate, actionUpdate } from "@/db/action";
 import {
   faEarListen,
   faMoneyBill,
@@ -24,14 +37,24 @@ import {
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function ProductForm() {
+interface FormProps {
+  product?: ProductEntity;
+}
+
+export default function ProductForm({ product }: FormProps) {
+  const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
+  const actionForm = product ? actionUpdate : actionCreate;
+
   return (
-    <form action={createProduct}
+    <form
+      action={actionForm}
       className="flex flex-col gap-5 p-10 
                    bg-emerald-50 dark:bg-emerald-800
                    border-emerald-900 dark:border-emerald-100 border-2 rounded-xl"
     >
-      <SectionHeader text={"Crear nuevo producto"} />
+      <SectionHeader text={actionText} />
+      {/* Id */}
+      {product ? <input type="hidden" name="id" value={product.id} /> : <></>}
       {/* Name */}
       <TextInput
         name={"name"}
@@ -39,6 +62,7 @@ export default function ProductForm() {
         placeholder={"Audífono X"}
         label={"Nombre del producto"}
         icon={faEarListen}
+        value={product ? product.name : ""}
       />
       {/* Category */}
       <RadioInput
@@ -46,7 +70,7 @@ export default function ProductForm() {
         label={"Categoría del producto"}
         list={Object.values(Category)}
         valueOf={(x) => x}
-        type={""}
+        value={product ? product.category : ""}
       />
       {/* Brand */}
       <RadioInput
@@ -54,7 +78,7 @@ export default function ProductForm() {
         label={"Marca del producto"}
         list={Object.values(Brand)}
         valueOf={(x) => x}
-        type={""}
+        value={product ? product.brand : ""}
       />
       {/* Price */}
       <TextInput
@@ -63,6 +87,7 @@ export default function ProductForm() {
         placeholder={"1234.56"}
         label={"Precio del producto (€)"}
         icon={faMoneyBill}
+        value={product ? product.price.toString() : ""}
       />
       {/* Description */}
       <TextAreaInput
@@ -70,9 +95,14 @@ export default function ProductForm() {
         placeholder={"Lore ipsum..."}
         label={"Descripción"}
         icon={faTextHeight}
+        value={product ? product.description : ""}
       />
       {/* Colors */}
-      <ColorInput name={"color"} label={"Colores disponibles del producto"} />
+      <ColorInput
+        name={"color"}
+        label={"Colores disponibles del producto"}
+        values={product ? product.colors : []}
+      />
       {/* Includes */}
       <IncrementalTextInput
         name={"INCLUDE"}
@@ -80,6 +110,7 @@ export default function ProductForm() {
         placeholder={"Incluye..."}
         label={"Incluye el producto"}
         icon={faPlus}
+        values={product ? product.include : []}
       />
       {/* Adaptation Range */}
       <RadioInput
@@ -87,14 +118,16 @@ export default function ProductForm() {
         label={"Rango de adaptación del producto"}
         list={adaptationRangeList}
         valueOf={(x) => x}
-        type={""}
+        value={product ? valueOfAdaptationRange(product.adaptationRange) : ""}
       />
       {/* Water Dust Resistance */}
       <CheckBoxInput
         name={"water_dust_resistance"}
         label={"Resistencia al Agua y al Polvo"}
         list={["YES"]}
-        type={""}
+        values={
+          product ? (product.waterDustResistance ? ["YES"] : []) : undefined
+        }
       />
       {/* Ear Location */}
       <RadioInput
@@ -102,7 +135,7 @@ export default function ProductForm() {
         label={"Localización del producto en la oreja"}
         list={earLocationList}
         valueOf={(x) => x}
-        type={""}
+        value={product ? valueOfEarLocation(product.location) : ""}
       />
       {/* Level of Discretion */}
       <RadioInput
@@ -110,7 +143,9 @@ export default function ProductForm() {
         label={"Nivel del discrección del producto"}
         list={levelOfDiscretionList}
         valueOf={(x) => x}
-        type={""}
+        value={
+          product ? valueOfLevelOfDiscretion(product.levelOfDiscretion) : ""
+        }
       />
       {/* Degree of Loss */}
       <RadioInput
@@ -118,18 +153,20 @@ export default function ProductForm() {
         label={"Grado de pérdida del producto"}
         list={degreeOfLossList}
         valueOf={(x) => x}
-        type={""}
+        value={product ? valueOfDegreeOfLoss(product.degreeOfLoss) : ""}
       />
       {/* Uses */}
       <CheckBoxInput
         name={"uses"}
         label={"Usos del producto"}
         list={usesList}
-        type={""}
+        values={
+          product ? product.uses.map((x) => valueOfUses(x.text)) : undefined
+        }
       />
       {/* Submit Button */}
       <section className="self-center">
-        <SubmitButton text={"Crear nuevo producto"} icon={faUpload} />
+        <SubmitButton text={actionText} icon={faUpload} />
       </section>
     </form>
   );

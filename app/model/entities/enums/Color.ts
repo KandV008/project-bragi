@@ -108,4 +108,53 @@ export const Color = {
     },
 };
 
+export function valueOfColor(value: string) {
+    if (value === H0_TEXT) {
+        return H0_NAME;
+    }
+
+    if (value === P1_TEXT) {
+        return P1_NAME;
+    }
+
+    if (value === P3_TEXT) {
+        return P3_NAME;
+    }
+
+    if (value === P4_TEXT) {
+        return P4_NAME;
+    }
+
+    if (value === P5_TEXT) {
+        return P5_NAME;
+    }
+
+    if (value === P6_TEXT) {
+        return P6_NAME;
+    }
+
+    if (value === P7_TEXT) {
+        return P7_NAME;
+    }
+
+    if (value === P8_TEXT) {
+        return P8_NAME;
+    }
+
+    if (value === Q2_TEXT) {
+        return Q2_NAME;
+    }
+
+    if (value === Q3_TEXT) {
+        return Q3_NAME;
+    }
+
+    if (value === T3_TEXT) {
+        return T3_NAME;
+    }
+
+    throw Error("Value not valid")
+}
+
+
 export type Color = keyof typeof Color;
