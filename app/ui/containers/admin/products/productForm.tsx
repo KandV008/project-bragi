@@ -171,3 +171,96 @@ export default function ProductForm({ product }: FormProps) {
     </form>
   );
 }
+
+const shimmer =
+  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
+
+export function ProductFormSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm p-5`}
+    >
+      <div className="flex flex-col gap-5 p-5 sm:p-10">
+        <div className="md:self-start h-7 sm:h-8 lg:h-10 w-96 rounded-md bg-gray-200" />
+        {/* Name */}
+        <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+        {/* Category */}
+        <div className="flex flex-row gap-5 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+        {/* Brand */}
+        <div className="flex flex-row gap-5 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+        {/* Price */}
+        <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+        {/* Description */}
+        <div className="md:self-start h-10 sm:h-12 lg:h-16 w-full rounded-md bg-gray-200" />
+        {/* Colors */}
+        <div className="w-full">
+          <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+          <div className="flex flex-col flex-wrap gap-1 p-5">
+            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+          </div>
+        </div>
+        {/* Includes */}
+        <div className="w-full">
+          <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+          <div className="flex flex-col flex-wrap gap-1 p-5">
+            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+          </div>
+        </div>
+        {/* Adaptation Range */}
+        <div className="flex flex-row gap-10 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+        {/* Water Dust Resistance */}
+        <div className="flex flex-row gap-10 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />{" "}
+        </div>
+        {/* Ear Location */}
+        <div className="flex flex-row gap-10 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+        {/* Level of Discretion */}
+        <div className="flex flex-row gap-10 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+        {/* Degree of Loss */}
+        <div className="flex flex-row gap-10 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+        {/* Uses */}
+        <div className="flex flex-row gap-10 ">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+        {/* Submit Button */}
+        <section className="self-center">
+          <div
+            className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
+          border-2 rounded bg-gray-200"
+          />
+        </section>
+      </div>
+    </div>
+  );
+}

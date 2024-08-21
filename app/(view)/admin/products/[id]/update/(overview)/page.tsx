@@ -4,6 +4,7 @@ import { ProductEntity } from "@/app/model/entities/Product";
 import ProductForm from "@/app/ui/containers/admin/products/productForm";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import Loading from "./loading";
 
 export default function Page() {
   const pathname = usePathname().split("/");
@@ -25,8 +26,8 @@ export default function Page() {
     }
   }, [productId]);
 
-  if (isLoading) return <>Loading...</>;
-  if (!product) return <p>No product data</p>;
+  if (isLoading) return <Loading />;
+  if (!product) return <p>No product data</p>; //TODO Add message
 
   return (
     <section>

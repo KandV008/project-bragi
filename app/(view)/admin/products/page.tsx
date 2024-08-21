@@ -6,6 +6,7 @@ import ProductPreviewContainer from "@/app/ui/components/products/productPreview
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Loading from "./loading";
 
 export default function Page() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function Page() {
       .catch((error) => console.error("Error fetching product:", error));
   }, [endIndex, startIndex]);
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loading />;
   if (!products) return <p>No product data</p>; // TODO Add message
 
   const addMoreProducts = () => {
