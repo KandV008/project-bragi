@@ -41,8 +41,8 @@ export default function TextAreaInput({
           placeholder={placeholder}
           autoComplete="off"
           required
-          value={value}
-          
+          defaultValue={value}
+          readOnly={false}
         />
       </article>
     </section>

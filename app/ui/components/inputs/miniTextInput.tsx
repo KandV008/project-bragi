@@ -44,7 +44,8 @@ export default function MiniTextInput({
           className="w-full h-full bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
           autoComplete="off"
-          value={value}
+          defaultValue={value}
+          readOnly={false}
         />
       </article>
     </section>

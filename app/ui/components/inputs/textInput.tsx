@@ -45,7 +45,8 @@ export default function TextInput({
           autoComplete="off"
           required
           step="any"
-          value={value}
+          defaultValue={value}
+          readOnly={false}
         />
       </article>
     </section>
