@@ -5,9 +5,15 @@ import {
   faHeart,
   faCircleXmark,
   faTrash,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { useClerk, useUser } from "@clerk/nextjs";
+import {
+  OrganizationSwitcher,
+  Protect,
+  useClerk,
+  useUser,
+} from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 
 export default function Page() {
@@ -40,12 +46,22 @@ export default function Page() {
       bg-emerald-50 dark:bg-emerald-800
       text-emerald-900 dark:text-emerald-100"
     >
+      <OrganizationSwitcher />
       <h2 className="text-xl sm:text-3xl font-bold">{user?.firstName}</h2>
       <h2 className="text-base sm:text-xl font-semibold">
         {user?.emailAddresses[0].emailAddress}
       </h2>
       <div className="w-full border-t mb-1 border-emerald-900 dark:border-emerald-100"></div>
       <h1 className="text-base sm:text-lg">¿Qué desea hacer con su cuenta?</h1>
+      <Protect permission="org:product:managment">
+        <MediumButtonWithIcon
+          icon={faLock}
+          text={"Panel de Admin"}
+          subtext={"Ver Panel de Control"}
+          type={"danger"}
+          onClick={() => router.push("/admin")}
+        />
+      </Protect>
       <MediumButtonWithIcon
         icon={faHeart}
         text={"Favoritos"}
