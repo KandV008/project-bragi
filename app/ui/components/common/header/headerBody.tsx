@@ -7,7 +7,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./logo";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import SmallButtonWithIcon from "../../buttons/smallButtonWithIcon";
 import SearchBar from "../../inputs/searchBar";
 import ThemeToggle from "../themeToggle";
@@ -29,9 +28,7 @@ export default function HeaderBody() {
 
   return (
     <div className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
-      <Link href={"/"}>
-        <Logo />
-      </Link>
+      <Logo />
       <SearchBar isCompress={true}/>
       <div className="flex flex-row sm:space-x-4 lg:space-x-0">
         <SmallButtonWithIcon

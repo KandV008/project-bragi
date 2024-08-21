@@ -79,6 +79,7 @@ export default function RootLayout({
         <head>
           <title>Project Bragi</title>
           {/* Other head elements like meta tags, link tags etc. */}
+          <link rel="icon" href="/favicon.ico" sizes="any" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
@@ -90,7 +91,10 @@ export default function RootLayout({
           <header className="p-4 flex justify-end"></header>
           <Header />
           <div className="mt-20"></div>
-          <main className="flex flex-col flex-grow justify-center space-y-3 md:space-y-10 py-16 md:py-12 lg:py-10 2xl:py-5 w-11/12 xl:w-4/6 place-self-center ">
+          <main className="flex flex-col flex-grow justify-center 
+            space-y-5 md:space-y-10 
+            py-16 md:py-12 lg:py-10 2xl:py-5 
+            w-11/12 xl:w-4/6 place-self-center ">
             {children}
           </main>
           <Footer />
