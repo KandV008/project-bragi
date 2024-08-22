@@ -1,4 +1,4 @@
-import { ProductContainerSkeleton } from "@/app/ui/components/common/productContainer";
+import { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer";
 
 export default function Loading(){
     return (

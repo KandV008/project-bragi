@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import FavoriteToggleButton from "../../components/buttons/favoriteToggleButton";
@@ -13,6 +13,7 @@ interface ProductProps {
   brand: string;
   price: string;
   isFavorite: boolean;
+  isPreview?: boolean;
 }
 
 export default function Product({
@@ -22,7 +23,11 @@ export default function Product({
   brand,
   price,
   isFavorite,
-}: ProductProps) {  
+  isPreview,
+}: ProductProps) {
+  const linkURL = isPreview ? `/admin/products/${id}` : `/search/about/${id}`;
+  const buttonIcon = isPreview ? faFile : faEye;
+
   return (
     <article
       className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5 
@@ -56,7 +61,7 @@ export default function Product({
       {/* Buttons */}
       <section className="flex flex-row flex-wrap justify-center gap-3 md:gap-2 xl:gap-1">
         <Link
-          href={`/search/about/${id}`}
+          href={linkURL}
           className="flex flex-row items-center justify-center md:justify-around md:px-2
           rounded-2xl  
           bg-emerald-900 text-emerald-100
@@ -65,7 +70,7 @@ export default function Product({
           h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40 "
         >
           <div className=" mr-0 md:mr-2 xl:mr-0">
-            <FontAwesomeIcon icon={faCartShopping} className="" />
+            <FontAwesomeIcon icon={buttonIcon} className="" />
           </div>
           <span className="hidden xl:block text-sm font-black">
             Ver producto
@@ -74,7 +79,11 @@ export default function Product({
             Ver más
           </span>
         </Link>
-        <FavoriteToggleButton productId={id} isActive={isFavorite}/>
+        {isPreview ? (
+          <></>
+        ) : (
+          <FavoriteToggleButton productId={id} isActive={isFavorite} />
+        )}
       </section>
     </article>
   );

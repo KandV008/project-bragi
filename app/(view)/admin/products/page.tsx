@@ -2,11 +2,11 @@
 
 import { ProductEntity } from "@/app/model/entities/Product";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
-import ProductPreviewContainer from "@/app/ui/components/products/productPreviewContainer";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
+import ProductContainer from "@/app/ui/components/products/productContainer";
 
 export default function Page() {
   const router = useRouter();
@@ -54,10 +54,11 @@ export default function Page() {
       </section>
       {/* List */}
       <div className="md:size-fit lg:px-12">
-        <ProductPreviewContainer
+        <ProductContainer
           products={products}
           moreProduct={addMoreProducts}
           showMoreButton={products.length === endIndex + 1}
+          isPreview={true}
         />
       </div>
     </div>

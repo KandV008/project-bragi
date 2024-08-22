@@ -1,8 +1,8 @@
 'use client';
 
 import { ProductEntity } from "@/app/model/entities/Product";
-import ProductContainer from "@/app/ui/components/common/productContainer";
-import SectionHeader from "@/app/ui/components/common/sectionHeader";
+import ProductContainer from "@/app/ui/components/products/productContainer";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import { useEffect, useState } from "react";
 import Loading from "./loading";
 

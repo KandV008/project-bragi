@@ -2,7 +2,7 @@
 
 import Filter from "@/app/ui/containers/search/filter";
 import { ProductEntity } from "@/app/model/entities/Product";
-import ProductContainer from "@/app/ui/components/common/productContainer";
+import ProductContainer from "@/app/ui/components/products/productContainer";
 import Loading from "./loading";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";

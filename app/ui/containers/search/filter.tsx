@@ -17,7 +17,7 @@ import {
 } from "@/app/model/entities/enums/LevelOfDiscretion";
 import { ProductEntity } from "@/app/model/entities/Product";
 import { ChangeEvent } from "react";
-import SectionHeader from "../../components/common/sectionHeader";
+import SectionHeader from "../../components/tags/sectionHeader";
 import RadioInputWithQuantity from "../../components/inputs/radioInputWithQuantity";
 import { checkWaterAndDustResistanceType, valueOfWaterDustResistance } from "@/app/model/entities/enums/WaterDustResistance";
 

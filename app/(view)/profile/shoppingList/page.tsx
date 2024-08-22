@@ -1,4 +1,4 @@
-import SectionHeader from "@/app/ui/components/common/sectionHeader";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import ShoppingList from "@/app/ui/containers/shoppingList/shoppingList";
 import Summary from "@/app/ui/containers/shoppingList/summary";
 import { getShoppingList } from "@/db/postgresData";

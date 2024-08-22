@@ -6,10 +6,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
-import SectionHeader from "@/app/ui/components/common/sectionHeader";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import Image from "next/image";
 import { actionDelete } from "@/db/action";
 import Loading from "./loading";
+import UnorderedList from "@/app/ui/components/tags/unorderedList";
+import { Article } from "@/app/ui/components/tags/article";
+import { ColorArticle } from "@/app/ui/components/tags/colorArticle";
 
 export default function Page() {
   const pathname = usePathname();
@@ -140,73 +143,3 @@ export default function Page() {
   );
 }
 
-interface ArticleProps {
-  label: string;
-  value: string;
-}
-
-function Article({ label, value }: ArticleProps) {
-  return (
-    <article>
-      <h1 className="font-bold text-xl">{label}</h1>
-      <p className="px-10 text-lg">{value}</p>
-    </article>
-  );
-}
-
-interface UnorderedListProps {
-  label: string;
-  values: string[];
-}
-
-function UnorderedList({ label, values }: UnorderedListProps) {
-  return (
-    <article>
-      <h1 className="font-bold text-xl">{label}</h1>
-      <ul className="px-10 text-sm lg:text-base ">
-        {values.map((text, index) => (
-          <li key={label + "-" + index}>- {text}</li>
-        ))}
-      </ul>
-    </article>
-  );
-}
-
-interface ColorArticleProps {
-  label: string;
-  colors: ProductColor[];
-}
-
-function ColorArticle({ label, colors }: ColorArticleProps) {
-  return (
-    <article>
-      <h1 className="font-bold text-xl">{label}</h1>
-      <ul className="flex flex-col gap-2 px-10 text-sm lg:text-base ">
-        {colors.map((color, index) => {
-          return (
-            <li key={"color-" + index}>
-              <div className="flex flex-row gap-5">
-                <button
-                  key={color.color.name + "-" + index}
-                  className={`size-8 md:size-6 lg:size-8 border-2 border-emerald-900 dark:border-emerald-100`}
-                  style={{ backgroundColor: color.color.hex }}
-                  title={color.color.name}
-                ></button>
-                <h2 className="font-semibold">{color.color.name}</h2>
-              </div>
-              <ol className="px-10">
-                {color.images.map((image, index) => {
-                  return (
-                    <li key={color.color.name + "-" + index}>
-                      {index + 1}. {image}
-                    </li>
-                  );
-                })}
-              </ol>
-            </li>
-          );
-        })}
-      </ul>
-    </article>
-  );
-}

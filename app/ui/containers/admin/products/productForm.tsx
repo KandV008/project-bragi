@@ -21,7 +21,7 @@ import {
 import { usesList, valueOfUses } from "@/app/model/entities/enums/Uses";
 import { ProductEntity } from "@/app/model/entities/Product";
 import SubmitButton from "@/app/ui/components/buttons/submitButton";
-import SectionHeader from "@/app/ui/components/common/sectionHeader";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import CheckBoxInput from "@/app/ui/components/inputs/checkBoxInput";
 import ColorInput from "@/app/ui/components/inputs/colorInput";
 import IncrementalTextInput from "@/app/ui/components/inputs/incrementalTextInput";

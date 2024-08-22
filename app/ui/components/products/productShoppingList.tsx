@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import AmountButton from "../../components/buttons/amountButton";
+import AmountButton from "../buttons/amountButton";
 import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
@@ -18,7 +18,7 @@ interface ProductInformationProps {
   quantity: number;
 }
 
-export default function ProductInformation({
+export default function ProductShoppingList({
   id,
   imageURL,
   name,

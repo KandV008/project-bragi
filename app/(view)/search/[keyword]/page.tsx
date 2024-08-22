@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductEntity } from "@/app/model/entities/Product";
-import ProductContainer from "@/app/ui/components/common/productContainer";
+import ProductContainer from "@/app/ui/components/products/productContainer";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "../loading";

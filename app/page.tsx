@@ -5,8 +5,8 @@ import SmallButton from "./ui/components/buttons/smallButton";
 import { useRouter } from "next/navigation";
 import CarouselWithAction from "./ui/containers/main/carousel";
 import Certifications from "./ui/containers/main/certifications";
-import LatestNovelties from "./ui/containers/main/latestNovelties";
 import WorkingFlow from "./ui/containers/main/workingFlow";
+import SomeProductContainer from "./ui/components/products/someProductContainer";
 
 export default function Home() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function Home() {
           <SmallButton text="Accesorios" onClick={handleAccessoriesClick} />
         </div>
       </section>
-      <LatestNovelties />
+      <SomeProductContainer fetchUrl={`/api/getLatestNovelties`} title={"Últimas novedades"} />
       <WorkingFlow />
       <Certifications />
     </>

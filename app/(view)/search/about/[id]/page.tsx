@@ -6,7 +6,7 @@ import Loading from "./loading";
 import { ProductEntity } from "@/app/model/entities/Product";
 import AboutProduct from "@/app/ui/containers/search/about/aboutProduct";
 import Guarantee from "@/app/ui/containers/search/about/guarantee";
-import RelatedProducts from "@/app/ui/containers/search/about/relatedProducts";
+import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
 
 export default function Page() {
   const pathname = usePathname();
@@ -34,7 +34,7 @@ export default function Page() {
     <div className="flex flex-col">
       <AboutProduct product={product} />
       <Guarantee />
-      <RelatedProducts id={product.id} brand={product.brand} price={product.price}/>
+      <SomeProductContainer fetchUrl={`/api/getRelatedProducts?id=${product.id}&brand=${product.brand}&price=${product.price.toString()}`} title={"Productos relacionados"} />
     </div>
   );
 }
