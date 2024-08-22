@@ -19,6 +19,7 @@ import { ProductEntity } from "@/app/model/entities/Product";
 import { ChangeEvent } from "react";
 import SectionHeader from "../../components/common/sectionHeader";
 import RadioInputWithQuantity from "../../components/inputs/radioInputWithQuantity";
+import { checkWaterAndDustResistanceType, valueOfWaterDustResistance } from "@/app/model/entities/enums/WaterDustResistance";
 
 interface FilterProps {
   onChange: (filter: string) => void;
@@ -61,32 +62,16 @@ export default function Filter({ onChange, products }: FilterProps) {
           onChange={filterSelected}
         />
       </article>
-      {/* Water Dust Resistance */} {/* TODO Convert to have a generic one */}
+      {/* Water Dust Resistance */}
       <article className="text-lg">
         <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
-        <form action="" className="px-3">
-          {Object.values(checkWaterAndDustResistanceType(products)).map(
-            (resistance, index) =>
-              resistance.quantity !== 0 ? (
-                <div key={resistance.type}>
-                  <input
-                    type="radio"
-                    id={"waterDustResistance-" + index}
-                    name="waterDustResistance"
-                    value={resistance.value}
-                    onChange={filterSelected(waterDustResistanceType)}
-                  />
-                  <label htmlFor={"waterDustResistance-" + index}>
-                    {" "}
-                    {resistance.type} ( {resistance.quantity} )
-                  </label>
-                  <br></br>
-                </div>
-              ) : (
-                <></>
-              )
-          )}
-        </form>
+        <RadioInputWithQuantity
+          name={waterDustResistanceType}
+          list={Object.values(checkWaterAndDustResistanceType(products))}
+          valueOf={valueOfWaterDustResistance}
+          type={waterDustResistanceType}
+          onChange={filterSelected}
+        />
       </article>
       {/* Brand */}
       <article className="text-lg">
@@ -136,19 +121,7 @@ export default function Filter({ onChange, products }: FilterProps) {
   );
 }
 
-function checkWaterAndDustResistanceType(products: ProductEntity[]) {
-  const counts = {
-    YES: { quantity: 0, type: "Sí", value: "true" },
-    NO: { quantity: 0, type: "No", value: "false" },
-  };
 
-  products.forEach((product) => {
-    if (product.waterDustResistance) counts.YES.quantity += 1;
-    else counts.NO.quantity += 1;
-  });
-
-  return counts;
-}
 
 const shimmer =
   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
