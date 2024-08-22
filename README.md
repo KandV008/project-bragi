@@ -1,10 +1,10 @@
-# *Project Bragi* (Provisional Name)
+# Sain, Audífonos X menos
 
 <p align="center">
 <strong>This project is now  in progress...</strong>
 </p>
 
-Project Bragi (Provisional Name) is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accesibility, usability and affordable prices.
+Sain is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accesibility, usability and affordable prices.
 
 This web application is in property of @KandV008 (Temporary Owner).
 
@@ -73,32 +73,39 @@ In the application there are 2 different type of user:
 | :-: | :-- |
 | Unregistered User | It can interact with all the page but not with the products |
 | Registered User | It can interact with anything |
+| Admin User | As Registered User plus CRUD operations to entities |
 
 #### :wrench: Functional Requirements
 
 Here are the diferent actions that can do the different type of users:
 
-| User Histories | Unregistered User | Registered User |
-| :-- | :-: | :-: |
+| User Histories | Unregistered User | Registered User | Admin User |
+| :-- | :-: | :-: | :-: |
 | UH-01 Sign Up | :heavy_check_mark: | |
 | UH-02 Log In | | :heavy_check_mark: |
 | UH-03 Log Out | | :heavy_check_mark: |
 | UH-04 Delete Account | | :heavy_check_mark: |
-| UH-05 See Product Details | :heavy_check_mark: | :heavy_check_mark: |
-| UH-06 Add Product to Favorites | | :heavy_check_mark: |
-| UH-07 Add Product to Shopping List | | :heavy_check_mark: |
-| UH-08 Select Product's color | :heavy_check_mark: | :heavy_check_mark: |
-| UH-09 Add Guarantee to the Product | :heavy_check_mark: | :heavy_check_mark: |
-| UH-10 See Account | | :heavy_check_mark: |
-| UH-11 See Favorites | | :heavy_check_mark: |
-| UH-12 See Shopping List | | :heavy_check_mark: |
-| UH-13 See All Products of One Category | :heavy_check_mark: | :heavy_check_mark: |
-| UH-14 Search Product by name | :heavy_check_mark: | :heavy_check_mark: |
-| UH-15 Search Product by filters | :heavy_check_mark: | :heavy_check_mark: |
-| UH-16 See novelties products | :heavy_check_mark: | :heavy_check_mark: |
-| UH-17 See related products | :heavy_check_mark: | :heavy_check_mark: |
-| UH-18 Access to Error Page | :heavy_check_mark: | :heavy_check_mark: |
-| UH-19 Access to In Development Page | :heavy_check_mark: | :heavy_check_mark: |
+| UH-05 See Product Details | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-06 Add Product to Favorites | | :heavy_check_mark: | :heavy_check_mark: |
+| UH-07 Add Product to Shopping List | | :heavy_check_mark: | :heavy_check_mark: |
+| UH-08 Select Product's color | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-09 Add Guarantee to the Product | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-10 See Account | | :heavy_check_mark: | :heavy_check_mark: |
+| UH-11 See Favorites | | :heavy_check_mark: | :heavy_check_mark: |
+| UH-12 See Shopping List | | :heavy_check_mark: | :heavy_check_mark: |
+| UH-13 See All Products of One Category | :heavy_check_mark: |  :heavy_check_mark: | :heavy_check_mark: |
+| UH-14 Search Product by keyword | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-15 Search Product by filters | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-16 See novelties products | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-17 See related products | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-18 Access to Error Page | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-19 Access to In Development Page | :heavy_check_mark: |  :heavy_check_mark: | :heavy_check_mark: |
+| UH-20 Access to Admin Dashboard Page | | | :heavy_check_mark: |
+| UH-21 Create Product | | | :heavy_check_mark: |
+| UH-22 Read Product | | | :heavy_check_mark: |
+| UH-23 Update Product | | | :heavy_check_mark: |
+| UH-24 Delete Product | | | :heavy_check_mark: |
+| UH-25 Read All Products | | | :heavy_check_mark: |
 
 #### :electric_plug: Non Functional Requirements
 
@@ -119,16 +126,121 @@ Here are the diferent actions that can do the different type of users:
 #### :airplane: Navigation
 
 <p align="center">
-  <img src="/docs/versions/v0.1/v0.1-Navigation.svg" alt="Configuration page">
+  <img src="/docs/versions/v0.2/v0.2-Navigation.svg" alt="Configuration page">
   <br>
   <small>Activity Diagram 1. Navigation Map</small>
 </p>
 
 #### :performing_arts: Branding
 
-<p align="center">
-<strong>Currently, there is no branding...</strong>
-</p>
+##### Large Logo
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/large_logo/logo_large_sain_black.png" alt="Figure 1. Black Large Logo" style="width: 150px; background-color: white;">
+        <br>
+        <small>Figure 1. Black Large Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/large_logo/logo_large_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Large Logo" style="width: 150px;">
+        <br>
+        <small>Figure 2. Dark Emerald Large Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/large_logo/logo_large_sain_light_emerald.png" alt="Figure 3. Light Emerald Large Logo" style="width: 150px;">
+        <br>
+        <small>Figure 3. Light Emerald Large Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/large_logo/logo_large_sain_white.png" alt="Figure 4. White Large Logo" style="width: 150px;">
+        <br>
+        <small>Figure 4. White Large Logo</small>
+    </div>
+</div>
+
+To see the logos in more detail, [click here](/docs/brand/large_logo/).
+
+##### Medium Logo
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/medium_logo/logo_medium_sain_black.png" alt="Figure 1. Black Medium Logo" style="width: 120px; background-color: white;">
+        <br>
+        <small>Figure 5. Black Medium Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/medium_logo/logo_medium_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Medium Logo" style="width: 120px;">
+        <br>
+        <small>Figure 6. Dark Emerald Medium Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/medium_logo/logo_medium_sain_light_emerald.png" alt="Figure 3. Light Emerald Medium Logo" style="width: 120px;">
+        <br>
+        <small>Figure 7. Light Emerald Medium Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/medium_logo/logo_medium_sain_white.png" alt="Figure 4. White Medium Logo" style="width: 120px;">
+        <br>
+        <small>Figure 8. White Medium Logo</small>
+    </div>
+</div>
+
+To see the logos in more detail, [click here](/docs/brand/medium_logo//).
+
+##### Small Logo
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/small_logo/logo_small_sain_black.png" alt="Figure 1. Black Small Logo" style="width: 75px; background-color: white;">
+        <br>
+        <small>Figure 9. Black Small Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/small_logo/logo_small_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Small Logo" style="width: 75px;">
+        <br>
+        <small>Figure 10. Dark Emerald Small Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/small_logo/logo_small_sain_light_emerald.png" alt="Figure 3. Light Emerald Small Logo" style="width: 75px;">
+        <br>
+        <small>Figure 11. Light Emerald Small Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/small_logo/logo_small_sain_white.png" alt="Figure 4. White Small Logo" style="width: 75px;">
+        <br>
+        <small>Figure 12. White Small Logo</small>
+    </div>
+</div>
+
+To see the logos in more detail, [click here](/docs/brand/large_logo/).
+
+##### Web Icon
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/web_icon/logo_web_sain_black.png" alt="Figure 1. Black Web Logo" style="width: 100px; background-color: white;">
+        <br>
+        <small>Figure 13. Black Web Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/web_icon/logo_web_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Web Logo" style="width: 100px;">
+        <br>
+        <small>Figure 14. Dark Emerald Web Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/web_icon/logo_web_sain_light_emerald.png" alt="Figure 3. Light Emerald Web Logo" style="width: 100px;">
+        <br>
+        <small>Figure 15. Light Emerald Web Logo</small>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="/docs/brand/web_icon/logo_web_sain_white.png" alt="Figure 4. White Web Logo" style="width: 100px;">
+        <br>
+        <small>Figure 16. White Web Logo</small>
+    </div>
+</div>
+
+To see the logos in more detail, [click here](/docs/brand/web_icon/).
+
 
 #### :church: Architecture
 
@@ -142,7 +254,7 @@ Here are the diferent actions that can do the different type of users:
 
 | Current Version |
 | :-: |
-| `v0.1` |
+| `v0.2` |
 
 <p align="center">
 <strong>These sections are previews, when the corresponding version has been completed, the section will be completed with the specific additions.</strong>
@@ -150,16 +262,11 @@ Here are the diferent actions that can do the different type of users:
 
 #### `v0.1` Basic Structure
 
-See [Requirements Analysis](#black_nib-requirement-analysis) to know the basic structure of the application.
+See [this document](/docs/versions/v0.1/v0.1-README.md) to  know the basic structure of the application.
 
 #### `v0.2` Searching & Optimization
 
-Searches in the different databases will be optimized: 
-
-* Adding pagination when browsing the available products. 
-* The way of loading information will also be updated, improving the experience when using the different filters.
-* We will add ways to operate via user interface with the products.
-* The database will be complete with the relevant products.
+See [this document](/docs/versions/v0.2/v0.2-README.md) to find out the changes made for search and optimization.
 
 #### `v0.3` Quality of Life
 
@@ -213,7 +320,7 @@ How the product information is stored in the [NoSQL Database](#page_facing_up-no
 
 #### :page_facing_up: NoSQL Database
 
-The purpose of this databse is to manage all the products available. The application uses [MongoDB](https://www.mongodb.com).
+The purpose of this database is to manage all the products available. The application uses [MongoDB](https://www.mongodb.com).
 
 ##### :scroll: Product Schema
 
@@ -232,7 +339,7 @@ The purpose of this databse is to manage all the products available. The applica
     include: string[],
     adaptation_range: "MILD" | "MODERATE" | "SEVERE" | "PROFOUND",
     dust_water_resistance: boolean,
-    brand: "PHONAK",
+    brand: "PHONAK" | "STARKEY",
     location: "RETROAURICULAR" | "INTRACANAL" | "CIC" | "RIC",
     level_of_discretion: "VISIBLE" | "DISCREET" | "IMPERCEPTIBLE",
     degree_of_loss: "MILD" | "MODERATE" | "SEVERE" | "PROFOUND",
