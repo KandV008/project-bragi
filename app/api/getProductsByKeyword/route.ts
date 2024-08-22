@@ -6,9 +6,10 @@ export async function GET(request: Request) {
   const keyword = searchParams.get('keyword');
   const startIndex = searchParams.get('start');
   const endIndex = searchParams.get('end');
+  const filters = searchParams.get('filters');
 
   try {
-    const product = await searchProducts(keyword, startIndex, endIndex);
+    const product = await searchProducts(keyword, startIndex, endIndex, filters);
 
     if (!product) {
       return NextResponse.json({ message: 'Product not found' }, { status: 404 });

@@ -14,7 +14,7 @@ export async function checkFavorite(userIdToParse: string | null, productIdToPar
 
     const result = await client.query(
         `SELECT COUNT(*) AS count FROM favourites WHERE product_id = $1 AND user_id = $2`,
-        [userId, productId]
+        [productId, userId]
     );
 
     return result.rows[0].count != 0

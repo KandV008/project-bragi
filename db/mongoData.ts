@@ -58,6 +58,7 @@ export async function getProductsByCategory(categoryToCheck: string | null, star
     const coll = db.collection("products");
 
     const cursor = coll.find({ ...categoryFilter, ...parsedFilters })
+      .sort({ _id: -1 })
       .skip(startIndex)
       .limit(endIndex - startIndex + 1);
 
@@ -176,10 +177,16 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
   return products
 }
 
-export async function searchProducts(keywordToParse: string | null, start: string | null, end: string | null): Promise<ProductEntity[]> {
+export async function searchProducts(
+  keywordToParse: string | null, 
+  start: string | null, 
+  end: string | null, 
+  filters: string | null
+): Promise<ProductEntity[]> {
   const products: ProductEntity[] = [];
-  const parsedKeyword = parseString(keywordToParse, "KEYWORD")
-  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
+  const parsedKeyword = parseString(keywordToParse, "KEYWORD");
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end);
+  const parsedFilters = parseFilters(filters);
 
   try {
     await client.connect();
@@ -188,24 +195,33 @@ export async function searchProducts(keywordToParse: string | null, start: strin
     const coll = db.collection("products");
 
     const cursor = coll.find({
-      $or: [
-        { name: { $regex: parsedKeyword, $options: "i" } },
-        { description: { $regex: parsedKeyword, $options: "i" } }
+      $and: [
+        {
+          $or: [
+            { name: { $regex: parsedKeyword, $options: "i" } },
+            { description: { $regex: parsedKeyword, $options: "i" } }
+          ]
+        },
+        parsedFilters
       ]
     })
-      .skip(startIndex)
-      .limit(endIndex - startIndex + 1);;
+    .sort({ _id: -1 })
+    .skip(startIndex)
+    .limit(endIndex - startIndex + 1);
 
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
     });
+  } catch (e) {
+    console.log(e);
   } finally {
     await client.close();
   }
 
-  console.log(products.map(product => product.id))
+  console.log(products.map(product => product.id));
   return products;
 }
+
 
 export async function createProduct(productData: any): Promise<void> {
   try {

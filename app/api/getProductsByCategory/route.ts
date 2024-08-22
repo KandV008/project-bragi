@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const startIndex = searchParams.get('start');
   const endIndex = searchParams.get('end');
   const filters = searchParams.get('filters');
-console.log(filters)
+
   try {
     const products = await getProductsByCategory(category, startIndex, endIndex, filters);
 

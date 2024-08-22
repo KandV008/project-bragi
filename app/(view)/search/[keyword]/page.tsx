@@ -12,13 +12,17 @@ export default function Page() {
   const [startIndex, setStartIndex] = useState<number>(0);
   const [endIndex, setEndIndex] = useState<number>(9);
   const increment = 10
+
   const keyword = pathname.split("/").pop();
+  const [filters, setFilters] = useState<string[]>([]);
+
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    const joinFilters = filters.join(",");
     if (keyword) {
-      fetch(`/api/getProductsByKeyword?keyword=${keyword}&start=${startIndex}&end=${endIndex}`)
+      fetch(`/api/getProductsByKeyword?keyword=${keyword}&start=${startIndex}&end=${endIndex}&filters=${joinFilters}`)
         .then((response) => response.json())
         .then((data) => {
           setProduct((prev) => prev.concat(data));
@@ -26,14 +30,31 @@ export default function Page() {
         })
         .catch((error) => console.error("Error fetching product:", error));
     }
-  }, [endIndex, keyword, startIndex]);
+  }, [endIndex, filters, keyword, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!products) return <p>No product data</p>;
+  if (!products) return <p>No product data</p>; // TODO Add Message
 
-  const filterAction = (filter: (product: ProductEntity) => boolean) => {
-    const filtered = products.filter(filter);
-    setProduct(filtered);
+  const filterAction = (filter: string) => {
+    setFilters((prev) => {
+      const index = prev.findIndex((value) =>
+        value.startsWith(filter.split(",")[0])
+      );
+
+      if (index === -1) {
+        return [...prev, filter];
+      } else if (prev[index] === filter) {
+        const newFilters = [...prev];
+        newFilters.splice(index, 1);
+        return newFilters;
+      } else {
+        const newFilters = [...prev];
+        newFilters[index] = filter;
+        return newFilters;
+      }
+    });
+    setStartIndex(0)
+    setEndIndex(9)
   };
 
   const addMoreProducts = () => {
