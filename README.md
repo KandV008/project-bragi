@@ -135,112 +135,35 @@ Here are the diferent actions that can do the different type of users:
 
 ##### Large Logo
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/large_logo/logo_large_sain_black.png" alt="Figure 1. Black Large Logo" style="width: 150px; background-color: white;">
-        <br>
-        <small>Figure 1. Black Large Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/large_logo/logo_large_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Large Logo" style="width: 150px;">
-        <br>
-        <small>Figure 2. Dark Emerald Large Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/large_logo/logo_large_sain_light_emerald.png" alt="Figure 3. Light Emerald Large Logo" style="width: 150px;">
-        <br>
-        <small>Figure 3. Light Emerald Large Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/large_logo/logo_large_sain_white.png" alt="Figure 4. White Large Logo" style="width: 150px;">
-        <br>
-        <small>Figure 4. White Large Logo</small>
-    </div>
-</div>
+| ![Figure 1. Black Large Logo](/docs/brand/large_logo/logo_large_sain_black.png) | ![Figure 2. Dark Emerald Large Logo](/docs/brand/large_logo/logo_large_sain_dark_emerald.png) | ![Figure 3. Light Emerald Large Logo](/docs/brand/large_logo/logo_large_sain_light_emerald.png) | ![Figure 4. White Large Logo](/docs/brand/large_logo/logo_large_sain_white.png) |
+|:---:|:---:|:---:|:---:|
+| Figure 1. Black Large Logo | Figure 2. Dark Emerald Large Logo | Figure 3. Light Emerald Large Logo | Figure 4. White Large Logo |
 
 To see the logos in more detail, [click here](/docs/brand/large_logo/).
 
 ##### Medium Logo
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/medium_logo/logo_medium_sain_black.png" alt="Figure 1. Black Medium Logo" style="width: 120px; background-color: white;">
-        <br>
-        <small>Figure 5. Black Medium Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/medium_logo/logo_medium_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Medium Logo" style="width: 120px;">
-        <br>
-        <small>Figure 6. Dark Emerald Medium Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/medium_logo/logo_medium_sain_light_emerald.png" alt="Figure 3. Light Emerald Medium Logo" style="width: 120px;">
-        <br>
-        <small>Figure 7. Light Emerald Medium Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/medium_logo/logo_medium_sain_white.png" alt="Figure 4. White Medium Logo" style="width: 120px;">
-        <br>
-        <small>Figure 8. White Medium Logo</small>
-    </div>
-</div>
+| ![Figure 5. Black Medium Logo](/docs/brand/medium_logo/logo_medium_sain_black.png) | ![Figure 6. Dark Emerald Medium Logo](/docs/brand/medium_logo/logo_medium_sain_dark_emerald.png) | ![Figure 7. Light Emerald Medium Logo](/docs/brand/medium_logo/logo_medium_sain_light_emerald.png) | ![Figure 8. White Medium Logo](/docs/brand/medium_logo/logo_medium_sain_white.png) |
+|:---:|:---:|:---:|:---:|
+| Figure 5. Black Medium Logo | Figure 6. Dark Emerald Medium Logo | Figure 7. Light Emerald Medium Logo | Figure 8. White Medium Logo |
 
 To see the logos in more detail, [click here](/docs/brand/medium_logo//).
 
 ##### Small Logo
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/small_logo/logo_small_sain_black.png" alt="Figure 1. Black Small Logo" style="width: 75px; background-color: white;">
-        <br>
-        <small>Figure 9. Black Small Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/small_logo/logo_small_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Small Logo" style="width: 75px;">
-        <br>
-        <small>Figure 10. Dark Emerald Small Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/small_logo/logo_small_sain_light_emerald.png" alt="Figure 3. Light Emerald Small Logo" style="width: 75px;">
-        <br>
-        <small>Figure 11. Light Emerald Small Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/small_logo/logo_small_sain_white.png" alt="Figure 4. White Small Logo" style="width: 75px;">
-        <br>
-        <small>Figure 12. White Small Logo</small>
-    </div>
-</div>
+| ![Figure 9. Black Large Logo](/docs/brand/small_logo/logo_small_sain_black.png) | ![Figure 10. Dark Emerald Large Logo](/docs/brand/small_logo/logo_small_sain_dark_emerald.png) | ![Figure 11. Light Emerald Large Logo](/docs/brand/small_logo/logo_small_sain_light_emerald.png) | ![Figure 12. White Large Logo](/docs/brand/small_logo/logo_small_sain_white.png) |
+|:---:|:---:|:---:|:---:|
+| Figure 9. Black Small Logo | Figure 10. Dark Emerald Small Logo | Figure 11. Light Emerald Small Logo | Figure 12. White Small Logo |
 
 To see the logos in more detail, [click here](/docs/brand/large_logo/).
 
 ##### Web Icon
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/web_icon/logo_web_sain_black.png" alt="Figure 1. Black Web Logo" style="width: 100px; background-color: white;">
-        <br>
-        <small>Figure 13. Black Web Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/web_icon/logo_web_sain_dark_emerald.png" alt="Figure 2. Dark Emerald Web Logo" style="width: 100px;">
-        <br>
-        <small>Figure 14. Dark Emerald Web Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/web_icon/logo_web_sain_light_emerald.png" alt="Figure 3. Light Emerald Web Logo" style="width: 100px;">
-        <br>
-        <small>Figure 15. Light Emerald Web Logo</small>
-    </div>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="/docs/brand/web_icon/logo_web_sain_white.png" alt="Figure 4. White Web Logo" style="width: 100px;">
-        <br>
-        <small>Figure 16. White Web Logo</small>
-    </div>
-</div>
+| ![Figure 13. Black Web Icon](/docs/brand/web_icon/logo_web_sain_black.png) | ![Figure 14. Dark Emerald Web Icon](/docs/brand/web_icon/logo_web_sain_dark_emerald.png) | ![Figure 15. Light Emerald Web Icon](/docs/brand/web_icon/logo_web_sain_light_emerald.png) | ![Figure 16. White Web Icon](/docs/brand/web_icon/logo_web_sain_white.png) |
+|:---:|:---:|:---:|:---:|
+| Figure 13. Black Web Icon | Figure 14. Dark Emerald Web Icon | Figure 15. Light Emerald Web Icon | Figure 16. White Web Icon |
 
 To see the logos in more detail, [click here](/docs/brand/web_icon/).
-
 
 #### :church: Architecture
 
