@@ -185,11 +185,11 @@ To see the logos in more detail, [click here](/docs/brand/web_icon/).
 
 #### `v0.1` Basic Structure
 
-See [this document](/docs/versions/v0.1/v0.1-README.md) to  know the basic structure of the application.
+[Click here](/docs/versions/v0.1/v0.1-README.md) to see the basic structure of the application.
 
 #### `v0.2` Searching & Optimization
 
-See [this document](/docs/versions/v0.2/v0.2-README.md) to find out the changes made for search and optimization.
+[Click here](/docs/versions/v0.2/v0.2-README.md) to find out the changes made for search and optimization.
 
 #### `v0.3` Quality of Life
 
