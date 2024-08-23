@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SectionHeader from "../../components/common/sectionHeader";
+import SectionHeader from "../../components/tags/sectionHeader";
 
 export default function Certifications() {
   return (

@@ -5,7 +5,6 @@ export async function GET() {
 
   try {
     const product = await getLatestNovelties();
-    console.log(product)
 
     if (!product) {
       return NextResponse.json({ message: 'Products not found' }, { status: 404 });

@@ -1,6 +1,7 @@
 'use server';
 
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/Product";
+import { parseFilters, parsePrice, parseStartAndEndIndex, parseString } from "@/lib/parser";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -18,13 +19,9 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function getProductsByCategory(category: string | null): Promise<ProductEntity[] | null> {
-  let products: ProductEntity[] = [];
-
-  if (category == null) {
-    console.log("ERROR: BRAND is null")
-    return null;
-  }
+export async function getAllProducts(start: string | null, end: string | null) {
+  const products: ProductEntity[] = [];
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
   try {
     await client.connect();
@@ -32,20 +29,52 @@ export async function getProductsByCategory(category: string | null): Promise<Pr
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
 
-    const cursor = coll.find({ category: category });
+    const cursor = coll.find()
+      .skip(startIndex)
+      .limit(endIndex - startIndex + 1);
 
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
     });
-  } finally {
-    await client.close();
+  } catch (e) {
+    console.log(e)
   }
 
+  console.log(products.map(product => product.id))
+  return products;
+}
+
+export async function getProductsByCategory(categoryToCheck: string | null, start: string | null, end: string | null, filters: string | null): Promise<ProductEntity[]> {
+  const products: ProductEntity[] = [];
+  const checkedCategory = parseString(categoryToCheck, "CATEGORY")
+  const categoryFilter = { category: checkedCategory }
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
+  const parsedFilters = parseFilters(filters)
+
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const cursor = coll.find({ ...categoryFilter, ...parsedFilters })
+      .sort({ _id: -1 })
+      .skip(startIndex)
+      .limit(endIndex - startIndex + 1);
+
+    await cursor.forEach((doc: any) => {
+      products.push(mapDocumentToProduct(doc));
+    });
+  } catch (e) {
+    console.log(e)
+  }
+
+  console.log(products.map(product => product.id))
   return products;
 }
 
 export async function getLatestNovelties(): Promise<ProductEntity[]> {
-  let products: ProductEntity[] = [];
+  const products: ProductEntity[] = [];
 
   try {
     await client.connect();
@@ -62,24 +91,14 @@ export async function getLatestNovelties(): Promise<ProductEntity[]> {
     await client.close();
   }
 
+  console.log(products.map(product => product.id))
   return products;
 }
 
-export async function getRelatedProducts(brand: string | null, price: string | null): Promise<ProductEntity[] | null> {
-  let products: ProductEntity[] = [];
-  let parsedPrice: number
-
-  if (brand == null) {
-    console.log("ERROR: BRAND is null")
-    return null;
-  }
-
-  if (price == null || !(isNaN(parseFloat(price)))) {
-    console.log("ERROR: PRICE is null")
-    return null;
-  }
-
-  parsedPrice = parseFloat(price)
+export async function getRelatedProducts(brandToCheck: string | null, price: string | null): Promise<ProductEntity[] | null> {
+  const products: ProductEntity[] = [];
+  const brandChecked = parseString(brandToCheck, "BRAND")
+  const parsedPrice = parsePrice(price)
 
   try {
     await client.connect();
@@ -91,7 +110,7 @@ export async function getRelatedProducts(brand: string | null, price: string | n
       {
         $match: {
           $or: [
-            { brand: { $eq: brand } },
+            { brand: { $eq: brandChecked } },
             { price: { $gte: (parsedPrice - 200), $lte: (parsedPrice + 200) } }
           ]
         }
@@ -108,14 +127,12 @@ export async function getRelatedProducts(brand: string | null, price: string | n
     await client.close();
   }
 
+  console.log(products.map(product => product.id))
   return products;
 }
 
-export async function getProduct(id: string | null): Promise<ProductEntity | null> {
-  if (id == null) {
-    console.log("ERROR: ID is null")
-    return null;
-  }
+export async function getProduct(productIdToParse: string | null): Promise<ProductEntity | null> {
+  const parsedProductId = parseString(productIdToParse, "PRODUCT_ID")
 
   try {
     await client.connect();
@@ -123,7 +140,7 @@ export async function getProduct(id: string | null): Promise<ProductEntity | nul
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
 
-    const objectId = new ObjectId(id);
+    const objectId = new ObjectId(parsedProductId);
     const product = await coll.findOne({ _id: objectId });
 
     if (!product) {
@@ -131,6 +148,7 @@ export async function getProduct(id: string | null): Promise<ProductEntity | nul
       return null;
     }
 
+    console.log(product)
     return mapDocumentToProduct(product)
   } finally {
     ;
@@ -138,7 +156,7 @@ export async function getProduct(id: string | null): Promise<ProductEntity | nul
 }
 
 export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> {
-  let products: ProductEntity[] = [];
+  const products: ProductEntity[] = [];
   const objectIds = ids.map(id => new ObjectId(id));
 
   try {
@@ -159,15 +177,16 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
   return products
 }
 
-export async function searchProducts(keyword: string | null): Promise<ProductEntity[]> {
-  console.log("KEYWORD: " + keyword);
-
-  let products: ProductEntity[] = [];
-
-  if (!keyword) {
-    console.log("ERROR: Keyword is null or empty");
-    return products;
-  }
+export async function searchProducts(
+  keywordToParse: string | null, 
+  start: string | null, 
+  end: string | null, 
+  filters: string | null
+): Promise<ProductEntity[]> {
+  const products: ProductEntity[] = [];
+  const parsedKeyword = parseString(keywordToParse, "KEYWORD");
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end);
+  const parsedFilters = parseFilters(filters);
 
   try {
     await client.connect();
@@ -176,19 +195,108 @@ export async function searchProducts(keyword: string | null): Promise<ProductEnt
     const coll = db.collection("products");
 
     const cursor = coll.find({
-      $or: [
-        { name: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } }
+      $and: [
+        {
+          $or: [
+            { name: { $regex: parsedKeyword, $options: "i" } },
+            { description: { $regex: parsedKeyword, $options: "i" } }
+          ]
+        },
+        parsedFilters
       ]
-    });
+    })
+    .sort({ _id: -1 })
+    .skip(startIndex)
+    .limit(endIndex - startIndex + 1);
 
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
     });
+  } catch (e) {
+    console.log(e);
   } finally {
     await client.close();
   }
 
-  console.log(products)
+  console.log(products.map(product => product.id));
   return products;
 }
+
+
+export async function createProduct(productData: any): Promise<void> {
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const result = await coll.insertOne(productData);
+
+    if (result.acknowledged) {
+      console.log(`Product added with ID: ${result.insertedId}`);
+    } else {
+      console.error("Failed to add product.");
+    }
+  } catch (error) {
+    console.error("Error adding product:", error);
+  } finally {
+    await client.close(); 
+  }
+}
+
+export async function updateProduct(productData: any): Promise<void> {
+  const { _id, ...updateFields } = productData; 
+  const productId = parseString(_id, "PRODUCT_ID");
+
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const objectId = new ObjectId(productId);
+    const result = await coll.updateOne(
+      { _id: objectId },
+      { $set: updateFields } 
+    );
+
+    if (result.matchedCount === 1) {
+      if (result.modifiedCount === 1) {
+        console.log(`Product with ID: ${productId} has been updated.`);
+      } else {
+        console.log(`No changes were made to the product with ID: ${productId}.`);
+      }
+    } else {
+      console.error(`Failed to update product with ID: ${productId}. Product not found.`);
+    }
+  } catch (error) {
+    console.error("Error updating product:", error);
+  } finally {
+    await client.close();
+  }
+}
+
+export async function deleteProduct(productId: string | undefined | null): Promise<void> {
+  const id = parseString(productId, "PRODUCT_ID");
+  
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const objectId = new ObjectId(id);
+    const result = await coll.deleteOne({ _id: objectId });
+
+    if (result.deletedCount === 1) {
+      console.log(`Product with ID: ${id} has been deleted.`);
+    } else {
+      console.error(`Failed to delete product with ID: ${id}. Product not found.`);
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  } finally {
+    await client.close();
+  }
+}
+

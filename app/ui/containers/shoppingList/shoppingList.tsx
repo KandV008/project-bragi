@@ -1,5 +1,5 @@
-import ProductInformation, { ProductInformationSkeleton } from "@/app/ui/containers/shoppingList/productInformation";
 import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
+import ProductShoppingList, { ProductInformationSkeleton } from "../../components/products/productShoppingList";
 
 interface ShoppingListProps {
   products: ProductDTO[];
@@ -9,7 +9,7 @@ export default function ShoppingList({ products }: ShoppingListProps) {
   return (
     <section className="flex flex-col gap-5">
       {products.map((product, index) => (
-        <ProductInformation key={index}
+        <ProductShoppingList key={index}
                             id={product.id}
                             imageURL={product.imageURL}
                             name={product.name}
