@@ -3,13 +3,11 @@
 import { ProductEntity } from "@/app/model/entities/Product";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
 import ProductContainer from "@/app/ui/components/products/productContainer";
 
 export default function Page() {
-  const router = useRouter();
   const [startIndex, setStartIndex] = useState<number>(0);
   const [endIndex, setEndIndex] = useState<number>(9);
   const increment = 10;
@@ -39,28 +37,28 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col gap-10 w-full justify-between">
+    <section className="flex flex-col gap-10 w-full justify-between">
       {/* Actions */}
-      <section className="flex flex-center shrink-0 justify-center">
+      <article className="flex flex-center shrink-0 justify-center">
         <div className="fixed top-44 md:top-36">
           <MediumButtonWithIcon
             icon={faPlus}
             text={"Crear Producto"}
             subtext={"Añadir un nuevo producto"}
             type={"default"}
-            onClick={() => router.push("/admin/products/create")}
+            navigationURL="/admin/products/create"
           />
         </div>
-      </section>
+      </article>
       {/* List */}
-      <div className="md:size-fit lg:px-12">
+      <article className="md:size-fit lg:px-12">
         <ProductContainer
           products={products}
           moreProduct={addMoreProducts}
           showMoreButton={products.length === endIndex + 1}
           isPreview={true}
         />
-      </div>
-    </div>
+      </article>
+    </section>
   );
 }

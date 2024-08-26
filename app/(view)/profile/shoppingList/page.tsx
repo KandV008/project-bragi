@@ -2,6 +2,11 @@ import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import ShoppingList from "@/app/ui/containers/shoppingList/shoppingList";
 import Summary from "@/app/ui/containers/shoppingList/summary";
 import { getShoppingList } from "@/db/postgresData";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Cesta de la compra",
+};
 
 export default async function Page() {
   const shoppingList = await getShoppingList();
