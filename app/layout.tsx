@@ -6,6 +6,7 @@ import Header from "./ui/components/common/header";
 import Footer from "./ui/components/common/footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -77,7 +78,6 @@ export default function RootLayout({
     <ClerkProvider localization={localization}>
       <html lang="es">
         <head>
-          <title>Project Bragi</title>
           {/* Other head elements like meta tags, link tags etc. */}
           <link rel="icon" href="/favicon.ico" sizes="any" />
           <meta
@@ -88,6 +88,7 @@ export default function RootLayout({
         <body
           className={`${inter.className} flex flex-col bg-white dark:bg-emerald-950 min-h-screen align-middle`}
         >
+          <NextTopLoader color="#05966A" crawl={false} height={5} showSpinner={false} speed={500}/>
           <header className="p-4 flex justify-end"></header>
           <Header />
           <div className="mt-20"></div>

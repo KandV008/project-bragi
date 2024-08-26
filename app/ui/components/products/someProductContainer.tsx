@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from "react";
 import { useEffect } from "react";
 import SectionHeader from "../../components/tags/sectionHeader";

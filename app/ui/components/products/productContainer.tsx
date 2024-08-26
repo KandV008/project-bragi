@@ -5,6 +5,7 @@ import { useUser } from "@clerk/clerk-react";
 import Product, { ProductSkeleton } from "./product";
 import SmallButton from "../buttons/smallButton";
 import { useState, useEffect } from "react";
+import MediumButton from "../buttons/mediumButton";
 
 interface ProductContainerProps {
   products: ProductEntity[];
@@ -53,7 +54,7 @@ export default function ProductContainer({
       </article>
       {showMoreButton ? (
         <article className="self-center">
-          <SmallButton text="Ver más" onClick={moreProduct} />
+          <MediumButton text="Ver más" onClick={moreProduct} />
         </article>
       ) : (
         <></>

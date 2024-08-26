@@ -2,14 +2,8 @@
 
 import Image from "next/image";
 import SmallButton from "../../../ui/components/buttons/smallButton";
-import { useRouter } from "next/navigation";
 
 export default function CarouselWithAction() {
-  const router = useRouter()
-
-  const onClick = () => {
-    router.push("/in-development")
-  }
 
   return (
     <section>
@@ -31,7 +25,7 @@ export default function CarouselWithAction() {
             si encuentra un audífono comparable a mejor precio en la calle. 
             </article>
             <div className="flex justify-center gap-2">
-              <SmallButton text="Pida ya su cita" onClick={onClick}/>
+              <SmallButton text="Pida ya su cita" href="/in-development"/>
             </div>
           </div>
         </div>

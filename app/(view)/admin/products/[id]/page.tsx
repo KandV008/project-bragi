@@ -17,7 +17,6 @@ import { ColorArticle } from "@/app/ui/components/tags/colorArticle";
 export default function Page() {
   const pathname = usePathname();
   const productId = pathname.split("/").pop();
-  const router = useRouter()
 
   const [imgIndex, setImgIndex] = useState(0);
 
@@ -51,7 +50,7 @@ export default function Page() {
           text={"Editar Producto"}
           subtext={"Actualizar las atributos"}
           type={"warning"}
-          onClick={() => router.push(`/admin/products/${productId}/update`)}
+          navigationURL={`/admin/products/${productId}/update`}
         />
         <MediumButtonWithIcon
           icon={faEraser}

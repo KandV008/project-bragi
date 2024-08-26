@@ -79,10 +79,10 @@ export default function WorkingFlow() {
           Envianos tu audiograma y te haremos una lista de recomendaciones.
         </p>
         <div className="self-center hidden lg:block">
-          <SmallButton text="Enviar audiograma" onClick={() => {router.push("/in-development")}}/>
+          <SmallButton text="Enviar audiograma" href="/in-development"/>
         </div>
         <div className="self-center block lg:hidden">
-          <SmallButton text="Enviar" onClick={() => {router.push("/in-development")}}/>
+          <SmallButton text="Enviar" href="/in-development"/>
         </div> 
       </article>
       {/* Not knowing the hearing aid but not having a hearing test */}
@@ -102,7 +102,7 @@ export default function WorkingFlow() {
           Pide cita vía online y nos encargaremos de hacerte tu audiograma.
         </p>
         <div className="self-center">
-          <SmallButton text="Pedir cita" onClick={() => {router.push("/in-development")}}/>
+          <SmallButton text="Pedir cita" href="/in-development" />
         </div>
       </article>
     </section>

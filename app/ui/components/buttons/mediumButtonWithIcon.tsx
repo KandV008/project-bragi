@@ -2,7 +2,7 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface MediumButtonWithIconProps {
   icon: IconDefinition;
@@ -18,35 +18,35 @@ export default function MediumButtonWithIcon({
   text,
   subtext,
   type,
-  navigationURL = "/",
-  onClick: action = () => {},
+  navigationURL,
+  onClick: action,
 }: MediumButtonWithIconProps) {
-  const router = useRouter();
   const bgColorClass = checkTypeMediumButton(type);
 
-  const onClick = () => {
-    action();
-    router.push(navigationURL);
+  const onClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (action) action();
+    if (!navigationURL) e.preventDefault;
   };
 
   return (
-    <button
-      className={`flex flex-row gap-2 cursor-pointer py-1 px-4 h-16 align-items-center w-64
+    <Link href={navigationURL ? navigationURL : ""} onClick={onClick}>
+      <button
+        className={`flex flex-row gap-2 cursor-pointer py-1 px-4 h-16 align-items-center w-64
                   border-emerald-900 dark:border-emerald-100 border-2 rounded-2xl 
                   text-emerald-900 dark:text-emerald-100 lg:text-left md:text-center
                   ${bgColorClass}`}
-      onClick={onClick}
-    >
-      <div className="mr-2 md:mr-0 lg:mr-2 self-center">
-        <FontAwesomeIcon icon={icon} className="size-6" />
-      </div>
-      <div className="flex flex-col text-start w-full self-center">
-        <div className="text-lg font-bold">{text}</div>
-        <div className="text-sm text-emerald-900 font-semibold dark:text-emerald-100">
-          {subtext}
+      >
+        <div className="mr-2 md:mr-0 lg:mr-2 self-center">
+          <FontAwesomeIcon icon={icon} className="size-6" />
         </div>
-      </div>
-    </button>
+        <div className="flex flex-col text-start w-full self-center">
+          <div className="text-lg font-bold">{text}</div>
+          <div className="text-sm text-emerald-900 font-semibold dark:text-emerald-100">
+            {subtext}
+          </div>
+        </div>
+      </button>
+    </Link>
   );
 }
 
