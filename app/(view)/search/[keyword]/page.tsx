@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "../loading";
 import Filter from "@/app/ui/containers/search/filter";
+import Spinner from "@/app/ui/components/common/spinner";
 
 export default function Page() {
   const pathname = usePathname();
@@ -18,19 +19,23 @@ export default function Page() {
 
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
+  const [isSpinnerActive, setSpinnerActive] = useState(false);
 
   useEffect(() => {
+    if (!isLoading) setSpinnerActive(true);
     const joinFilters = filters.join(",");
+    
     if (keyword) {
       fetch(`/api/getProductsByKeyword?keyword=${keyword}&start=${startIndex}&end=${endIndex}&filters=${joinFilters}`)
         .then((response) => response.json())
         .then((data) => {
           setProduct((prev) => prev.concat(data));
           setLoading(false);
+          setSpinnerActive(false);
         })
         .catch((error) => console.error("Error fetching product:", error));
     }
-  }, [endIndex, filters, keyword, startIndex]);
+  }, [endIndex, filters, isLoading, keyword, startIndex]);
 
   if (isLoading) return <Loading />;
   if (!products) return <p>No product data</p>; // TODO Add Message
@@ -63,14 +68,25 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-row w-full justify-between">
-      <Filter onChange={filterAction} products={products} />
-      <div className="md:size-fit lg:px-12">
-        <ProductContainer
-          products={products}
-          moreProduct={addMoreProducts}
-          showMoreButton={products.length === endIndex + 1}
-        />
+    <div className="relative w-full">
+      {isSpinnerActive ? (
+        <div className="fixed top-36 right-0 xl:right-80 transform -translate-x-1/2 z-50">
+          <Spinner />
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="flex flex-row w-full justify-between">
+        <div className="shrink-0">
+          <Filter onChange={filterAction} products={products} />
+        </div>
+        <div className="md:size-fit lg:px-12">
+          <ProductContainer
+            products={products}
+            moreProduct={addMoreProducts}
+            showMoreButton={products.length === endIndex + 1}
+          />
+        </div>
       </div>
     </div>
   );

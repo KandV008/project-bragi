@@ -6,6 +6,7 @@ import ProductContainer from "@/app/ui/components/products/productContainer";
 import Loading from "./loading";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import Spinner from "@/app/ui/components/common/spinner";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -18,6 +19,7 @@ export default function Page() {
   const [filters, setFilters] = useState<string[]>([]);
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
+  const [isSpinnerActive, setSpinnerActive] = useState(false);
 
   useEffect(() => {
     const category = searchParams.get("category");
@@ -27,23 +29,26 @@ export default function Page() {
   }, [searchParams]);
 
   useEffect(() => {
+    if (!isLoading) setSpinnerActive(true);
     const joinFilters = filters.join(",");
+    
     if (productCategory) {
       fetch(
         `/api/getProductsByCategory?category=${productCategory}&start=${startIndex}&end=${endIndex}&filters=${joinFilters}`
       )
         .then((response) => response.json())
         .then((data) => {
-          if(startIndex === 0){
-            setProduct(data)
+          if (startIndex === 0) {
+            setProduct(data);
           } else {
             setProduct((prev) => prev.concat(data));
           }
           setLoading(false);
+          setSpinnerActive(false);
         })
         .catch((error) => console.error("Error fetching product:", error));
     }
-  }, [endIndex, filters, productCategory, startIndex]);
+  }, [endIndex, filters, isLoading, productCategory, startIndex]);
 
   if (isLoading) return <Loading />;
   if (!products) return <p>No product data</p>; // TODO Add message
@@ -66,8 +71,8 @@ export default function Page() {
         return newFilters;
       }
     });
-    setStartIndex(0)
-    setEndIndex(9)
+    setStartIndex(0);
+    setEndIndex(9);
   };
 
   const addMoreProducts = () => {
@@ -76,16 +81,25 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-row w-full justify-between">
-      <div className="shrink-0">
-        <Filter onChange={filterAction} products={products} />
-      </div>
-      <div className="md:size-fit lg:px-12">
-        <ProductContainer
-          products={products}
-          moreProduct={addMoreProducts}
-          showMoreButton={products.length === endIndex + 1}
-        />
+    <div className="relative w-full">
+      {isSpinnerActive ? (
+        <div className="fixed top-36 right-0 xl:right-80 transform -translate-x-1/2 z-50">
+          <Spinner />
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="flex flex-row w-full justify-between">
+        <div className="shrink-0">
+          <Filter onChange={filterAction} products={products} />
+        </div>
+        <div className="md:size-fit lg:px-12">
+          <ProductContainer
+            products={products}
+            moreProduct={addMoreProducts}
+            showMoreButton={products.length === endIndex + 1}
+          />
+        </div>
       </div>
     </div>
   );

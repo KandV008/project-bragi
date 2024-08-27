@@ -32,7 +32,7 @@ export default function SearchBar({ isCompress }: SearchBarProps) {
                 bg-emerald-200 dark:bg-emerald-600  
                 dark:placeholder:text-emerald-100 placeholder:text-emerald-900 placeholder:font-bold
                 border-emerald-900 border-2 dark:border-emerald-100
-                hover:bg-emerald-500 hover:dark:bg-emerald-500 "
+                hover:bg-emerald-500 hover:dark:bg-emerald-500"
           placeholder={placeholder}
           required
         />
