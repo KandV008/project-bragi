@@ -7,6 +7,7 @@ import Loading from "./loading";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Spinner from "@/app/ui/components/common/spinner";
+import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -51,7 +52,7 @@ export default function Page() {
   }, [endIndex, filters, isLoading, productCategory, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!products) return <p>No product data</p>; // TODO Add message
+  if (!products) return <EmptyMessage />
 
   const filterAction = (filter: string) => {
     setFilters((prev) => {

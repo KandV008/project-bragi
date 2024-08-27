@@ -1,4 +1,4 @@
-import Message from "@/app/ui/containers/in-development/message";
+import InDevelopmentMessage from "@/app/ui/components/messages/inDevelopmentMessage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export default function Page() {
 
   return (
     <>
-      <Message />
+      <InDevelopmentMessage />
     </>
   );
 }

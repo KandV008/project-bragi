@@ -12,7 +12,7 @@ export default function CarouselWithAction() {
           src="/placeholder-carousel.avif"
           width={1500}
           height={1500}
-          alt="Placeholder" // TODO Add the real Logo
+          alt="Placeholder" // TODO Add the real image
           className="h-full w-full object-cover"
         />
         <div className="absolute w-full sm:w-1/2 inset-0 grid h-full place-items-center bg-black/75">

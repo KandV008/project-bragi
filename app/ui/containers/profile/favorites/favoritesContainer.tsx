@@ -2,6 +2,7 @@
 
 import Loading from "@/app/(view)/profile/favorites/loading";
 import { ProductEntity } from "@/app/model/entities/Product";
+import NoFavoritesMessage from "@/app/ui/components/messages/noFavoritesMessage";
 import ProductContainer from "@/app/ui/components/products/productContainer";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ export default function FavoritesContainer() {
   }, [endIndex, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!favorites) return <p>No product data</p>; // TODO Add message
+  if (favorites.length === 0) return <NoFavoritesMessage />
 
   const addMoreProducts = () => {
     setStartIndex((prevIndex) => prevIndex + increment);

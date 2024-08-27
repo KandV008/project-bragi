@@ -3,17 +3,18 @@
 import Image from "next/image";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
+import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
 
-export default function Message() {
+export default function NotFoundMessage() {
   const router = useRouter();
 
   return (
     <section
-    className="flex flex-col gap-5
-              text-emerald-900 dark:text-emerald-100 w-full">
+      className="flex flex-col gap-5
+                text-emerald-900 dark:text-emerald-100 w-full"
+    >
       <Image
-        src="/placeholder-in-development.png"
+        src="/placeholder-parrot.png"
         alt={""}
         width={1000}
         height={1000}
@@ -21,16 +22,16 @@ export default function Message() {
       />
       <article className="flex flex-col m-auto">
         <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-center">
-          En Desarrollo
+          ERROR 404
         </h1>
         <h2 className="text-lg sm:text-2xl lg:text-3xl font-semibold text-center">
-          Próximamente disponible
+          Página no disponible
         </h2>
       </article>
       <article className="flex flex-col m-auto">
         <p className="p-3 text-sm sm:text-lg lg:text-xl text-center">
-          En futuras actualizaciones se podrá acceder al contenido de esta
-          página.
+          La página a la que estas intentando acceder no existe o no esta
+          disponible actualmente.
         </p>
       </article>
       <article className="self-center">

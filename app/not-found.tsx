@@ -1,5 +1,5 @@
-import Message from "./ui/containers/not-found.tsx/message";
 import { Metadata } from "next";
+import NotFoundMessage from "./ui/components/messages/notFoundMessage";
 
 export const metadata: Metadata = {
   title: "404, Página no disponible",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
-      <Message />
+      <NotFoundMessage />
     </>
   );
 }

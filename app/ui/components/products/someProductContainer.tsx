@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import SectionHeader from "../../components/tags/sectionHeader";
 import { ProductSkeleton } from "./product";
 import ProductContainer from "./productContainer";
+import EmptyMessage from "../messages/emptyMessage";
 
 interface SomeProductContainerProps {
   fetchUrl: string;
@@ -29,7 +30,7 @@ export default function SomeProductContainer({
   }, [fetchUrl]);
 
   if (isLoading) return <SomeProductContainerSkeleton title={title} />;
-  if (!data) return <p>No product data</p>; //TODO Add Message
+  if (!data) return <EmptyMessage />
 
   return (
     <section className="flex flex-col jusify-center sm:justify-start">

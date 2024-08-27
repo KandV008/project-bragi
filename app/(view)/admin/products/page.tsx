@@ -6,6 +6,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
 import ProductContainer from "@/app/ui/components/products/productContainer";
+import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 
 export default function Page() {
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -29,7 +30,7 @@ export default function Page() {
   }, [endIndex, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!products) return <p>No product data</p>; // TODO Add message
+  if (!products) return <EmptyMessage />
 
   const addMoreProducts = () => {
     setStartIndex((prevIndex) => prevIndex + increment);
