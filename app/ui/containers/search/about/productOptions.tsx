@@ -9,6 +9,7 @@ import { addProductToShoppingList } from "@/db/action";
 import FavoriteToggleButton from "@/app/ui/components/buttons/favoriteToggleButton";
 import SubmitButton from "@/app/ui/components/buttons/submitButton";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
+import { errorMessagesList, validateAddShoppingCart } from "@/lib/validations";
 
 interface ProductOptionsProps {
   id: string;
@@ -64,6 +65,12 @@ export default function ProductOptions({
   const borderColor = guarantee
     ? "border-rose-600"
     : "border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200";
+
+  const handleForm = (formData: FormData) => {
+    const isValid = validateAddShoppingCart(formData)
+    if (isValid) addProductToShoppingList
+    else console.log(errorMessagesList)
+  }
 
   return (
     <div
@@ -189,7 +196,7 @@ export default function ProductOptions({
           {!user ? (
             <></>
           ) : (
-            <form action={addProductToShoppingList}>
+            <form action={handleForm}>
               <input type="hidden" name="id" value={id} />
               <input
                 type="hidden"

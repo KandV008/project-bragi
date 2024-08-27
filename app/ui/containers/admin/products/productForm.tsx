@@ -36,6 +36,7 @@ import {
   faTextHeight,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
+import { errorMessagesList, validateFormProduct } from "@/lib/validations";
 
 interface FormProps {
   product?: ProductEntity;
@@ -45,9 +46,15 @@ export default function ProductForm({ product }: FormProps) {
   const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
   const actionForm = product ? actionUpdate : actionCreate;
 
+  const handleForm = (formData: FormData) => {
+    const isValid = validateFormProduct(formData)
+    if (isValid) actionForm
+    else console.log(errorMessagesList)
+  }
+
   return (
     <form
-      action={actionForm}
+      action={handleForm}
       className="flex flex-col gap-5 p-5 sm:p-10 
                    bg-emerald-50 dark:bg-emerald-800
                    border-emerald-900 dark:border-emerald-100 border-2 rounded-xl"

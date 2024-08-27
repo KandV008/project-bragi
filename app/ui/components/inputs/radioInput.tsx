@@ -56,7 +56,6 @@ export default function RadioInput({
             value={valueOf(element)}
             checked={selectedValue === valueOf(element)}
             onChange={handleRadioChange}
-            required
           />
           <label htmlFor={name + "-" + index}> {element}</label>
           <br />

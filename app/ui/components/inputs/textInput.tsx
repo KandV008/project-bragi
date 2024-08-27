@@ -43,7 +43,6 @@ export default function TextInput({
           className="w-full h-full text-black  text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
           autoComplete="off"
-          required
           step="any"
           defaultValue={value}
           readOnly={false}

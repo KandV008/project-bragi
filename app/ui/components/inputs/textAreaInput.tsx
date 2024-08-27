@@ -40,7 +40,6 @@ export default function TextAreaInput({
           className="w-full h-full text-black text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
           autoComplete="off"
-          required
           defaultValue={value}
           readOnly={false}
         />
