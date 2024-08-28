@@ -1,21 +1,26 @@
+import {
+  componentText,
+  hoverComponentBorder,
+  hoverComponentEmptyBackground,
+  hoverComponentText,
+} from "@/lib/tailwindClasses";
 import Link from "next/link";
 
 interface NavButtonProps {
   text: string;
-  href: string
+  href: string;
 }
 
 export default function NavButton({ text, href }: NavButtonProps) {
   return (
     <Link href={href}>
       <button
-        className=" py-1 px-2 h-10 w-28 min-h-4 min-w-4 hover:rounded                    
-                    hover:bg-gray-300 hover:border-emerald-900 hover:border-2
-                    hover:dark:bg-gray-700 hover:dark:border-emerald-100"
+        className={`py-1 px-2 h-10 w-28 min-h-4 min-w-4 hover:rounded                    
+                    ${hoverComponentEmptyBackground}
+                    ${hoverComponentBorder}
+                    ${componentText} ${hoverComponentText}`}
       >
-        <div className="text-md font-semibold text-center text-emerald-900 dark:text-emerald-100">
-          {text}
-        </div>
+        <div className="text-md font-semibold text-center">{text}</div>
       </button>
     </Link>
   );

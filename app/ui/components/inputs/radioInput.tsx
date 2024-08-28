@@ -1,5 +1,6 @@
 "use client";
 
+import { fillDefaultComponentBackground, componentText, componentBorder, pressedButton } from "@/lib/tailwindClasses";
 import { ChangeEvent, useState } from "react";
 
 interface RadioInputListProps {
@@ -28,10 +29,9 @@ export default function RadioInput({
   const getRadioButtonStatus = (buttonName: string) => {
     const baseClasses = "flex flex-row gap-2 items-center justify-start cursor-pointer py-1 px-2 rounded-2xl border-2";
     return buttonName === selectedValue
-      ? `${baseClasses} text-rose-600 bg-rose-200 border-rose-600`
-      : `${baseClasses} bg-emerald-100 dark:bg-emerald-800  
-          text-emerald-900 dark:text-emerald-100
-          border-emerald-900 dark:border-emerald-100`;
+      ? `${baseClasses} ${pressedButton}`
+      : `${baseClasses} ${fillDefaultComponentBackground} ${componentText} ${componentBorder}`;
+
   };
 
   return (

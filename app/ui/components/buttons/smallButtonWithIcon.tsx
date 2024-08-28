@@ -3,6 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
+import { componentText, hoverComponentBorder, hoverComponentEmptyBackground, hoverComponentText } from "@/lib/tailwindClasses";
 
 interface SmallButtonWithIconProps {
   icon: IconDefinition;
@@ -20,14 +21,13 @@ export default function SmallButtonWithIcon({
   return (
     <Link href={href}>
       <button
-        className="flex items-start cursor-pointer py-1 px-2 2xl:h-12  
+        className={`flex items-start cursor-pointer py-1 px-2 2xl:h-12  
                     min-w-8 lg:w-28 xl:w-48 lg:text-left md:text-center
-                    text-emerald-900 dark:text-emerald-100
-                    hover:bg-gray-300 hover:dark:bg-gray-700 
+                    ${componentText} ${hoverComponentText}
+                    ${hoverComponentEmptyBackground}
                     border-2 border-transparent
-                    hover:lg:rounded hover:rounded-full 
-                    hover:border-emerald-900 hover:border-2
-                    hover:dark:border-emerald-100"
+                    ${hoverComponentBorder} hover:lg:rounded hover:rounded-full 
+`}
       >
         <div className="mr-2 md:mr-0 lg:mr-2">
           <FontAwesomeIcon icon={icon} className="" />

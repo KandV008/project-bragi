@@ -4,6 +4,9 @@ import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
+import { componentBackground, componentBorder, componentText } from "@/lib/tailwindClasses";
+import ArticleHeader from "../../components/tags/articleHeader";
+import SectionHeader from "../../components/tags/sectionHeader";
 
 interface SummaryProps {
   products: ProductDTO[];
@@ -19,16 +22,11 @@ export default function Summary({ products }: SummaryProps) {
 
   return (
     <section
-      className="sticky top-32 flex flex-col w-full rounded justify-between p-6  
-                bg-emerald-100 dark:bg-emerald-800
-                border-emerald-900 dark:border-emerald-100 border-2
-                text-emerald-900 dark:text-emerald-100"
+      className={`sticky top-32 flex flex-col w-full rounded justify-between p-6  
+                ${componentBorder} ${componentBackground} ${componentText}`}
     >
       {/* Header */}
-      <article>
-        <h2 className="text-2xl font-bold">Resumen</h2>
-        <div className="w-full border-2 border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-      </article>
+      <SectionHeader text={"Resumen"} />
       {/* Body */}
       <article className="flex flex-col gap-3">
         {/* Header Table */}
@@ -50,7 +48,7 @@ export default function Summary({ products }: SummaryProps) {
       </article>
       {/* Footer */}
       <article className="flex flex-col gap-2 ">
-        <div className="w-full border-2 border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
+        <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         {/* Total */}
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>

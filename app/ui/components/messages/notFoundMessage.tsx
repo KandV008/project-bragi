@@ -4,14 +4,14 @@ import Image from "next/image";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
+import { componentText } from "@/lib/tailwindClasses";
 
 export default function NotFoundMessage() {
   const router = useRouter();
 
   return (
     <section
-      className="flex flex-col gap-5
-                text-emerald-900 dark:text-emerald-100 w-full"
+      className={`flex flex-col gap-5 w-full ${componentText}`}
     >
       <Image
         src="/placeholder-parrot.png"

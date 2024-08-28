@@ -1,12 +1,12 @@
 import Image from "next/image";
 import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { componentText } from "@/lib/tailwindClasses";
 
 export default function NoFavoritesMessage() {
   return (
     <section
-      className="flex flex-col gap-5
-                text-emerald-900 dark:text-emerald-100 w-full"
+      className={`flex flex-col gap-5 w-full ${componentText}`}
     >
       {/* Icon */}
       <Image

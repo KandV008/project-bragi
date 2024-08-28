@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground } from "@/lib/tailwindClasses";
 
 const ThemeToggle = () => {
   const [theme, setTheme] = useState("light");
@@ -24,12 +25,9 @@ const ThemeToggle = () => {
       <button
         onClick={toggleTheme}
         id="theme-toggle"
-        className=" p-3 
-                bg-emerald-200 dark:bg-emerald-600   
-                text-emerald-900 dark:text-emerald-100
-                  w-fit rounded-2xl
-                  border-2 border-transparent
-                hover:bg-emerald-500 hover:dark:bg-emerald-500"
+        className={`w-fit rounded-2xl border-2 border-transparent p-3 
+                ${fillDefaultComponentBackground} ${hoverFillDefaultComponentBackground}
+                ${componentText}`}
       >
         {theme === "light" ? (
           <FontAwesomeIcon

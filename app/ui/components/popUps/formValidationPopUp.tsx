@@ -1,5 +1,6 @@
 import { errorMessagesList } from "@/lib/validations";
 import MediumButton from "../buttons/mediumButton";
+import { componentBackground, componentBorder, componentText, hoverFillDefaultComponentBackground } from "@/lib/tailwindClasses";
 
 interface PopUpProps {
   handleShowModal: () => void;
@@ -14,20 +15,17 @@ export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
     >
       <article
         onClick={(e) => e.stopPropagation()}
-        className="relative 
+        className={`relative 
             rounded-lg shadow px-16 py-8 flex flex-col items-center gap-8
-            bg-emerald-100 dark:bg-emerald-800 
-            text-emerald-900 dark:text-emerald-100
-            border-emerald-900 dark:border-emerald-100 border-2"
+            ${componentBackground} ${componentText} ${componentBorder}`}
       >
         {/* Icon */}
         <button
           type="button"
-          className="absolute top-3 right-2.5 
-                   text-emerald-900 dark:text-emerald-100 
+          className={`absolute top-3 right-2.5 
                    bg-transparent 
-                   hover:bg-emerald-500 hover:text-emerald-500 rounded-lg 
-                   text-sm p-1.5 ml-auto inline-flex items-center popup-close"
+                   ${hoverFillDefaultComponentBackground} rounded-lg 
+                   text-sm p-1.5 ml-auto inline-flex items-center popup-close`}
           onClick={handleShowModal}
         >
           <svg

@@ -1,11 +1,10 @@
+import { componentText } from "@/lib/tailwindClasses";
 import Image from "next/image";
 
 export default function EmptyMessage() {
   return (
     <section
-      className="flex flex-col gap-5
-                text-emerald-900 dark:text-emerald-100 w-full"
-    >
+      className={`flex flex-col gap-5 w-full ${componentText}`}>
       {/* Icon */}
       <Image
         src="/placeholder-parrot.png"

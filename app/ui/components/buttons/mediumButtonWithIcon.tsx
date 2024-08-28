@@ -3,6 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
+import { componentBorder, componentText, fillDefaultComponentBackground, fillRedComponentBackground, fillYellowComponentBackground, hoverFillDefaultComponentBackground, hoverFillRedComponentBackground, hoverFillYellowComponentBackground } from "@/lib/tailwindClasses";
 
 interface MediumButtonWithIconProps {
   icon: IconDefinition;
@@ -32,8 +33,8 @@ export default function MediumButtonWithIcon({
     <Link href={navigationURL ? navigationURL : ""} onClick={onClick}>
       <button
         className={`flex flex-row gap-2 cursor-pointer py-1 px-4 h-16 align-items-center w-64
-                  border-emerald-900 dark:border-emerald-100 border-2 rounded-2xl 
-                  text-emerald-900 dark:text-emerald-100 lg:text-left md:text-center
+                  ${componentBorder} rounded-2xl 
+                  ${componentText} lg:text-left md:text-center
                   ${bgColorClass}`}
       >
         <div className="mr-2 md:mr-0 lg:mr-2 self-center">
@@ -41,7 +42,7 @@ export default function MediumButtonWithIcon({
         </div>
         <div className="flex flex-col text-start w-full self-center">
           <div className="text-lg font-bold">{text}</div>
-          <div className="text-sm text-emerald-900 font-semibold dark:text-emerald-100">
+          <div className="text-sm  font-semibold ">
             {subtext}
           </div>
         </div>
@@ -52,14 +53,14 @@ export default function MediumButtonWithIcon({
 
 function checkTypeMediumButton(type: "default" | "warning" | "danger") {
   if (type === "default") {
-    return "bg-emerald-200 hover:bg-emerald-500 dark:bg-emerald-600 hover:dark:bg-emerald-500";
+    return `${fillDefaultComponentBackground} ${hoverFillDefaultComponentBackground}`;
   }
 
   if (type === "warning") {
-    return "bg-amber-200 hover:bg-amber-400 dark:bg-amber-600 hover:dark:bg-amber-500";
+    return `${fillYellowComponentBackground} ${hoverFillYellowComponentBackground}`;
   }
 
   if (type === "danger") {
-    return "bg-red-300 hover:bg-red-500 dark:bg-red-700 hover:dark:bg-red-500";
+    return `${fillRedComponentBackground} ${hoverFillRedComponentBackground}`;
   }
 }

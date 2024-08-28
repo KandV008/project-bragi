@@ -11,6 +11,8 @@ import SubmitButton from "@/app/ui/components/buttons/submitButton";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
 import { validateAddShoppingCart } from "@/lib/validations";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
+import { componentBackground, componentBorder, componentText, hoverComponentBorder, negativeComponentBackground, negativeComponentText, negativeHoverComponentBackground } from "@/lib/tailwindClasses";
+import ArticleHeader from "@/app/ui/components/tags/articleHeader";
 
 interface ProductOptionsProps {
   id: string;
@@ -58,19 +60,13 @@ export default function ProductOptions({
     const baseClasses = "h-8 w-24 border-2 rounded font-bold";
     return buttonName === earSide
       ? `${baseClasses} text-rose-600 bg-rose-200 border-rose-600`
-      : `${baseClasses} text-emerald-100 dark:text-emerald-800 bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200 border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200`;
+      : `${baseClasses} ${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
   };
 
   const [guarantee, setGuarantee] = useState(false);
-  const textColor = guarantee
-    ? "text-rose-600"
-    : "text-emerald-100 dark:text-emerald-800";
-  const bgColor = guarantee
-    ? "bg-rose-200 hover:bg-rose-300"
-    : "bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200";
-  const borderColor = guarantee
-    ? "border-rose-600"
-    : "border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200";
+  const guaranteeButtonClasses = guarantee
+    ? "text-rose-600 bg-rose-200 border-rose-600"
+    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`
 
   const handleForm = (formData: FormData) => {
     const isValid = validateAddShoppingCart(formData);
@@ -81,10 +77,8 @@ export default function ProductOptions({
   return (
     <>
       <div
-        className="flex flex-col md:flex-row rounded rounded-tr-3xl p-5
-     border-emerald-900 dark:border-emerald-100 border-2
-     bg-emerald-100 dark:bg-emerald-800 
-     text-emerald-900 dark:text-emerald-100 "
+        className={`flex flex-col md:flex-row rounded rounded-tr-3xl p-5
+            ${componentBorder} ${componentBackground} ${componentText}`}
       >
         {/* Product Images */}
         <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
@@ -95,7 +89,7 @@ export default function ProductOptions({
               width={1500}
               height={1500}
               alt={"img-" + 0}
-              className="size-64 sm:size-72 lg:size-96 bg-white rounded border-2 border-emerald-900 dark:border-emerald-100"
+              className={`size-64 sm:size-72 lg:size-96 bg-white rounded ${componentBorder}`}
             />
           </div>
           {/* Secondary Images */}
@@ -111,7 +105,7 @@ export default function ProductOptions({
                     width={1500}
                     height={1500}
                     alt={"img-" + index}
-                    className="size-20 sm:size-24 lg:size-32 bg-white rounded border-2 border-emerald-900 dark:border-emerald-100"
+                    className={`size-20 sm:size-24 lg:size-32 bg-white rounded ${componentBorder}`}
                   />
                 )}
               </>
@@ -138,10 +132,7 @@ export default function ProductOptions({
           <br className="hidden sm:block" />
           {/* Color Buttons */}
           <div className="w-fit">
-            <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-              Colores disponibles
-              <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-            </h3>
+            <ArticleHeader text={"Colores disponibles"} />
             <ColorButton
               colors={colors}
               action={(index: number) => setImgIndex(index)}
@@ -149,10 +140,7 @@ export default function ProductOptions({
           </div>
           {/* Hearing Aid Side Buttons */}
           <div className="w-fit">
-            <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-              Lado del Audífono
-              <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-            </h3>
+          <ArticleHeader text={"Lado del Audífono"} />
             <div className="flex flex-row flex-wrap gap-3">
               <button
                 className={getEarSideButtonClasses("right")}
@@ -176,25 +164,19 @@ export default function ProductOptions({
           </div>
           {/* Insurance Button */}
           <div className="w-fit">
-            <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-              Añadir seguro de 1 año al producto
-              <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-            </h3>
+            <ArticleHeader text={"Añadir seguro de 1 año al producto"} />
             <button
               onClick={() => {
                 setGuarantee(!guarantee);
               }}
-              className={`h-8 w-24 border-2 rounded font-bold ${bgColor} ${borderColor} ${textColor}`}
+              className={`h-8 w-24 border-2 rounded font-bold ${guaranteeButtonClasses}`}
             >
               Añadir
             </button>
           </div>
           {/* Include list */}
           <div className="mb-3 md:mb-1 lg:mb-3 w-fit">
-            <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-              Incluye
-              <div className="w-full border-t mb-1 lg:mb-3 border-emerald-900 dark:border-emerald-100"></div>
-            </h3>
+            <ArticleHeader text={"Incluye"} />
             <ul className="px-2 text-sm lg:text-base">
               {include.map((text, index) => (
                 <li key={"li-" + index}>{text}</li>

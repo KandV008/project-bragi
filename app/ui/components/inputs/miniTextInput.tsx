@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { componentBorder, componentText, fillDefaultComponentBackground } from "@/lib/tailwindClasses";
 
 interface TextInputProps {
   name: string;
@@ -28,11 +29,11 @@ export default function MiniTextInput({
         {label}
       </label>
       <article
-        className="flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
+        className={`flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
         h-12 w-full text-base font-semibold
-        bg-emerald-100 dark:bg-emerald-800 
-        text-emerald-900 dar:text-emerald-100
-        border-emerald-900 dark:border-emerald-100 border-2 rounded-2xl"
+        ${fillDefaultComponentBackground} 
+        ${componentText}
+        ${componentBorder} rounded-2xl`}
       >
         <div className="flex items-center align-bottom bg-transparent ">
           <FontAwesomeIcon icon={icon} className="size-6" />

@@ -3,15 +3,16 @@
 import Image from "next/image";
 import SmallButton from "../../components/buttons/smallButton";
 import { useRouter } from "next/navigation";
+import { componentText, lightComponentBackground } from "@/lib/tailwindClasses";
 
 export default function WorkingFlow() {
   const router = useRouter()
 
   return (
-    <section className="flex flex-col lg:grid lg:grid-cols-2 text-emerald-900 dark:text-emerald-100 gap-3">
+    <section className={`flex flex-col lg:grid lg:grid-cols-2 gap-3 ${componentText}`}>
       {/* Knowing the hearing aid */}
-      <article className="flex flex-col justify-items-center lg:flex-row gap-5 col-span-2 p-5 rounded
-                         bg-emerald-50 dark:bg-emerald-900 ">
+      <article className={`flex flex-col justify-items-center lg:flex-row gap-5 col-span-2 p-5 rounded
+                          ${lightComponentBackground}`}>
         {/* Choose hearing aid */}
         <div className="flex flex-col gap-2 lg:w-1/3">
           <Image
@@ -63,8 +64,7 @@ export default function WorkingFlow() {
         </div>
       </article>
       {/* Not knowing the hearing aid but having a hearing test */}
-      <article className="flex flex-col gap-4 p-10 rounded
-                         bg-emerald-50 dark:bg-emerald-900">
+      <article className={`flex flex-col gap-4 p-10 rounded ${lightComponentBackground}`}>
         <Image
           src="/workFlow/no-idea.png"
           alt={""}
@@ -86,8 +86,7 @@ export default function WorkingFlow() {
         </div> 
       </article>
       {/* Not knowing the hearing aid but not having a hearing test */}
-      <article className="flex flex-col gap-4 p-10 rounded
-                         bg-emerald-50 dark:bg-emerald-900">
+      <article className={`flex flex-col gap-4 p-10 rounded ${lightComponentBackground}`}>
         <Image
           src="/workFlow/date.png"
           alt={""}

@@ -1,5 +1,6 @@
 import { DegreeOfLoss } from "@/app/model/entities/enums/DegreeOfLoss";
 import { UseDefinition } from "@/app/model/entities/enums/Uses";
+import { componentBorder, componentText, lightComponentBackground } from "@/lib/tailwindClasses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ProductDetailsProps {
@@ -23,10 +24,8 @@ export default function ProductDetails({
 }: ProductDetailsProps) {
   return (
     <div
-      className="flex flex-col-reverse md:flex-row rounded gap-5 p-5
-                 bg-emerald-50 dark:bg-emerald-900
-                 border-emerald-900 dark:border-emerald-100 border-2
-                 text-emerald-900 dark:text-emerald-100"
+      className={`flex flex-col-reverse md:flex-row rounded gap-5 p-5
+                 ${lightComponentBackground} ${componentBorder} ${componentText}`}
     >
       {/* Product Description */}
       <article className="flex flex-col md:w-1/2 gap-2">
@@ -69,7 +68,7 @@ export default function ProductDetails({
           <div className="flex flex-row flex-wrap gap-5">
             {uses.map((use, index) => (
               <div key={use.text + "-" + index} className="flex flex-col items-center">
-                <div className="flex flex-col justify-center items-center size-10 rounded-3xl border-2 border-emerald-900 dark:border-emerald-100">
+                <div className={`flex flex-col justify-center items-center size-10 rounded-3xl ${componentBorder}`}>
                   <FontAwesomeIcon icon={use.icon} className="w-fit" />
                 </div>
                 <span className="text-base">{use.text}</span>

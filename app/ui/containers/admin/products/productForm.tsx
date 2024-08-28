@@ -39,6 +39,7 @@ import {
 import { validateFormProduct } from "@/lib/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
+import { componentBackground, componentBorder } from "@/lib/tailwindClasses";
 
 interface FormProps {
   product?: ProductEntity;
@@ -62,9 +63,9 @@ export default function ProductForm({ product }: FormProps) {
     <>
       <form
         action={handleForm}
-        className="flex flex-col gap-5 p-5 sm:p-10 
-                   bg-emerald-50 dark:bg-emerald-800
-                   border-emerald-900 dark:border-emerald-100 border-2 rounded-xl"
+        className={`flex flex-col gap-5 p-5 sm:p-10 
+                   ${componentBackground}
+                   ${componentBorder} rounded-xl`}
       >
         <SectionHeader text={actionText} />
         {/* Id */}

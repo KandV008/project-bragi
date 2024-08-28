@@ -6,16 +6,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
+import { componentBackground, componentBorder, componentText } from "@/lib/tailwindClasses";
 
 export default function AdminDashboard(){
     const { user } = useUser();
   
     return (
       <section
-        className="flex flex-col place-self-center p-3 sm:p-5 items-center gap-2 sm:gap-3 rounded-xl w-fit
-        border-emerald-900 dark:border-emerald-100 border-2
-        bg-emerald-50 dark:bg-emerald-800
-        text-emerald-900 dark:text-emerald-100"
+        className={`flex flex-col place-self-center p-3 sm:p-5 items-center gap-2 sm:gap-3 rounded-xl w-fit
+        ${componentBorder} ${componentBackground} ${componentText}`}
       >
         <h2 className="text-xl sm:text-3xl font-bold">Panel de Control</h2>
         <h2 className="text-base sm:text-xl font-semibold">

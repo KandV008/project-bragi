@@ -1,4 +1,5 @@
 import { ProductColor } from "@/app/model/entities/Product";
+import { componentBorder } from "@/lib/tailwindClasses";
 
 interface ColorArticleProps {
   label: string;
@@ -16,7 +17,7 @@ export function ColorArticle({ label, colors }: ColorArticleProps) {
               <div className="flex flex-row gap-5">
                 <button
                   key={color.color.name + "-" + index}
-                  className={`size-8 md:size-6 lg:size-8 border-2 border-emerald-900 dark:border-emerald-100`}
+                  className={`size-8 md:size-6 lg:size-8 ${componentBorder}`}
                   style={{ backgroundColor: color.color.hex }}
                   title={color.color.name}
                 ></button>

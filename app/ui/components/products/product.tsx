@@ -5,6 +5,7 @@ import { faEye, faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import FavoriteToggleButton from "../../components/buttons/favoriteToggleButton";
+import { componentBackground, componentBorder, componentText, negativeComponentBackground, negativeComponentText, negativeHoverComponentBackground } from "@/lib/tailwindClasses";
 
 interface ProductProps {
   id: string;
@@ -30,12 +31,10 @@ export default function Product({
 
   return (
     <article
-      className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5 
-    bg-emerald-100 dark:bg-emerald-800  
-    border-emerald-900 dark:border-emerald-100 border-solid border-2
-    text-emerald-900 dark:text-emerald-100
-    rounded rounded-tr-3xl 
-    md:w-48 xl:w-64 h-fit"
+      className={`flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5 md:w-48 xl:w-64 h-fit
+    ${componentBackground}  
+    ${componentBorder} border-solid rounded rounded-tr-3xl 
+    ${componentText}`}
     >
       {/* Display */}
       <section className="flex flex-col items-center justify-between gap-3">
@@ -62,12 +61,10 @@ export default function Product({
       <section className="flex flex-row flex-wrap justify-center gap-3 md:gap-2 xl:gap-1">
         <Link
           href={linkURL}
-          className="flex flex-row items-center justify-center md:justify-around md:px-2
-          rounded-2xl  
-          bg-emerald-900 text-emerald-100
-          dark:bg-emerald-100 dark:text-emerald-800
-          hover:bg-emerald-700 hover:dark:bg-emerald-200
-          h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40 "
+          className={`flex flex-row items-center justify-center md:justify-around md:px-2
+          rounded-2xl h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40
+          ${negativeComponentBackground} ${negativeHoverComponentBackground}
+          ${negativeComponentText}`}
         >
           <div className=" mr-0 md:mr-2 xl:mr-0">
             <FontAwesomeIcon icon={buttonIcon} className="" />

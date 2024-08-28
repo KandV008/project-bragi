@@ -1,6 +1,7 @@
 'use client';
 
 import { ProductColor } from "@/app/model/entities/Product";
+import { componentBorder } from "@/lib/tailwindClasses";
 import { useState } from "react";
 
 interface ColorButtonProps{
@@ -15,7 +16,7 @@ export default function ColorButton({ colors, action }: ColorButtonProps){
       const baseClasses = "size-8 md:size-6 lg:size-8 border-2";
       return buttonName === imgIndex
         ? `${baseClasses} border-rose-600`
-        : `${baseClasses} border-emerald-900 dark:border-emerald-100`;
+        : `${baseClasses} ${componentBorder}`;
     };
 
     const onClick = (index: number) => {

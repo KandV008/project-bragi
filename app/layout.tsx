@@ -7,6 +7,7 @@ import Footer from "./ui/components/common/footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import NextTopLoader from "nextjs-toploader";
+import { mainBackground } from "@/lib/tailwindClasses";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -86,7 +87,7 @@ export default function RootLayout({
           ></meta>
         </head>
         <body
-          className={`${inter.className} flex flex-col bg-white dark:bg-emerald-950 min-h-screen align-middle`}
+          className={`${inter.className} flex flex-col min-h-screen align-middle ${mainBackground}`}
         >
           <NextTopLoader color="#05966A" crawl={false} height={5} showSpinner={false} speed={500}/>
           <header className="p-4 flex justify-end"></header>
@@ -96,7 +97,7 @@ export default function RootLayout({
             className="flex flex-col flex-grow justify-center 
             space-y-5 md:space-y-10 
             py-16 md:py-12 lg:py-10 2xl:py-5 
-            w-11/12 xl:w-4/6 place-self-center "
+            w-11/12 xl:w-4/6 place-self-center"
           >
             {children}
           </main>

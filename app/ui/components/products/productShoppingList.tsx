@@ -5,6 +5,7 @@ import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
 } from "@/db/action";
+import { componentBackground, componentText, componentBorder } from "@/lib/tailwindClasses";
 
 interface ProductInformationProps {
   id: string;
@@ -41,11 +42,11 @@ export default function ProductShoppingList({
 
   return (
     <section
-      className="flex flex-col sm:grid sm:grid-cols-2 gap-2 p-5 rounded rounded-tr-3xl
+      className={`flex flex-col sm:grid sm:grid-cols-2 gap-2 p-5 rounded rounded-tr-3xl
       2xl:flex 2xl:flex-row 2xl:justify-between 2xl:gap-5 
-      bg-emerald-100 dark:bg-emerald-800
-      text-emerald-900 dark:text-emerald-100
-      border-emerald-900 dark:border-emerald-100 border-2"
+      ${componentBackground}  
+      ${componentText}
+      ${componentBorder}`}
     >
       {/* Image */}
       <>
@@ -93,10 +94,12 @@ export default function ProductShoppingList({
         </div>
       </article>
       {/* Amount Button */}
-      <article className="sm:col-span-2 gap-4 self-center
+      <article
+        className="sm:col-span-2 gap-4 self-center
       flex flex-col
       sm:flex-row sm:justify-around 
-      2xl:flex-col 2xl:justify-center">
+      2xl:flex-col 2xl:justify-center"
+      >
         <h1 className="text-2xl font-bold self-center">Cantidad</h1>
         <div className="flex flex-row gap-2">
           {/* Substract Button */}
