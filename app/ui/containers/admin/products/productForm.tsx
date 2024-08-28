@@ -36,7 +36,9 @@ import {
   faTextHeight,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
-import { errorMessagesList, validateFormProduct } from "@/lib/validations";
+import { validateFormProduct } from "@/lib/validations";
+import { useState } from "react";
+import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 
 interface FormProps {
   product?: ProductEntity;
@@ -45,137 +47,146 @@ interface FormProps {
 export default function ProductForm({ product }: FormProps) {
   const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
   const actionForm = product ? actionUpdate : actionCreate;
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
 
   const handleForm = (formData: FormData) => {
-    const isValid = validateFormProduct(formData)
-    if (isValid) actionForm
-    else console.log(errorMessagesList)
-  }
+    const isValid = validateFormProduct(formData);
+    if (isValid) actionForm;
+    else handleShowModal();
+  };
 
   return (
-    <form
-      action={handleForm}
-      className="flex flex-col gap-5 p-5 sm:p-10 
+    <>
+      <form
+        action={handleForm}
+        className="flex flex-col gap-5 p-5 sm:p-10 
                    bg-emerald-50 dark:bg-emerald-800
                    border-emerald-900 dark:border-emerald-100 border-2 rounded-xl"
-    >
-      <SectionHeader text={actionText} />
-      {/* Id */}
-      {product ? <input type="hidden" name="id" value={product.id} /> : <></>}
-      {/* Name */}
-      <TextInput
-        name={"name"}
-        type={"text"}
-        placeholder={"Audífono X"}
-        label={"Nombre del producto"}
-        icon={faEarListen}
-        value={product ? product.name : ""}
-      />
-      {/* Category */}
-      <RadioInput
-        name={"category"}
-        label={"Categoría del producto"}
-        list={Object.values(Category)}
-        valueOf={(x) => x}
-        value={product ? product.category : ""}
-      />
-      {/* Brand */}
-      <RadioInput
-        name={"brand"}
-        label={"Marca del producto"}
-        list={Object.values(Brand)}
-        valueOf={(x) => x}
-        value={product ? product.brand : ""}
-      />
-      {/* Price */}
-      <TextInput
-        name={"price"}
-        type={"number"}
-        placeholder={"1234.56"}
-        label={"Precio del producto (€)"}
-        icon={faMoneyBill}
-        value={product ? product.price.toString() : ""}
-      />
-      {/* Description */}
-      <TextAreaInput
-        name={"description"}
-        placeholder={"Lore ipsum..."}
-        label={"Descripción"}
-        icon={faTextHeight}
-        value={product ? product.description : ""}
-      />
-      {/* Colors */}
-      <ColorInput
-        name={"color"}
-        label={"Colores disponibles del producto"}
-        values={product ? product.colors : []}
-      />
-      {/* Includes */}
-      <IncrementalTextInput
-        name={"INCLUDE"}
-        type={"text"}
-        placeholder={"Incluye..."}
-        label={"Incluye el producto"}
-        icon={faPlus}
-        values={product ? product.include : []}
-      />
-      {/* Adaptation Range */}
-      <RadioInput
-        name={"adaptation_range"}
-        label={"Rango de adaptación del producto"}
-        list={adaptationRangeList}
-        valueOf={(x) => x}
-        value={product ? valueOfAdaptationRange(product.adaptationRange) : ""}
-      />
-      {/* Water Dust Resistance */}
-      <CheckBoxInput
-        name={"water_dust_resistance"}
-        label={"Resistencia al Agua y al Polvo"}
-        list={["YES"]}
-        values={
-          product ? (product.waterDustResistance ? ["YES"] : []) : undefined
-        }
-      />
-      {/* Ear Location */}
-      <RadioInput
-        name={"ear_location"}
-        label={"Localización del producto en la oreja"}
-        list={earLocationList}
-        valueOf={(x) => x}
-        value={product ? valueOfEarLocation(product.location) : ""}
-      />
-      {/* Level of Discretion */}
-      <RadioInput
-        name={"level_of_discretion"}
-        label={"Nivel del discrección del producto"}
-        list={levelOfDiscretionList}
-        valueOf={(x) => x}
-        value={
-          product ? valueOfLevelOfDiscretion(product.levelOfDiscretion) : ""
-        }
-      />
-      {/* Degree of Loss */}
-      <RadioInput
-        name={"degree_of_loss"}
-        label={"Grado de pérdida del producto"}
-        list={degreeOfLossList}
-        valueOf={(x) => x}
-        value={product ? valueOfDegreeOfLoss(product.degreeOfLoss) : ""}
-      />
-      {/* Uses */}
-      <CheckBoxInput
-        name={"uses"}
-        label={"Usos del producto"}
-        list={usesList}
-        values={
-          product ? product.uses.map((x) => valueOfUses(x.text)) : undefined
-        }
-      />
-      {/* Submit Button */}
-      <section className="self-center">
-        <SubmitButton text={actionText} icon={faUpload} />
-      </section>
-    </form>
+      >
+        <SectionHeader text={actionText} />
+        {/* Id */}
+        {product ? <input type="hidden" name="id" value={product.id} /> : <></>}
+        {/* Name */}
+        <TextInput
+          name={"name"}
+          type={"text"}
+          placeholder={"Audífono X"}
+          label={"Nombre del producto"}
+          icon={faEarListen}
+          value={product ? product.name : ""}
+        />
+        {/* Category */}
+        <RadioInput
+          name={"category"}
+          label={"Categoría del producto"}
+          list={Object.values(Category)}
+          valueOf={(x) => x}
+          value={product ? product.category : ""}
+        />
+        {/* Brand */}
+        <RadioInput
+          name={"brand"}
+          label={"Marca del producto"}
+          list={Object.values(Brand)}
+          valueOf={(x) => x}
+          value={product ? product.brand : ""}
+        />
+        {/* Price */}
+        <TextInput
+          name={"price"}
+          type={"number"}
+          placeholder={"1234.56"}
+          label={"Precio del producto (€)"}
+          icon={faMoneyBill}
+          value={product ? product.price.toString() : ""}
+        />
+        {/* Description */}
+        <TextAreaInput
+          name={"description"}
+          placeholder={"Lore ipsum..."}
+          label={"Descripción"}
+          icon={faTextHeight}
+          value={product ? product.description : ""}
+        />
+        {/* Colors */}
+        <ColorInput
+          name={"color"}
+          label={"Colores disponibles del producto"}
+          values={product ? product.colors : []}
+        />
+        {/* Includes */}
+        <IncrementalTextInput
+          name={"INCLUDE"}
+          type={"text"}
+          placeholder={"Incluye..."}
+          label={"Incluye el producto"}
+          icon={faPlus}
+          values={product ? product.include : []}
+        />
+        {/* Adaptation Range */}
+        <RadioInput
+          name={"adaptation_range"}
+          label={"Rango de adaptación del producto"}
+          list={adaptationRangeList}
+          valueOf={(x) => x}
+          value={product ? valueOfAdaptationRange(product.adaptationRange) : ""}
+        />
+        {/* Water Dust Resistance */}
+        <CheckBoxInput
+          name={"water_dust_resistance"}
+          label={"Resistencia al Agua y al Polvo"}
+          list={["YES"]}
+          values={
+            product ? (product.waterDustResistance ? ["YES"] : []) : undefined
+          }
+        />
+        {/* Ear Location */}
+        <RadioInput
+          name={"ear_location"}
+          label={"Localización del producto en la oreja"}
+          list={earLocationList}
+          valueOf={(x) => x}
+          value={product ? valueOfEarLocation(product.location) : ""}
+        />
+        {/* Level of Discretion */}
+        <RadioInput
+          name={"level_of_discretion"}
+          label={"Nivel del discrección del producto"}
+          list={levelOfDiscretionList}
+          valueOf={(x) => x}
+          value={
+            product ? valueOfLevelOfDiscretion(product.levelOfDiscretion) : ""
+          }
+        />
+        {/* Degree of Loss */}
+        <RadioInput
+          name={"degree_of_loss"}
+          label={"Grado de pérdida del producto"}
+          list={degreeOfLossList}
+          valueOf={(x) => x}
+          value={product ? valueOfDegreeOfLoss(product.degreeOfLoss) : ""}
+        />
+        {/* Uses */}
+        <CheckBoxInput
+          name={"uses"}
+          label={"Usos del producto"}
+          list={usesList}
+          values={
+            product ? product.uses.map((x) => valueOfUses(x.text)) : undefined
+          }
+        />
+        {/* Submit Button */}
+        <section className="self-center">
+          <SubmitButton text={actionText} icon={faUpload} />
+        </section>
+      </form>
+      <article className="flex flex-center shrink-0 justify-center h-full">
+        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
+      </article>
+    </>
   );
 }
 
