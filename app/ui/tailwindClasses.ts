@@ -1,4 +1,3 @@
-'use client';
 
 /* Background Classes */
 export const mainBackground = "bg-white dark:bg-emerald-950"
