@@ -5,7 +5,7 @@ import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
 } from "@/db/action";
-import { componentBackground, componentText, componentBorder } from "@/lib/tailwindClasses";
+import { componentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
 interface ProductInformationProps {
   id: string;

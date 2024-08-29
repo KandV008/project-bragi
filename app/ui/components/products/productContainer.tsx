@@ -3,7 +3,6 @@
 import { ProductEntity } from "@/app/model/entities/Product";
 import { useUser } from "@clerk/clerk-react";
 import Product, { ProductSkeleton } from "./product";
-import SmallButton from "../buttons/smallButton";
 import { useState, useEffect } from "react";
 import MediumButton from "../buttons/mediumButton";
 

@@ -1,8 +1,8 @@
 'use client';
 
 import { ProductColor } from "@/app/model/entities/Product";
-import { componentBorder } from "@/lib/tailwindClasses";
 import { useState } from "react";
+import { componentBorder } from "../../tailwindClasses";
 
 interface ColorButtonProps{
     colors: ProductColor[],

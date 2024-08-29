@@ -1,6 +1,6 @@
 import { errorMessagesList } from "@/lib/validations";
 import MediumButton from "../buttons/mediumButton";
-import { componentBackground, componentBorder, componentText, hoverFillDefaultComponentBackground } from "@/lib/tailwindClasses";
+import { componentBackground, componentText, componentBorder, hoverFillDefaultComponentBackground } from "../../tailwindClasses";
 
 interface PopUpProps {
   handleShowModal: () => void;

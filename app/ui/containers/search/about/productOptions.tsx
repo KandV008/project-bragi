@@ -11,8 +11,8 @@ import SubmitButton from "@/app/ui/components/buttons/submitButton";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
 import { validateAddShoppingCart } from "@/lib/validations";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
-import { componentBackground, componentBorder, componentText, hoverComponentBorder, negativeComponentBackground, negativeComponentText, negativeHoverComponentBackground } from "@/lib/tailwindClasses";
 import ArticleHeader from "@/app/ui/components/tags/articleHeader";
+import { pressedButton, negativeComponentText, negativeComponentBackground, negativeHoverComponentBackground, componentBorder, hoverComponentBorder, componentBackground, componentText } from "@/app/ui/tailwindClasses";
 
 interface ProductOptionsProps {
   id: string;
@@ -59,13 +59,13 @@ export default function ProductOptions({
   const getEarSideButtonClasses = (buttonName: string) => {
     const baseClasses = "h-8 w-24 border-2 rounded font-bold";
     return buttonName === earSide
-      ? `${baseClasses} text-rose-600 bg-rose-200 border-rose-600`
+      ? `${baseClasses} ${pressedButton}`
       : `${baseClasses} ${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
   };
 
   const [guarantee, setGuarantee] = useState(false);
   const guaranteeButtonClasses = guarantee
-    ? "text-rose-600 bg-rose-200 border-rose-600"
+    ? pressedButton
     : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`
 
   const handleForm = (formData: FormData) => {

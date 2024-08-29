@@ -4,7 +4,7 @@ import Image from "next/image";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
-import { componentText } from "@/lib/tailwindClasses";
+import { componentText } from "../../tailwindClasses";
 
 export default function NotFoundMessage() {
   const router = useRouter();

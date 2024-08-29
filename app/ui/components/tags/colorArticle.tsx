@@ -1,5 +1,5 @@
 import { ProductColor } from "@/app/model/entities/Product";
-import { componentBorder } from "@/lib/tailwindClasses";
+import { componentBorder } from "../../tailwindClasses";
 
 interface ColorArticleProps {
   label: string;

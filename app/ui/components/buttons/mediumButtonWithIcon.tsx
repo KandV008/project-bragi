@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
-import { componentBorder, componentText, fillDefaultComponentBackground, fillRedComponentBackground, fillYellowComponentBackground, hoverFillDefaultComponentBackground, hoverFillRedComponentBackground, hoverFillYellowComponentBackground } from "@/lib/tailwindClasses";
+import { componentBorder, componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground, fillYellowComponentBackground, hoverFillYellowComponentBackground, fillRedComponentBackground, hoverFillRedComponentBackground } from "../../tailwindClasses";
 
 interface MediumButtonWithIconProps {
   icon: IconDefinition;

@@ -1,7 +1,7 @@
 "use client";
 
-import { fillDefaultComponentBackground, componentText, componentBorder, pressedButton } from "@/lib/tailwindClasses";
 import { ChangeEvent, useState } from "react";
+import { pressedButton, fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
 interface RadioInputListProps {
   name: string;

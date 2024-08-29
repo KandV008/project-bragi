@@ -1,4 +1,4 @@
-import { componentBorder, componentText } from "@/lib/tailwindClasses";
+import { componentText, componentBorder } from "../../tailwindClasses";
 
 interface SectionHeaderProps {
     text: string

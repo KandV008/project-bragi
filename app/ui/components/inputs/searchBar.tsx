@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { componentBorder, componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground } from "@/lib/tailwindClasses";
+import { componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground, componentBorder } from "../../tailwindClasses";
 
 interface SearchBarProps{
   isCompress: boolean

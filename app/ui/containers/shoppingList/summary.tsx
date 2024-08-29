@@ -4,9 +4,8 @@ import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { componentBackground, componentBorder, componentText } from "@/lib/tailwindClasses";
-import ArticleHeader from "../../components/tags/articleHeader";
 import SectionHeader from "../../components/tags/sectionHeader";
+import { componentBorder, componentBackground, componentText } from "../../tailwindClasses";
 
 interface SummaryProps {
   products: ProductDTO[];

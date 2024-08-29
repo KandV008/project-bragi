@@ -1,6 +1,6 @@
-import { negativeComponentBackground, negativeComponentText, negativeHoverComponentBackground } from "@/lib/tailwindClasses";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { negativeComponentBackground, negativeHoverComponentBackground, negativeComponentText } from "../../tailwindClasses";
 
 interface SubmitButtonProps {
     text: string,

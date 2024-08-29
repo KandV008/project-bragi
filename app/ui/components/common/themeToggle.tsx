@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-import { componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground } from "@/lib/tailwindClasses";
+import { componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground } from "../../tailwindClasses";
 
 const ThemeToggle = () => {
   const [theme, setTheme] = useState("light");

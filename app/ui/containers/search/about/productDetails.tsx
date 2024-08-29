@@ -1,6 +1,6 @@
 import { DegreeOfLoss } from "@/app/model/entities/enums/DegreeOfLoss";
 import { UseDefinition } from "@/app/model/entities/enums/Uses";
-import { componentBorder, componentText, lightComponentBackground } from "@/lib/tailwindClasses";
+import { lightComponentBackground, componentBorder, componentText } from "@/app/ui/tailwindClasses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ProductDetailsProps {

@@ -1,7 +1,7 @@
 "use client";
 
-import { componentBackground, componentBorder, componentText, fillDefaultComponentBackground, pressedButton } from "@/lib/tailwindClasses";
 import { ChangeEvent, useState } from "react";
+import { pressedButton, fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
 interface CheckBoxInputProps {
   name: string;

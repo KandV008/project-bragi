@@ -5,7 +5,7 @@ import { faEye, faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import FavoriteToggleButton from "../../components/buttons/favoriteToggleButton";
-import { componentBackground, componentBorder, componentText, negativeComponentBackground, negativeComponentText, negativeHoverComponentBackground } from "@/lib/tailwindClasses";
+import { componentBackground, componentBorder, componentText, negativeComponentBackground, negativeHoverComponentBackground, negativeComponentText } from "../../tailwindClasses";
 
 interface ProductProps {
   id: string;

@@ -14,7 +14,7 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
-import { componentBorder, componentBackground, componentText } from "@/lib/tailwindClasses";
+import { componentBorder, componentBackground, componentText } from "../../tailwindClasses";
 
 export default function UserDashboard() {
   const { signOut } = useClerk();

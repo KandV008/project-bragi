@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { fillDefaultComponentBackground, componentText, componentBorder } from "@/lib/tailwindClasses";
+import { fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
 interface TextInputProps {
   name: string;

@@ -1,10 +1,5 @@
-import {
-  componentText,
-  hoverComponentBorder,
-  hoverComponentEmptyBackground,
-  hoverComponentText,
-} from "@/lib/tailwindClasses";
 import Link from "next/link";
+import { hoverComponentEmptyBackground, hoverComponentBorder, componentText, hoverComponentText } from "../../tailwindClasses";
 
 interface NavButtonProps {
   text: string;

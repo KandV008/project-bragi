@@ -7,7 +7,7 @@ import Footer from "./ui/components/common/footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import NextTopLoader from "nextjs-toploader";
-import { mainBackground } from "@/lib/tailwindClasses";
+import { mainBackground } from "./ui/tailwindClasses";
 
 const inter = Inter({ subsets: ["latin"] });
 

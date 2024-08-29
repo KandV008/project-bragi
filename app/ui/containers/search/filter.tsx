@@ -20,7 +20,7 @@ import { ChangeEvent } from "react";
 import SectionHeader from "../../components/tags/sectionHeader";
 import RadioInputWithQuantity from "../../components/inputs/radioInputWithQuantity";
 import { checkWaterAndDustResistanceType, valueOfWaterDustResistance } from "@/app/model/entities/enums/WaterDustResistance";
-import { componentBackground, componentText } from "@/lib/tailwindClasses";
+import { componentBackground, componentText } from "../../tailwindClasses";
 
 interface FilterProps {
   onChange: (filter: string) => void;
@@ -46,7 +46,7 @@ export default function Filter({ onChange, products }: FilterProps) {
 
   return (
     <section
-      className={`"sticky top-32 h-fit p-5 rounded flex-col space-y-3 hidden md:flex w-64
+      className={`sticky top-32 h-fit p-5 rounded flex-col space-y-3 hidden md:flex w-64
         ${componentBackground} ${componentText} "`}
     >
       {/* Header */}

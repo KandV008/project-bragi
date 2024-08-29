@@ -1,5 +1,5 @@
-import { componentText } from "@/lib/tailwindClasses";
 import Image from "next/image";
+import { componentText } from "../../tailwindClasses";
 
 export default function EmptyMessage() {
   return (

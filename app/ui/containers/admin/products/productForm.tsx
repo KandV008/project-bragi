@@ -39,7 +39,7 @@ import {
 import { validateFormProduct } from "@/lib/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
-import { componentBackground, componentBorder } from "@/lib/tailwindClasses";
+import { componentBackground, componentBorder } from "@/app/ui/tailwindClasses";
 
 interface FormProps {
   product?: ProductEntity;

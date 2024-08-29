@@ -1,4 +1,4 @@
-import { componentBorder } from "@/lib/tailwindClasses";
+import { componentBorder } from "../../tailwindClasses";
 
 interface HeaderProps {
   text: string;

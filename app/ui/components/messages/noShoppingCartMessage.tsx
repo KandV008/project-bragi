@@ -1,7 +1,7 @@
 import Image from "next/image";
 import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { componentText } from "@/lib/tailwindClasses";
+import { componentText } from "../../tailwindClasses";
 
 export default function NoShoppingCartMessage() {
   return (

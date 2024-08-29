@@ -1,4 +1,4 @@
-import { componentBorder, hoverComponentBorder, negativeComponentBackground, negativeComponentText, negativeHoverComponentBackground } from "@/lib/tailwindClasses";
+import { componentBorder, hoverComponentBorder, negativeComponentText, negativeComponentBackground, negativeHoverComponentBackground } from "../../tailwindClasses";
 
 interface MediumButtonProps {
   text: string;
