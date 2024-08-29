@@ -12,7 +12,16 @@ import ColorButton from "@/app/ui/components/buttons/colorButton";
 import { validateAddShoppingCart } from "@/lib/validations";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import ArticleHeader from "@/app/ui/components/tags/articleHeader";
-import { pressedButton, negativeComponentText, negativeComponentBackground, negativeHoverComponentBackground, componentBorder, hoverComponentBorder, componentBackground, componentText } from "@/app/ui/tailwindClasses";
+import {
+  pressedButton,
+  negativeComponentText,
+  negativeComponentBackground,
+  negativeHoverComponentBackground,
+  componentBorder,
+  hoverComponentBorder,
+  componentBackground,
+  componentText,
+} from "@/app/ui/tailwindClasses";
 
 interface ProductOptionsProps {
   id: string;
@@ -66,7 +75,7 @@ export default function ProductOptions({
   const [guarantee, setGuarantee] = useState(false);
   const guaranteeButtonClasses = guarantee
     ? pressedButton
-    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`
+    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
 
   const handleForm = (formData: FormData) => {
     const isValid = validateAddShoppingCart(formData);
@@ -140,7 +149,7 @@ export default function ProductOptions({
           </div>
           {/* Hearing Aid Side Buttons */}
           <div className="w-fit">
-          <ArticleHeader text={"Lado del Audífono"} />
+            <ArticleHeader text={"Lado del Audífono"} />
             <div className="flex flex-row flex-wrap gap-3">
               <button
                 className={getEarSideButtonClasses("right")}
@@ -185,40 +194,38 @@ export default function ProductOptions({
           </div>
           {/* Shopping Button */}
           <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
-            {!user ? (
-              <></>
-            ) : (
-              <form action={handleForm}>
-                <input type="hidden" name="id" value={id} />
-                <input
-                  type="hidden"
-                  name="color"
-                  value={colors[imgIndex].color.name}
-                />
-                <input type="hidden" name="earSide" value={earSide} />
-                <input
-                  type="hidden"
-                  name="guarantee"
-                  value={guarantee.toString()}
-                />
-                <input type="hidden" name="name" value={name} />
-                <input type="hidden" name="brand" value={brand} />
-                <input type="hidden" name="price" value={price} />
-                <input
-                  type="hidden"
-                  name="imageURL"
-                  value={colors[imgIndex].images[0]}
-                />
-                <SubmitButton
-                  text={"Añadir a la cesta"}
-                  icon={faCartShopping}
-                />
-              </form>
-            )}
+            <form action={handleForm}>
+              <input type="hidden" name="id" value={id} />
+              <input
+                type="hidden"
+                name="color"
+                value={colors[imgIndex].color.name}
+              />
+              <input type="hidden" name="earSide" value={earSide} />
+              <input
+                type="hidden"
+                name="guarantee"
+                value={guarantee.toString()}
+              />
+              <input type="hidden" name="name" value={name} />
+              <input type="hidden" name="brand" value={brand} />
+              <input type="hidden" name="price" value={price} />
+              <input
+                type="hidden"
+                name="imageURL"
+                value={colors[imgIndex].images[0]}
+              />
+              <SubmitButton
+                text={"Añadir a la cesta"}
+                icon={faCartShopping}
+                isDisable={!user ? true : false}
+              />
+            </form>
             <div className="hidden xl:block">
               <FavoriteToggleButton productId={id} isActive={isFavorite} />
             </div>
           </section>
+          {!user ? <strong>*Inicie Sesión o Regístrate para poder añadirlo a la cesta.</strong> : <></>}
         </article>
       </div>
       <article className="flex flex-center shrink-0 justify-center h-full">
