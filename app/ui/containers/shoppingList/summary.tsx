@@ -21,7 +21,7 @@ export default function Summary({ products }: SummaryProps) {
 
   return (
     <section
-      className={`sticky top-32 flex flex-col w-full rounded justify-between p-6  
+      className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6  
                 ${componentBorder} ${componentBackground} ${componentText}`}
     >
       {/* Header */}

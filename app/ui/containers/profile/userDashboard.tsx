@@ -14,11 +14,24 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
-import { componentBorder, componentBackground, componentText } from "../../tailwindClasses";
+import {
+  componentBorder,
+  componentBackground,
+  componentText,
+} from "../../tailwindClasses";
+import ConfirmationPopUp from "../../components/popUps/confirmationPopUp";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function UserDashboard() {
   const { signOut } = useClerk();
   const { user } = useUser();
+  const router = useRouter();
+
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
 
   const handleLogOutClick = () => {
     signOut();
@@ -26,12 +39,14 @@ export default function UserDashboard() {
 
   const handleDeleteAccountClick = async () => {
     await user?.delete();
+    handleShowModal()
     signOut();
+    router.push("/sign-up")
   };
 
   return (
     <section
-    className={`flex flex-col place-self-center p-3 sm:p-5 items-center gap-2 sm:gap-3 rounded-xl w-fit
+      className={`flex flex-col place-self-center p-3 sm:p-5 items-center gap-2 sm:gap-3 rounded-xl w-fit
       ${componentBorder} ${componentBackground} ${componentText}`}
     >
       <OrganizationSwitcher />
@@ -77,9 +92,17 @@ export default function UserDashboard() {
         text={"Borrar Cuenta"}
         subtext={"Eliminaremos tu cuenta"}
         type={"danger"}
-        navigationURL="/sign-up"
-        onClick={handleDeleteAccountClick}
+        onClick={handleShowModal}
       />
+      <article className="flex flex-center shrink-0 justify-center h-full">
+        {showModal && (
+          <ConfirmationPopUp
+            handleShowModal={handleShowModal}
+            handleAction={handleDeleteAccountClick}
+            message={"Borrar tu cuenta es una acción irreversible."}
+          />
+        )}
+      </article>
     </section>
   );
 }

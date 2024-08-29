@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import AmountButton from "../buttons/amountButton";
@@ -6,6 +8,8 @@ import {
   incrementProductInShoppingList,
 } from "@/db/action";
 import { componentBackground, componentText, componentBorder } from "../../tailwindClasses";
+import { useState } from "react";
+import ConfirmationPopUp from "../popUps/confirmationPopUp";
 
 interface ProductInformationProps {
   id: string;
@@ -30,15 +34,28 @@ export default function ProductShoppingList({
   color,
   quantity,
 }: ProductInformationProps) {
-  let showEarSide: string;
+  let showEarSide: string = getEarSideLabel(earSide);
 
-  if (earSide === "right") {
-    showEarSide = "Derecho";
-  } else if (earSide === "left") {
-    showEarSide = "Izquierda";
-  } else {
-    showEarSide = "Ambos";
+  const [showModal, setShowModal] = useState(false);
+  const [currentFormData, setFormData] = useState<FormData>()
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const checkBeforeDecrement = (formData: FormData) => {
+    if (quantity === 1){
+      setFormData(formData)
+      handleShowModal()
+    } else {
+      decrementProductInShoppingList(formData)
+    }
   }
+
+  const handleDecrementAmount = () => {
+    handleShowModal()
+    decrementProductInShoppingList(currentFormData!)
+  }
+  
 
   return (
     <section
@@ -109,7 +126,7 @@ export default function ProductShoppingList({
             color={color}
             earSide={earSide}
             guarantee={guarantee}
-            action={decrementProductInShoppingList}
+            action={checkBeforeDecrement}
           />
           {/* Amount */}
           <span className="px-5 py-2 text-2xl font-bold">{quantity}</span>
@@ -124,8 +141,31 @@ export default function ProductShoppingList({
           />
         </div>
       </article>
+      <article className="flex flex-center shrink-0 justify-center h-full">
+        {showModal && (
+          <ConfirmationPopUp
+            handleShowModal={handleShowModal}
+            handleAction={handleDecrementAmount}
+            message={"Borrar un producto es una acción irreversible."}
+          />
+        )}
+      </article>
     </section>
   );
+
+
+}
+
+function getEarSideLabel(earSide: String) {
+  if (earSide === "right") {
+    return "Derecho";
+  } 
+  
+  if (earSide === "left") {
+    return "Izquierda";
+  } 
+  
+  return"Ambos";
 }
 
 const shimmer =

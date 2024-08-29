@@ -2,12 +2,9 @@
 
 import Image from "next/image";
 import SmallButton from "../../components/buttons/smallButton";
-import { useRouter } from "next/navigation";
 import { componentText, lightComponentBackground } from "../../tailwindClasses";
 
 export default function WorkingFlow() {
-  const router = useRouter()
-
   return (
     <section className={`flex flex-col lg:grid lg:grid-cols-2 gap-3 ${componentText}`}>
       {/* Knowing the hearing aid */}

@@ -1,8 +1,8 @@
 "use client";
 
-import { ProductColor, ProductEntity } from "@/app/model/entities/Product";
+import { ProductEntity } from "@/app/model/entities/Product";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
@@ -13,10 +13,15 @@ import Loading from "./loading";
 import UnorderedList from "@/app/ui/components/tags/unorderedList";
 import { Article } from "@/app/ui/components/tags/article";
 import { ColorArticle } from "@/app/ui/components/tags/colorArticle";
+import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
 
 export default function Page() {
   const pathname = usePathname();
   const productId = pathname.split("/").pop();
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
 
   const [imgIndex, setImgIndex] = useState(0);
 
@@ -57,7 +62,7 @@ export default function Page() {
           text={"Borrar Producto"}
           subtext={"Eliminar para siempre"}
           type={"danger"}
-          onClick={() => actionDelete(productId)}
+          onClick={handleShowModal}
         />{" "}
       </section>
       {/* Display */}
@@ -138,6 +143,18 @@ export default function Page() {
           ))}{" "}
         </article>
       </section>
+      <article className="flex flex-center shrink-0 justify-center h-full w-full">
+        {showModal && (
+          <ConfirmationPopUp
+            handleShowModal={handleShowModal}
+            handleAction={() => {
+              actionDelete(productId)
+              handleShowModal()
+            }}
+            message={"Borrar un producto es una acción irreversible."}
+          />
+        )}
+      </article>
     </div>
   );
 }

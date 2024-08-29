@@ -1,12 +1,25 @@
 import { errorMessagesList } from "@/lib/validations";
 import MediumButton from "../buttons/mediumButton";
-import { componentBackground, componentText, componentBorder, hoverFillDefaultComponentBackground } from "../../tailwindClasses";
+import {
+  componentBackground,
+  componentText,
+  componentBorder,
+  hoverFillDefaultComponentBackground,
+} from "../../tailwindClasses";
+import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
+import { faRightLong, faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface PopUpProps {
   handleShowModal: () => void;
+  handleAction: () => void;
+  message: string
 }
 
-export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
+export default function ConfirmationPopUp({
+  handleShowModal,
+  handleAction,
+  message,
+}: PopUpProps) {
   return (
     <section
       className="flex justify-center items-center w-full h-full fixed  
@@ -44,15 +57,28 @@ export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
           <span className="sr-only">Close popup</span>
         </button>
         {/* Title */}
-        <h1 className="text-4xl font-bold"> Formulario no válido</h1>
+        <h1 className="text-4xl font-bold">¿Estás seguro?</h1>
         {/* Elements */}
-        <ul>
-          {errorMessagesList.map((element, index) => (
-            <li key={"errorMessage-" + index} className="text-lg">* {element}</li>
-          ))}
-        </ul>
+        <p className="text-xl">
+          <strong>{message}</strong>
+        </p>
         {/* Actions */}
-        <MediumButton text={"Continuar"} onClick={handleShowModal} />
+        <section className="flex flex-row justify-between gap-5">
+          <MediumButtonWithIcon
+            icon={faXmark}
+            text={"Cancelar"}
+            subtext={""}
+            type={"default"}
+            onClick={handleShowModal}
+          />
+          <MediumButtonWithIcon
+            icon={faRightLong}
+            text={"Continuar"}
+            subtext={""}
+            type={"danger"}
+            onClick={handleAction}
+          />
+        </section>
       </article>
     </section>
   );
