@@ -22,6 +22,7 @@ import {
 import ConfirmationPopUp from "../../components/popUps/confirmationPopUp";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function UserDashboard() {
   const { signOut } = useClerk();
@@ -34,14 +35,21 @@ export default function UserDashboard() {
   };
 
   const handleLogOutClick = () => {
-    signOut();
+    signOut()
+      .then((_) => toast.success("Se ha cerrado la sesión."))
+      .catch((_) => toast.error("No se ha podido cerrar la sesión."));
   };
 
   const handleDeleteAccountClick = async () => {
-    await user?.delete();
-    handleShowModal()
-    signOut();
-    router.push("/sign-up")
+    user
+      ?.delete()
+      .then((_) => {
+        handleShowModal();
+        toast.success("Se ha borrado la cuenta.");
+        signOut();
+        router.push("/sign-up");
+      })
+      .catch((_) => toast.error("No se ha podido borrar la cuenta."));
   };
 
   return (

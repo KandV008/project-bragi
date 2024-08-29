@@ -22,6 +22,8 @@ import {
   componentBackground,
   componentText,
 } from "@/app/ui/tailwindClasses";
+import toast from 'react-hot-toast';
+
 
 interface ProductOptionsProps {
   id: string;
@@ -79,7 +81,11 @@ export default function ProductOptions({
 
   const handleForm = (formData: FormData) => {
     const isValid = validateAddShoppingCart(formData);
-    if (isValid) addProductToShoppingList;
+    if (isValid) {
+      addProductToShoppingList(formData)
+        .then((_) => toast.success("Se ha añadido a la cesta."))
+        .catch((_) => toast.error("No se ha podido añadir a la cesta."))
+    }
     else handleShowModal();
   };
 

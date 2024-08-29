@@ -40,6 +40,7 @@ import { validateFormProduct } from "@/lib/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import { componentBackground, componentBorder } from "@/app/ui/tailwindClasses";
+import toast from "react-hot-toast";
 
 interface FormProps {
   product?: ProductEntity;
@@ -48,6 +49,8 @@ interface FormProps {
 export default function ProductForm({ product }: FormProps) {
   const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
   const actionForm = product ? actionUpdate : actionCreate;
+  const succesToastText = product ? "Se ha actualizado el produto." : "Se ha creado el producto"
+  const errorToastText = product ? "No se ha podido actualizar el produto." : "Se ha podido crear el producto"
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -55,8 +58,11 @@ export default function ProductForm({ product }: FormProps) {
 
   const handleForm = (formData: FormData) => {
     const isValid = validateFormProduct(formData);
-    if (isValid) actionForm;
-    else handleShowModal();
+    if (isValid) {
+      actionForm(formData)
+        .then((_) => toast.success(succesToastText))
+        .catch((_) => toast.error(errorToastText));
+    } else handleShowModal();
   };
 
   return (
@@ -181,7 +187,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Submit Button */}
         <section className="self-center">
-          <SubmitButton text={actionText} icon={faUpload} />
+          <SubmitButton text={actionText} icon={faUpload} isDisable={false} />
         </section>
       </form>
       <article className="flex flex-center shrink-0 justify-center h-full">

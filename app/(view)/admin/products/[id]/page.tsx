@@ -14,6 +14,7 @@ import UnorderedList from "@/app/ui/components/tags/unorderedList";
 import { Article } from "@/app/ui/components/tags/article";
 import { ColorArticle } from "@/app/ui/components/tags/colorArticle";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
+import toast from "react-hot-toast";
 
 export default function Page() {
   const pathname = usePathname();
@@ -148,8 +149,10 @@ export default function Page() {
           <ConfirmationPopUp
             handleShowModal={handleShowModal}
             handleAction={() => {
+              handleShowModal();
               actionDelete(productId)
-              handleShowModal()
+                .then((_) => toast.success("Se ha borrado el producto."))
+                .catch((_) => toast.error("No se ha podido borrar el producto."));
             }}
             message={"Borrar un producto es una acción irreversible."}
           />
@@ -158,4 +161,3 @@ export default function Page() {
     </div>
   );
 }
-

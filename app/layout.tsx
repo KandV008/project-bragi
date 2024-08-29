@@ -8,6 +8,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import NextTopLoader from "nextjs-toploader";
 import { mainBackground } from "./ui/tailwindClasses";
+import { Toaster } from 'react-hot-toast';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -99,6 +101,7 @@ export default function RootLayout({
             py-16 md:py-12 lg:py-10 2xl:py-5 
             w-11/12 xl:w-4/6 place-self-center"
           >
+            <Toaster position="bottom-right"/>
             {children}
           </main>
           <Footer />
