@@ -57,77 +57,80 @@ export default function Filter({ onChange, products }: FilterProps) {
 
   return (
     <section
-      className={`sticky top-32 h-fit p-5 rounded flex-col space-y-3 hidden md:flex w-64
+      className={`sticky top-32 h-fit p-5 pr-1 rounded flex-col space-y-3 hidden md:flex w-64
         ${componentBackground} ${componentText} "`}
     >
       {/* Header */}
       <SectionHeader text="Filtrar por:" />
-      {/* Adaptation Range */}
-      <article className="text-lg">
-        <h1 className="text-xl font-bold">Rango de Adaptación</h1>
-        <RadioInputWithQuantity
-          name={adaptationRangeType}
-          list={Object.values(checkAdaptationRangeType(products))}
-          valueOf={valueOfAdaptationRange}
-          type={adaptationRangeType}
-          onChange={filterSelected}
-        />
-      </article>
-      {/* Water Dust Resistance */}
-      <article className="text-lg">
-        <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
-        <RadioInputWithQuantity
-          name={waterDustResistanceType}
-          list={Object.values(checkWaterAndDustResistanceType(products))}
-          valueOf={valueOfWaterDustResistance}
-          type={waterDustResistanceType}
-          onChange={filterSelected}
-        />
-      </article>
-      {/* Brand */}
-      <article className="text-lg">
-        <h1 className="text-xl font-bold">Marca</h1>
-        <RadioInputWithQuantity
-          name={brandType}
-          list={Object.values(checkBrandType(products))}
-          valueOf={(x) => x}
-          type={brandType}
-          onChange={filterSelected}
-        />
-      </article>
-      {/* Ear Location */}
-      <article className="text-lg">
-        <h1 className="text-xl font-bold">Ubicación</h1>
-        <RadioInputWithQuantity
-          name={earLocationType}
-          list={Object.values(checkEarLocationType(products))}
-          valueOf={valueOfEarLocation}
-          type={earLocationType}
-          onChange={filterSelected}
-        />
-      </article>
-      {/* Level of Discretion */}
-      <article className="text-lg">
-        <h1 className="text-xl font-bold">Nivel de discrección</h1>
-        <RadioInputWithQuantity
-          name={levelOfDiscretionType}
-          list={Object.values(checkLevelOfDiscretionType(products))}
-          valueOf={valueOfLevelOfDiscretion}
-          type={levelOfDiscretionType}
-          onChange={filterSelected}
-        />
-      </article>
-      {/* Degree Of Loss */}
-      <article className="text-lg">
-        <h1 className="text-xl font-bold">Grado de perdida</h1>
-        <RadioInputWithQuantity
-          name={degreeOfLossType}
-          list={Object.values(checkDegreeOfLossType(products))}
-          valueOf={valueOfDegreeOfLoss}
-          type={degreeOfLossType}
-          onChange={filterSelected}
-        />
-      </article>
+      {/* Filters */}
+      <div className="max-h-[40rem] overflow-y-auto space-y-3">
+        {/* Adaptation Range */}
+        <article className="text-lg">
+          <h1 className="text-xl font-bold">Rango de Adaptación</h1>
+          <RadioInputWithQuantity
+            name={adaptationRangeType}
+            list={Object.values(checkAdaptationRangeType(products))}
+            valueOf={valueOfAdaptationRange}
+            type={adaptationRangeType}
+            onChange={filterSelected}
+          />
+        </article>
+        {/* Water Dust Resistance */}
+        <article className="text-lg">
+          <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
+          <RadioInputWithQuantity
+            name={waterDustResistanceType}
+            list={Object.values(checkWaterAndDustResistanceType(products))}
+            valueOf={valueOfWaterDustResistance}
+            type={waterDustResistanceType}
+            onChange={filterSelected}
+          />
+        </article>
+        {/* Brand */}
+        <article className="text-lg">
+          <h1 className="text-xl font-bold">Marca</h1>
+          <RadioInputWithQuantity
+            name={brandType}
+            list={Object.values(checkBrandType(products))}
+            valueOf={(x) => x}
+            type={brandType}
+            onChange={filterSelected}
+          />
+        </article>
+        {/* Ear Location */}
+        <article className="text-lg">
+          <h1 className="text-xl font-bold">Ubicación</h1>
+          <RadioInputWithQuantity
+            name={earLocationType}
+            list={Object.values(checkEarLocationType(products))}
+            valueOf={valueOfEarLocation}
+            type={earLocationType}
+            onChange={filterSelected}
+          />
+        </article>
+        {/* Level of Discretion */}
+        <article className="text-lg">
+          <h1 className="text-xl font-bold">Nivel de discrección</h1>
+          <RadioInputWithQuantity
+            name={levelOfDiscretionType}
+            list={Object.values(checkLevelOfDiscretionType(products))}
+            valueOf={valueOfLevelOfDiscretion}
+            type={levelOfDiscretionType}
+            onChange={filterSelected}
+          />
+        </article>
+        {/* Degree Of Loss */}
+        <article className="text-lg">
+          <h1 className="text-xl font-bold">Grado de perdida</h1>
+          <RadioInputWithQuantity
+            name={degreeOfLossType}
+            list={Object.values(checkDegreeOfLossType(products))}
+            valueOf={valueOfDegreeOfLoss}
+            type={degreeOfLossType}
+            onChange={filterSelected}
+          />
+        </article>
+      </div>
     </section>
   );
 }
