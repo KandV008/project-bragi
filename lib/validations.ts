@@ -1,7 +1,7 @@
-export const errorMessagesList: string[] = []
+export let errorMessagesList: string[] = []
 
 function clearErrorMessagesList(){
-    errorMessagesList.filter((_) => false)
+    errorMessagesList = []
 }
 
 function checkErrorMessagesList(){
