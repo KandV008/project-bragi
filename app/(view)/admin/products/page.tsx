@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Loading from "./loading";
 import ProductContainer from "@/app/ui/components/products/productContainer";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
+import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 
 export default function Page() {
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -38,7 +39,7 @@ export default function Page() {
   };
 
   return (
-    <section className="flex flex-col gap-10 w-full justify-between">
+    <section className="flex flex-col gap-5 w-full justify-between">
       {/* Actions */}
       <article className="flex flex-center shrink-0 justify-center">
         <div className="fixed top-44 md:top-36">
@@ -51,6 +52,7 @@ export default function Page() {
           />
         </div>
       </article>
+      <GoBackButton />
       {/* List */}
       <article className="md:size-fit lg:px-12">
         <ProductContainer

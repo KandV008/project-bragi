@@ -16,6 +16,7 @@ import { ColorArticle } from "@/app/ui/components/tags/colorArticle";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
 import toast from "react-hot-toast";
 import BigImage from "@/app/ui/components/images/bigImage";
+import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 
 export default function Page() {
   const pathname = usePathname();
@@ -51,22 +52,29 @@ export default function Page() {
       text-emerald-900 dark:text-emerald-100"
     >
       {/* Actions */}
-      <section className="flex flex-row justify-evenly">
-        <MediumButtonWithIcon
-          icon={faPencil}
-          text={"Editar Producto"}
-          subtext={"Actualizar las atributos"}
-          type={"warning"}
-          navigationURL={`/admin/products/${productId}/update`}
-        />
-        <MediumButtonWithIcon
-          icon={faEraser}
-          text={"Borrar Producto"}
-          subtext={"Eliminar para siempre"}
-          type={"danger"}
-          onClick={handleShowModal}
-        />{" "}
-      </section>
+      <article className="flex flex-center shrink-0 justify-start p-2">
+        <div className="fixed top-44 md:top-36">
+          <MediumButtonWithIcon
+            icon={faPencil}
+            text={"Editar Producto"}
+            subtext={"Actualizar las atributos"}
+            type={"warning"}
+            navigationURL={`/admin/products/${productId}/update`}
+          />
+        </div>
+      </article>
+      <article className="flex flex-center shrink-0 justify-center">
+        <div className="fixed top-44 md:top-36">
+          <MediumButtonWithIcon
+            icon={faEraser}
+            text={"Borrar Producto"}
+            subtext={"Eliminar para siempre"}
+            type={"danger"}
+            onClick={handleShowModal}
+          />{" "}
+        </div>
+      </article>
+      <GoBackButton />
       {/* Display */}
       <section
         className="flex flex-col gap-3 p-10
@@ -133,7 +141,7 @@ export default function Page() {
         </article>
         <article className="flex flex-row gap-2 justify-center">
           {product.colors[imgIndex].images.map((image, index) => (
-            <BigImage  key={"img-" + index} src={image} alt={"img-" + index} />
+            <BigImage key={"img-" + index} src={image} alt={"img-" + index} />
           ))}
         </article>
       </section>
@@ -145,7 +153,9 @@ export default function Page() {
               handleShowModal();
               actionDelete(productId)
                 .then((_) => toast.success("Se ha borrado el producto."))
-                .catch((_) => toast.error("No se ha podido borrar el producto."));
+                .catch((_) =>
+                  toast.error("No se ha podido borrar el producto.")
+                );
             }}
             message={"Borrar un producto es una acción irreversible."}
           />

@@ -61,6 +61,7 @@ import {
   shimmer,
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
+import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 
 interface FormProps {
   product?: ProductEntity;
@@ -91,6 +92,7 @@ export default function ProductForm({ product }: FormProps) {
 
   return (
     <>
+      <GoBackButton />
       <form
         action={handleForm}
         className={`flex flex-col gap-5 p-5 sm:p-10 
