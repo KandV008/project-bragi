@@ -68,3 +68,21 @@ export default function CheckBoxInput({
     </section>
   );
 }
+
+export function CheckBoxInputSkeleton(){
+    return (
+      <section className="flex flex-col w-full gap-1">
+        <label
+          className="bg-transparent 
+            w-3/4 md:w-9/12 font-extrabold text-lg cursor-pointer "
+        >
+          <div className="md:self-start h-5 sm:h-7 lg:h-8 w-1/4 rounded-md bg-gray-200" />
+        </label>
+        <div className="flex flex-row flex-wrap gap-2 font-semibold">
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
+        </div>
+      </section>
+    );
+}

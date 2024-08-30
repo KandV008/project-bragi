@@ -12,3 +12,9 @@ export default function ArticleHeader({ text }: HeaderProps) {
     </h3>
   );
 }
+
+export function ArticleHeaderSkeleton() {
+  return (
+    <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+  );
+}

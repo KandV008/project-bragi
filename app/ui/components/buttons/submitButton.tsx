@@ -50,3 +50,14 @@ export default function SubmitButton({
     </>
   );
 }
+
+export function SubmitButtonSkeleton() {
+  return (
+    <section className="self-center">
+      <div
+        className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
+    border-2 rounded bg-gray-200"
+      />
+    </section>
+  );
+}

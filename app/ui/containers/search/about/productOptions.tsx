@@ -6,12 +6,18 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ProductColor } from "@/app/model/entities/Product";
 import { addProductToShoppingList } from "@/db/action";
-import FavoriteToggleButton from "@/app/ui/components/buttons/favoriteToggleButton";
-import SubmitButton from "@/app/ui/components/buttons/submitButton";
-import ColorButton from "@/app/ui/components/buttons/colorButton";
+import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "@/app/ui/components/buttons/favoriteToggleButton";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton";
+import ColorButton, {
+  ColorButtonSkeleton,
+} from "@/app/ui/components/buttons/colorButton";
 import { validateAddShoppingCart } from "@/lib/validations";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
-import ArticleHeader from "@/app/ui/components/tags/articleHeader";
+import ArticleHeader, {
+  ArticleHeaderSkeleton,
+} from "@/app/ui/components/tags/articleHeader";
 import {
   pressedButton,
   negativeComponentText,
@@ -21,9 +27,15 @@ import {
   hoverComponentBorder,
   componentBackground,
   componentText,
+  shimmer,
 } from "@/app/ui/tailwindClasses";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
+import BigImage, {
+  BigImageSkeleton,
+} from "@/app/ui/components/images/bigImage";
+import SmallImage, {
+  SmallImageSkeleton,
+} from "@/app/ui/components/images/smallImage";
 
 interface ProductOptionsProps {
   id: string;
@@ -84,9 +96,8 @@ export default function ProductOptions({
     if (isValid) {
       addProductToShoppingList(formData)
         .then((_) => toast.success("Se ha añadido a la cesta."))
-        .catch((_) => toast.error("No se ha podido añadir a la cesta."))
-    }
-    else handleShowModal();
+        .catch((_) => toast.error("No se ha podido añadir a la cesta."));
+    } else handleShowModal();
   };
 
   return (
@@ -99,13 +110,7 @@ export default function ProductOptions({
         <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
           {/* Main Image */}
           <div className="place-self-center">
-            <Image
-              src={colors[imgIndex].images[0]}
-              width={1500}
-              height={1500}
-              alt={"img-" + 0}
-              className={`size-64 sm:size-72 lg:size-96 bg-white rounded ${componentBorder}`}
-            />
+            <BigImage src={colors[imgIndex].images[0]} alt={"img-" + 0} />
           </div>
           {/* Secondary Images */}
           <div className="flex flex-row gap-2 justify-center">
@@ -114,13 +119,10 @@ export default function ProductOptions({
                 {index === 0 ? (
                   <span></span>
                 ) : (
-                  <Image
+                  <SmallImage
                     key={"img-" + index}
-                    src={image}
-                    width={1500}
-                    height={1500}
                     alt={"img-" + index}
-                    className={`size-20 sm:size-24 lg:size-32 bg-white rounded ${componentBorder}`}
+                    src={image}
                   />
                 )}
               </>
@@ -231,7 +233,13 @@ export default function ProductOptions({
               <FavoriteToggleButton productId={id} isActive={isFavorite} />
             </div>
           </section>
-          {!user ? <strong>*Inicie Sesión o Regístrate para poder añadirlo a la cesta.</strong> : <></>}
+          {!user ? (
+            <strong>
+              *Inicie Sesión o Regístrate para poder añadirlo a la cesta.
+            </strong>
+          ) : (
+            <></>
+          )}
         </article>
       </div>
       <article className="flex flex-center shrink-0 justify-center h-full">
@@ -240,9 +248,6 @@ export default function ProductOptions({
     </>
   );
 }
-
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
 export function ProductOptionsSkeleton() {
   return (
@@ -253,14 +258,12 @@ export function ProductOptionsSkeleton() {
         {/* Product Images */}
         <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
           {/* Main Image */}
-          <div className="place-self-center">
-            <div className="size-64 sm:size-72 lg:size-96 bg-gray-200"></div>
-          </div>
+          <BigImageSkeleton />
           {/* Secondary Images */}
           <div className="flex flex-row gap-2 justify-center">
-            <div className="size-20 sm:size-24 lg:size-32 bg-gray-200"></div>
-            <div className="size-20 sm:size-24 lg:size-32 bg-gray-200"></div>
-            <div className="size-20 sm:size-24 lg:size-32 bg-gray-200"></div>
+            <SmallImageSkeleton />
+            <SmallImageSkeleton />
+            <SmallImageSkeleton />
           </div>
         </article>
         {/* Product Options */}
@@ -273,17 +276,12 @@ export function ProductOptionsSkeleton() {
           <div className="md:self-start h-8 sm:h-10 xl:h-12 w-40 rounded-md bg-gray-200" />
           {/* Color Buttons */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
-            <div className="flex flex-row flex-wrap gap-1">
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-            </div>
+            <ArticleHeaderSkeleton />
+            <ColorButtonSkeleton />
           </div>
           {/* Hearing Aid Side Buttons */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+            <ArticleHeaderSkeleton />
             <div className="flex flex-row flex-wrap gap-3">
               <div className="h-8 w-24 border-2 rounded bg-gray-200" />
               <div className="h-8 w-24 border-2 rounded bg-gray-200" />
@@ -292,24 +290,24 @@ export function ProductOptionsSkeleton() {
           </div>
           {/* Insurance Button */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+            <ArticleHeaderSkeleton />
             <div className="flex flex-row flex-wrap gap-1">
               <div className="h-8 w-24 border-2 rounded bg-gray-200" />
             </div>
           </div>
           {/* Include list */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
-            <div className="flex flex-col flex-wrap gap-1">
+            <ArticleHeaderSkeleton />
+            <div className="flex flex-col flex-wrap gap-1 px-5">
               <div className="md:self-start h-4 sm:h-5 xl:h-6 w-48 rounded-md bg-gray-200 mb-1" />
               <div className="md:self-start h-4 sm:h-5 xl:h-6 w-48 rounded-md bg-gray-200 mb-1" />
             </div>
           </div>
           {/* Shopping Button */}
-          <div
-            className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
-          border-2 rounded bg-gray-200"
-          />
+          <div className="flex flex-row self-start gap-2">
+            <SubmitButtonSkeleton />
+            <FavoriteToggleButtonSkeleton />
+          </div>
         </article>
       </div>
     </div>

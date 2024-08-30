@@ -6,6 +6,7 @@ import SectionHeader from "../../components/tags/sectionHeader";
 import { ProductSkeleton } from "./product";
 import ProductContainer from "./productContainer";
 import EmptyMessage from "../messages/emptyMessage";
+import { shimmer } from "../../tailwindClasses";
 
 interface SomeProductContainerProps {
   fetchUrl: string;
@@ -39,9 +40,6 @@ export default function SomeProductContainer({
     </section>
   );
 }
-
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
 interface SkeletonProps{
     title: string

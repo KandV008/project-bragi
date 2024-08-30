@@ -17,10 +17,21 @@ import {
 } from "@/app/model/entities/enums/LevelOfDiscretion";
 import { ProductEntity } from "@/app/model/entities/Product";
 import { ChangeEvent } from "react";
-import SectionHeader from "../../components/tags/sectionHeader";
-import RadioInputWithQuantity from "../../components/inputs/radioInputWithQuantity";
-import { checkWaterAndDustResistanceType, valueOfWaterDustResistance } from "@/app/model/entities/enums/WaterDustResistance";
-import { componentBackground, componentText } from "../../tailwindClasses";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "../../components/tags/sectionHeader";
+import RadioInputWithQuantity, {
+  RadioInputWithQuantitySkeleton,
+} from "../../components/inputs/radioInputWithQuantity";
+import {
+  checkWaterAndDustResistanceType,
+  valueOfWaterDustResistance,
+} from "@/app/model/entities/enums/WaterDustResistance";
+import {
+  componentBackground,
+  componentText,
+  shimmer,
+} from "../../tailwindClasses";
 
 interface FilterProps {
   onChange: (filter: string) => void;
@@ -121,11 +132,6 @@ export default function Filter({ onChange, products }: FilterProps) {
   );
 }
 
-
-
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
-
 export function FilterSkeleton() {
   return (
     <div
@@ -133,115 +139,19 @@ export function FilterSkeleton() {
     >
       <section className="p-4 rounded flex-col space-y-3 h-full bg-gray-100 hidden md:flex w-64">
         {/* Header */}
-        <span className="md:self-start h-8 w-40 rounded-md bg-gray-200 mb-1"></span>
+        <SectionHeaderSkeleton />
         {/* Adaptation Range */}
-        <article className="text-lg">
-          <h2 className="md:self-start h-6 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <form className="px-3">
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-          </form>
-        </article>
+        <RadioInputWithQuantitySkeleton />
         {/* Water Dust Resistance */}
-        <article className="text-lg">
-          <h2 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <form className="px-3">
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-          </form>
-        </article>
+        <RadioInputWithQuantitySkeleton />
         {/* Brand */}
-        <article className="text-lg">
-          <h2 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <form className="px-3">
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-          </form>{" "}
-        </article>
+        <RadioInputWithQuantitySkeleton />
         {/* Location */}
-        <article className="text-lg">
-          <h2 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <form className="px-3">
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-          </form>{" "}
-        </article>
+        <RadioInputWithQuantitySkeleton />
         {/* Level of Discretion */}
-        <article className="flex flex-col gap-3">
-          <h2 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <form className="px-3">
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-          </form>{" "}
-        </article>
+        <RadioInputWithQuantitySkeleton />
         {/* Degree Of Loss */}
-        <article className="text-lg">
-          <h2 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <form className="px-3">
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-            <div className="flex flex-row gap-2">
-              <div className="size-4 rounded bg-gray-200"></div>
-              <span className="md:self-start h-4 w-36 rounded-md bg-gray-200 mb-1"></span>
-            </div>
-          </form>{" "}
-        </article>
+        <RadioInputWithQuantitySkeleton />
       </section>
     </div>
   );

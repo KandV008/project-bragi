@@ -20,7 +20,7 @@ export default function AdminDashboard(){
         <h2 className="text-base sm:text-xl font-semibold">
           Bienvenid@ {user?.firstName}
         </h2>
-        <div className="w-full border-t mb-1 border-emerald-900 dark:border-emerald-100"></div>
+        <div className={`w-full border-t mb-1 ${componentBorder}`}></div>
         <h1 className="text-base sm:text-lg">¿Qué acción desea realizar?</h1>
         <MediumButtonWithIcon
           icon={faPaintRoller}

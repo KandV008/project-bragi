@@ -39,3 +39,18 @@ export function ColorArticle({ label, colors }: ColorArticleProps) {
     </article>
   );
 }
+
+export function ColorArticleSkeleton() {
+  return (
+    <article className="flex flex-col gap-1">
+      <h1 className="md:self-start h-7 sm:h-7 lg:h-8 w-24 rounded-md bg-gray-200" />
+      <div className="flex flex-col flex-wrap gap-1 px-5">
+        <div className="md:self-start h-6 sm:h-8 xl:h-10 w-2/3 rounded-md bg-gray-200 mb-1" />
+        <div className="md:self-start h-6 sm:h-8 xl:h-10 w-2/3 rounded-md bg-gray-200 mb-1" />
+        <div className="md:self-start h-6 sm:h-8 xl:h-10 w-2/3 rounded-md bg-gray-200 mb-1" />
+        <div className="md:self-start h-6 sm:h-8 xl:h-10 w-2/3 rounded-md bg-gray-200 mb-1" />
+        <div className="md:self-start h-6 sm:h-8 xl:h-10 w-2/3 rounded-md bg-gray-200 mb-1" />
+      </div>
+    </article>
+  );
+}

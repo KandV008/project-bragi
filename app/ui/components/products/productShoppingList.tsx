@@ -7,7 +7,7 @@ import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
 } from "@/db/action";
-import { componentBackground, componentText, componentBorder } from "../../tailwindClasses";
+import { componentBackground, componentText, componentBorder, shimmer } from "../../tailwindClasses";
 import { useState } from "react";
 import ConfirmationPopUp from "../popUps/confirmationPopUp";
 
@@ -167,9 +167,6 @@ function getEarSideLabel(earSide: String) {
   
   return"Ambos";
 }
-
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
 export function ProductInformationSkeleton() {
   return (

@@ -3,7 +3,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
-import { componentBorder, componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground, fillYellowComponentBackground, hoverFillYellowComponentBackground, fillRedComponentBackground, hoverFillRedComponentBackground } from "../../tailwindClasses";
+import {
+  componentBorder,
+  componentText,
+  fillDefaultComponentBackground,
+  hoverFillDefaultComponentBackground,
+  fillYellowComponentBackground,
+  hoverFillYellowComponentBackground,
+  fillRedComponentBackground,
+  hoverFillRedComponentBackground,
+} from "../../tailwindClasses";
 
 interface MediumButtonWithIconProps {
   icon: IconDefinition;
@@ -42,9 +51,7 @@ export default function MediumButtonWithIcon({
         </div>
         <div className="flex flex-col text-start w-full self-center">
           <div className="text-lg font-bold">{text}</div>
-          <div className="text-sm  font-semibold ">
-            {subtext}
-          </div>
+          <div className="text-sm  font-semibold ">{subtext}</div>
         </div>
       </button>
     </Link>
@@ -63,4 +70,13 @@ function checkTypeMediumButton(type: "default" | "warning" | "danger") {
   if (type === "danger") {
     return `${fillRedComponentBackground} ${hoverFillRedComponentBackground}`;
   }
+}
+
+export function MediumButtonWithIconSkeleton() {
+  return (
+    <div
+      className="w-64 h-16 flex flex-row place-self-center md:place-self-start justify-center
+                border-2 rounded bg-gray-200"
+    />
+  );
 }

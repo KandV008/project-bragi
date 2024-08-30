@@ -15,6 +15,7 @@ import { Article } from "@/app/ui/components/tags/article";
 import { ColorArticle } from "@/app/ui/components/tags/colorArticle";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
 import toast from "react-hot-toast";
+import BigImage from "@/app/ui/components/images/bigImage";
 
 export default function Page() {
   const pathname = usePathname();
@@ -132,16 +133,8 @@ export default function Page() {
         </article>
         <article className="flex flex-row gap-2 justify-center">
           {product.colors[imgIndex].images.map((image, index) => (
-            <Image
-              key={"img-" + index}
-              src={image}
-              width={1500}
-              height={1500}
-              alt={"img-" + index}
-              className="size-64 sm:size-72 lg:size-96
-              bg-white rounded border-2 border-emerald-900 dark:border-emerald-100"
-            />
-          ))}{" "}
+            <BigImage  key={"img-" + index} src={image} alt={"img-" + index} />
+          ))}
         </article>
       </section>
       <article className="flex flex-center shrink-0 justify-center h-full w-full">

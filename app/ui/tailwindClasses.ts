@@ -30,3 +30,4 @@ export const negativeComponentText = "text-emerald-100 dark:text-emerald-800"
 
 /* Others */
 export const pressedButton = "text-rose-600 bg-rose-200 hover:bg-rose-300 border-rose-600"
+export const shimmer = "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";

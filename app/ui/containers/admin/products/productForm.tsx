@@ -20,14 +20,30 @@ import {
 } from "@/app/model/entities/enums/LevelOfDiscretion";
 import { usesList, valueOfUses } from "@/app/model/entities/enums/Uses";
 import { ProductEntity } from "@/app/model/entities/Product";
-import SubmitButton from "@/app/ui/components/buttons/submitButton";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
-import CheckBoxInput from "@/app/ui/components/inputs/checkBoxInput";
-import ColorInput from "@/app/ui/components/inputs/colorInput";
-import IncrementalTextInput from "@/app/ui/components/inputs/incrementalTextInput";
-import RadioInput from "@/app/ui/components/inputs/radioInput";
-import TextAreaInput from "@/app/ui/components/inputs/textAreaInput";
-import TextInput from "@/app/ui/components/inputs/textInput";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader";
+import CheckBoxInput, {
+  CheckBoxInputSkeleton,
+} from "@/app/ui/components/inputs/checkBoxInput";
+import ColorInput, {
+  ColorInputSkeleton,
+} from "@/app/ui/components/inputs/colorInput";
+import IncrementalTextInput, {
+  IncrementalTextInputSkeleton,
+} from "@/app/ui/components/inputs/incrementalTextInput";
+import RadioInput, {
+  RadioInputSkeleton,
+} from "@/app/ui/components/inputs/radioInput";
+import TextAreaInput, {
+  TextAreaInputSkeleton,
+} from "@/app/ui/components/inputs/textAreaInput";
+import TextInput, {
+  TextInputSkeleton,
+} from "@/app/ui/components/inputs/textInput";
 import { actionCreate, actionUpdate } from "@/db/action";
 import {
   faEarListen,
@@ -39,7 +55,11 @@ import {
 import { validateFormProduct } from "@/lib/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
-import { componentBackground, componentBorder } from "@/app/ui/tailwindClasses";
+import {
+  componentBackground,
+  componentBorder,
+  shimmer,
+} from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
 
 interface FormProps {
@@ -49,8 +69,12 @@ interface FormProps {
 export default function ProductForm({ product }: FormProps) {
   const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
   const actionForm = product ? actionUpdate : actionCreate;
-  const succesToastText = product ? "Se ha actualizado el produto." : "Se ha creado el producto"
-  const errorToastText = product ? "No se ha podido actualizar el produto." : "Se ha podido crear el producto"
+  const succesToastText = product
+    ? "Se ha actualizado el produto."
+    : "Se ha creado el producto";
+  const errorToastText = product
+    ? "No se ha podido actualizar el produto."
+    : "Se ha podido crear el producto";
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -197,94 +221,41 @@ export default function ProductForm({ product }: FormProps) {
   );
 }
 
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
-
 export function ProductFormSkeleton() {
   return (
     <div
       className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm p-5`}
     >
       <div className="flex flex-col gap-5 p-5 sm:p-10">
-        <div className="md:self-start h-7 sm:h-8 lg:h-10 w-96 rounded-md bg-gray-200" />
+        <SectionHeaderSkeleton />
         {/* Name */}
-        <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+        <TextInputSkeleton />
         {/* Category */}
-        <div className="flex flex-row gap-5 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-        </div>
+        <RadioInputSkeleton />
         {/* Brand */}
-        <div className="flex flex-row gap-5 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-        </div>
+        <RadioInputSkeleton />
         {/* Price */}
-        <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+        <TextInputSkeleton />
         {/* Description */}
-        <div className="md:self-start h-10 sm:h-12 lg:h-16 w-full rounded-md bg-gray-200" />
+        <TextAreaInputSkeleton />
         {/* Colors */}
-        <div className="w-full">
-          <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
-          <div className="flex flex-col flex-wrap gap-1 p-5">
-            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
-            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
-            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
-            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
-          </div>
-        </div>
+        <ColorInputSkeleton />
         {/* Includes */}
-        <div className="w-full">
-          <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
-          <div className="flex flex-col flex-wrap gap-1 p-5">
-            <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
-          </div>
-        </div>
+        <IncrementalTextInputSkeleton />
         {/* Adaptation Range */}
-        <div className="flex flex-row gap-10 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-        </div>
+        <RadioInputSkeleton />
         {/* Water Dust Resistance */}
-        <div className="flex flex-row gap-10 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />{" "}
-        </div>
+        <CheckBoxInputSkeleton />
         {/* Ear Location */}
-        <div className="flex flex-row gap-10 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-        </div>
+        <RadioInputSkeleton />
         {/* Level of Discretion */}
-        <div className="flex flex-row gap-10 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-        </div>
+        <RadioInputSkeleton />
         {/* Degree of Loss */}
-        <div className="flex flex-row gap-10 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-        </div>
+        <RadioInputSkeleton />
         {/* Uses */}
-        <div className="flex flex-row gap-10 ">
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-          <div className="md:self-start h-7 sm:h-7 lg:h-8 w-32 rounded-md bg-gray-200" />
-        </div>
+        <CheckBoxInputSkeleton />
         {/* Submit Button */}
-        <section className="self-center">
-          <div
-            className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
-          border-2 rounded bg-gray-200"
-          />
-        </section>
+        <SubmitButtonSkeleton />
       </div>
     </div>
   );

@@ -49,3 +49,22 @@ export default function TextAreaInput({
     </section>
   );
 }
+
+export function TextAreaInputSkeleton() {
+  return (
+    <section className="flex flex-col w-full gap-1">
+      <label
+        className="bg-transparent 
+            w-3/4 md:w-9/12 font-extrabold text-lg cursor-pointer "
+      >
+        <div className="md:self-start h-5 sm:h-7 lg:h-8 w-1/4 rounded-md bg-gray-200" />
+      </label>
+      <article
+        className={`flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
+          h-12 sm:h-16 lg:h-20 w-full font-semibold rounded-2xl bg-gray-200`}
+      >
+        <div className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded" />
+      </article>
+    </section>
+  );
+}

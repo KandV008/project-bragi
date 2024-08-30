@@ -4,8 +4,16 @@ import Image from "next/image";
 import { faEye, faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import FavoriteToggleButton from "../../components/buttons/favoriteToggleButton";
-import { componentBackground, componentBorder, componentText, negativeComponentBackground, negativeHoverComponentBackground, negativeComponentText } from "../../tailwindClasses";
+import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "../../components/buttons/favoriteToggleButton";
+import {
+  componentBackground,
+  componentBorder,
+  componentText,
+  negativeComponentBackground,
+  negativeHoverComponentBackground,
+  negativeComponentText,
+  shimmer,
+} from "../../tailwindClasses";
 
 interface ProductProps {
   id: string;
@@ -86,9 +94,6 @@ export default function Product({
   );
 }
 
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
-
 export function ProductSkeleton() {
   return (
     <div
@@ -116,7 +121,7 @@ export function ProductSkeleton() {
         {/* Buttons */}
         <section className="flex flex-row flex-wrap justify-center gap-3 md:gap-2 xl:gap-1">
           <div className="h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40 rounded-2xl border-2 bg-gray-200" />
-          <div className="h-8 w-12 md:size-10 xl:size-12 rounded-2xl border-2 bg-gray-200" />
+          <FavoriteToggleButtonSkeleton />
         </section>
       </div>
     </div>
