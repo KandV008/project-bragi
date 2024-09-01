@@ -96,10 +96,15 @@ export async function getLatestNovelties(): Promise<ProductEntity[]> {
   return products;
 }
 
-export async function getRelatedProducts(brandToCheck: string | null, price: string | null): Promise<ProductEntity[] | null> {
+export async function getRelatedProducts(
+  idToAvoid: string | null,
+  brandToCheck: string | null,
+  price: string | null
+): Promise<ProductEntity[] | null> {
   const products: ProductEntity[] = [];
-  const brandChecked = parseString(brandToCheck, "BRAND")
-  const parsedPrice = parsePrice(price)
+  const productId = parseString(idToAvoid, "PRODUCT_ID");
+  const brandChecked = parseString(brandToCheck, "BRAND");
+  const parsedPrice = parsePrice(price);
 
   try {
     await client.connect();
@@ -110,13 +115,19 @@ export async function getRelatedProducts(brandToCheck: string | null, price: str
     const pipeline = [
       {
         $match: {
+          _id: { $ne: new ObjectId(productId) },
           $or: [
             { brand: { $eq: brandChecked } },
-            { price: { $gte: (parsedPrice - 200), $lte: (parsedPrice + 200) } }
-          ]
-        }
+            {
+              price: {
+                $gte: parsedPrice - 200,
+                $lte: parsedPrice + 200,
+              },
+            },
+          ],
+        },
       },
-      { $limit: 4 }
+      { $limit: 4 },
     ];
 
     const cursor = coll.aggregate(pipeline);
@@ -128,9 +139,10 @@ export async function getRelatedProducts(brandToCheck: string | null, price: str
     await client.close();
   }
 
-  console.log(products.map(product => product.id))
+  console.log(products.map((product) => product.id));
   return products;
 }
+
 
 export async function getProduct(productIdToParse: string | null): Promise<ProductEntity | null> {
   const parsedProductId = parseString(productIdToParse, "PRODUCT_ID")
