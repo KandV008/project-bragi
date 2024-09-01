@@ -5,11 +5,10 @@ import "./globals.css";
 import Header from "./ui/components/common/header";
 import Footer from "./ui/components/common/footer";
 import { ClerkProvider } from "@clerk/nextjs";
-import { esES } from "@clerk/localizations";
 import NextTopLoader from "nextjs-toploader";
 import { mainBackground } from "./ui/tailwindClasses";
 import { Toaster } from 'react-hot-toast';
-
+import { customLocalization } from "@/lib/translation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,67 +17,13 @@ export const metadata: Metadata = {
   description: "Sain is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accesibility, usability and affordable prices.",
 };
 
-const localization = {
-  signUp: {
-    start: {
-      title: "Bienvenid@ al club",
-      subtitle:
-        "Registrate ahora en nuetra web para aprovecharte de todas las ventajas",
-      actionText: "¿Tienes ya una cuenta?",
-      actionLink: "Inicia sesión ahora mismo.",
-    },
-    emailLink: {
-      title: "Verifica tu email",
-      subtitle: "Así podrás empezar a usar la web al completo",
-      formTitle: "Enlace de verificación",
-      formSubtitle:
-        "Usa el enlace de verificación que te hemos enviado al correo",
-      resendButton: "¿No has recibido ningún enlace? Te lo enviamos de vuelta.",
-      verified: {
-        title: "Registro completado",
-      },
-      loading: {
-        title: "Registrandote...",
-      },
-      verifiedSwitchTab: {
-        title: "Tu correo ha sido verificado",
-        subtitle: "Volver a la pestaña recién abierta para continuar",
-        subtitleNewTab: "Volver a la pestaña anterior para continuar",
-      },
-    },
-    emailCode: {
-      title: "Verifica tu email",
-      subtitle: "Ahí podrás revisar el código de verificación",
-      formTitle: "Código de verificación",
-      formSubtitle: "Introduce el código que te hemos enviado al correo",
-      resendButton: "¿No has recibido ningún código? Te lo enviamos de vuelta.",
-    },
-    phoneCode: {
-      title: "Verifica tu teléfono",
-      subtitle: "Ahí podrás revisar el código de verificación",
-      formTitle: "Código de verificación",
-      formSubtitle: "Introduce el código que te hemos enviado al teléfono",
-      resendButton: "¿No has recibido ningún código? Te lo enviamos de vuelta.",
-    },
-    continue: {
-      title: "Rellena los campos vacíos del formulario",
-      subtitle: "Así podrás empezar a usar la web al completo",
-      actionText: "¿Tienes ya una cuenta?",
-      actionLink: "Iniciar Sesión",
-    },
-  },
-  formFieldLabel__emailAddress: "Correo electrónico",
-  formFieldLabel__password: "Contraseña",
-  formButtonPrimary: "Continuar",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider localization={localization}>
+    <ClerkProvider localization={customLocalization}>
       <html lang="es">
         <head>
           {/* Other head elements like meta tags, link tags etc. */}
