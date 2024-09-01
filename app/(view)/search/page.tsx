@@ -52,7 +52,7 @@ export default function Page() {
   }, [endIndex, filters, isLoading, productCategory, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!products) return <EmptyMessage />
+  if (products.length === 0) return <EmptyMessage />
 
   const filterAction = (filter: string) => {
     setFilters((prev) => {

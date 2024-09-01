@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Loading from "../loading";
 import Filter from "@/app/ui/containers/search/filter";
 import Spinner from "@/app/ui/components/common/spinner";
+import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 
 export default function Page() {
   const pathname = usePathname();
@@ -38,7 +39,7 @@ export default function Page() {
   }, [endIndex, filters, isLoading, keyword, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!products) return <p>No product data</p>; // TODO Add Message
+  if (products.length === 0) return <EmptyMessage />
 
   const filterAction = (filter: string) => {
     setFilters((prev) => {
