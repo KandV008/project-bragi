@@ -10,6 +10,7 @@ import {
 import {
   OrganizationSwitcher,
   Protect,
+  SignOutButton,
   useClerk,
   useUser,
 } from "@clerk/nextjs";
@@ -35,8 +36,11 @@ export default function UserDashboard() {
   };
 
   const handleLogOutClick = () => {
-    signOut()
-      .then((_) => toast.success("Se ha cerrado la sesión."))
+    signOut({ redirectUrl: "/log-in" })
+      .then((_) => {
+        toast.success("Se ha cerrado la sesión.");
+        router.push("/log-in");
+      })
       .catch((_) => toast.error("No se ha podido cerrar la sesión."));
   };
 
@@ -46,7 +50,6 @@ export default function UserDashboard() {
       .then((_) => {
         handleShowModal();
         toast.success("Se ha borrado la cuenta.");
-        signOut();
         router.push("/sign-up");
       })
       .catch((_) => toast.error("No se ha podido borrar la cuenta."));
