@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ProductColor } from "@/app/model/entities/Product";
 import { addProductToShoppingList } from "@/db/action";
-import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "@/app/ui/components/buttons/favoriteToggleButton";
+import FavoriteToggleButton, {
+  FavoriteToggleButtonSkeleton,
+} from "@/app/ui/components/buttons/favoriteToggleButton";
 import SubmitButton, {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton";
@@ -36,6 +38,7 @@ import BigImage, {
 import SmallImage, {
   SmallImageSkeleton,
 } from "@/app/ui/components/images/smallImage";
+import Link from "next/link";
 
 interface ProductOptionsProps {
   id: string;
@@ -115,17 +118,16 @@ export default function ProductOptions({
           {/* Secondary Images */}
           <div className="flex flex-row gap-2 justify-center">
             {colors[imgIndex].images.map((image, index) => (
-              <>
+              <div key={colors[imgIndex].color.name + "-img-" + index}>
                 {index === 0 ? (
-                  <span></span>
+                  <></>
                 ) : (
                   <SmallImage
-                    key={"img-" + index}
-                    alt={"img-" + index}
+                    alt={colors[imgIndex].color.name + "-img-" + index}
                     src={image}
                   />
                 )}
-              </>
+              </div>
             ))}
           </div>
         </article>
@@ -196,7 +198,7 @@ export default function ProductOptions({
             <ArticleHeader text={"Incluye"} />
             <ul className="px-2 text-sm lg:text-base">
               {include.map((text, index) => (
-                <li key={"li-" + index}>{text}</li>
+                <li key={"include-" + index}>{text}</li>
               ))}
             </ul>
           </div>
@@ -234,8 +236,12 @@ export default function ProductOptions({
             </div>
           </section>
           {!user ? (
-            <strong>
-              *Inicie Sesión o Regístrate para poder añadirlo a la cesta.
+            <strong className="font-semibold">
+              *
+              <Link href={"/log-in"} className="hover:underline font-extrabold">
+                Inicia Sesión o Regístrate
+              </Link>{" "}
+              para poder añadirlo a la cesta.
             </strong>
           ) : (
             <></>

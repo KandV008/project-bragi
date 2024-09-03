@@ -28,7 +28,7 @@ export default function ColorButton({ colors, action }: ColorButtonProps) {
     <div className="flex flex-row flex-wrap gap-1">
       {colors.map((color, index) => (
         <button
-          key={color.color.name + "-" + index}
+          key={color.color.name + "-button-" + index}
           className={getColorButtonClasses(index)}
           style={{ backgroundColor: color.color.hex }}
           title={color.color.name}

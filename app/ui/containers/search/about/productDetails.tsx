@@ -62,7 +62,7 @@ export default function ProductDetails({
           <div className="flex flex-row flex-wrap gap-5">
             {uses.map((use, index) => (
               <div
-                key={use.text + "-" + index}
+                key={"uses-" + index}
                 className="flex flex-col items-center"
               >
                 <div

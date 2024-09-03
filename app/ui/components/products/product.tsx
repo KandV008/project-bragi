@@ -53,14 +53,14 @@ export default function Product({
           alt={"img-" + id}
           className="size-28 md:size-40 xl:size-56 bg-white rounded"
         />
-        <div className="flex flex-col text-center">
-          <span className="text-xs md:self-start md:text-sm xl:text-lg font-bold ">
+        <div className="flex flex-col w-full px-2">
+          <span className="text-xs md:text-sm xl:text-lg font-bold w-full text-center md:text-start">
             {name}
           </span>
-          <span className="text-xs md:self-start md:text-sm xl:text-base ">
+          <span className="text-xs md:text-sm xl:text-base w-full text-center md:text-start">
             {brand}
           </span>
-          <span className="text-sm md:self-end md:text-base xl:text-xl font-bold ">
+          <span className="text-sm md:self-end md:text-base xl:text-xl font-bold w-full text-center md:text-end">
             {price}€
           </span>
         </div>
