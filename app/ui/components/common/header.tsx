@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
 import {
   faUser,
   faHeart,
   faCartShopping,
+  faBars,
+  faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./logo";
 import SmallButtonWithIcon from "../buttons/smallButtonWithIcon";
@@ -12,21 +14,16 @@ import ThemeToggle from "./themeToggle";
 import NavButton from "../buttons/navButton";
 import { mainBackground } from "../../tailwindClasses";
 import { useUser } from "@clerk/nextjs";
+import ExpandButton from "../buttons/expandButton";
 
 export default function Header() {
   const { user } = useUser();
 
-  const profileText = user
-    ? "Ver tu perfil"
-    : "Iniciar sesión / Registrarse"
+  const profileText = user ? "Ver tu perfil" : "Iniciar sesión / Registrarse";
 
-    const favoritesText = user
-    ? "Ver tu lista de favoritos"
-    : "Iniciar sesión"
+  const favoritesText = user ? "Ver tu lista de favoritos" : "Iniciar sesión";
 
-    const shoppingLisText = user
-    ? "Ver tu lista de la compra"
-    : "Iniciar sesión"
+  const shoppingLisText = user ? "Ver tu lista de la compra" : "Iniciar sesión";
 
   return (
     <header
@@ -36,8 +33,24 @@ export default function Header() {
     >
       {/* Top Header */}
       <section className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
-        <Logo />
-        <SearchBar isCompress={true} />
+        {/* Logo */}
+        <article className="flex flex-row justify-between w-full sm:w-fit align-middle">
+          <section className="block sm:hidden">
+            <ThemeToggle />
+          </section>
+          <Logo />
+          <section className="block sm:hidden">
+            <ExpandButton />
+          </section>
+        </article>
+        {/* Search Bar */}
+        <article className="flex flex-row sm:space-x-4 lg:space-x-0">
+          <SearchBar isCompress={true} />
+          <section className="hidden sm:block md:hidden">
+            <ThemeToggle />
+          </section>
+        </article>
+        {/* Actions */}
         <article className="flex flex-row sm:space-x-4 lg:space-x-0">
           <SmallButtonWithIcon
             icon={faUser}
@@ -57,6 +70,14 @@ export default function Header() {
             subtext={shoppingLisText}
             href={"/profile/shoppingList"}
           />
+          <section className="hidden sm:block md:hidden">
+            <SmallButtonWithIcon
+              icon={faWrench}
+              text={"Servicios"}
+              subtext={""}
+              href={"/in-development"}
+            />
+          </section>
         </article>
         <article className="hidden 2xl:block">
           <ThemeToggle />
@@ -64,26 +85,11 @@ export default function Header() {
       </section>
       {/* Bottom Header */}
       <section className="flex-row justify-center items-center space-x-4 hidden md:flex pb-2 2xl:pb-0">
-        <NavButton
-          text="Audífonos"
-          href={"/search?category=EARPHONE"}
-        />
-        <NavButton
-          text="Accesorios"
-          href={"/search?category=ACCESSORY"}
-        />
-        <NavButton
-          text="Servicios"
-          href={"/in-development"}
-        />
-        <NavButton
-          text="Nosotros"
-          href={"/in-development"}
-        />
-        <NavButton
-          text="Pedir Cita"
-          href={"/in-development"}
-        />
+        <NavButton text="Audífonos" href={"/search?category=EARPHONE"} />
+        <NavButton text="Accesorios" href={"/search?category=ACCESSORY"} />
+        <NavButton text="Servicios" href={"/in-development"} />
+        <NavButton text="Nosotros" href={"/in-development"} />
+        <NavButton text="Pedir Cita" href={"/in-development"} />
         <div className="block 2xl:hidden">
           <ThemeToggle />
         </div>
