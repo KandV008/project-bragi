@@ -34,7 +34,7 @@ export default function SomeProductContainer({
   if (!data) return <EmptyMessage />
 
   return (
-    <section className="flex flex-col jusify-center sm:justify-start">
+    <section className="flex flex-col items-start sm:justify-start">
       <SectionHeader text={title} />
       <ProductContainer products={data} showMoreButton={false} />
     </section>

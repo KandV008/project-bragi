@@ -77,7 +77,7 @@ export default function Page() {
       ) : (
         <></>
       )}
-      <div className="flex flex-row w-full justify-between">
+      <div className="flex flex-row w-full justify-between gap-2">
         <div className="shrink-0">
           <Filter onChange={filterAction} products={products} />
         </div>

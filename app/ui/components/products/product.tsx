@@ -39,7 +39,9 @@ export default function Product({
 
   return (
     <article
-      className={`flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5 md:w-48 xl:w-64 h-fit
+      className={`flex flex-col justify-between items-center gap-3 h-fit
+        p-3 md:p-4 xl:p-5 
+        w-40 md:w-48 xl:w-64 
     ${componentBackground}  
     ${componentBorder} border-solid rounded rounded-tr-3xl 
     ${componentText}`}

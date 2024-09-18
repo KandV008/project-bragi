@@ -37,8 +37,10 @@ export default function ProductContainer({
   }, [products, user]);
 
   return (
-    <section className="flex flex-col gap-10">
-      <article className="flex flex-wrap gap-4 lg:gap-8 self-center shrink-0 w-fit">
+    <section className="flex flex-col gap-10 w-full items-center">
+      <article className="flex flex-wrap shrink-0 w-fit
+                gap-4 lg:gap-6 
+                place-self-center items-center justify-center lg:justify-between ">
         {products.map((product, index) => (
           <Product
             key={product.id}
