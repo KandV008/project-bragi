@@ -5,6 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useUser } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { toggleFavorites } from "@/db/action";
+import {
+  pressedButton,
+  negativeComponentText,
+  negativeComponentBackground,
+  negativeHoverComponentBackground,
+  componentBorder,
+  hoverComponentBorder,
+} from "../../tailwindClasses";
 
 interface FavoriteToggleButtonProps {
   productId: string;
@@ -19,16 +27,16 @@ export default function FavoriteToggleButton({
   const { user } = useUser();
 
   useEffect(() => {
-    setIsFavorite(isActive)
+    setIsFavorite(isActive);
   }, [isActive]);
 
   const toggleFavourite = () => {
-    setIsFavorite(prev => !prev);
+    setIsFavorite((prev) => !prev);
   };
 
-  const textColor = isFavorite ? "text-rose-600" : "text-emerald-100 dark:text-emerald-800";
-  const bgColor = isFavorite ? "bg-rose-200 hover:bg-rose-300" : "bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200";
-  const borderColor = isFavorite ? "border-rose-600" : "border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200";
+  const favoriteClasses = isFavorite
+    ? `${pressedButton}`
+    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
 
   return (
     <>
@@ -40,7 +48,7 @@ export default function FavoriteToggleButton({
           <button
             type="submit"
             onClick={toggleFavourite}
-            className={`rounded-2xl border-2  h-8 w-12 md:size-10 xl:size-12 ${bgColor} ${borderColor} ${textColor}`}
+            className={`rounded-2xl border-2 h-8 w-12 md:size-10 xl:size-12 ${favoriteClasses}`}
           >
             <div className="">
               <FontAwesomeIcon icon={faHeart} className="" />
@@ -49,5 +57,11 @@ export default function FavoriteToggleButton({
         </form>
       )}
     </>
+  );
+}
+
+export function FavoriteToggleButtonSkeleton() {
+  return (
+    <div className="h-8 w-12 md:size-10 xl:size-12 rounded-2xl border-2 bg-gray-200" />
   );
 }

@@ -3,8 +3,9 @@
 import { ProductEntity } from "@/app/model/entities/Product";
 import { useUser } from "@clerk/clerk-react";
 import Product, { ProductSkeleton } from "./product";
-import SmallButton from "../buttons/smallButton";
 import { useState, useEffect } from "react";
+import MediumButton from "../buttons/mediumButton";
+import { shimmer } from "../../tailwindClasses";
 
 interface ProductContainerProps {
   products: ProductEntity[];
@@ -36,8 +37,10 @@ export default function ProductContainer({
   }, [products, user]);
 
   return (
-    <section className="flex flex-col gap-10">
-      <article className="flex flex-wrap gap-4 lg:gap-8 self-center shrink-0 w-fit">
+    <section className="flex flex-col gap-10 w-full items-center">
+      <article className="flex flex-wrap shrink-0 w-fit
+                gap-4 lg:gap-6 
+                place-self-center items-center justify-center lg:justify-between ">
         {products.map((product, index) => (
           <Product
             key={product.id}
@@ -53,7 +56,7 @@ export default function ProductContainer({
       </article>
       {showMoreButton ? (
         <article className="self-center">
-          <SmallButton text="Ver más" onClick={moreProduct} />
+          <MediumButton text="Ver más" onClick={moreProduct} />
         </article>
       ) : (
         <></>
@@ -61,9 +64,6 @@ export default function ProductContainer({
     </section>
   );
 }
-
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
 export function ProductContainerSkeleton() {
   return (

@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { componentBorder, hoverComponentBorder, negativeComponentText, negativeComponentBackground, negativeHoverComponentBackground } from "../../tailwindClasses";
 
 interface MediumButtonProps {
   text: string;
@@ -9,13 +8,13 @@ interface MediumButtonProps {
 export default function MediumButton({ text, onClick }: MediumButtonProps) {
   return (
     <button
-      className={`flex flex-row gap-2 cursor-pointer py-1 px-4 h-16 place-content-center
-                  border-2 rounded-2xl border-primary2 dark:border-secondary0 
-                  w-64 text-primary2 dark:text-secondary0 lg:text-left md:text-center
-                  hover:bg-gray-400 hover:dark:bg-gray-700`}
+      className={`flex flex-row gap-2 cursor-pointer w-64  py-1 px-4 h-16 place-content-center lg:text-left md:text-center 
+                  ${componentBorder} ${hoverComponentBorder} rounded-2xl
+                  ${negativeComponentText}
+                  ${negativeComponentBackground} ${negativeHoverComponentBackground}`}
       onClick={onClick}
     >
-      <div className="text-2xl font-bold text-center text-primary2 dark:text-secondary0 self-center">
+      <div className="text-2xl font-bold text-center self-center">
         {text}
       </div>
     </button>

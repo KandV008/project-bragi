@@ -30,6 +30,7 @@ export async function getAllProducts(start: string | null, end: string | null) {
     const coll = db.collection("products");
 
     const cursor = coll.find()
+      .sort({ _id: -1 })
       .skip(startIndex)
       .limit(endIndex - startIndex + 1);
 
@@ -95,10 +96,15 @@ export async function getLatestNovelties(): Promise<ProductEntity[]> {
   return products;
 }
 
-export async function getRelatedProducts(brandToCheck: string | null, price: string | null): Promise<ProductEntity[] | null> {
+export async function getRelatedProducts(
+  idToAvoid: string | null,
+  brandToCheck: string | null,
+  price: string | null
+): Promise<ProductEntity[] | null> {
   const products: ProductEntity[] = [];
-  const brandChecked = parseString(brandToCheck, "BRAND")
-  const parsedPrice = parsePrice(price)
+  const productId = parseString(idToAvoid, "PRODUCT_ID");
+  const brandChecked = parseString(brandToCheck, "BRAND");
+  const parsedPrice = parsePrice(price);
 
   try {
     await client.connect();
@@ -109,13 +115,19 @@ export async function getRelatedProducts(brandToCheck: string | null, price: str
     const pipeline = [
       {
         $match: {
+          _id: { $ne: new ObjectId(productId) },
           $or: [
             { brand: { $eq: brandChecked } },
-            { price: { $gte: (parsedPrice - 200), $lte: (parsedPrice + 200) } }
-          ]
-        }
+            {
+              price: {
+                $gte: parsedPrice - 200,
+                $lte: parsedPrice + 200,
+              },
+            },
+          ],
+        },
       },
-      { $limit: 4 }
+      { $limit: 4 },
     ];
 
     const cursor = coll.aggregate(pipeline);
@@ -127,9 +139,10 @@ export async function getRelatedProducts(brandToCheck: string | null, price: str
     await client.close();
   }
 
-  console.log(products.map(product => product.id))
+  console.log(products.map((product) => product.id));
   return products;
 }
+
 
 export async function getProduct(productIdToParse: string | null): Promise<ProductEntity | null> {
   const parsedProductId = parseString(productIdToParse, "PRODUCT_ID")
@@ -178,9 +191,9 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
 }
 
 export async function searchProducts(
-  keywordToParse: string | null, 
-  start: string | null, 
-  end: string | null, 
+  keywordToParse: string | null,
+  start: string | null,
+  end: string | null,
   filters: string | null
 ): Promise<ProductEntity[]> {
   const products: ProductEntity[] = [];
@@ -205,9 +218,9 @@ export async function searchProducts(
         parsedFilters
       ]
     })
-    .sort({ _id: -1 })
-    .skip(startIndex)
-    .limit(endIndex - startIndex + 1);
+      .sort({ _id: -1 })
+      .skip(startIndex)
+      .limit(endIndex - startIndex + 1);
 
     await cursor.forEach((doc: any) => {
       products.push(mapDocumentToProduct(doc));
@@ -240,12 +253,12 @@ export async function createProduct(productData: any): Promise<void> {
   } catch (error) {
     console.error("Error adding product:", error);
   } finally {
-    await client.close(); 
+    await client.close();
   }
 }
 
 export async function updateProduct(productData: any): Promise<void> {
-  const { _id, ...updateFields } = productData; 
+  const { _id, ...updateFields } = productData;
   const productId = parseString(_id, "PRODUCT_ID");
 
   try {
@@ -257,7 +270,7 @@ export async function updateProduct(productData: any): Promise<void> {
     const objectId = new ObjectId(productId);
     const result = await coll.updateOne(
       { _id: objectId },
-      { $set: updateFields } 
+      { $set: updateFields }
     );
 
     if (result.matchedCount === 1) {
@@ -278,7 +291,7 @@ export async function updateProduct(productData: any): Promise<void> {
 
 export async function deleteProduct(productId: string | undefined | null): Promise<void> {
   const id = parseString(productId, "PRODUCT_ID");
-  
+
   try {
     await client.connect();
 

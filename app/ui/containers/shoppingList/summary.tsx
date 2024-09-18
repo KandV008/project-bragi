@@ -1,16 +1,25 @@
-'use client';
+"use client";
 
 import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
-import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon";
+import MediumButtonWithIcon, { MediumButtonWithIconSkeleton } from "../../components/buttons/mediumButtonWithIcon";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "../../components/tags/sectionHeader";
+import {
+  componentBorder,
+  componentBackground,
+  componentText,
+  shimmer,
+} from "../../tailwindClasses";
 
 interface SummaryProps {
   products: ProductDTO[];
 }
 
 export default function Summary({ products }: SummaryProps) {
-  const router = useRouter()
+  const router = useRouter();
 
   const totalPrice = products.reduce(
     (total, product) => total + product.price * product.quantity,
@@ -19,16 +28,11 @@ export default function Summary({ products }: SummaryProps) {
 
   return (
     <section
-      className="sticky top-32 flex flex-col w-full rounded justify-between p-6  
-                bg-emerald-100 dark:bg-emerald-800
-                border-emerald-900 dark:border-emerald-100 border-2
-                text-emerald-900 dark:text-emerald-100"
+      className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6  
+                ${componentBorder} ${componentBackground} ${componentText}`}
     >
       {/* Header */}
-      <article>
-        <h2 className="text-2xl font-bold">Resumen</h2>
-        <div className="w-full border-2 border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-      </article>
+      <SectionHeader text={"Resumen"} />
       {/* Body */}
       <article className="flex flex-col gap-3">
         {/* Header Table */}
@@ -50,7 +54,7 @@ export default function Summary({ products }: SummaryProps) {
       </article>
       {/* Footer */}
       <article className="flex flex-col gap-2 ">
-        <div className="w-full border-2 border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
+        <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         {/* Total */}
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
@@ -63,7 +67,9 @@ export default function Summary({ products }: SummaryProps) {
             text={"Comprar"}
             subtext={"Empezar compra"}
             type={"default"}
-            onClick={() => {router.push("/in-development")}}
+            onClick={() => {
+              router.push("/in-development");
+            }}
           />{" "}
           {/* TODO Add speacial type */}
         </div>
@@ -72,9 +78,6 @@ export default function Summary({ products }: SummaryProps) {
   );
 }
 
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
-
 export function SummarySkeleton() {
   return (
     <div
@@ -82,10 +85,7 @@ export function SummarySkeleton() {
     >
       <section className="sticky top-32 flex flex-col w-full justify-between p-6 border-2 rounded">
         {/* Header */}
-        <article>
-          <div className="md:self-start h-10 w-32 rounded-md bg-gray-200 mb-1" />
-          <div className="w-full border-2 border-t mb-3"></div>
-        </article>
+        <SectionHeaderSkeleton />
         {/* Body */}
         <article className="flex flex-col gap-3">
           {/* Header Table */}
@@ -116,10 +116,7 @@ export function SummarySkeleton() {
           </div>
           {/* Shopping Button */}
           <div className="place-self-center">
-            <div
-              className="w-64 h-16 flex flex-row place-self-center md:place-self-start justify-center
-                          border-2 rounded bg-gray-200"
-            />
+            <MediumButtonWithIconSkeleton />
           </div>
         </article>
       </section>

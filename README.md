@@ -177,7 +177,7 @@ To see the logos in more detail, [click here](/docs/brand/web_icon/).
 
 | Current Version |
 | :-: |
-| `v0.2` |
+| `v0.3` |
 
 <p align="center">
 <strong>These sections are previews, when the corresponding version has been completed, the section will be completed with the specific additions.</strong>
@@ -193,13 +193,7 @@ To see the logos in more detail, [click here](/docs/brand/web_icon/).
 
 #### `v0.3` Quality of Life
 
-To improve the quality of life for users, the following improvements will be added:
-
-* Loading bar in navigation
-* Differentiation in the help information between registered and unregistered users.
-* Warnings in searches when they are empty.
-* Form validation
-* Messages of actions performed
+[Click here](/docs/versions/v0.3/v0.3-README.md) to view the User Interface quality of life improvements.
 
 #### `v0.4` Services
 
@@ -209,11 +203,10 @@ To complete the functionality of the website and the business, the following ser
 * Allow to contact us
 * Description about us
 * What's new and how it relates to products and services
-* Other legal aspects
 
 #### `v1.0` Payments
 
-All payment-related logic will be added, ending the application development stage.
+All payment-related logic will be added with the legal aspects, ending the application development stage.
 
 ### :dvd: DataBase
 

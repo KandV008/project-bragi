@@ -1,5 +1,14 @@
 import { DegreeOfLoss } from "@/app/model/entities/enums/DegreeOfLoss";
 import { UseDefinition } from "@/app/model/entities/enums/Uses";
+import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
+import ArticleHeader from "@/app/ui/components/tags/articleHeader";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader";
+import {
+  lightComponentBackground,
+  componentBorder,
+  componentText,
+  shimmer,
+} from "@/app/ui/tailwindClasses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ProductDetailsProps {
@@ -23,53 +32,42 @@ export default function ProductDetails({
 }: ProductDetailsProps) {
   return (
     <div
-      className="flex flex-col-reverse md:flex-row rounded gap-5 p-5
-                 bg-emerald-50 dark:bg-emerald-900
-                 border-emerald-900 dark:border-emerald-100 border-2
-                 text-emerald-900 dark:text-emerald-100"
+      className={`flex flex-col-reverse md:flex-row rounded gap-5 p-5
+                 ${lightComponentBackground} ${componentBorder} ${componentText}`}
     >
       {/* Product Description */}
       <article className="flex flex-col md:w-1/2 gap-2">
-        <h2 className="text-2xl font-bold">Descripción</h2>
-        <p className="text-justify">{description}</p>
+        <SectionHeader text={"Descripción"} />
+        <Article label={""} value={description} />
       </article>
       {/* Product Attributes */}
       <article className="flex flex-col md:w-1/2 gap-2">
-        <h2 className="text-2xl font-bold">Características</h2>
+        <SectionHeader text={"Características"} />
         {/* Ear Location */}
-        <div>
-          <h4 className="text-lg font-bold">Ubicación</h4>
-          <span className="text-base p-2">{location}</span>
-        </div>
+        <Article label={"Ubicación"} value={location} />
         {/* Adaptation Range */}
-        <div>
-          <h4 className="text-lg font-bold">Rango de Adaptación</h4>
-          <span className="text-base p-2">{adaptationRange}</span>
-        </div>
+        <Article label={"Rango de Adaptación"} value={adaptationRange} />
         {/* Degree of Loss */}
-        <div>
-          <h4 className="text-lg font-bold">Grado de pérdida</h4>
-          <span className="text-base p-2">{degreeOfLoss}</span>
-        </div>
+        <Article label={"Grado de pérdida"} value={degreeOfLoss} />
         {/* Level of Discretion */}
-        <div>
-          <h4 className="text-lg font-bold">Nivel de Discreción</h4>
-          <span className="text-base p-2">{levelOfDiscretion}</span>
-        </div>
+        <Article label={"Nivel de Discreción"} value={levelOfDiscretion} />
         {/* Dust and Water Resistance */}
-        <div>
-          <h4 className="text-lg font-bold">Resistente al Polvo y al Agua</h4>
-          <span className="text-base p-2">
-            {dustWaterResistance ? "Sí" : "No"}
-          </span>
-        </div>
+        <Article
+          label={"Resistente al Polvo y al Agua"}
+          value={dustWaterResistance ? "Sí" : "No"}
+        />
         {/* Uses of the product */}
         <div>
-          <h4 className="text-lg font-bold">Usos</h4>
+          <Article label={"Usos"} value={""} />
           <div className="flex flex-row flex-wrap gap-5">
             {uses.map((use, index) => (
-              <div key={use.text + "-" + index} className="flex flex-col items-center">
-                <div className="flex flex-col justify-center items-center size-10 rounded-3xl border-2 border-emerald-900 dark:border-emerald-100">
+              <div
+                key={"uses-" + index}
+                className="flex flex-col items-center"
+              >
+                <div
+                  className={`flex flex-col justify-center items-center size-10 rounded-3xl ${componentBorder}`}
+                >
                   <FontAwesomeIcon icon={use.icon} className="w-fit" />
                 </div>
                 <span className="text-base">{use.text}</span>
@@ -82,9 +80,6 @@ export default function ProductDetails({
   );
 }
 
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
-
 export function ProductDetailsSkeleton() {
   return (
     <div
@@ -93,31 +88,21 @@ export function ProductDetailsSkeleton() {
       <div className="flex flex-col-reverse md:flex-row gap-5">
         {/* Product Description */}
         <article className="flex flex-col md:w-1/2 gap-2">
-          <h2 className="md:self-start h-6 sm:h-5 xl:h-6 w-40 rounded-md bg-gray-200 mb-1" />
-          <p className="md:self-start h-full w-full rounded-md bg-gray-200" />
+          <ArticleSkeleton />
         </article>
         {/* Product Attributes */}
         <article className="flex flex-col md:w-1/2 gap-2">
           <h2 className="md:self-start h-6 sm:h-5 xl:h-6 w-48 rounded-md bg-gray-200 mb-1" />
           {/* Ear Location */}
-          <h4 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200" />
-          <span className="md:self-start h-4 sm:h-3 xl:h-4 w-72 rounded-md bg-gray-200 mb-1" />
+          <ArticleSkeleton />
           {/* Adaptation Range */}
-          <h4 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <span className="md:self-start h-4 sm:h-3 xl:h-4 w-20 rounded-md bg-gray-200 mb-1" />
-
+          <ArticleSkeleton />
           {/* Degree of Loss */}
-          <h4 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <span className="md:self-start h-4 sm:h-3 xl:h-4 w-20 rounded-md bg-gray-200 mb-1" />
-
+          <ArticleSkeleton />
           {/* Level of Discretion */}
-          <h4 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <span className="md:self-start h-4 sm:h-3 xl:h-4 w-28 rounded-md bg-gray-200 mb-1" />
-
+          <ArticleSkeleton />
           {/* Dust and Water Resistance */}
-          <h4 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
-          <span className="md:self-start h-4 sm:h-3 xl:h-4 w-8 rounded-md bg-gray-200 mb-1" />
-
+          <ArticleSkeleton />
           {/* Uses of the product */}
           <h4 className="md:self-start h-5 sm:h-3 xl:h-5 w-36 rounded-md bg-gray-200 mb-1" />
           <div className="flex flex-row flex-wrap gap-5">

@@ -3,6 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { useRouter } from "next/navigation";
+import { negativeComponentBackground, negativeHoverComponentBackground, componentBorder, hoverComponentBorder, negativeComponentText } from "../../tailwindClasses";
 
 interface AmountButtonProps {
   symbol: IconDefinition;
@@ -24,9 +25,9 @@ export default function AmountButton({
   const router = useRouter();
 
   const formAction = (formData: FormData) => {
-    action(formData)
+    action(formData);
     router.refresh();
-  }
+  };
 
   return (
     <form action={formAction}>
@@ -36,10 +37,11 @@ export default function AmountButton({
       <input type="hidden" name="guarantee" value={guarantee.toString()} />
       <button
         type="submit"
-        className="flex flex-col p-2 rounded-xl 
-        bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200
-        border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200 border-2
-        text-emerald-100 dark:text-emerald-800"
+        className={`flex flex-col p-2 rounded-xl 
+          ${negativeComponentBackground} ${negativeHoverComponentBackground} 
+          ${componentBorder} ${hoverComponentBorder} 
+          ${negativeComponentText}
+        `}
       >
         <div className=" self-center">
           <FontAwesomeIcon icon={symbol} className="mx-1" />

@@ -1,50 +1,83 @@
-'use client';
+"use client";
 
 import {
   faUser,
   faHeart,
   faCartShopping,
+  faBars,
+  faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./logo";
-import { useRouter } from "next/navigation";
 import SmallButtonWithIcon from "../buttons/smallButtonWithIcon";
 import SearchBar from "../inputs/searchBar";
 import ThemeToggle from "./themeToggle";
 import NavButton from "../buttons/navButton";
+import { mainBackground } from "../../tailwindClasses";
+import { useUser } from "@clerk/nextjs";
+import ExpandButton from "../buttons/expandButton";
 
 export default function Header() {
-  const router = useRouter();
+  const { user } = useUser();
+
+  const profileText = user ? "Ver tu perfil" : "Iniciar sesión / Registrarse";
+
+  const favoritesText = user ? "Ver tu lista de favoritos" : "Iniciar sesión";
+
+  const shoppingLisText = user ? "Ver tu lista de la compra" : "Iniciar sesión";
 
   return (
     <header
-      className="flex flex-col justify-center items-center place-self-center z-10 fixed pt-2
-            bg-white dark:bg-emerald-950
-            top-0 
-            space-y-2 w-full xl:w-4/6  "
+      className={`flex flex-col justify-center items-center place-self-center space-y-2 w-full xl:w-4/6 pt-2
+            ${mainBackground}
+            top-0 z-10 fixed`}
     >
       {/* Top Header */}
       <section className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
-        <Logo />
-        <SearchBar isCompress={true} />
+        {/* Logo */}
+        <article className="flex flex-row justify-between w-full sm:w-fit align-middle">
+          <section className="block sm:hidden">
+            <ThemeToggle />
+          </section>
+          <Logo />
+          <section className="block sm:hidden">
+            <ExpandButton />
+          </section>
+        </article>
+        {/* Search Bar */}
+        <article className="flex flex-row sm:space-x-4 lg:space-x-0">
+          <SearchBar isCompress={true} />
+          <section className="hidden sm:block md:hidden">
+            <ThemeToggle />
+          </section>
+        </article>
+        {/* Actions */}
         <article className="flex flex-row sm:space-x-4 lg:space-x-0">
           <SmallButtonWithIcon
             icon={faUser}
             text={"Cuenta"}
-            subtext={"Iniciar sesión / Registrarse"}
-            onClick={() => router.push("/profile")}
+            subtext={profileText}
+            href={"/profile"}
           />
           <SmallButtonWithIcon
             icon={faHeart}
             text={"Favoritos"}
-            subtext={"Ver su lista de favoritos"}
-            onClick={() => router.push("/profile/favorites")}
+            subtext={favoritesText}
+            href={"/profile/favorites"}
           />
           <SmallButtonWithIcon
             icon={faCartShopping}
             text={"Cesta"}
-            subtext={"Ver su lista de la compra"}
-            onClick={() => router.push("/profile/shoppingList")}
+            subtext={shoppingLisText}
+            href={"/profile/shoppingList"}
           />
+          <section className="hidden sm:block md:hidden">
+            <SmallButtonWithIcon
+              icon={faWrench}
+              text={"Servicios"}
+              subtext={""}
+              href={"/in-development"}
+            />
+          </section>
         </article>
         <article className="hidden 2xl:block">
           <ThemeToggle />
@@ -52,26 +85,11 @@ export default function Header() {
       </section>
       {/* Bottom Header */}
       <section className="flex-row justify-center items-center space-x-4 hidden md:flex pb-2 2xl:pb-0">
-        <NavButton
-          text="Audífonos"
-          onClick={() => router.push("/search?category=EARPHONE")}
-        />
-        <NavButton
-          text="Accesorios"
-          onClick={() => router.push("/search?category=ACCESSORY")}
-        />
-        <NavButton
-          text="Servicios"
-          onClick={() => router.push("/in-development")}
-        />
-        <NavButton
-          text="Nosotros"
-          onClick={() => router.push("/in-development")}
-        />
-        <NavButton
-          text="Pedir Cita"
-          onClick={() => router.push("/in-development")}
-        />
+        <NavButton text="Audífonos" href={"/search?category=EARPHONE"} />
+        <NavButton text="Accesorios" href={"/search?category=ACCESSORY"} />
+        <NavButton text="Servicios" href={"/in-development"} />
+        <NavButton text="Nosotros" href={"/in-development"} />
+        <NavButton text="Pedir Cita" href={"/in-development"} />
         <div className="block 2xl:hidden">
           <ThemeToggle />
         </div>

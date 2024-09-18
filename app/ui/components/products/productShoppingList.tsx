@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import AmountButton from "../buttons/amountButton";
@@ -5,6 +7,9 @@ import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
 } from "@/db/action";
+import { componentBackground, componentText, componentBorder, shimmer } from "../../tailwindClasses";
+import { useState } from "react";
+import ConfirmationPopUp from "../popUps/confirmationPopUp";
 
 interface ProductInformationProps {
   id: string;
@@ -29,23 +34,36 @@ export default function ProductShoppingList({
   color,
   quantity,
 }: ProductInformationProps) {
-  let showEarSide: string;
+  let showEarSide: string = getEarSideLabel(earSide);
 
-  if (earSide === "right") {
-    showEarSide = "Derecho";
-  } else if (earSide === "left") {
-    showEarSide = "Izquierda";
-  } else {
-    showEarSide = "Ambos";
+  const [showModal, setShowModal] = useState(false);
+  const [currentFormData, setFormData] = useState<FormData>()
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const checkBeforeDecrement = (formData: FormData) => {
+    if (quantity === 1){
+      setFormData(formData)
+      handleShowModal()
+    } else {
+      decrementProductInShoppingList(formData)
+    }
   }
+
+  const handleDecrementAmount = () => {
+    handleShowModal()
+    decrementProductInShoppingList(currentFormData!)
+  }
+  
 
   return (
     <section
-      className="flex flex-col sm:grid sm:grid-cols-2 gap-2 p-5 rounded rounded-tr-3xl
+      className={`flex flex-col sm:grid sm:grid-cols-2 gap-2 p-5 rounded rounded-tr-3xl
       2xl:flex 2xl:flex-row 2xl:justify-between 2xl:gap-5 
-      bg-emerald-100 dark:bg-emerald-800
-      text-emerald-900 dark:text-emerald-100
-      border-emerald-900 dark:border-emerald-100 border-2"
+      ${componentBackground}  
+      ${componentText}
+      ${componentBorder}`}
     >
       {/* Image */}
       <>
@@ -93,10 +111,12 @@ export default function ProductShoppingList({
         </div>
       </article>
       {/* Amount Button */}
-      <article className="sm:col-span-2 gap-4 self-center
+      <article
+        className="sm:col-span-2 gap-4 self-center
       flex flex-col
       sm:flex-row sm:justify-around 
-      2xl:flex-col 2xl:justify-center">
+      2xl:flex-col 2xl:justify-center"
+      >
         <h1 className="text-2xl font-bold self-center">Cantidad</h1>
         <div className="flex flex-row gap-2">
           {/* Substract Button */}
@@ -106,7 +126,7 @@ export default function ProductShoppingList({
             color={color}
             earSide={earSide}
             guarantee={guarantee}
-            action={decrementProductInShoppingList}
+            action={checkBeforeDecrement}
           />
           {/* Amount */}
           <span className="px-5 py-2 text-2xl font-bold">{quantity}</span>
@@ -121,12 +141,32 @@ export default function ProductShoppingList({
           />
         </div>
       </article>
+      <article className="flex flex-center shrink-0 justify-center h-full">
+        {showModal && (
+          <ConfirmationPopUp
+            handleShowModal={handleShowModal}
+            handleAction={handleDecrementAmount}
+            message={"Borrar un producto es una acción irreversible."}
+          />
+        )}
+      </article>
     </section>
   );
+
+
 }
 
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
+function getEarSideLabel(earSide: String) {
+  if (earSide === "right") {
+    return "Derecho";
+  } 
+  
+  if (earSide === "left") {
+    return "Izquierda";
+  } 
+  
+  return"Ambos";
+}
 
 export function ProductInformationSkeleton() {
   return (

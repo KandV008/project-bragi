@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
 interface TextInputProps {
   name: string;
@@ -28,11 +29,11 @@ export default function MiniTextInput({
         {label}
       </label>
       <article
-        className="flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
+        className={`flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
         h-12 w-full text-base font-semibold
-        bg-emerald-100 dark:bg-emerald-800 
-        text-emerald-900 dar:text-emerald-100
-        border-emerald-900 dark:border-emerald-100 border-2 rounded-2xl"
+        ${fillDefaultComponentBackground} 
+        ${componentText}
+        ${componentBorder} rounded-2xl`}
       >
         <div className="flex items-center align-bottom bg-transparent ">
           <FontAwesomeIcon icon={icon} className="size-6" />
@@ -47,6 +48,28 @@ export default function MiniTextInput({
           defaultValue={value}
           readOnly={false}
         />
+      </article>
+    </section>
+  );
+}
+
+export function MiniTextInputSkeleton() {
+  return (
+    <section className="flex flex-col sm:flex-row w-full gap-1">
+      <label
+        className="bg-transparent text-center self-center
+            w-fit font-extrabold text-lg cursor-pointer "
+      >
+        <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+      </label>
+      <article
+        className={`flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
+        h-12 w-full text-base font-semibold rounded-2xl bg-gray-200`}
+      >
+        <div className="flex items-center align-bottom bg-transparent ">
+          <div className="size-6" />
+        </div>
+        <div className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-" />
       </article>
     </section>
   );

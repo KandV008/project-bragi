@@ -1,5 +1,7 @@
 import { colorList, valueOfColor } from "@/app/model/entities/enums/Color";
-import IncrementalTextInput from "./incrementalTextInput";
+import IncrementalTextInput, {
+  IncrementalTextInputSkeleton,
+} from "./incrementalTextInput";
 import { faPaintBrush } from "@fortawesome/free-solid-svg-icons";
 import { ProductColor } from "@/app/model/entities/Product";
 
@@ -35,9 +37,23 @@ export default function ColorInput({ name, label, values }: TextInputProps) {
   );
 }
 
+function getImages(currentElement: string, values: ProductColor[]) {
+  const currentColor = values.find(
+    (x) => valueOfColor(x.color.name) === currentElement
+  );
+  return currentColor?.images;
+}
 
-
-function getImages(currentElement: string, values: ProductColor[]){
-  const currentColor = values.find(x => valueOfColor(x.color.name) === currentElement)
-  return currentColor?.images
+export function ColorInputSkeleton() {
+  return (
+    <section className="flex flex-col w-full gap-1">
+      <label className="bg-transparent w-3/4 md:w-9/12 font-extrabold text-lg cursor-pointer ">
+        <div className="md:self-start h-5 sm:h-7 lg:h-8 w-full rounded-md bg-gray-200" />
+      </label>
+      <IncrementalTextInputSkeleton />
+      <IncrementalTextInputSkeleton />
+      <IncrementalTextInputSkeleton />
+      <IncrementalTextInputSkeleton />
+    </section>
+  );
 }

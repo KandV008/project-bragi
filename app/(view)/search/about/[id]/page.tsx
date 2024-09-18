@@ -4,9 +4,10 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
 import { ProductEntity } from "@/app/model/entities/Product";
-import AboutProduct from "@/app/ui/containers/search/about/aboutProduct";
 import Guarantee from "@/app/ui/containers/search/about/guarantee";
 import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
+import ProductDetails from "@/app/ui/containers/search/about/productDetails";
+import ProductOptions from "@/app/ui/containers/search/about/productOptions";
 
 export default function Page() {
   const pathname = usePathname();
@@ -31,10 +32,31 @@ export default function Page() {
   if (!product) return <p>No product data</p>;
 
   return (
-    <div className="flex flex-col">
-      <AboutProduct product={product} />
+    <div className="flex flex-col gap-3">
+      <ProductOptions
+        id={product.id}
+        name={product.name}
+        price={product.price.toString()}
+        colors={product.colors}
+        brand={product.brand}
+        include={product.include}
+      />
+      <ProductDetails
+        description={product.description}
+        adaptationRange={product.adaptationRange}
+        dustWaterResistance={product.waterDustResistance}
+        location={product.location}
+        levelOfDiscretion={product.levelOfDiscretion}
+        degreeOfLoss={product.degreeOfLoss}
+        uses={product.uses}
+      />
       <Guarantee />
-      <SomeProductContainer fetchUrl={`/api/getRelatedProducts?id=${product.id}&brand=${product.brand}&price=${product.price.toString()}`} title={"Productos relacionados"} />
+      <SomeProductContainer
+        fetchUrl={`/api/getRelatedProducts?id=${product.id}&brand=${
+          product.brand
+        }&price=${product.price.toString()}`}
+        title={"Productos relacionados"}
+      />
     </div>
   );
 }

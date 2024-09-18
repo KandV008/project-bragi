@@ -29,7 +29,7 @@ export async function getShoppingList(): Promise<ProductDTO[]> {
   const client = await sql.connect()
 
   const result = await client.query(
-    `SELECT * FROM shoppingList WHERE user_id = $1`,
+    `SELECT * FROM shoppingList WHERE user_id = $1 ORDER BY product_id`,
     [userId]
   )
 

@@ -5,9 +5,11 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const brand = searchParams.get('brand');
   const price = searchParams.get('price');
+  const id = searchParams.get('id');
+
 
   try {
-    const product = await getRelatedProducts(brand, price);
+    const product = await getRelatedProducts(id, brand, price);
 
     if (!product) {
       return NextResponse.json({ message: 'Product not found' }, { status: 404 });

@@ -6,9 +6,39 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ProductColor } from "@/app/model/entities/Product";
 import { addProductToShoppingList } from "@/db/action";
-import FavoriteToggleButton from "@/app/ui/components/buttons/favoriteToggleButton";
-import SubmitButton from "@/app/ui/components/buttons/submitButton";
-import ColorButton from "@/app/ui/components/buttons/colorButton";
+import FavoriteToggleButton, {
+  FavoriteToggleButtonSkeleton,
+} from "@/app/ui/components/buttons/favoriteToggleButton";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton";
+import ColorButton, {
+  ColorButtonSkeleton,
+} from "@/app/ui/components/buttons/colorButton";
+import { validateAddShoppingCart } from "@/lib/validations";
+import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
+import ArticleHeader, {
+  ArticleHeaderSkeleton,
+} from "@/app/ui/components/tags/articleHeader";
+import {
+  pressedButton,
+  negativeComponentText,
+  negativeComponentBackground,
+  negativeHoverComponentBackground,
+  componentBorder,
+  hoverComponentBorder,
+  componentBackground,
+  componentText,
+  shimmer,
+} from "@/app/ui/tailwindClasses";
+import toast from "react-hot-toast";
+import BigImage, {
+  BigImageSkeleton,
+} from "@/app/ui/components/images/bigImage";
+import SmallImage, {
+  SmallImageSkeleton,
+} from "@/app/ui/components/images/smallImage";
+import Link from "next/link";
 
 interface ProductOptionsProps {
   id: string;
@@ -30,6 +60,11 @@ export default function ProductOptions({
   const { user } = useUser();
 
   const [isFavorite, setIsFavorite] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
+
   useEffect(() => {
     if (id && user) {
       fetch(`/api/checkFavorite?productId=${id}&userId=${user.id}`)
@@ -50,146 +85,126 @@ export default function ProductOptions({
   const getEarSideButtonClasses = (buttonName: string) => {
     const baseClasses = "h-8 w-24 border-2 rounded font-bold";
     return buttonName === earSide
-      ? `${baseClasses} text-rose-600 bg-rose-200 border-rose-600`
-      : `${baseClasses} text-emerald-100 dark:text-emerald-800 bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200 border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200`;
+      ? `${baseClasses} ${pressedButton}`
+      : `${baseClasses} ${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
   };
 
   const [guarantee, setGuarantee] = useState(false);
-  const textColor = guarantee
-    ? "text-rose-600"
-    : "text-emerald-100 dark:text-emerald-800";
-  const bgColor = guarantee
-    ? "bg-rose-200 hover:bg-rose-300"
-    : "bg-emerald-900 dark:bg-emerald-100 hover:bg-emerald-700 hover:dark:bg-emerald-200";
-  const borderColor = guarantee
-    ? "border-rose-600"
-    : "border-emerald-900 dark:border-emerald-100 hover:border-emerald-700 hover:dark:border-emerald-200";
+  const guaranteeButtonClasses = guarantee
+    ? pressedButton
+    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
+
+  const handleForm = (formData: FormData) => {
+    const isValid = validateAddShoppingCart(formData);
+    if (isValid) {
+      addProductToShoppingList(formData)
+        .then((_) => toast.success("Se ha añadido a la cesta."))
+        .catch((_) => toast.error("No se ha podido añadir a la cesta."));
+    } else handleShowModal();
+  };
 
   return (
-    <div
-      className="flex flex-col md:flex-row rounded rounded-tr-3xl p-5
-     border-emerald-900 dark:border-emerald-100 border-2
-     bg-emerald-100 dark:bg-emerald-800 
-     text-emerald-900 dark:text-emerald-100 "
-    >
-      {/* Product Images */}
-      <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
-        {/* Main Image */}
-        <div className="place-self-center">
-          <Image
-            src={colors[imgIndex].images[0]}
-            width={1500}
-            height={1500}
-            alt={"img-" + 0}
-            className="size-64 sm:size-72 lg:size-96 bg-white rounded border-2 border-emerald-900 dark:border-emerald-100"
-          />
-        </div>
-        {/* Secondary Images */}
-        <div className="flex flex-row gap-2 justify-center">
-          {colors[imgIndex].images.map((image, index) => (
-            <>
-              {index === 0 ? (
-                <span></span>
-              ) : (
-                <Image
-                  key={"img-" + index}
-                  src={image}
-                  width={1500}
-                  height={1500}
-                  alt={"img-" + index}
-                  className="size-20 sm:size-24 lg:size-32 bg-white rounded border-2 border-emerald-900 dark:border-emerald-100"
-                />
-              )}
-            </>
-          ))}
-        </div>
-      </article>
-      {/* Product Options */}
-      <article className="flex flex-col  md:w-1/2 md:justify-around">
-        {/* Name */}
-        <div className="flex flex-row justify-between">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
-            {name}
-          </h1>
-          <div className=" block xl:hidden">
-            <FavoriteToggleButton productId={id} isActive={isFavorite} /> 
+    <>
+      <div
+        className={`flex flex-col md:flex-row rounded rounded-tr-3xl p-5
+            ${componentBorder} ${componentBackground} ${componentText}`}
+      >
+        {/* Product Images */}
+        <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
+          {/* Main Image */}
+          <div className="place-self-center">
+            <BigImage src={colors[imgIndex].images[0]} alt={"img-" + 0} />
           </div>
-        </div>
-        {/* Brand */}
-        <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
-        {/* Price */}
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold w-fit">
-          {price}€
-        </h1>
-        <br className="hidden sm:block" />
-        {/* Color Buttons */}
-        <div className="w-fit">
-          <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-            Colores disponibles
-            <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-          </h3>
-          <ColorButton colors={colors} action={(index: number) => setImgIndex(index)} />
-        </div>
-        {/* Hearing Aid Side Buttons */}
-        <div className="w-fit">
-          <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-            Lado del Audífono
-            <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-          </h3>
-          <div className="flex flex-row flex-wrap gap-3">
-            <button
-              className={getEarSideButtonClasses("right")}
-              onClick={() => handleEarSideButtonClick("right")}
-            >
-              Derecho
-            </button>
-            <button
-              className={getEarSideButtonClasses("left")}
-              onClick={() => handleEarSideButtonClick("left")}
-            >
-              Izquierdo
-            </button>
-            <button
-              className={getEarSideButtonClasses("both")}
-              onClick={() => handleEarSideButtonClick("both")}
-            >
-              Ambos
-            </button>
-          </div>
-        </div>
-        {/* Insurance Button */}
-        <div className="w-fit">
-          <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-            Añadir seguro de 1 año al producto
-            <div className="w-full border-t mb-3 border-emerald-900 dark:border-emerald-100"></div>
-          </h3>
-          <button
-            onClick={() => {
-              setGuarantee(!guarantee);
-            }}
-            className={`h-8 w-24 border-2 rounded font-bold ${bgColor} ${borderColor} ${textColor}`}
-          >
-            Añadir
-          </button>
-        </div>
-        {/* Include list */}
-        <div className="mb-3 md:mb-1 lg:mb-3 w-fit">
-          <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
-            Incluye
-            <div className="w-full border-t mb-1 lg:mb-3 border-emerald-900 dark:border-emerald-100"></div>
-          </h3>
-          <ul className="px-2 text-sm lg:text-base">
-            {include.map((text, index) => (
-              <li key={"li-" + index}>{text}</li>
+          {/* Secondary Images */}
+          <div className="flex flex-row gap-2 justify-center">
+            {colors[imgIndex].images.map((image, index) => (
+              <div key={colors[imgIndex].color.name + "-img-" + index}>
+                {index === 0 ? (
+                  <></>
+                ) : (
+                  <SmallImage
+                    alt={colors[imgIndex].color.name + "-img-" + index}
+                    src={image}
+                  />
+                )}
+              </div>
             ))}
-          </ul>
-        </div>
-        {/* Shopping Button */}
-        <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
-          {!user ? (
-            <></>
-          ) : (
-            <form action={addProductToShoppingList}>
+          </div>
+        </article>
+        {/* Product Options */}
+        <article className="flex flex-col  md:w-1/2 md:justify-around">
+          {/* Name */}
+          <div className="flex flex-row justify-between">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
+              {name}
+            </h1>
+            <div className=" block xl:hidden">
+              <FavoriteToggleButton productId={id} isActive={isFavorite} />
+            </div>
+          </div>
+          {/* Brand */}
+          <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
+          {/* Price */}
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold w-fit">
+            {price}€
+          </h1>
+          <br className="hidden sm:block" />
+          {/* Color Buttons */}
+          <div className="w-fit">
+            <ArticleHeader text={"Colores disponibles"} />
+            <ColorButton
+              colors={colors}
+              action={(index: number) => setImgIndex(index)}
+            />
+          </div>
+          {/* Hearing Aid Side Buttons */}
+          <div className="w-fit">
+            <ArticleHeader text={"Lado del Audífono"} />
+            <div className="flex flex-row flex-wrap gap-3">
+              <button
+                className={getEarSideButtonClasses("right")}
+                onClick={() => handleEarSideButtonClick("right")}
+              >
+                Derecho
+              </button>
+              <button
+                className={getEarSideButtonClasses("left")}
+                onClick={() => handleEarSideButtonClick("left")}
+              >
+                Izquierdo
+              </button>
+              <button
+                className={getEarSideButtonClasses("both")}
+                onClick={() => handleEarSideButtonClick("both")}
+              >
+                Ambos
+              </button>
+            </div>
+          </div>
+          {/* Insurance Button */}
+          <div className="w-fit">
+            <ArticleHeader text={"Añadir seguro de 1 año al producto"} />
+            <button
+              onClick={() => {
+                setGuarantee(!guarantee);
+              }}
+              className={`h-8 w-24 border-2 rounded font-bold ${guaranteeButtonClasses}`}
+            >
+              Añadir
+            </button>
+          </div>
+          {/* Include list */}
+          <div className="mb-3 md:mb-1 lg:mb-3 w-fit">
+            <ArticleHeader text={"Incluye"} />
+            <ul className="px-2 text-sm lg:text-base">
+              {include.map((text, index) => (
+                <li key={"include-" + index}>{text}</li>
+              ))}
+            </ul>
+          </div>
+          {/* Shopping Button */}
+          <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
+            <form action={handleForm}>
               <input type="hidden" name="id" value={id} />
               <input
                 type="hidden"
@@ -210,20 +225,35 @@ export default function ProductOptions({
                 name="imageURL"
                 value={colors[imgIndex].images[0]}
               />
-              <SubmitButton text={"Añadir a la cesta"} icon={faCartShopping} />
+              <SubmitButton
+                text={"Añadir a la cesta"}
+                icon={faCartShopping}
+                isDisable={!user ? true : false}
+              />
             </form>
+            <div className="hidden xl:block">
+              <FavoriteToggleButton productId={id} isActive={isFavorite} />
+            </div>
+          </section>
+          {!user ? (
+            <strong className="font-semibold">
+              *
+              <Link href={"/log-in"} className="hover:underline font-extrabold">
+                Inicia Sesión o Regístrate
+              </Link>{" "}
+              para poder añadirlo a la cesta.
+            </strong>
+          ) : (
+            <></>
           )}
-          <div className="hidden xl:block">
-            <FavoriteToggleButton productId={id} isActive={isFavorite}/>
-          </div>
-        </section>
+        </article>
+      </div>
+      <article className="flex flex-center shrink-0 justify-center h-full">
+        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
       </article>
-    </div>
+    </>
   );
 }
-
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
 export function ProductOptionsSkeleton() {
   return (
@@ -234,14 +264,12 @@ export function ProductOptionsSkeleton() {
         {/* Product Images */}
         <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
           {/* Main Image */}
-          <div className="place-self-center">
-            <div className="size-64 sm:size-72 lg:size-96 bg-gray-200"></div>
-          </div>
+          <BigImageSkeleton />
           {/* Secondary Images */}
           <div className="flex flex-row gap-2 justify-center">
-            <div className="size-20 sm:size-24 lg:size-32 bg-gray-200"></div>
-            <div className="size-20 sm:size-24 lg:size-32 bg-gray-200"></div>
-            <div className="size-20 sm:size-24 lg:size-32 bg-gray-200"></div>
+            <SmallImageSkeleton />
+            <SmallImageSkeleton />
+            <SmallImageSkeleton />
           </div>
         </article>
         {/* Product Options */}
@@ -254,17 +282,12 @@ export function ProductOptionsSkeleton() {
           <div className="md:self-start h-8 sm:h-10 xl:h-12 w-40 rounded-md bg-gray-200" />
           {/* Color Buttons */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
-            <div className="flex flex-row flex-wrap gap-1">
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-              <div className="size-8 md:size-6 lg:size-8 border-2 bg-gray-200" />
-            </div>
+            <ArticleHeaderSkeleton />
+            <ColorButtonSkeleton />
           </div>
           {/* Hearing Aid Side Buttons */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+            <ArticleHeaderSkeleton />
             <div className="flex flex-row flex-wrap gap-3">
               <div className="h-8 w-24 border-2 rounded bg-gray-200" />
               <div className="h-8 w-24 border-2 rounded bg-gray-200" />
@@ -273,24 +296,24 @@ export function ProductOptionsSkeleton() {
           </div>
           {/* Insurance Button */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
+            <ArticleHeaderSkeleton />
             <div className="flex flex-row flex-wrap gap-1">
               <div className="h-8 w-24 border-2 rounded bg-gray-200" />
             </div>
           </div>
           {/* Include list */}
           <div className="w-fit">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-32 rounded-md bg-gray-200 mb-1" />
-            <div className="flex flex-col flex-wrap gap-1">
+            <ArticleHeaderSkeleton />
+            <div className="flex flex-col flex-wrap gap-1 px-5">
               <div className="md:self-start h-4 sm:h-5 xl:h-6 w-48 rounded-md bg-gray-200 mb-1" />
               <div className="md:self-start h-4 sm:h-5 xl:h-6 w-48 rounded-md bg-gray-200 mb-1" />
             </div>
           </div>
           {/* Shopping Button */}
-          <div
-            className="w-64 sm:w-80 h-12 flex flex-row place-self-center md:place-self-start justify-center
-          border-2 rounded bg-gray-200"
-          />
+          <div className="flex flex-row self-start gap-2">
+            <SubmitButtonSkeleton />
+            <FavoriteToggleButtonSkeleton />
+          </div>
         </article>
       </div>
     </div>
