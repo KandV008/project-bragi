@@ -5,6 +5,12 @@ import { ProductEntity } from "@/app/model/entities/Product";
 import Loading from "@/app/(view)/search/loading";
 import Spinner from "../../components/common/spinner";
 import EmptyMessage from "../../components/messages/emptyMessage";
+import {
+  fillDefaultComponentBackground,
+  hoverFillDefaultComponentBackground,
+  componentText,
+  componentBorder,
+} from "../../tailwindClasses";
 
 interface ProductsWithFilterProps {
   fetchURL: string;
@@ -22,6 +28,11 @@ export default function ProductsWithFilter({
   const increment = 10;
 
   const [isSpinnerActive, setSpinnerActive] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpandMenu = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   useEffect(() => {
     if (!isLoading) setSpinnerActive(true);
@@ -84,10 +95,38 @@ export default function ProductsWithFilter({
       ) : (
         <></>
       )}
-      <div className="flex flex-row w-full justify-between gap-2">
-        <div className="shrink-0">
+      <div className="flex flex-col md:flex-row w-full justify-between gap-2">
+        {/* Big Screen Filter */}
+        <div className="shrink-0 hidden md:flex">
           <Filter onChange={filterAction} products={products} />
         </div>
+        {/* Small Screen Filter */}
+        <div className="block md:hidden shrink-0">
+          <button
+            onClick={toggleExpandMenu}
+            id="expand-toggle"
+            className={`w-fit rounded-2xl border-2 border-transparent p-3 fixed
+      ${fillDefaultComponentBackground} ${hoverFillDefaultComponentBackground}
+      ${componentText} font-bold`}
+          >
+            {isExpanded ? "Cerrar Filtros" : "Abrir Filtros"}
+          </button>
+          {/* Filter */}
+          <div className="flex justify-center z-20 w-full origin-top-right bg-transparent focus:outline-none ">
+            {isExpanded ? (
+              <div
+                className={`flex flex-col gap-1 w-fit fixed top-64
+            ${componentBorder} rounded overflow-y-scroll max-h-96`}
+              >
+                <Filter onChange={filterAction} products={products} />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+
+        {/* Product Container */}
         <div className="md:size-fit lg:px-12">
           <ProductContainer
             products={products}

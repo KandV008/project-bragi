@@ -52,7 +52,7 @@ export default function Page() {
       text-emerald-900 dark:text-emerald-100"
     >
       {/* Actions */}
-      <article className="flex flex-center shrink-0 justify-start p-2">
+      <article className="flex shrink-0 justify-start p-2">
         <div className="fixed top-44 md:top-36">
           <MediumButtonWithIcon
             icon={faPencil}
@@ -63,7 +63,7 @@ export default function Page() {
           />
         </div>
       </article>
-      <article className="flex flex-center shrink-0 justify-center">
+      <article className="flex shrink-0 justify-center">
         <div className="fixed top-44 md:top-36">
           <MediumButtonWithIcon
             icon={faEraser}

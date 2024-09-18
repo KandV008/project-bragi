@@ -57,7 +57,7 @@ export default function Filter({ onChange, products }: FilterProps) {
 
   return (
     <section
-      className={`sticky top-32 h-fit p-5 pr-1 rounded flex-col space-y-3 hidden md:flex w-64
+      className={`flex flex-col sticky top-32 h-fit p-5 pr-1 rounded space-y-3 w-64 
         ${componentBackground} ${componentText} "`}
     >
       {/* Header */}

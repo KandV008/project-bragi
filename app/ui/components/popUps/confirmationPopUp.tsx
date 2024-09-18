@@ -7,7 +7,7 @@ import {
   hoverFillDefaultComponentBackground,
 } from "../../tailwindClasses";
 import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
-import { faRightLong, faTrashCan, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faRightLong, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface PopUpProps {
   handleShowModal: () => void;
