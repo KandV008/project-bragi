@@ -16,7 +16,7 @@ export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
       <article
         onClick={(e) => e.stopPropagation()}
         className={`relative 
-            rounded-lg shadow px-16 py-8 flex flex-col items-center gap-8
+            rounded-lg shadow m-1 p-4 sm:px-16 sm:py-8 flex flex-col items-center gap-8
             ${componentBackground} ${componentText} ${componentBorder}`}
       >
         {/* Icon */}
@@ -25,7 +25,7 @@ export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
           className={`absolute top-3 right-2.5 
                    bg-transparent 
                    ${hoverFillDefaultComponentBackground} rounded-lg 
-                   text-sm p-1.5 ml-auto inline-flex items-center popup-close`}
+                   text-sm p-1 sm:p-1.5 ml-auto inline-flex items-center popup-close`}
           onClick={handleShowModal}
         >
           <svg
@@ -44,7 +44,7 @@ export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
           <span className="sr-only">Close popup</span>
         </button>
         {/* Title */}
-        <h1 className="text-4xl font-bold"> Formulario no válido</h1>
+        <h1 className="text-2xl sm:text-4xl font-bold"> Formulario no válido</h1>
         {/* Elements */}
         <ul>
           {errorMessagesList.map((element, index) => (

@@ -1,5 +1,3 @@
-import { errorMessagesList } from "@/lib/validations";
-import MediumButton from "../buttons/mediumButton";
 import {
   componentBackground,
   componentText,
@@ -29,7 +27,7 @@ export default function ConfirmationPopUp({
       <article
         onClick={(e) => e.stopPropagation()}
         className={`relative 
-            rounded-lg shadow px-16 py-8 flex flex-col items-center gap-8
+            rounded-lg shadow m-1 p-4 sm:px-16 sm:py-8 flex flex-col items-center gap-8
             ${componentBackground} ${componentText} ${componentBorder}`}
       >
         {/* Icon */}
@@ -38,7 +36,7 @@ export default function ConfirmationPopUp({
           className={`absolute top-3 right-2.5 
                    bg-transparent 
                    ${hoverFillDefaultComponentBackground} rounded-lg 
-                   text-sm p-1.5 ml-auto inline-flex items-center popup-close`}
+                   text-sm p-1 sm:p-1.5 ml-auto inline-flex items-center popup-close`}
           onClick={handleShowModal}
         >
           <svg
@@ -57,13 +55,13 @@ export default function ConfirmationPopUp({
           <span className="sr-only">Close popup</span>
         </button>
         {/* Title */}
-        <h1 className="text-4xl font-bold">¿Estás seguro?</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold">¿Estás seguro?</h1>
         {/* Elements */}
-        <p className="text-xl">
+        <p className="text-lg sm:text-xl text-center">
           <strong>{message}</strong>
         </p>
         {/* Actions */}
-        <section className="flex flex-row justify-between gap-5">
+        <section className="flex flex-col md:flex-row justify-between gap-5">
           <MediumButtonWithIcon
             icon={faXmark}
             text={"Cancelar"}
