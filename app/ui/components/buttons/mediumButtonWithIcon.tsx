@@ -13,12 +13,13 @@ import {
   fillRedComponentBackground,
   hoverFillRedComponentBackground,
 } from "../../tailwindClasses";
+import { ButtonType, checkTypeButton } from "@/app/model/entities/enums/ButtonType";
 
 interface MediumButtonWithIconProps {
   icon: IconDefinition;
   text: string;
   subtext: string;
-  type: "default" | "warning" | "danger";
+  type: ButtonType;
   navigationURL?: string;
   onClick?: () => void;
 }
@@ -31,7 +32,7 @@ export default function MediumButtonWithIcon({
   navigationURL,
   onClick: action,
 }: MediumButtonWithIconProps) {
-  const bgColorClass = checkTypeMediumButton(type);
+  const bgColorClass = checkTypeButton(type);
 
   const onClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (action) action();
@@ -56,20 +57,6 @@ export default function MediumButtonWithIcon({
       </button>
     </Link>
   );
-}
-
-function checkTypeMediumButton(type: "default" | "warning" | "danger") {
-  if (type === "default") {
-    return `${fillDefaultComponentBackground} ${hoverFillDefaultComponentBackground}`;
-  }
-
-  if (type === "warning") {
-    return `${fillYellowComponentBackground} ${hoverFillYellowComponentBackground}`;
-  }
-
-  if (type === "danger") {
-    return `${fillRedComponentBackground} ${hoverFillRedComponentBackground}`;
-  }
 }
 
 export function MediumButtonWithIconSkeleton() {

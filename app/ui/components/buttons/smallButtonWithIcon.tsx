@@ -9,7 +9,8 @@ interface SmallButtonWithIconProps {
   icon: IconDefinition;
   text: string;
   subtext: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
 }
 
 export default function SmallButtonWithIcon({
@@ -17,9 +18,15 @@ export default function SmallButtonWithIcon({
   text,
   subtext,
   href,
+  onClick: action
 }: SmallButtonWithIconProps) {
+  const onClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (action) action();
+    if (!href) e.preventDefault;
+  };
+
   return (
-    <Link href={href}>
+    <Link href={href ? href : ""} onClick={onClick}>
       <button
         className={`flex items-start cursor-pointer py-1 px-2 2xl:h-12  
                     min-w-8 lg:w-28 xl:w-48 lg:text-left md:text-center

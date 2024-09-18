@@ -17,6 +17,7 @@ import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
 import toast from "react-hot-toast";
 import BigImage from "@/app/ui/components/images/bigImage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
+import FloatButton from "@/app/ui/components/buttons/floatButton";
 
 export default function Page() {
   const pathname = usePathname();
@@ -52,28 +53,24 @@ export default function Page() {
       text-emerald-900 dark:text-emerald-100"
     >
       {/* Actions */}
-      <article className="flex shrink-0 justify-start p-2">
-        <div className="fixed top-44 md:top-36">
-          <MediumButtonWithIcon
-            icon={faPencil}
-            text={"Editar Producto"}
-            subtext={"Actualizar las atributos"}
-            type={"warning"}
-            navigationURL={`/admin/products/${productId}/update`}
-          />
-        </div>
-      </article>
-      <article className="flex shrink-0 justify-center">
-        <div className="fixed top-44 md:top-36">
-          <MediumButtonWithIcon
-            icon={faEraser}
-            text={"Borrar Producto"}
-            subtext={"Eliminar para siempre"}
-            type={"danger"}
-            onClick={handleShowModal}
-          />{" "}
-        </div>
-      </article>
+      <div className="flex flex-col">
+        <FloatButton
+          icon={faPencil}
+          text={"Editar Producto"}
+          subtext={"Actualizar las atributos"}
+          type={"warning"}
+          position="center"
+          navigationURL={`/admin/products/${productId}/update`}
+        />
+        <FloatButton
+          icon={faEraser}
+          text={"Borrar Producto"}
+          subtext={"Eliminar para siempre"}
+          type={"danger"}
+          position="end"
+          onClick={handleShowModal}
+        />
+      </div>
       <GoBackButton />
       {/* Display */}
       <section

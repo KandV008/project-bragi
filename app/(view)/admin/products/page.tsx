@@ -8,6 +8,7 @@ import Loading from "./loading";
 import ProductContainer from "@/app/ui/components/products/productContainer";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
+import FloatButton from "@/app/ui/components/buttons/floatButton";
 
 export default function Page() {
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -31,7 +32,7 @@ export default function Page() {
   }, [endIndex, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!products) return <EmptyMessage />
+  if (!products) return <EmptyMessage />;
 
   const addMoreProducts = () => {
     setStartIndex((prevIndex) => prevIndex + increment);
@@ -41,17 +42,14 @@ export default function Page() {
   return (
     <section className="flex flex-col gap-5 w-full justify-between">
       {/* Actions */}
-      <article className="flex flex-center shrink-0 justify-center">
-        <div className="fixed top-44 md:top-36">
-          <MediumButtonWithIcon
-            icon={faPlus}
-            text={"Crear Producto"}
-            subtext={"Añadir un nuevo producto"}
-            type={"default"}
-            navigationURL="/admin/products/create"
-          />
-        </div>
-      </article>
+      <FloatButton
+        icon={faPlus}
+        text={"Crear Producto"}
+        subtext={"Añadir un nuevo producto"}
+        type={"default"}
+        position="end"
+        navigationURL={"/admin/products/create"}
+      />
       <GoBackButton />
       {/* List */}
       <article className="md:size-fit lg:px-12">
