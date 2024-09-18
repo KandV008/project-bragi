@@ -34,7 +34,7 @@ export default function FloatButton({
   const top = position === "center" ? "top-60 sm:top-48" : "top-48"
 
   return (
-    <article className={`flex flex-center shrink-0 justify-${position} p-2`}>
+    <article className={`flex flex-center shrink-0 justify-${position}`}>
       <div className={`fixed ${top}`}>
         <div className="hidden md:block">
           <MediumButtonWithIcon

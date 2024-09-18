@@ -10,7 +10,7 @@ export default function GoBackButton() {
   const router = useRouter();
 
   return (
-    <article className="flex flex-center shrink-0 justify-start p-2">
+    <article className="flex flex-center shrink-0 justify-start ">
       <div className="fixed top-48 ">
         <div className="hidden md:block">
           <MediumButtonWithIcon
