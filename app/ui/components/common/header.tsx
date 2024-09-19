@@ -87,7 +87,7 @@ export default function Header() {
       <section className="flex-row justify-center items-center space-x-4 hidden md:flex pb-2 2xl:pb-0">
         <NavButton text="Audífonos" href={"/search?category=EARPHONE"} />
         <NavButton text="Accesorios" href={"/search?category=ACCESSORY"} />
-        <NavButton text="Servicios" href={"/in-development"} />
+        <NavButton text="Servicios" href={"/services"} />
         <NavButton text="Nosotros" href={"/in-development"} />
         <NavButton text="Pedir Cita" href={"/in-development"} />
         <div className="block 2xl:hidden">
