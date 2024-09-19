@@ -9,7 +9,7 @@ import {
 } from "../../tailwindClasses";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import NavButton from "./navButton";
+import SubHeaderButtons from "./subHeaderButtons";
 
 export default function ExpandButton() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -33,14 +33,7 @@ export default function ExpandButton() {
         <div className="flex flex-col gap-1" role="none">
           {isExpanded ? (
             <section className={`flex flex-col w-fit p-2 gap-1 rounded-md ${componentBackground}`}>
-              <NavButton text="Audífonos" href={"/search?category=EARPHONE"} />
-              <NavButton
-                text="Accesorios"
-                href={"/search?category=ACCESSORY"}
-              />
-              <NavButton text="Servicios" href={"/in-development"} />
-              <NavButton text="Nosotros" href={"/in-development"} />
-              <NavButton text="Pedir Cita" href={"/in-development"} />
+              <SubHeaderButtons />
             </section>
           ) : (
             <></>
