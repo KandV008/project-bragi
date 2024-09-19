@@ -49,7 +49,7 @@ export default function AdminDashboard() {
           text={"Sobre Nosotros"}
           subtext={"Conoce al equipo detrás"}
           type={"default"}
-          navigationURL="/in-development"
+          navigationURL="/services/about-us"
         />
         <MediumButtonWithIcon
           icon={faEnvelope}
