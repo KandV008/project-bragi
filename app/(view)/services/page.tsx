@@ -35,14 +35,14 @@ export default function AdminDashboard() {
           text={"Pedir Cita"}
           subtext={"Pide tu cita ahora mismo"}
           type={"default"}
-          navigationURL="/in-development"
+          navigationURL="/services/appointment"
         />
         <MediumButtonWithIcon
           icon={faBagShopping}
           text={"Ofertas"}
           subtext={"Ver todas las ofertas"}
           type={"default"}
-          navigationURL="/profile"
+          navigationURL="/in-development"
         />
         <MediumButtonWithIcon
           icon={faUsers}

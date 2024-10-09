@@ -4,14 +4,12 @@ import {
   faUser,
   faHeart,
   faCartShopping,
-  faBars,
   faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./logo";
 import SmallButtonWithIcon from "../buttons/smallButtonWithIcon";
 import SearchBar from "../inputs/searchBar";
 import ThemeToggle from "./themeToggle";
-import NavButton from "../buttons/navButton";
 import { mainBackground } from "../../tailwindClasses";
 import { useUser } from "@clerk/nextjs";
 import ExpandButton from "../../containers/header/expandButton";
@@ -76,7 +74,7 @@ export default function Header() {
               icon={faWrench}
               text={"Servicios"}
               subtext={""}
-              href={"/in-development"}
+              href={"/services"}
             />
           </section>
         </article>

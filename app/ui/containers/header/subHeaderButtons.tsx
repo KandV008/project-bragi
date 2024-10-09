@@ -7,7 +7,7 @@ export default function SubHeaderButtons() {
       <NavButton text="Accesorios" href={"/search?category=ACCESSORY"} />
       <NavButton text="Servicios" href={"/services"} />
       <NavButton text="Nosotros" href={"/services/about-us"} />
-      <NavButton text="Pedir Cita" href={"/in-development"} />
+      <NavButton text="Pedir Cita" href={"/services/appointment"} />
     </>
   );
 }
