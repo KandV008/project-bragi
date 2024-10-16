@@ -42,7 +42,7 @@ export default function AdminDashboard() {
           text={"Ofertas"}
           subtext={"Ver todas las ofertas"}
           type={"default"}
-          navigationURL="/in-development"
+          navigationURL="/services/bargains"
         />
         <MediumButtonWithIcon
           icon={faUsers}
