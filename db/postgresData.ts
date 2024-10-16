@@ -6,6 +6,7 @@ import { getProductsByIds } from "./mongoData";
 import { ProductDTO, mapDocumentToProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import { ProductEntity } from "@/app/model/entities/Product";
 import { parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/Bargain";
 
 export async function getFavorites(start: string | null, end: string | null): Promise<ProductEntity[]> {
   const { userId } = auth();
@@ -34,6 +35,22 @@ export async function getShoppingList(): Promise<ProductDTO[]> {
   )
 
   return result.rows.map(row => mapDocumentToProductDTO(row))
+}
+
+export async function getBargains(start: string | null, end: string | null): Promise<BargainEntity[]>{
+  const client = await sql.connect()
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
+  const limit = endIndex - startIndex + 1;
+  const offset = startIndex;
+
+  const result = await client.query(
+    `SELECT * FROM bargain LIMIT $1 OFFSET $2`,
+    [limit, offset]
+  );
+
+  const bargains: BargainEntity[] = result.rows.map(mapDocumentToBargain);
+  console.log(bargains)
+  return bargains
 }
 
 export async function deleteProductInFavorites(productId: string | null | undefined) {
@@ -79,3 +96,4 @@ export async function deleteProductInShoppingList(productId: string | null | und
     console.error("Error removing product from shopping list:", error);
   }
 }
+
