@@ -58,7 +58,7 @@ export default function Page() {
           subtext={"Actualizar las atributos"}
           type={"warning"}
           position="center"
-          navigationURL={`/admin/products/${bargainCode}/update`}
+          navigationURL={`/admin/bargains/${bargainCode}/update`}
         />
         <FloatButton
           icon={faEraser}

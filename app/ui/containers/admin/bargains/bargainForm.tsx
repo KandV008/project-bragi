@@ -109,7 +109,7 @@ export default function BargainForm({ bargain }: FormProps) {
   );
 }
 
-export function ProductFormSkeleton() {
+export function BargainFormSkeleton() {
   return (
     <div
       className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm p-5`}
