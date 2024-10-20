@@ -124,8 +124,20 @@ export async function createBargain(bargainData: any): Promise<void> {
   }
 }
 
-export async function updateBargain(bargainData: any, prevCode: string): Promise<void> {
-  // Insert code
+export async function updateBargain(bargainData: { code: string, title: string, description: string }, prevCode: string): Promise<void> {
+  const { code, title, description } = bargainData;
+
+  try {
+    const client = await sql.connect();
+
+    await client.query(
+      'UPDATE bargain SET code = $1, title = $2, description = $3 WHERE code = $4',
+      [code, title, description, prevCode]
+    );
+  } catch (error) {
+    console.error('Error updating bargain:', error);
+    throw new Error('Could not update bargain');
+  }
 }
 
 export async function deleteBargain(bargainCode: any): Promise<void> {
