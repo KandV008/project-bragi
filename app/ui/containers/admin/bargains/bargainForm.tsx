@@ -1,6 +1,5 @@
 "use client";
 
-import { ProductEntity } from "@/app/model/entities/Product";
 import SubmitButton, {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton";
@@ -13,14 +12,14 @@ import TextAreaInput, {
 import TextInput, {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput";
-import { actionCreateBargain, actionCreateProduct, actionUpdateBargain, actionUpdateProduct } from "@/db/action";
+import { actionCreateBargain, actionUpdateBargain } from "@/db/action";
 import {
     faCode,
   faTag,
   faTextHeight,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
-import { validateFormProduct } from "@/lib/validations";
+import { validateFormBargain } from "@/lib/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import {
@@ -51,7 +50,7 @@ export default function BargainForm({ bargain }: FormProps) {
   };
 
   const handleForm = (formData: FormData) => {
-    const isValid = validateFormProduct(formData);
+    const isValid = validateFormBargain(formData);
     if (isValid) {
       actionForm(formData)
         .then((_) => toast.success(succesToastText))
@@ -70,7 +69,7 @@ export default function BargainForm({ bargain }: FormProps) {
       >
         <SectionHeader text={actionText} />
         {/* Id */}
-        {bargain ? <input type="hidden" name="id" value={bargain.code} /> : <></>}
+        {bargain ? <input type="hidden" name="prev_code" value={bargain.code} /> : <></>}
         {/* Code */}
         <TextInput
           name={"code"}

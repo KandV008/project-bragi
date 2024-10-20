@@ -189,9 +189,10 @@ export async function actionDeleteProduct(productId: string | undefined | null) 
 }
 
 export async function actionCreateBargain(formData: FormData) {
-    const newProduct = parseBargainForm(formData)
+    const newBargain = parseBargainForm(formData)
+    console.log(newBargain)
 
-    createBargain(newProduct)
+    createBargain(newBargain)
         .then(() => console.log("Bargain added successfully"))
         .catch(error => console.error("Error adding bargain:", error));
 
@@ -199,20 +200,18 @@ export async function actionCreateBargain(formData: FormData) {
 }
 
 export async function actionUpdateBargain(formData: FormData) {
-    const id = parseString(formData.get("id")?.toString(), "PRODUCT_ID")
-    const newProduct = parseBargainForm(formData)
-    const updatedProduct = { _id: id, ...newProduct }
+    const prevCode = parseString(formData.get("prev_code")?.toString(), "PRODUCT_ID")
+    const newBargain = parseBargainForm(formData)
 
-    updateBargain(updatedProduct, id)
+    updateBargain(newBargain, prevCode)
         .then(() => console.log("Bargain updated successfully"))
         .catch(error => console.error("Error updating bargain:", error));
 
-    redirect(`/admin/bargains/${id}`)
+    redirect(`/admin/bargains/${prevCode}`)
 }
 
 export async function actionDeleteBargain(bargainCode: string | undefined | null) {
     const code = parseString(bargainCode, "BARGAIN_CODE");
-    console.log(code)
 
     deleteBargain(code)
 

@@ -253,8 +253,8 @@ export function parseBargainForm(formData: FormData){
     const newDescription = parseString(formData.get("description")?.toString(), "DESCRIPTION")
     
     return {
-        name: newCode,
-        price: newTitle,
+        code: newCode,
+        title: newTitle,
         description: newDescription,
     }
 }

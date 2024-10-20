@@ -129,7 +129,6 @@ export async function updateBargain(bargainData: any, prevCode: string): Promise
 }
 
 export async function deleteBargain(bargainCode: any): Promise<void> {
-
   try {
     const client = await sql.connect();
 
