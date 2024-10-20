@@ -53,6 +53,17 @@ export async function getBargains(start: string | null, end: string | null): Pro
   return bargains
 }
 
+export async function getBargain(code: string | null): Promise<BargainEntity> {
+  const client = await sql.connect()
+
+  const result = await client.query(
+    `SELECT * FROM bargain WHERE code = $1`,
+    [code]
+  )
+
+  return mapDocumentToBargain(result.rows[0])
+}
+
 export async function deleteProductInFavorites(productId: string | null | undefined) {
   const id = parseString(productId, "PRODUCT_ID");
 
