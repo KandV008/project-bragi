@@ -1,10 +1,10 @@
 'use server';
 
-import { parseProductIds, parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList, parsePrice, parseUses, parseInclude, parseWaterDustResistance, parseColors, parseProductForm } from "@/lib/parser";
+import { parseProductIds, parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList, parsePrice, parseUses, parseInclude, parseWaterDustResistance, parseColors, parseProductForm, parseBargainForm } from "@/lib/parser";
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
 import { createProduct, deleteProduct, updateProduct } from "./mongoData";
-import { deleteProductInFavorites, deleteProductInShoppingList } from "./postgresData";
+import { createBargain, deleteBargain, deleteProductInFavorites, deleteProductInShoppingList, updateBargain } from "./postgresData";
 import { redirect } from 'next/navigation';
 
 export async function checkFavorite(userIdToParse: string | null, productIdToParse: string | null) {
@@ -156,7 +156,7 @@ export async function decrementProductInShoppingList(formData: FormData) {
     }
 }
 
-export async function actionCreate(formData: FormData) {
+export async function actionCreateProduct(formData: FormData) {
     const newProduct = parseProductForm(formData)
 
     createProduct(newProduct)
@@ -166,24 +166,54 @@ export async function actionCreate(formData: FormData) {
     redirect("/admin/products")
 }
 
-export async function actionUpdate(formData: FormData) {
-    const id = parseString(formData.get("id")?.toString(), "PRODUCT_ID")
+export async function actionUpdateProduct(formData: FormData) {
+    const id = parseString(formData.get("id")?.toString(), "BARGAIN_CODE")
     const newProduct = parseProductForm(formData)
     const updatedProduct = { _id: id, ...newProduct }
 
     updateProduct(updatedProduct)
         .then(() => console.log("Product updated successfully"))
-        .catch(error => console.error("Error adding product:", error));
+        .catch(error => console.error("Error updating product:", error));
 
     redirect(`/admin/products/${id}`)
 }
 
-export async function actionDelete(productId: string | undefined | null) {
-    const id = parseString(productId, "PRODUCT_ID");
+export async function actionDeleteProduct(productId: string | undefined | null) {
+    const id = parseString(productId, "BARGAIN_CODE");
 
     deleteProduct(id)
     deleteProductInFavorites(id)
     deleteProductInShoppingList(id)
 
     redirect("/admin/products")
+}
+
+export async function actionCreateBargain(formData: FormData) {
+    const newProduct = parseBargainForm(formData)
+
+    createBargain(newProduct)
+        .then(() => console.log("Bargain added successfully"))
+        .catch(error => console.error("Error adding bargain:", error));
+
+    redirect("/admin/bargains")
+}
+
+export async function actionUpdateBargain(formData: FormData) {
+    const id = parseString(formData.get("id")?.toString(), "PRODUCT_ID")
+    const newProduct = parseBargainForm(formData)
+    const updatedProduct = { _id: id, ...newProduct }
+
+    updateBargain(updatedProduct, id)
+        .then(() => console.log("Bargain updated successfully"))
+        .catch(error => console.error("Error updating bargain:", error));
+
+    redirect(`/admin/bargains/${id}`)
+}
+
+export async function actionDeleteBargain(productId: string | undefined | null) {
+    const id = parseString(productId, "BARGAIN_CODE");
+
+    deleteBargain(id)
+
+    redirect("/admin/bargains")
 }

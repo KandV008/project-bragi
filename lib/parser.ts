@@ -247,3 +247,15 @@ export function parseProductForm(formData: FormData){
     }
 }
 
+export function parseBargainForm(formData: FormData){
+    const newCode = parseString(formData.get("code")?.toString(), "CODE")
+    const newTitle = parseString(formData.get("title")?.toString(), "TITLE")
+    const newDescription = parseString(formData.get("description")?.toString(), "DESCRIPTION")
+    
+    return {
+        name: newCode,
+        price: newTitle,
+        description: newDescription,
+    }
+}
+

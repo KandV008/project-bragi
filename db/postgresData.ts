@@ -97,3 +97,27 @@ export async function deleteProductInShoppingList(productId: string | null | und
   }
 }
 
+export async function createBargain(bargainData: any): Promise<void> {
+  const { code, title, description } = bargainData;
+  
+  try {
+    const client = await sql.connect();
+
+    await client.query(
+      'INSERT INTO bargain (code, title, description) VALUES ($1, $2, $3)',
+      [code, title, description]
+    );
+  } catch (error) {
+    console.error('Error creating bargain:', error);
+    throw new Error('Could not create bargain');
+  }
+}
+
+export async function updateBargain(bargainData: any, prevCode: string): Promise<void> {
+  // Insert code
+}
+
+export async function deleteBargain(bargainData: any): Promise<void> {
+  // Insert code
+}
+

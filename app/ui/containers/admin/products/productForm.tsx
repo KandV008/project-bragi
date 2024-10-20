@@ -44,7 +44,7 @@ import TextAreaInput, {
 import TextInput, {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput";
-import { actionCreate, actionUpdate } from "@/db/action";
+import { actionCreateProduct, actionUpdateProduct } from "@/db/action";
 import {
   faEarListen,
   faMoneyBill,
@@ -69,7 +69,7 @@ interface FormProps {
 
 export default function ProductForm({ product }: FormProps) {
   const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
-  const actionForm = product ? actionUpdate : actionCreate;
+  const actionForm = product ? actionUpdateProduct : actionCreateProduct;
   const succesToastText = product
     ? "Se ha actualizado el produto."
     : "Se ha creado el producto";
