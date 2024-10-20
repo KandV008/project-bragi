@@ -210,10 +210,11 @@ export async function actionUpdateBargain(formData: FormData) {
     redirect(`/admin/bargains/${id}`)
 }
 
-export async function actionDeleteBargain(productId: string | undefined | null) {
-    const id = parseString(productId, "BARGAIN_CODE");
+export async function actionDeleteBargain(bargainCode: string | undefined | null) {
+    const code = parseString(bargainCode, "BARGAIN_CODE");
+    console.log(code)
 
-    deleteBargain(id)
+    deleteBargain(code)
 
     redirect("/admin/bargains")
 }

@@ -37,7 +37,7 @@ export async function getShoppingList(): Promise<ProductDTO[]> {
   return result.rows.map(row => mapDocumentToProductDTO(row))
 }
 
-export async function getBargains(start: string | null, end: string | null): Promise<BargainEntity[]>{
+export async function getBargains(start: string | null, end: string | null): Promise<BargainEntity[]> {
   const client = await sql.connect()
   const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
   const limit = endIndex - startIndex + 1;
@@ -110,7 +110,7 @@ export async function deleteProductInShoppingList(productId: string | null | und
 
 export async function createBargain(bargainData: any): Promise<void> {
   const { code, title, description } = bargainData;
-  
+
   try {
     const client = await sql.connect();
 
@@ -128,7 +128,24 @@ export async function updateBargain(bargainData: any, prevCode: string): Promise
   // Insert code
 }
 
-export async function deleteBargain(bargainData: any): Promise<void> {
-  // Insert code
+export async function deleteBargain(bargainCode: any): Promise<void> {
+
+  try {
+    const client = await sql.connect();
+
+    const result = await client.query(
+      'DELETE FROM bargain WHERE code = $1', 
+      [bargainCode]
+    );
+
+    if (result.rowCount === 1) {
+      console.log(`Bargain with code: ${bargainCode} has been removed from the bargain.`);
+    } else {
+      console.error(`Failed to remove bargain with code: ${bargainCode} from the bargain. Bargain not found.`);
+    }
+  } catch (error) {
+    console.error('Error creating bargain:', error);
+    throw new Error('Could not create bargain');
+  }
 }
 
