@@ -3,6 +3,7 @@
 import {
   faPaintRoller,
   faLeftLong,
+  faTag,
 } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
@@ -28,6 +29,13 @@ export default function AdminDashboard(){
           subtext={"Ver todos los productos"}
           type={"default"}
           navigationURL="/admin/products"
+        />
+        <MediumButtonWithIcon
+          icon={faTag}
+          text={"Modificar ofertas"}
+          subtext={"Ver todas las ofertas"}
+          type={"default"}
+          navigationURL="/admin/bargains"
         />
         <MediumButtonWithIcon
           icon={faLeftLong}

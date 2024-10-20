@@ -6,6 +6,7 @@ import BargainContainer from "@/app/ui/components/bargains/bargainContainer";
 import Spinner from "@/app/ui/components/common/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { useEffect, useState } from "react";
+import Loading from "./loading";
 
 export default function Page() {
   const [bargains, setBargains] = useState<BargainEntity[]>([]);
@@ -35,7 +36,7 @@ export default function Page() {
       .catch((error) => console.error("Error fetching product:", error));
   }, [endIndex, isLoading, startIndex]);
 
-  if (isLoading) return <></>; // TODO Add Loading page
+  if (isLoading) return <Loading />; 
   if (bargains.length === 0) return <EmptyMessage />;
 
   const addMoreBargains = () => {
