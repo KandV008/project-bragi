@@ -6,6 +6,7 @@ import Product, { ProductSkeleton } from "./product";
 import { useState, useEffect } from "react";
 import MediumButton from "../buttons/mediumButton";
 import { shimmer } from "../../tailwindClasses";
+import { checkFavoriteListRoute } from "@/app/api/routes";
 
 interface ProductContainerProps {
   products: ProductEntity[];
@@ -27,7 +28,7 @@ export default function ProductContainer({
     if (products.length > 0 && user) {
       const productIdsParam = products.map(product => product.id).join(',');
   
-      fetch(`/api/checkFavoriteList?productIds=${productIdsParam}&userId=${user.id}`)
+      fetch(`${checkFavoriteListRoute}?productIds=${productIdsParam}&userId=${user.id}`)
         .then((response) => response.json())
         .then((data) => {
           setFavoritesProducts(data);

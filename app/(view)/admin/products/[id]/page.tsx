@@ -17,6 +17,7 @@ import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";
 import { componentBackground, componentBorder, componentText } from "@/app/ui/tailwindClasses";
 import { actionDeleteProduct } from "@/db/product";
+import { getProductRoute } from "@/app/api/routes";
 
 export default function Page() {
   const pathname = usePathname();
@@ -33,7 +34,7 @@ export default function Page() {
 
   useEffect(() => {
     if (productId) {
-      fetch(`/api/getProduct?id=${productId}`)
+      fetch(`${getProductRoute}?id=${productId}`)
         .then((response) => response.json())
         .then((data) => {
           setProduct(data);

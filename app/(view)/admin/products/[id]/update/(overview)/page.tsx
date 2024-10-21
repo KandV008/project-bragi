@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
+import { getProductRoute } from "@/app/api/routes";
 
 export default function Page() {
   const pathname = usePathname().split("/");
@@ -17,7 +18,7 @@ export default function Page() {
 
   useEffect(() => {
     if (productId) {
-      fetch(`/api/getProduct?id=${productId}`)
+      fetch(`${getProductRoute}?id=${productId}`)
         .then((response) => response.json())
         .then((data) => {
           setProduct(data);

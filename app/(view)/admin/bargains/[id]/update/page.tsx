@@ -6,6 +6,7 @@ import Loading from "./loading";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import BargainForm from "@/app/ui/containers/admin/bargains/bargainForm";
 import { BargainEntity } from "@/app/model/entities/Bargain";
+import { getBargainRoute } from "@/app/api/routes";
 
 export default function Page() {
   const pathname = usePathname().split("/");
@@ -17,7 +18,7 @@ export default function Page() {
 
   useEffect(() => {
     if (code) {
-      fetch(`/api/getBargain?code=${code}`)
+      fetch(`${getBargainRoute}?code=${code}`)
         .then((response) => response.json())
         .then((data) => {
           setBargain(data);

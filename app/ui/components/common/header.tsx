@@ -19,9 +19,7 @@ export default function Header() {
   const { user } = useUser();
 
   const profileText = user ? "Ver tu perfil" : "Iniciar sesión / Registrarse";
-
   const favoritesText = user ? "Ver tu lista de favoritos" : "Iniciar sesión";
-
   const shoppingLisText = user ? "Ver tu lista de la compra" : "Iniciar sesión";
 
   return (

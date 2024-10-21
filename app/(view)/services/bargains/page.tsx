@@ -6,6 +6,7 @@ import Spinner from "@/app/ui/components/common/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { useEffect, useState } from "react";
 import Loading from "./loading";
+import { getBargainsRoute } from "@/app/api/routes";
 
 export default function Page() {
   const [bargains, setBargains] = useState<BargainEntity[]>([]);
@@ -20,7 +21,7 @@ export default function Page() {
     if (!isLoading) setSpinnerActive(true);
 
     fetch(
-      `/api/getBargains?start=${startIndex}&end=${endIndex}`
+      `${getBargainsRoute}?start=${startIndex}&end=${endIndex}`
     )
       .then((response) => response.json())
       .then((data) => {

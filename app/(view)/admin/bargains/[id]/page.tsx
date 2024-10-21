@@ -18,6 +18,7 @@ import {
 import { BargainEntity } from "@/app/model/entities/Bargain";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { actionDeleteBargain } from "@/db/bargain";
+import { getBargainRoute } from "@/app/api/routes";
 
 export default function Page() {
   const pathname = usePathname();
@@ -32,7 +33,7 @@ export default function Page() {
 
   useEffect(() => {
     if (bargainCode) {
-      fetch(`/api/getBargain?code=${bargainCode}`)
+      fetch(`${getBargainRoute}?code=${bargainCode}`)
         .then((response) => response.json())
         .then((data) => {
           setBargain(data);

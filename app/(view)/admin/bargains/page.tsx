@@ -8,6 +8,7 @@ import FloatButton from "@/app/ui/components/buttons/floatButton";
 import BargainContainer from "@/app/ui/components/bargains/bargainContainer";
 import { BargainEntity } from "@/app/model/entities/Bargain";
 import Loading from "./loading";
+import { getBargainsRoute } from "@/app/api/routes";
 
 export default function Page() {
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -17,7 +18,7 @@ export default function Page() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/getBargains?start=${startIndex}&end=${endIndex}`)
+    fetch(`${getBargainsRoute}?start=${startIndex}&end=${endIndex}`)
       .then((response) => response.json())
       .then((data) => {
         if (startIndex === 0) {

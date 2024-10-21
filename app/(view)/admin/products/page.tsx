@@ -8,6 +8,7 @@ import ProductContainer from "@/app/ui/components/products/productContainer";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";
+import { getAllProductsRoute } from "@/app/api/routes";
 
 export default function Page() {
   const [startIndex, setStartIndex] = useState<number>(0);
@@ -17,7 +18,7 @@ export default function Page() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/getAllProducts?start=${startIndex}&end=${endIndex}`)
+    fetch(`${getAllProductsRoute}?start=${startIndex}&end=${endIndex}`)
       .then((response) => response.json())
       .then((data) => {
         if (startIndex === 0) {

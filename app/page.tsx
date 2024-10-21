@@ -4,6 +4,7 @@ import CarouselWithAction from "./ui/containers/main/carousel";
 import Certifications from "./ui/containers/main/certifications";
 import WorkingFlow from "./ui/containers/main/workingFlow";
 import SomeProductContainer from "./ui/components/products/someProductContainer";
+import { getLatestNoveltiesRoute } from "./api/routes";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
           <SmallButton text="Accesorios" href="/search?category=ACCESSORY" />
         </div>
       </section>
-      <SomeProductContainer fetchUrl={`/api/getLatestNovelties`} title={"Últimas novedades"} />
+      <SomeProductContainer fetchUrl={`${getLatestNoveltiesRoute}`} title={"Últimas novedades"} />
       <WorkingFlow />
       <Certifications />
     </>

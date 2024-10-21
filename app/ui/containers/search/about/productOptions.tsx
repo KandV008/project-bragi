@@ -39,6 +39,7 @@ import SmallImage, {
 } from "@/app/ui/components/images/smallImage";
 import Link from "next/link";
 import { addProductToShoppingList } from "@/db/shoppingList";
+import { checkFavoriteRoute } from "@/app/api/routes";
 
 interface ProductOptionsProps {
   id: string;
@@ -67,7 +68,7 @@ export default function ProductOptions({
 
   useEffect(() => {
     if (id && user) {
-      fetch(`/api/checkFavorite?productId=${id}&userId=${user.id}`)
+      fetch(`${checkFavoriteRoute}?productId=${id}&userId=${user.id}`)
         .then((response) => response.json())
         .then((data) => {
           setIsFavorite(data);

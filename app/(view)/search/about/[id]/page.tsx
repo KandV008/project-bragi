@@ -8,6 +8,7 @@ import Guarantee from "@/app/ui/containers/search/about/guarantee";
 import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
 import ProductDetails from "@/app/ui/containers/search/about/productDetails";
 import ProductOptions from "@/app/ui/containers/search/about/productOptions";
+import { getProductRoute, getRelatedProductsRoute } from "@/app/api/routes";
 
 export default function Page() {
   const pathname = usePathname();
@@ -18,7 +19,7 @@ export default function Page() {
 
   useEffect(() => {
     if (productId) {
-      fetch(`/api/getProduct?id=${productId}`)
+      fetch(`${getProductRoute}?id=${productId}`)
         .then((response) => response.json())
         .then((data) => {
           setProduct(data);
@@ -52,7 +53,7 @@ export default function Page() {
       />
       <Guarantee />
       <SomeProductContainer
-        fetchUrl={`/api/getRelatedProducts?id=${product.id}&brand=${
+        fetchUrl={`${getRelatedProductsRoute}?id=${product.id}&brand=${
           product.brand
         }&price=${product.price.toString()}`}
         title={"Productos relacionados"}
