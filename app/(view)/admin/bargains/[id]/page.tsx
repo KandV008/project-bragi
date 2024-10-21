@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
-import { actionDeleteBargain, actionDeleteProduct } from "@/db/action";
 import Loading from "./loading";
 import { Article } from "@/app/ui/components/tags/article";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
@@ -18,6 +17,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import { BargainEntity } from "@/app/model/entities/Bargain";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
+import { actionDeleteBargain } from "@/db/bargain";
 
 export default function Page() {
   const pathname = usePathname();

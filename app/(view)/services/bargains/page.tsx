@@ -1,7 +1,6 @@
 "use client";
 
 import { BargainEntity } from "@/app/model/entities/Bargain";
-import { ProductEntity } from "@/app/model/entities/Product";
 import BargainContainer from "@/app/ui/components/bargains/bargainContainer";
 import Spinner from "@/app/ui/components/common/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";

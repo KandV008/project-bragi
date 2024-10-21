@@ -1,7 +1,10 @@
 'use server';
 
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/Product";
-import { parseFilters, parsePrice, parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { redirect } from "next/navigation";
+import { deleteProductInShoppingList } from "./shoppingList";
+import { deleteProductInFavorites } from "./favorites";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -313,3 +316,34 @@ export async function deleteProduct(productId: string | undefined | null): Promi
   }
 }
 
+export async function actionCreateProduct(formData: FormData) {
+  const newProduct = parseProductForm(formData)
+
+  createProduct(newProduct)
+      .then(() => console.log("Product added successfully"))
+      .catch(error => console.error("Error adding product:", error));
+
+  redirect("/admin/products")
+}
+
+export async function actionUpdateProduct(formData: FormData) {
+  const id = parseString(formData.get("id")?.toString(), "BARGAIN_CODE")
+  const newProduct = parseProductForm(formData)
+  const updatedProduct = { _id: id, ...newProduct }
+
+  updateProduct(updatedProduct)
+      .then(() => console.log("Product updated successfully"))
+      .catch(error => console.error("Error updating product:", error));
+
+  redirect(`/admin/products/${id}`)
+}
+
+export async function actionDeleteProduct(productId: string | undefined | null) {
+  const id = parseString(productId, "BARGAIN_CODE");
+
+  deleteProduct(id)
+  deleteProductInFavorites(id)
+  deleteProductInShoppingList(id)
+
+  redirect("/admin/products")
+}

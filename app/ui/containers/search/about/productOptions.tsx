@@ -5,7 +5,6 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ProductColor } from "@/app/model/entities/Product";
-import { addProductToShoppingList } from "@/db/action";
 import FavoriteToggleButton, {
   FavoriteToggleButtonSkeleton,
 } from "@/app/ui/components/buttons/favoriteToggleButton";
@@ -39,6 +38,7 @@ import SmallImage, {
   SmallImageSkeleton,
 } from "@/app/ui/components/images/smallImage";
 import Link from "next/link";
+import { addProductToShoppingList } from "@/db/shoppingList";
 
 interface ProductOptionsProps {
   id: string;

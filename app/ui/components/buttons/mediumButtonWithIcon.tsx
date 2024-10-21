@@ -6,12 +6,6 @@ import Link from "next/link";
 import {
   componentBorder,
   componentText,
-  fillDefaultComponentBackground,
-  hoverFillDefaultComponentBackground,
-  fillYellowComponentBackground,
-  hoverFillYellowComponentBackground,
-  fillRedComponentBackground,
-  hoverFillRedComponentBackground,
 } from "../../tailwindClasses";
 import { ButtonType, checkTypeButton } from "@/app/model/entities/enums/ButtonType";
 

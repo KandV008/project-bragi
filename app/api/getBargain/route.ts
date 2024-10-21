@@ -1,4 +1,4 @@
-import { getBargain } from '@/db/postgresData';
+import { getBargain } from '@/db/bargain';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {

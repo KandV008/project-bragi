@@ -1,4 +1,4 @@
-import { getAllProducts } from '@/db/mongoData';
+import { getAllProducts } from '@/db/product';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {

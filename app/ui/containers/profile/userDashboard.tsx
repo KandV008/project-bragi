@@ -10,7 +10,6 @@ import {
 import {
   OrganizationSwitcher,
   Protect,
-  SignOutButton,
   useClerk,
   useUser,
 } from "@clerk/nextjs";

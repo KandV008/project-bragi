@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
 import ColorButton from "@/app/ui/components/buttons/colorButton";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
-import { actionDeleteProduct } from "@/db/action";
 import Loading from "./loading";
 import UnorderedList from "@/app/ui/components/tags/unorderedList";
 import { Article } from "@/app/ui/components/tags/article";
@@ -17,6 +16,7 @@ import BigImage from "@/app/ui/components/images/bigImage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";
 import { componentBackground, componentBorder, componentText } from "@/app/ui/tailwindClasses";
+import { actionDeleteProduct } from "@/db/product";
 
 export default function Page() {
   const pathname = usePathname();

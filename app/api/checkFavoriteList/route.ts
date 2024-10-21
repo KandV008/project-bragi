@@ -1,4 +1,4 @@
-import { checkFavoriteList } from "@/db/action";
+import { checkFavoriteList } from "@/db/favorites";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

@@ -4,7 +4,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useUser } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
-import { toggleFavorites } from "@/db/action";
+import { toggleFavorites } from "@/db/favorites";
 import {
   pressedButton,
   negativeComponentText,

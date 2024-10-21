@@ -1,4 +1,4 @@
-import { getLatestNovelties } from '@/db/mongoData';
+import { getLatestNovelties } from '@/db/product';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

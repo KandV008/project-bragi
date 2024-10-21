@@ -44,7 +44,6 @@ import TextAreaInput, {
 import TextInput, {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput";
-import { actionCreateProduct, actionUpdateProduct } from "@/db/action";
 import {
   faEarListen,
   faMoneyBill,
@@ -62,6 +61,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
+import { actionUpdateProduct, actionCreateProduct } from "@/db/product";
 
 interface FormProps {
   product?: ProductEntity;

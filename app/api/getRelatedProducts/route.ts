@@ -1,4 +1,4 @@
-import { getRelatedProducts } from '@/db/mongoData';
+import { getRelatedProducts } from '@/db/product';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -6,7 +6,6 @@ export async function GET(request: Request) {
   const brand = searchParams.get('brand');
   const price = searchParams.get('price');
   const id = searchParams.get('id');
-
 
   try {
     const product = await getRelatedProducts(id, brand, price);

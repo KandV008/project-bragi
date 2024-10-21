@@ -12,7 +12,6 @@ import TextAreaInput, {
 import TextInput, {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput";
-import { actionCreateBargain, actionUpdateBargain } from "@/db/action";
 import {
     faCode,
   faTag,
@@ -30,6 +29,7 @@ import {
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { BargainEntity } from "@/app/model/entities/Bargain";
+import { actionUpdateBargain, actionCreateBargain } from "@/db/bargain";
 
 interface FormProps {
   bargain?: BargainEntity;
