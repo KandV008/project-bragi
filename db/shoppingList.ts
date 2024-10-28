@@ -4,8 +4,13 @@ import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
 import { ProductDTO, mapDocumentToProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList } from "@/lib/parser";
+import { Logger } from "@/app/model/Logger";
+
+const CONTEXT = "SHOPPING_LIST"
 
 export async function getShoppingList(): Promise<ProductDTO[]> {
+  Logger.startFunction(CONTEXT, "getShoppingList")
+
   const { userId } = auth();
   const client = await sql.connect()
 
@@ -14,10 +19,13 @@ export async function getShoppingList(): Promise<ProductDTO[]> {
     [userId]
   )
 
-  return result.rows.map(row => mapDocumentToProductDTO(row))
+  const shoppinList = result.rows.map(row => mapDocumentToProductDTO(row))
+  Logger.endFunction(CONTEXT, "getShoppingList", shoppinList)
+  return shoppinList
 }
 
 export async function deleteProductInShoppingList(productId: string | null | undefined) {
+  Logger.startFunction(CONTEXT, "deleteProductInShoppingList")
   const id = parseString(productId, "PRODUCT_ID");
 
   try {
@@ -30,16 +38,26 @@ export async function deleteProductInShoppingList(productId: string | null | und
     );
 
     if (result.rowCount === 1) {
-      console.log(`Product with ID: ${id} has been removed from the shopping list.`);
+      Logger.endFunction(
+        CONTEXT,
+        "deleteProductInShoppingList",
+        `Product with ID: ${id} has been removed from the shopping list.`
+      )
     } else {
-      console.error(`Failed to remove product with ID: ${id} from the shopping list. Product not found.`);
+      Logger.errorFunction(
+        CONTEXT,
+        "deleteProductInShoppingList",
+        `Failed to remove product with ID: ${id} from the shopping list. Product not found.`
+      )
     }
   } catch (error) {
-    console.error("Error removing product from shopping list:", error);
+    Logger.errorFunction(CONTEXT, "deleteProductInShoppingList", error)
   }
 }
 
 export async function addProductToShoppingList(formData: FormData) {
+  Logger.startFunction(CONTEXT, "addProductToShoppingList")
+
   const { userId } = auth();
   const parsedUserId = parseString(userId?.toString(), "USER_ID")
   const { productId, color, earSide, guarantee, name, brand, price, imageURL } = parseNewProductToShoppingList(formData)
@@ -55,14 +73,20 @@ export async function addProductToShoppingList(formData: FormData) {
       [productId, parsedUserId, color, earSide, guarantee, 1, name, brand, price, imageURL]
     );
 
-    console.log(`Added product ${productId} to shoppingList for user ${parsedUserId}`);
+    Logger.endFunction(
+      CONTEXT,
+      "addProductToShoppingList",
+      `Added product ${productId} to shoppingList for user ${parsedUserId}`
+    )
   } catch (error) {
-    console.error('Error adding product to the shopping list:', error);
+    Logger.errorFunction(CONTEXT, "addProductToShoppingList", error)
     throw error;
   }
 }
 
 export async function incrementProductInShoppingList(formData: FormData) {
+  Logger.startFunction(CONTEXT, "incrementProductInShoppingList")
+
   const { userId } = auth();
   const { productId, color, earSide, guarantee } = parseUpdateOfShoppingList(formData)
   const parsedUserId = parseString(userId?.toString(), "USER_ID")
@@ -79,17 +103,27 @@ export async function incrementProductInShoppingList(formData: FormData) {
     );
 
     if (result.rowCount === 0) {
-      console.log(`Product ${productId} not found in shoppingList for user ${parsedUserId}`);
+      Logger.endFunction(
+        CONTEXT,
+        "incrementProductInShoppingList",
+        `Product ${productId} not found in shoppingList for user ${parsedUserId}`
+      )
     } else {
-      console.log(`Incremented product ${productId} in shoppingList for user ${parsedUserId}`);
+      Logger.endFunction(
+        CONTEXT,
+        "incrementProductInShoppingList",
+        `Incremented product ${productId} in shoppingList for user ${parsedUserId}`
+      )
     }
   } catch (error) {
-    console.error('Error incrementing product in the shopping list:', error);
+    Logger.errorFunction(CONTEXT, "incrementProductInShoppingList", error)
     throw error;
   }
 }
 
 export async function decrementProductInShoppingList(formData: FormData) {
+  Logger.startFunction(CONTEXT, "decrementProductInShoppingList")
+
   const { userId } = auth();
   const { productId, color, earSide, guarantee } = parseUpdateOfShoppingList(formData)
   const parsedUserId = parseString(userId?.toString(), "USER_ID")
@@ -110,9 +144,13 @@ export async function decrementProductInShoppingList(formData: FormData) {
       [productId, parsedUserId, color, earSide, guarantee]
     );
 
-    console.log(`Decremented product ${productId} in shoppingList for user ${parsedUserId}`);
+    Logger.endFunction(
+      CONTEXT,
+      "decrementProductInShoppingList",
+      `Decremented product ${productId} in shoppingList for user ${parsedUserId}`
+    )
   } catch (error) {
-    console.error('Error decrementing product in the shopping list:', error);
+    Logger.errorFunction(CONTEXT, "decrementProductInShoppingList", error)
     throw error;
   }
 }
