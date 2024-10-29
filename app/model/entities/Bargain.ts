@@ -2,6 +2,7 @@ export interface BargainEntity{
     code: string;
     title: string;
     description: string;
+    //action: () -> void;
 }
 
 export function mapDocumentToBargain(bargain: any): BargainEntity {

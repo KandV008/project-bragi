@@ -111,9 +111,46 @@ async function createBargainTable(client) {
 
   console.log(`Created "bargain" table`);
 
-  addBargains(client);
+  //addBargains(client);
+  //console.log("Inserted row into 'bargain' table");
+}
 
-  console.log("Inserted row into 'bargain' table");
+async function addNovelties(client) {
+  await client.sql`
+  INSERT INTO novelty (title, description, promotional_image)
+  VALUES ('Novedad 1', 'Esta novedad es muy chula', '/placeholder-carousel.avif');
+`;
+
+  await client.sql`
+INSERT INTO novelty (title, description, promotional_image)
+VALUES ('Novedad 2', 'Esta novedad es mucho más chula', '/placeholder-carousel.avif');
+`;
+
+  await client.sql`
+INSERT INTO novelty (title, description, promotional_image)
+VALUES ('Novedad 3', 'Esta novedad no es muy chula', '/placeholder-carousel.avif');
+`;
+
+  await client.sql`
+INSERT INTO novelty (title, description, promotional_image)
+VALUES ('Novedad 4', 'Esta novedad no es mucho más chula', '/placeholder-carousel.avif');
+`;
+}
+
+async function createNoveltyTable(client) {
+  await client.sql`
+      CREATE TABLE IF NOT EXISTS novelty (
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        title VARCHAR(255) NOT NULL,
+        description VARCHAR(255) NOT NULL,
+        promotional_image VARCHAR(255) NOT NULL
+      );
+    `;
+
+  console.log(`Created "novelty" table`);
+
+  addNovelties(client);
+  console.log("Inserted row into 'novelty' table");
 }
 
 async function setPostgresSQL() {
@@ -125,8 +162,12 @@ async function setPostgresSQL() {
     createFavouritesTable(client);
     createShoppingListTable(client);
     createBargainTable(client);
+    createNoveltyTable(client);
   } catch (error) {
     console.log(`ERROR: PostgresSQL not set. ${error}`);
+  } finally {
+    await client.end();
+    process.exit(0);
   }
 }
 
@@ -145,6 +186,18 @@ async function dropTables() {
       DROP TABLE IF EXISTS shoppingList;
     `;
     console.log(`Dropped "shoppingList" table`);
+
+    // Drop the "bargain" table
+    await client.sql`
+      DROP TABLE IF EXISTS bargain;
+    `;
+    console.log(`Dropped "bargain" table`);
+
+    // Drop the "novelty" table
+    await client.sql`
+      DROP TABLE IF EXISTS novelty;
+    `;
+    console.log(`Dropped "novelty" table`);
   } catch (error) {
     console.error("Error dropping tables:", error);
   }
