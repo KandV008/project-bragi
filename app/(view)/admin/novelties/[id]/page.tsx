@@ -15,36 +15,37 @@ import {
   componentBorder,
   componentText,
 } from "@/app/ui/tailwindClasses";
-import { BargainEntity } from "@/app/model/entities/Bargain";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { actionDeleteBargain } from "@/db/bargain";
-import { getBargainRoute } from "@/app/api/routes";
+import { getNoveltyRoute } from "@/app/api/routes";
+import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import Image from "next/image";
 
 export default function Page() {
   const pathname = usePathname();
-  const bargainCode = pathname.split("/").pop();
+  const noveltyId = pathname.split("/").pop();
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
-  const [bargain, setBargain] = useState<BargainEntity | null>(null);
+  const [novelty, setNovelty] = useState<NoveltyEntity | null>(null);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (bargainCode) {
-      fetch(`${getBargainRoute}?code=${bargainCode}`)
+    if (noveltyId) {
+      fetch(`${getNoveltyRoute}?id=${noveltyId}`)
         .then((response) => response.json())
         .then((data) => {
-          setBargain(data);
+          setNovelty(data);
           setLoading(false);
         })
-        .catch((error) => console.error("Error fetching bargain:", error));
+        .catch((error) => console.error("Error fetching novelty:", error));
     }
-  }, [bargainCode]);
+  }, [noveltyId]);
 
   if (isLoading) return <Loading />;
-  if (!bargain) return <EmptyMessage />;
+  if (!novelty) return <EmptyMessage />;
 
   return (
     <div
@@ -55,11 +56,11 @@ export default function Page() {
       <>
         <FloatButton
           icon={faPencil}
-          text={"Editar Oferta"}
+          text={"Editar Novedad"}
           subtext={"Actualizar las atributos"}
           type={"warning"}
           position="center"
-          navigationURL={`/admin/bargains/${bargainCode}/update`}
+          navigationURL={`/admin/novelties/${noveltyId}/update`}
         />
         <FloatButton
           icon={faEraser}
@@ -77,16 +78,27 @@ export default function Page() {
           ${componentBackground}
           ${componentBorder} rounded-xl`}
       >
-        <SectionHeader text={"Detalles de la oferta"} />
-        {/* Basic Data */}
-        <div className="flex flex-col items-center sm:grid sm:grid-cols-2 gap-3">
-          {/* Code */}
-          <Article label="Código" value={bargain.code} />
-          {/* Title */}
-          <Article label="Título" value={bargain.title} />
+        <SectionHeader text={"Detalles de la novedad"} />
+        {/* Promotional Image */}
+        <div className="flex flex-col items-center sm:items-start gap-3 w-full">
+          <Article label="Imagen Promocional" value={""} />
+          <div className="flex flex-col w-2/3 place-self-center">
+            <Image
+            className="rounded"
+              src={novelty.promotionalImage}
+              alt={"imagen_promocional"}
+              height={1500}
+              width={1500}
+            />
+          </div>
         </div>
-        {/* Description */}
-        <Article label="Descripción" value={bargain.description} />
+        {/* Data */}
+        <div className="flex flex-row items-center sm:items-start gap-3">
+          {/* Title */}
+          <Article label="Título" value={novelty.title} />
+          {/* Description */}
+          <Article label="Descripción" value={novelty.description} />
+        </div>
       </section>
       {/* Pop Up */}
       <article className="flex flex-center shrink-0 justify-center h-full w-full">
@@ -95,13 +107,13 @@ export default function Page() {
             handleShowModal={handleShowModal}
             handleAction={() => {
               handleShowModal();
-              actionDeleteBargain(bargainCode)
-                .then((_) => toast.success("Se ha borrado la oferta."))
+              actionDeleteBargain(noveltyId)
+                .then((_) => toast.success("Se ha borrado la novedad."))
                 .catch((_) =>
-                  toast.error("No se ha podido borrar la oferta.")
+                  toast.error("No se ha podido borrar la novedad.")
                 );
             }}
-            message={"Borrar una oferta es una acción irreversible."}
+            message={"Borrar una novedad es una acción irreversible."}
           />
         )}
       </article>

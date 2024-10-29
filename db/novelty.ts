@@ -24,20 +24,19 @@ export async function getNovelties(start: string | null, end: string | null): Pr
     return novelties
 }
 
- // TODO Change to Novelty Entity 
-export async function getNovelty(code: string | null): Promise<BargainEntity> {
+export async function getNovelty(id: string | null): Promise<NoveltyEntity> {
     Logger.startFunction(CONTEXT, "getNovelty")
 
     const client = await sql.connect()
 
     const result = await client.query(
-        `SELECT * FROM bargain WHERE code = $1`,
-        [code]
+        `SELECT * FROM novelty WHERE id = $1`,
+        [id]
     )
 
-    const bargain = mapDocumentToBargain(result.rows[0])
-    Logger.endFunction(CONTEXT, "getNovelty", bargain)
-    return bargain
+    const novelty = mapDocumentToNovelty(result.rows[0])
+    Logger.endFunction(CONTEXT, "getNovelty", novelty)
+    return novelty
 }
 
 export async function actionCreateNovelty(formData: FormData) {

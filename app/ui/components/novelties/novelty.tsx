@@ -48,7 +48,7 @@ export default function Novelty({
       </div>
       {isPreview ? (
         <Link
-          href={`/admin/bargains/${id}`}
+          href={`/admin/novelties/${id}`}
           className={`flex flex-row items-center justify-center md:justify-around md:px-2
           rounded-2xl h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40
           ${negativeComponentBackground} ${negativeHoverComponentBackground}
