@@ -1,6 +1,9 @@
 export const getBargainRoute = "/api/bargains/getBargain"
 export const getBargainsRoute = "/api/bargains/getBargains"
 
+export const getNoveltyRoute = "/api/novelties/getNovelty"
+export const getNoveltiesRoute = "/api/novelties/getNovelties"
+
 export const getProductRoute = "/api/products/getProduct"
 export const getAllProductsRoute = "/api/products/getAllProducts"
 export const getProductsByKeywordRoute = "/api/products/getProductsByKeyword"

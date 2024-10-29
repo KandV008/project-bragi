@@ -6,6 +6,7 @@ import {
   faCalendar,
   faUsers,
   faBagShopping,
+  faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 import {
@@ -43,6 +44,13 @@ export default function AdminDashboard() {
           subtext={"Ver todas las ofertas"}
           type={"default"}
           navigationURL="/services/bargains"
+        />
+        <MediumButtonWithIcon
+          icon={faAward}
+          text={"Novedades"}
+          subtext={"Ver todas las novedades"}
+          type={"default"}
+          navigationURL="/services/novelties"
         />
         <MediumButtonWithIcon
           icon={faUsers}
