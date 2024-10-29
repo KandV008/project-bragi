@@ -259,3 +259,14 @@ export function parseBargainForm(formData: FormData){
     }
 }
 
+export function parseNoveltyForm(formData: FormData){
+    const newTitle = parseString(formData.get("title")?.toString(), "TITLE")
+    const newDescription = parseString(formData.get("description")?.toString(), "DESCRIPTION")
+    const newPromotionalImage = parseString(formData.get("promotional_image")?.toString(), "PROMOTIONAL_IMAGE")
+    
+    return {
+        title: newTitle,
+        description: newDescription,
+        promotionalImage: newPromotionalImage,
+    }
+}

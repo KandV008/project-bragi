@@ -41,7 +41,6 @@ export async function getBargain(code: string | null): Promise<BargainEntity> {
 export async function actionCreateBargain(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionCreateBargain")
     const newBargain = parseBargainForm(formData)
-    console.log(newBargain)
 
     createBargain(newBargain)
         .then(() => Logger.endFunction(CONTEXT, "actionCreateBargain", "void"))

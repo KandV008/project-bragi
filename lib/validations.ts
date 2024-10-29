@@ -49,3 +49,13 @@ export function validateFormBargain(formData: FormData){
     return checkErrorMessagesList()
 }
 
+export function validateFormNovelty(formData: FormData){
+    clearErrorMessagesList()
+    
+    checkIfNotEmpty(formData, "title", "No se ha introducido ningún título.")
+    checkIfNotEmpty(formData, "description", "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, "promotional_image", "No se ha introducido ninguna URL.")
+
+    return checkErrorMessagesList()
+}
+

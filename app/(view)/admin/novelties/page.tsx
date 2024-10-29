@@ -48,7 +48,7 @@ export default function Page() {
         subtext={"Añadir una nueva oferta"}
         type={"default"}
         position="end"
-        navigationURL={"/admin/bargains/create"}
+        navigationURL={"/admin/novelties/create"}
       />
       <GoBackButton />
       {/* List */}
