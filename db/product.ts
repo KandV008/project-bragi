@@ -371,7 +371,7 @@ export async function actionCreateProduct(formData: FormData) {
 export async function actionUpdateProduct(formData: FormData) {
   Logger.startFunction(CONTEXT, "actionUpdateProduct")
 
-  const id = parseString(formData.get("id")?.toString(), "BARGAIN_CODE")
+  const id = parseString(formData.get("id")?.toString(), "PRODUCT_ID")
   const newProduct = parseProductForm(formData)
   const updatedProduct = { _id: id, ...newProduct }
 

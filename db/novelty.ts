@@ -1,7 +1,6 @@
-import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/Bargain";
 import { mapDocumentToNovelty, NoveltyEntity } from "@/app/model/entities/Novelty";
 import { Logger } from "@/app/model/Logger";
-import { parseBargainForm, parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
 import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 
@@ -69,35 +68,35 @@ export async function createNovelty(bargainData: any): Promise<void> {
     }
 }
 
-// TODO Change to Novelty Entity 
 export async function actionUpdateNovelty(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionUpdateNovelty")
-    const prevCode = parseString(formData.get("prev_code")?.toString(), "PRODUCT_ID")
-    const newBargain = parseBargainForm(formData)
+    const id = parseString(formData.get("id")?.toString(), "NOVELTY_ID")
+    const newNovelty = parseNoveltyForm(formData)
+    const updatedNovelty = { id: id, ...newNovelty }
 
-    updateNovelty(newBargain, prevCode)
+    updateNovelty(updatedNovelty)
         .then(() => Logger.endFunction(CONTEXT, "actionUpdateNovelty", "void"))
         .catch(error => Logger.errorFunction(CONTEXT, "actionUpdateNovelty", error));
 
-    redirect(`/admin/novelties/${prevCode}`)
+    redirect(`/admin/novelties/${id}`)
 }
 
-// TODO Change to Novelty Entity 
-export async function updateNovelty(bargainData: { code: string, title: string, description: string }, prevCode: string): Promise<void> {
-    Logger.startFunction(CONTEXT, "updateNovelty")
-    const { code, title, description } = bargainData;
+export async function updateNovelty(novelty: any): Promise<void> {
+    Logger.startFunction(CONTEXT, "updateNovelty");
+    const { id, title, description, promotionalImage } = novelty;
 
     try {
         const client = await sql.connect();
 
         await client.query(
-            'UPDATE bargain SET code = $1, title = $2, description = $3 WHERE code = $4',
-            [code, title, description, prevCode]
+            'UPDATE novelty SET title = $2, description = $3, promotional_image = $4 WHERE id = $1',
+            [id, title, description, promotionalImage]
         );
-        Logger.endFunction(CONTEXT, "updateNovelty", bargainData)
+        
+        Logger.endFunction(CONTEXT, "updateNovelty", novelty);
     } catch (error) {
-        Logger.errorFunction(CONTEXT, "updateNovelty", error)
-        throw new Error('Could not update bargain');
+        Logger.errorFunction(CONTEXT, "updateNovelty", error);
+        throw new Error('Could not update novelty');
     }
 }
 

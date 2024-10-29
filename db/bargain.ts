@@ -70,7 +70,7 @@ export async function createBargain(bargainData: any): Promise<void> {
 
 export async function actionUpdateBargain(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionUpdateBargain")
-    const prevCode = parseString(formData.get("prev_code")?.toString(), "PRODUCT_ID")
+    const prevCode = parseString(formData.get("prev_code")?.toString(), "BARGAIN_CODE")
     const newBargain = parseBargainForm(formData)
 
     updateBargain(newBargain, prevCode)
