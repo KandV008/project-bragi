@@ -29,7 +29,7 @@ export default function Novelty({
 }: NoveltyProps) {
   return (
     <section
-      className={`flex flex-col items-center p-1 sm:p-3  gap-3
+      className={`flex flex-col items-center p-1 sm:p-3 sm:gap-3
         ${componentBorder} rounded-xl
         ${componentText}
         ${componentBackground}`}

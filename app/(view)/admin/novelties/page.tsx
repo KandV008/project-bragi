@@ -5,26 +5,26 @@ import { useState, useEffect } from "react";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";
-import BargainContainer from "@/app/ui/components/bargains/bargainContainer";
-import { BargainEntity } from "@/app/model/entities/Bargain";
 import Loading from "./loading";
-import { getBargainsRoute } from "@/app/api/routes";
+import { getNoveltiesRoute } from "@/app/api/routes";
+import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import NoveltyContainer from "@/app/ui/components/novelties/novletyContainer";
 
 export default function Page() {
   const [startIndex, setStartIndex] = useState<number>(0);
   const [endIndex, setEndIndex] = useState<number>(9);
   const increment = 10;
-  const [bargains, setBargains] = useState<BargainEntity[]>([]);
+  const [novelties, setNovelties] = useState<NoveltyEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${getBargainsRoute}?start=${startIndex}&end=${endIndex}`)
+    fetch(`${getNoveltiesRoute}?start=${startIndex}&end=${endIndex}`)
       .then((response) => response.json())
       .then((data) => {
         if (startIndex === 0) {
-          setBargains(data);
+          setNovelties(data);
         } else {
-          setBargains((prev) => prev.concat(data));
+          setNovelties((prev) => prev.concat(data));
         }
         setLoading(false);
       })
@@ -32,7 +32,7 @@ export default function Page() {
   }, [endIndex, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (!bargains) return <EmptyMessage />;
+  if (!novelties) return <EmptyMessage />;
 
   const addMoreProducts = () => {
     setStartIndex((prevIndex) => prevIndex + increment);
@@ -53,10 +53,10 @@ export default function Page() {
       <GoBackButton />
       {/* List */}
       <article className="md:size-fit lg:px-12">
-        <BargainContainer
-          bargains={bargains}
-          moreBargain={addMoreProducts}
-          showMoreButton={bargains.length === endIndex + 1}
+        <NoveltyContainer
+          novelties={novelties}
+          moreNovelty={addMoreProducts}
+          showMoreButton={novelties.length === endIndex + 1}
           isPreview={true}
         />
       </article>
