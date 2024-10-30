@@ -1,3 +1,5 @@
+'use server';
+
 import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/Bargain";
 import { Logger } from "@/app/model/Logger";
 import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
@@ -134,6 +136,6 @@ export async function deleteBargain(bargainCode: any): Promise<void> {
         }
     } catch (error) {
         Logger.errorFunction(CONTEXT, "deleteBargain", error)
-        throw new Error('Could not create bargain');
+        throw new Error('Could not delete bargain');
     }
 }

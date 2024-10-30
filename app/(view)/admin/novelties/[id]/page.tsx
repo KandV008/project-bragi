@@ -20,6 +20,7 @@ import { actionDeleteBargain } from "@/db/bargain";
 import { getNoveltyRoute } from "@/app/api/routes";
 import { NoveltyEntity } from "@/app/model/entities/Novelty";
 import Image from "next/image";
+import { actionDeleteNovelty } from "@/db/novelty";
 
 export default function Page() {
   const pathname = usePathname();
@@ -107,7 +108,7 @@ export default function Page() {
             handleShowModal={handleShowModal}
             handleAction={() => {
               handleShowModal();
-              actionDeleteBargain(noveltyId)
+              actionDeleteNovelty(noveltyId)
                 .then((_) => toast.success("Se ha borrado la novedad."))
                 .catch((_) =>
                   toast.error("No se ha podido borrar la novedad.")

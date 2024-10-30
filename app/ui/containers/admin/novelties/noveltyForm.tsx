@@ -70,7 +70,7 @@ export default function NoveltyForm({ novelty }: FormProps) {
         <SectionHeader text={actionText} />
         {/* Id */}
         {novelty ? (
-          <input type="hidden" name="prev_code" value={novelty.id} />
+          <input type="hidden" name="id" value={novelty.id} />
         ) : (
           <></>
         )}

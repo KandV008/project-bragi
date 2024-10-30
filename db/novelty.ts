@@ -1,3 +1,5 @@
+'use server';
+
 import { mapDocumentToNovelty, NoveltyEntity } from "@/app/model/entities/Novelty";
 import { Logger } from "@/app/model/Logger";
 import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
@@ -64,7 +66,7 @@ export async function createNovelty(bargainData: any): Promise<void> {
         Logger.endFunction(CONTEXT, "createNovelty", bargainData)
     } catch (error) {
         Logger.errorFunction(CONTEXT, "createNovelty", error)
-        throw new Error('Could not create bargain');
+        throw new Error('Could not create novelty');
     }
 }
 
@@ -100,44 +102,42 @@ export async function updateNovelty(novelty: any): Promise<void> {
     }
 }
 
-// TODO Change to Novelty Entity 
-export async function actionDeleteNovelty(bargainCode: string | undefined | null) {
+export async function actionDeleteNovelty(noveltyId: string | undefined | null) {
     Logger.startFunction(CONTEXT, "actionDeleteNovelty")
-    const code = parseString(bargainCode, "BARGAIN_CODE");
+    const id = parseString(noveltyId, "BARGAIN_CODE");
 
-    deleteNovelty(code)
+    deleteNovelty(id)
 
     Logger.endFunction(CONTEXT, "actionDeleteNovelty", "void")
     redirect("/admin/novelties")
 }
 
-// TODO Change to Novelty Entity 
-export async function deleteNovelty(bargainCode: any): Promise<void> {
+export async function deleteNovelty(noveltyId: any): Promise<void> {
     Logger.startFunction(CONTEXT, "deleteNovelty")
 
     try {
         const client = await sql.connect();
 
         const result = await client.query(
-            'DELETE FROM bargain WHERE code = $1',
-            [bargainCode]
+            'DELETE FROM novelty WHERE id = $1',
+            [noveltyId]
         );
 
         if (result.rowCount === 1) {
             Logger.endFunction(
                 CONTEXT, 
                 "deleteNovelty", 
-                `Bargain with code: ${bargainCode} has been removed from the bargain.`
+                `Novelty with id: ${noveltyId} has been removed from the novelty.`
             )
         } else {
             Logger.errorFunction(
                 CONTEXT, 
                 "deleteNovelty", 
-                `Failed to remove bargain with code: ${bargainCode} from the bargain. Bargain not found.`
+                `Failed to remove novelty with id: ${noveltyId} from the novelty. Novelty not found.`
             )
         }
     } catch (error) {
         Logger.errorFunction(CONTEXT, "deleteNovelty", error)
-        throw new Error('Could not create bargain');
+        throw new Error('Could not delete novelty');
     }
 }
