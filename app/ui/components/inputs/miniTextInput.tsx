@@ -4,7 +4,7 @@ import { fillDefaultComponentBackground, componentText, componentBorder } from "
 
 interface TextInputProps {
   name: string;
-  type: "text" | "password" | "number";
+  type: "text" | "password" | "number" | "url";
   placeholder: string;
   label: string;
   icon: IconDefinition;
@@ -47,6 +47,7 @@ export default function MiniTextInput({
           autoComplete="off"
           defaultValue={value}
           readOnly={false}
+          maxLength={255}
         />
       </article>
     </section>

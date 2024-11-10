@@ -41,6 +41,7 @@ export default function SearchBar({ isCompress }: SearchBarProps) {
               ${componentBorder}
               dark:placeholder:text-emerald-100 placeholder:text-emerald-900 placeholder:font-bold`}
         placeholder={placeholder}
+        maxLength={255}
         required
       />
       <Link href={`/search/${encodeURIComponent(keyword)}`} id={id} />

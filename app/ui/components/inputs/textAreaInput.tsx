@@ -44,6 +44,7 @@ export default function TextAreaInput({
           autoComplete="off"
           defaultValue={value}
           readOnly={false}
+          maxLength={1024}
         />
       </article>
     </section>

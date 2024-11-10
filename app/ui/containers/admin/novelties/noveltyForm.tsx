@@ -75,7 +75,7 @@ export default function NoveltyForm({ novelty }: FormProps) {
         ) : (
           <></>
         )}
-        {/* Ttile */}
+        {/* Title */}
         <TextInput
           name={noveltyTitleName}
           type={"text"}
@@ -92,7 +92,7 @@ export default function NoveltyForm({ novelty }: FormProps) {
           icon={faTextHeight}
           value={novelty ? novelty.description : ""}
         />
-        {/* Code */}
+        {/* URL */}
         <TextInput
           name={promotionalImageName}
           type={"text"}

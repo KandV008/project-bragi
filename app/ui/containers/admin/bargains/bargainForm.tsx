@@ -80,7 +80,7 @@ export default function BargainForm({ bargain }: FormProps) {
           icon={faCode}
           value={bargain ? bargain.code : ""}
         />
-        {/* Ttile */}
+        {/* Title */}
         <TextInput
           name={bargainTitleName}
           type={"text"}
