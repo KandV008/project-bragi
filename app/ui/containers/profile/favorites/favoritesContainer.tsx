@@ -1,6 +1,7 @@
 "use client";
 
 import Loading from "@/app/(view)/profile/favorites/loading";
+import { getFavoritesRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/Product";
 import NoFavoritesMessage from "@/app/ui/components/messages/noFavoritesMessage";
 import ProductContainer from "@/app/ui/components/products/productContainer";
@@ -15,7 +16,7 @@ export default function FavoritesContainer() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/getFavorites?start=${startIndex}&end=${endIndex}`)
+    fetch(`${getFavoritesRoute}?start=${startIndex}&end=${endIndex}`)
       .then((response) => response.json())
       .then((data) => {
         setFavorites((prev) => prev.concat(data));

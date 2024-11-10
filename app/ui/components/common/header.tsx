@@ -4,25 +4,22 @@ import {
   faUser,
   faHeart,
   faCartShopping,
-  faBars,
   faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./logo";
 import SmallButtonWithIcon from "../buttons/smallButtonWithIcon";
 import SearchBar from "../inputs/searchBar";
 import ThemeToggle from "./themeToggle";
-import NavButton from "../buttons/navButton";
 import { mainBackground } from "../../tailwindClasses";
 import { useUser } from "@clerk/nextjs";
-import ExpandButton from "../buttons/expandButton";
+import ExpandButton from "../../containers/header/expandButton";
+import SubHeaderButtons from "../../containers/header/subHeaderButtons";
 
 export default function Header() {
   const { user } = useUser();
 
   const profileText = user ? "Ver tu perfil" : "Iniciar sesión / Registrarse";
-
   const favoritesText = user ? "Ver tu lista de favoritos" : "Iniciar sesión";
-
   const shoppingLisText = user ? "Ver tu lista de la compra" : "Iniciar sesión";
 
   return (
@@ -75,7 +72,7 @@ export default function Header() {
               icon={faWrench}
               text={"Servicios"}
               subtext={""}
-              href={"/in-development"}
+              href={"/services"}
             />
           </section>
         </article>
@@ -85,11 +82,7 @@ export default function Header() {
       </section>
       {/* Bottom Header */}
       <section className="flex-row justify-center items-center space-x-4 hidden md:flex pb-2 2xl:pb-0">
-        <NavButton text="Audífonos" href={"/search?category=EARPHONE"} />
-        <NavButton text="Accesorios" href={"/search?category=ACCESSORY"} />
-        <NavButton text="Servicios" href={"/in-development"} />
-        <NavButton text="Nosotros" href={"/in-development"} />
-        <NavButton text="Pedir Cita" href={"/in-development"} />
+        <SubHeaderButtons />
         <div className="block 2xl:hidden">
           <ThemeToggle />
         </div>

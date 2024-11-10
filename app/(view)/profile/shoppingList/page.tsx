@@ -2,7 +2,7 @@ import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMe
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import ShoppingList from "@/app/ui/containers/shoppingList/shoppingList";
 import Summary from "@/app/ui/containers/shoppingList/summary";
-import { getShoppingList } from "@/db/postgresData";
+import { getShoppingList } from "@/db/shoppingList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

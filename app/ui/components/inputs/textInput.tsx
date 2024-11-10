@@ -8,7 +8,7 @@ import {
 
 interface TextInputProps {
   name: string;
-  type: "text" | "password" | "number";
+  type: "text" | "password" | "number" | "url";
   placeholder: string;
   label: string;
   icon: IconDefinition;
@@ -51,6 +51,7 @@ export default function TextInput({
           autoComplete="off"
           step="any"
           defaultValue={value}
+          maxLength={255}
           readOnly={false}
         />
       </article>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductsWithFilter from "@/app/ui/containers/search/productsWithFilter";
+import { getProductsByCategoryRoute } from "@/app/api/routes";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -18,6 +19,6 @@ export default function Page() {
   }, [searchParams]);
 
   return (
-      <ProductsWithFilter fetchURL={`/api/getProductsByCategory?category=${productCategory}`} />
+      <ProductsWithFilter fetchURL={`${getProductsByCategoryRoute}?category=${productCategory}`} />
   );
 }

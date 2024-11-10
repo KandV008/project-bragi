@@ -5,7 +5,6 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { ProductColor } from "@/app/model/entities/Product";
-import { addProductToShoppingList } from "@/db/action";
 import FavoriteToggleButton, {
   FavoriteToggleButtonSkeleton,
 } from "@/app/ui/components/buttons/favoriteToggleButton";
@@ -39,6 +38,8 @@ import SmallImage, {
   SmallImageSkeleton,
 } from "@/app/ui/components/images/smallImage";
 import Link from "next/link";
+import { addProductToShoppingList } from "@/db/shoppingList";
+import { checkFavoriteRoute } from "@/app/api/routes";
 
 interface ProductOptionsProps {
   id: string;
@@ -67,7 +68,7 @@ export default function ProductOptions({
 
   useEffect(() => {
     if (id && user) {
-      fetch(`/api/checkFavorite?productId=${id}&userId=${user.id}`)
+      fetch(`${checkFavoriteRoute}?productId=${id}&userId=${user.id}`)
         .then((response) => response.json())
         .then((data) => {
           setIsFavorite(data);

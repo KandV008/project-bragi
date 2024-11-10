@@ -1,7 +1,6 @@
 import { DegreeOfLoss } from "@/app/model/entities/enums/DegreeOfLoss";
 import { UseDefinition } from "@/app/model/entities/enums/Uses";
 import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
-import ArticleHeader from "@/app/ui/components/tags/articleHeader";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import {
   lightComponentBackground,

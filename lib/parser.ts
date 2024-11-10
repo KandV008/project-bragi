@@ -1,5 +1,6 @@
 import { colorList } from "@/app/model/entities/enums/Color";
 import { usesList } from "@/app/model/entities/enums/Uses";
+import { adaptationRangeName, brandName, categoryNameParam, colorName, degreeOfLossName, productDescriptionName, earLocationName, earSideName, guaranteeName, imageURLName, levelOfDiscretionName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName } from "@/app/model/JSONnames";
 
 export function parseString(value: string | null | undefined, attribute: string) {
     if (!value) {
@@ -76,23 +77,23 @@ export function parseProductIds(productIds: string[] | null | undefined) {
 }
 
 export function parseNewProductToShoppingList(formData: FormData) {
-    const productId = parseString(formData.get("id")?.toString(), "PRODUCT_ID");
-    const color = parseString(formData.get("color")?.toString(), "COLOR");
-    const earSide = parseString(formData.get("earSide")?.toString(), "EAR_SIDE");
-    const guarantee = parseString(formData.get("guarantee")?.toString(), "GUARANTEE");
-    const name = parseString(formData.get("name")?.toString(), "NAME");
-    const brand = parseString(formData.get("brand")?.toString(), "BRAND");
-    const price = parsePrice(formData.get("price")?.toString());
-    const imageURL = parseString(formData.get("imageURL")?.toString(), "IMAGE_URL")
+    const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
+    const color = parseString(formData.get(colorName)?.toString(), "COLOR");
+    const earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
+    const guarantee = parseString(formData.get(guaranteeName)?.toString(), "GUARANTEE");
+    const name = parseString(formData.get(nameName)?.toString(), "NAME");
+    const brand = parseString(formData.get(brandName)?.toString(), "BRAND");
+    const price = parsePrice(formData.get(priceName)?.toString());
+    const imageURL = parseString(formData.get(imageURLName)?.toString(), "IMAGE_URL")
 
     return { productId, color, earSide, guarantee, name, brand, price, imageURL }
 }
 
 export function parseUpdateOfShoppingList(formData: FormData) {
-    const productId = parseString(formData.get("id")?.toString(), "PRODUCT_ID");
-    const color = parseString(formData.get("color")?.toString(), "COLOR");
-    const earSide = parseString(formData.get("earSide")?.toString(), "EAR_SIDE");
-    const guarantee = parseString(formData.get("guarantee")?.toString(), "GUARANTEE");
+    const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
+    const color = parseString(formData.get(colorName)?.toString(), "COLOR");
+    const earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
+    const guarantee = parseString(formData.get(guaranteeName)?.toString(), "GUARANTEE");
 
     return { productId, color, earSide, guarantee }
 }
@@ -164,6 +165,7 @@ export function parseUses(formData: FormData): string[] {
     })
     return parse
 }
+
 function getIncrementalValues(formData: FormData, counter: number, tag: string) {
     const values: string[] = []
 
@@ -182,7 +184,7 @@ function getIncrementalValues(formData: FormData, counter: number, tag: string) 
 }
 
 export function parseInclude(formData: FormData) {
-    const counter = parseNumber(formData.get("INCLUDE")?.toString(), "INCLUDE_COUNTER")
+    const counter = parseNumber(formData.get(includeName)?.toString(), "INCLUDE_COUNTER")
     return getIncrementalValues(formData, counter, "INCLUDE")
 }
 
@@ -216,18 +218,18 @@ export function parseColors(formData: FormData) {
 }
 
 export function parseProductForm(formData: FormData){
-    const newName = parseString(formData.get("name")?.toString(), "NAME")
-    const newCategory = parseString(formData.get("category")?.toString(), "CATEGORY")
-    const newBrand = parseString(formData.get("brand")?.toString(), "BRAND")
-    const newPrice = parsePrice(formData.get("price")?.toString())
-    const newDescription = parseString(formData.get("description")?.toString(), "DESCRIPTION")
+    const newName = parseString(formData.get(nameName)?.toString(), "NAME")
+    const newCategory = parseString(formData.get(categoryNameParam)?.toString(), "CATEGORY")
+    const newBrand = parseString(formData.get(brandName)?.toString(), "BRAND")
+    const newPrice = parsePrice(formData.get(priceName)?.toString())
+    const newDescription = parseString(formData.get(productDescriptionName)?.toString(), "DESCRIPTION")
     const newColors = parseColors(formData)
     const newInclude = parseInclude(formData)
-    const newAdaptationRange = parseString(formData.get("adaptation_range")?.toString(), "ADAPTATION_RANGE")
+    const newAdaptationRange = parseString(formData.get(adaptationRangeName)?.toString(), "ADAPTATION_RANGE")
     const newWaterDustResistance = parseWaterDustResistance(formData)
-    const newEarLocation = parseString(formData.get("ear_location")?.toString(), "EAR_LOCATION")
-    const newLevelOfDiscretion = parseString(formData.get("level_of_discretion")?.toString(), "LEVEL_OF_DISCRETION")
-    const newDegreeOfLoss = parseString(formData.get("degree_of_loss")?.toString(), "DEGREE_OF_LOSS")
+    const newEarLocation = parseString(formData.get(earLocationName)?.toString(), "EAR_LOCATION")
+    const newLevelOfDiscretion = parseString(formData.get(levelOfDiscretionName)?.toString(), "LEVEL_OF_DISCRETION")
+    const newDegreeOfLoss = parseString(formData.get(degreeOfLossName)?.toString(), "DEGREE_OF_LOSS")
     const newUses = parseUses(formData)
 
     return {
@@ -247,3 +249,26 @@ export function parseProductForm(formData: FormData){
     }
 }
 
+export function parseBargainForm(formData: FormData){
+    const newCode = parseString(formData.get(bargainCodeName)?.toString(), "CODE")
+    const newTitle = parseString(formData.get(bargainTitleName)?.toString(), "TITLE")
+    const newDescription = parseString(formData.get(bargainDescriptionName)?.toString(), "DESCRIPTION")
+    
+    return {
+        code: newCode,
+        title: newTitle,
+        description: newDescription,
+    }
+}
+
+export function parseNoveltyForm(formData: FormData){
+    const newTitle = parseString(formData.get(noveltyTitleName)?.toString(), "TITLE")
+    const newDescription = parseString(formData.get(noveltyDescriptionName)?.toString(), "DESCRIPTION")
+    const newPromotionalImage = parseString(formData.get(promotionalImageName)?.toString(), "PROMOTIONAL_IMAGE")
+    
+    return {
+        title: newTitle,
+        description: newDescription,
+        promotionalImage: newPromotionalImage,
+    }
+}

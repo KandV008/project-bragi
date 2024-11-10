@@ -13,6 +13,9 @@ import {
   componentText,
   shimmer,
 } from "../../tailwindClasses";
+import BargainInput from "../../components/bargains/bargainInput";
+import { useState } from "react";
+import { BargainEntity } from "@/app/model/entities/Bargain";
 
 interface SummaryProps {
   products: ProductDTO[];
@@ -20,6 +23,11 @@ interface SummaryProps {
 
 export default function Summary({ products }: SummaryProps) {
   const router = useRouter();
+  const [bargain, setBargain] = useState<BargainEntity | null>(null)
+
+  const updateBargain = (newBargain: BargainEntity | null) => {
+    setBargain(newBargain)
+  }
 
   const totalPrice = products.reduce(
     (total, product) => total + product.price * product.quantity,
@@ -54,6 +62,9 @@ export default function Summary({ products }: SummaryProps) {
       </article>
       {/* Footer */}
       <article className="flex flex-col gap-2 ">
+        <div className={`w-full border-t my-3 ${componentBorder}`}></div>
+        {/* Bargain */}
+        <BargainInput bargain={bargain} setBargain={updateBargain} />
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         {/* Total */}
         <div className="flex flex-row justify-between gap-10">
@@ -108,6 +119,12 @@ export function SummarySkeleton() {
         </article>
         {/* Footer */}
         <article className="flex flex-col gap-2 ">
+          <div className="w-full border-2 border-t mb-3"></div>
+          {/* Bargain */}
+          <div className="flex flex-col justify-between gap-10">
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+          </div>
           <div className="w-full border-2 border-t mb-3"></div>
           {/* Total */}
           <div className="flex flex-row justify-between gap-10">
