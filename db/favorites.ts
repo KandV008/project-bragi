@@ -6,6 +6,7 @@ import { sql } from '@vercel/postgres';
 import { getProductsByIds } from "./product";
 import { ProductEntity } from "@/app/model/entities/Product";
 import { Logger } from "@/app/model/Logger";
+import { productIdName } from "@/app/model/JSONnames";
 
 const CONTEXT = "FAVORITES"
 
@@ -72,7 +73,7 @@ export async function checkFavoriteList(userIdToParse: string | null, productIds
 export async function toggleFavorites(formData: FormData) {
     Logger.startFunction(CONTEXT, "toggleFavorites")
     const { userId } = auth();
-    const productId = parseString(formData.get("id")?.toString(), "PRODUCT_ID");
+    const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
     const parsedUserId = parseString(userId?.toString(), "USER_ID")
 
     try {

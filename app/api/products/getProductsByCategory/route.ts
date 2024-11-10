@@ -1,12 +1,13 @@
+import { categoryNameParam, endNameParam, filtersNameParam, startNameParam } from '@/app/model/JSONnames';
 import { getProductsByCategory } from '@/db/product';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const category = searchParams.get('category');
-  const startIndex = searchParams.get('start');
-  const endIndex = searchParams.get('end');
-  const filters = searchParams.get('filters');
+  const category = searchParams.get(categoryNameParam);
+  const startIndex = searchParams.get(startNameParam);
+  const endIndex = searchParams.get(endNameParam);
+  const filters = searchParams.get(filtersNameParam);
 
   try {
     const products = await getProductsByCategory(category, startIndex, endIndex, filters);

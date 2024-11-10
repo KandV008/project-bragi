@@ -30,6 +30,7 @@ import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { BargainEntity } from "@/app/model/entities/Bargain";
 import { actionUpdateBargain, actionCreateBargain } from "@/db/bargain";
+import { bargainCodeName, bargainDescriptionName, bargainTitleName, prevCodeName } from "@/app/model/JSONnames";
 
 interface FormProps {
   bargain?: BargainEntity;
@@ -69,10 +70,10 @@ export default function BargainForm({ bargain }: FormProps) {
       >
         <SectionHeader text={actionText} />
         {/* Id */}
-        {bargain ? <input type="hidden" name="prev_code" value={bargain.code} /> : <></>}
+        {bargain ? <input type="hidden" name={prevCodeName} value={bargain.code} /> : <></>}
         {/* Code */}
         <TextInput
-          name={"code"}
+          name={bargainCodeName}
           type={"text"}
           placeholder={"Código"}
           label={"Código de la Oferta"}
@@ -81,7 +82,7 @@ export default function BargainForm({ bargain }: FormProps) {
         />
         {/* Ttile */}
         <TextInput
-          name={"title"}
+          name={bargainTitleName}
           type={"text"}
           placeholder={"Nombre de la oferta"}
           label={"Título de la Oferta"}
@@ -90,7 +91,7 @@ export default function BargainForm({ bargain }: FormProps) {
         />
         {/* Description */}
         <TextAreaInput
-          name={"description"}
+          name={bargainDescriptionName}
           placeholder={"Lore ipsum..."}
           label={"Descripción"}
           icon={faTextHeight}

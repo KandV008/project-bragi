@@ -62,6 +62,7 @@ import {
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product";
+import { adaptationRangeName, brandName, categoryNameParam, colorName, degreeOfLossName, earLocationName, includeName, levelOfDiscretionName, nameName, priceName, productDescriptionName, productIdName, usesName, waterDustResistanceName } from "@/app/model/JSONnames";
 
 interface FormProps {
   product?: ProductEntity;
@@ -101,10 +102,10 @@ export default function ProductForm({ product }: FormProps) {
       >
         <SectionHeader text={actionText} />
         {/* Id */}
-        {product ? <input type="hidden" name="id" value={product.id} /> : <></>}
+        {product ? <input type="hidden" name={productIdName} value={product.id} /> : <></>}
         {/* Name */}
         <TextInput
-          name={"name"}
+          name={nameName}
           type={"text"}
           placeholder={"Audífono X"}
           label={"Nombre del producto"}
@@ -113,7 +114,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Category */}
         <RadioInput
-          name={"category"}
+          name={categoryNameParam}
           label={"Categoría del producto"}
           list={Object.values(Category)}
           valueOf={(x) => x}
@@ -121,7 +122,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Brand */}
         <RadioInput
-          name={"brand"}
+          name={brandName}
           label={"Marca del producto"}
           list={Object.values(Brand)}
           valueOf={(x) => x}
@@ -129,7 +130,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Price */}
         <TextInput
-          name={"price"}
+          name={priceName}
           type={"number"}
           placeholder={"1234.56"}
           label={"Precio del producto (€)"}
@@ -138,7 +139,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Description */}
         <TextAreaInput
-          name={"description"}
+          name={productDescriptionName}
           placeholder={"Lore ipsum..."}
           label={"Descripción"}
           icon={faTextHeight}
@@ -146,13 +147,13 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Colors */}
         <ColorInput
-          name={"color"}
+          name={colorName}
           label={"Colores disponibles del producto"}
           values={product ? product.colors : []}
         />
         {/* Includes */}
         <IncrementalTextInput
-          name={"INCLUDE"}
+          name={includeName}
           type={"text"}
           placeholder={"Incluye..."}
           label={"Incluye el producto"}
@@ -161,7 +162,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Adaptation Range */}
         <RadioInput
-          name={"adaptation_range"}
+          name={adaptationRangeName}
           label={"Rango de adaptación del producto"}
           list={adaptationRangeList}
           valueOf={(x) => x}
@@ -169,7 +170,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Water Dust Resistance */}
         <CheckBoxInput
-          name={"water_dust_resistance"}
+          name={waterDustResistanceName}
           label={"Resistencia al Agua y al Polvo"}
           list={["YES"]}
           values={
@@ -178,7 +179,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Ear Location */}
         <RadioInput
-          name={"ear_location"}
+          name={earLocationName}
           label={"Localización del producto en la oreja"}
           list={earLocationList}
           valueOf={(x) => x}
@@ -186,7 +187,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Level of Discretion */}
         <RadioInput
-          name={"level_of_discretion"}
+          name={levelOfDiscretionName}
           label={"Nivel del discrección del producto"}
           list={levelOfDiscretionList}
           valueOf={(x) => x}
@@ -196,7 +197,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Degree of Loss */}
         <RadioInput
-          name={"degree_of_loss"}
+          name={degreeOfLossName}
           label={"Grado de pérdida del producto"}
           list={degreeOfLossList}
           valueOf={(x) => x}
@@ -204,7 +205,7 @@ export default function ProductForm({ product }: FormProps) {
         />
         {/* Uses */}
         <CheckBoxInput
-          name={"uses"}
+          name={usesName}
           label={"Usos del producto"}
           list={usesList}
           values={

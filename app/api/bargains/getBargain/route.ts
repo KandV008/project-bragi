@@ -1,9 +1,10 @@
+import { bargainCodeName } from '@/app/model/JSONnames';
 import { getBargain } from '@/db/bargain';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const code = searchParams.get('code');
+  const code = searchParams.get(bargainCodeName);
 
   try {
     const bargain = await getBargain(code);

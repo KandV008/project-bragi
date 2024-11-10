@@ -30,6 +30,7 @@ import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { NoveltyEntity } from "@/app/model/entities/Novelty";
 import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty";
+import { noveltyDescriptionName, noveltyIdName, noveltyTitleName, promotionalImageName } from "@/app/model/JSONnames";
 
 interface FormProps {
   novelty?: NoveltyEntity;
@@ -70,13 +71,13 @@ export default function NoveltyForm({ novelty }: FormProps) {
         <SectionHeader text={actionText} />
         {/* Id */}
         {novelty ? (
-          <input type="hidden" name="id" value={novelty.id} />
+          <input type="hidden" name={noveltyIdName} value={novelty.id} />
         ) : (
           <></>
         )}
         {/* Ttile */}
         <TextInput
-          name={"title"}
+          name={noveltyTitleName}
           type={"text"}
           placeholder={"Título de la Novedad"}
           label={"Título de la Novedad"}
@@ -85,7 +86,7 @@ export default function NoveltyForm({ novelty }: FormProps) {
         />
         {/* Description */}
         <TextAreaInput
-          name={"description"}
+          name={noveltyDescriptionName}
           placeholder={"Lore ipsum..."}
           label={"Descripción"}
           icon={faTextHeight}
@@ -93,7 +94,7 @@ export default function NoveltyForm({ novelty }: FormProps) {
         />
         {/* Code */}
         <TextInput
-          name={"promotional_image"}
+          name={promotionalImageName}
           type={"text"}
           placeholder={"url-ejemplo.jpg"}
           label={"URL de la imagen promocional"}

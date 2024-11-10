@@ -1,6 +1,7 @@
 'use server';
 
 import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/Bargain";
+import { prevCodeName } from "@/app/model/JSONnames";
 import { Logger } from "@/app/model/Logger";
 import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
 import { sql } from "@vercel/postgres";
@@ -72,7 +73,7 @@ export async function createBargain(bargainData: any): Promise<void> {
 
 export async function actionUpdateBargain(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionUpdateBargain")
-    const prevCode = parseString(formData.get("prev_code")?.toString(), "BARGAIN_CODE")
+    const prevCode = parseString(formData.get(prevCodeName)?.toString(), "BARGAIN_CODE")
     const newBargain = parseBargainForm(formData)
 
     updateBargain(newBargain, prevCode)

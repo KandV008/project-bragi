@@ -1,3 +1,5 @@
+import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryNameParam, degreeOfLossName, earLocationName, earSideName, levelOfDiscretionName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
+
 export let errorMessagesList: string[] = []
 
 function clearErrorMessagesList(){
@@ -18,23 +20,23 @@ function checkIfNotEmpty(formData: FormData, field: string, message: string){
 
 export function validateAddShoppingCart(formData: FormData){
     clearErrorMessagesList()
-    checkIfNotEmpty(formData, "earSide", "No se ha seleccionado ningún lado del audífono.")
+    checkIfNotEmpty(formData, earSideName, "No se ha seleccionado ningún lado del audífono.")
     return checkErrorMessagesList()
 }
 
 export function validateFormProduct(formData: FormData){
     clearErrorMessagesList()
     
-    checkIfNotEmpty(formData, "name", "No se ha introducido ningún nombre.")
-    checkIfNotEmpty(formData, "category", "No se ha elegido ninguna categoría.")
-    checkIfNotEmpty(formData, "brand", "No se ha elegido ninguna marca.")
-    checkIfNotEmpty(formData, "price", "No se ha introducido ningún precio.")
-    checkIfNotEmpty(formData, "description", "No se ha introducido ninguna descripción.")
-    checkIfNotEmpty(formData, "adaptation_range", "No se ha elegido ningún rango de adaptación.")
-    checkIfNotEmpty(formData, "ear_location", "No se ha introducido ningún nombre.")
-    checkIfNotEmpty(formData, "level_of_discretion", "No se ha elegido ningún nivel de discrección.")
-    checkIfNotEmpty(formData, "degree_of_loss", "No se ha elegido ningún grado de pérdida.")
-    checkIfNotEmpty(formData, "uses", "No se ha elegido ningún uso.")
+    checkIfNotEmpty(formData, nameName, "No se ha introducido ningún nombre.")
+    checkIfNotEmpty(formData, categoryNameParam, "No se ha elegido ninguna categoría.")
+    checkIfNotEmpty(formData, brandName, "No se ha elegido ninguna marca.")
+    checkIfNotEmpty(formData, priceName, "No se ha introducido ningún precio.")
+    checkIfNotEmpty(formData, productDescriptionName, "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, adaptationRangeName, "No se ha elegido ningún rango de adaptación.")
+    checkIfNotEmpty(formData, earLocationName, "No se ha introducido ningún nombre.")
+    checkIfNotEmpty(formData, levelOfDiscretionName, "No se ha elegido ningún nivel de discrección.")
+    checkIfNotEmpty(formData, degreeOfLossName, "No se ha elegido ningún grado de pérdida.")
+    checkIfNotEmpty(formData, usesName, "No se ha elegido ningún uso.")
 
     return checkErrorMessagesList()
 }
@@ -42,9 +44,9 @@ export function validateFormProduct(formData: FormData){
 export function validateFormBargain(formData: FormData){
     clearErrorMessagesList()
     
-    checkIfNotEmpty(formData, "code", "No se ha introducido ningún código.")
-    checkIfNotEmpty(formData, "title", "No se ha introducido ningún título.")
-    checkIfNotEmpty(formData, "description", "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, bargainCodeName, "No se ha introducido ningún código.")
+    checkIfNotEmpty(formData, bargainTitleName, "No se ha introducido ningún título.")
+    checkIfNotEmpty(formData, bargainDescriptionName, "No se ha introducido ninguna descripción.")
 
     return checkErrorMessagesList()
 }
@@ -52,9 +54,9 @@ export function validateFormBargain(formData: FormData){
 export function validateFormNovelty(formData: FormData){
     clearErrorMessagesList()
     
-    checkIfNotEmpty(formData, "title", "No se ha introducido ningún título.")
-    checkIfNotEmpty(formData, "description", "No se ha introducido ninguna descripción.")
-    checkIfNotEmpty(formData, "promotional_image", "No se ha introducido ninguna URL.")
+    checkIfNotEmpty(formData, noveltyTitleName, "No se ha introducido ningún título.")
+    checkIfNotEmpty(formData, noveltyDescriptionName, "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, promotionalImageName, "No se ha introducido ninguna URL.")
 
     return checkErrorMessagesList()
 }

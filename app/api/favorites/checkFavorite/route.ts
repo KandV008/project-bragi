@@ -1,10 +1,11 @@
+import { productIdNameParam, userIdNameParam } from "@/app/model/JSONnames";
 import { checkFavorite } from "@/db/favorites";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const productId = searchParams.get('productId');
-    const userId = searchParams.get('userId');
+    const productId = searchParams.get(productIdNameParam);
+    const userId = searchParams.get(userIdNameParam);
   
     try {
       const isFav = await checkFavorite(userId, productId);

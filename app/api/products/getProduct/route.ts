@@ -1,9 +1,10 @@
+import { productIdName } from '@/app/model/JSONnames';
 import { getProduct } from '@/db/product';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+  const id = searchParams.get(productIdName);
 
   try {
     const product = await getProduct(id);

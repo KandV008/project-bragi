@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { deleteProductInShoppingList } from "./shoppingList";
 import { deleteProductInFavorites } from "./favorites";
 import { Logger } from "@/app/model/Logger";
+import { productIdName } from "@/app/model/JSONnames";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -371,7 +372,7 @@ export async function actionCreateProduct(formData: FormData) {
 export async function actionUpdateProduct(formData: FormData) {
   Logger.startFunction(CONTEXT, "actionUpdateProduct")
 
-  const id = parseString(formData.get("id")?.toString(), "PRODUCT_ID")
+  const id = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID")
   const newProduct = parseProductForm(formData)
   const updatedProduct = { _id: id, ...newProduct }
 

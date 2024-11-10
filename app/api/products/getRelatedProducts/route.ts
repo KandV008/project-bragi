@@ -1,11 +1,12 @@
+import { brandName, priceName, productIdName } from '@/app/model/JSONnames';
 import { getRelatedProducts } from '@/db/product';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const brand = searchParams.get('brand');
-  const price = searchParams.get('price');
-  const id = searchParams.get('id');
+  const brand = searchParams.get(brandName);
+  const price = searchParams.get(priceName);
+  const id = searchParams.get(productIdName);
 
   try {
     const product = await getRelatedProducts(id, brand, price);

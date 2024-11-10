@@ -1,12 +1,13 @@
+import { endNameParam, filtersNameParam, keywordNameParam, startNameParam } from '@/app/model/JSONnames';
 import { searchProducts } from '@/db/product';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const keyword = searchParams.get('keyword');
-  const startIndex = searchParams.get('start');
-  const endIndex = searchParams.get('end');
-  const filters = searchParams.get('filters');
+  const keyword = searchParams.get(keywordNameParam);
+  const startIndex = searchParams.get(startNameParam);
+  const endIndex = searchParams.get(endNameParam);
+  const filters = searchParams.get(filtersNameParam);
 
   try {
     const product = await searchProducts(keyword, startIndex, endIndex, filters);

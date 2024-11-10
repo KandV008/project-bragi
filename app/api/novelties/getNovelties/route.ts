@@ -1,10 +1,11 @@
+import { endNameParam, startNameParam } from "@/app/model/JSONnames";
 import { getNovelties } from "@/db/novelty";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const startIndex = searchParams.get('start');
-    const endIndex = searchParams.get('end');
+    const startIndex = searchParams.get(startNameParam);
+    const endIndex = searchParams.get(endNameParam);
     console.log(startIndex, endIndex)
 
     try {

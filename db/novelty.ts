@@ -1,6 +1,7 @@
 'use server';
 
 import { mapDocumentToNovelty, NoveltyEntity } from "@/app/model/entities/Novelty";
+import { noveltyIdName } from "@/app/model/JSONnames";
 import { Logger } from "@/app/model/Logger";
 import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
 import { sql } from "@vercel/postgres";
@@ -72,7 +73,7 @@ export async function createNovelty(bargainData: any): Promise<void> {
 
 export async function actionUpdateNovelty(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionUpdateNovelty")
-    const id = parseString(formData.get("id")?.toString(), "NOVELTY_ID")
+    const id = parseString(formData.get(noveltyIdName)?.toString(), "NOVELTY_ID")
     const newNovelty = parseNoveltyForm(formData)
     const updatedNovelty = { id: id, ...newNovelty }
 

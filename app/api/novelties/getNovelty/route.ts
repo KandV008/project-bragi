@@ -1,9 +1,10 @@
+import { noveltyIdName } from '@/app/model/JSONnames';
 import { getNovelty } from '@/db/novelty';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+  const id = searchParams.get(noveltyIdName);
 
   try {
     const novelty = await getNovelty(id);
