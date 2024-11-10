@@ -49,7 +49,7 @@ export default function AdminBargainList() {
         position="end"
         navigationURL={"/admin/bargains/create"}
       />
-      <GoBackButton />
+      <GoBackButton link="/admin" />
       {/* List */}
       <article className="md:size-fit lg:px-12">
         <BargainContainer

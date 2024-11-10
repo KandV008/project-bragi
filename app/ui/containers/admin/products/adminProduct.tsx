@@ -1,24 +1,41 @@
 "use client";
 
 import { ProductEntity } from "@/app/model/entities/Product";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
-import ColorButton, { ColorButtonSkeleton } from "@/app/ui/components/buttons/colorButton";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader";
-import UnorderedList, { UnorderedListSkeleton } from "@/app/ui/components/tags/unorderedList";
+import ColorButton, {
+  ColorButtonSkeleton,
+} from "@/app/ui/components/buttons/colorButton";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader";
+import UnorderedList, {
+  UnorderedListSkeleton,
+} from "@/app/ui/components/tags/unorderedList";
 import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
-import { ColorArticle, ColorArticleSkeleton } from "@/app/ui/components/tags/colorArticle";
+import {
+  ColorArticle,
+  ColorArticleSkeleton,
+} from "@/app/ui/components/tags/colorArticle";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
 import toast from "react-hot-toast";
-import BigImage, { BigImageSkeleton } from "@/app/ui/components/images/bigImage";
+import BigImage, {
+  BigImageSkeleton,
+} from "@/app/ui/components/images/bigImage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";
-import { componentBackground, componentBorder, componentText, shimmer } from "@/app/ui/tailwindClasses";
+import {
+  componentBackground,
+  componentBorder,
+  componentText,
+  shimmer,
+} from "@/app/ui/tailwindClasses";
 import { actionDeleteProduct } from "@/db/product";
 import { getProductRoute } from "@/app/api/routes";
 
 export default function AdminProduct() {
+  const router = useRouter();
   const pathname = usePathname();
   const productId = pathname.split("/").pop();
   const [showModal, setShowModal] = useState(false);
@@ -68,7 +85,7 @@ export default function AdminProduct() {
         position="end"
         onClick={handleShowModal}
       />
-      <GoBackButton />
+      <GoBackButton link="/admin/products" />
       {/* Display */}
       <section
         className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10
@@ -147,7 +164,10 @@ export default function AdminProduct() {
             handleAction={() => {
               handleShowModal();
               actionDeleteProduct(productId)
-                .then((_) => toast.success("Se ha borrado el producto."))
+                .then((_) => {
+                  toast.success("Se ha borrado el producto.");
+                  router.push("/admin/products");
+                })
                 .catch((_) =>
                   toast.error("No se ha podido borrar el producto.")
                 );
@@ -161,64 +181,63 @@ export default function AdminProduct() {
 }
 
 export function AdminProductSkeleton() {
-    return (
-      <div
-        className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
-      >
-        {/* Display */}
-        <section className="flex flex-col gap-3 p-10 bg-gray-100">
-          <SectionHeaderSkeleton />
-          {/* Basic Data */}
-          <div className="grid grid-cols-2 gap-3">
-            {/* Name */}
-            <ArticleSkeleton />
-            {/* Category */}
-            <ArticleSkeleton />
-            {/* Brand */}
-            <ArticleSkeleton />
-            {/* Price */}
-            <ArticleSkeleton />
-          </div>
-          {/* Description */}
+  return (
+    <div
+      className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
+    >
+      {/* Display */}
+      <section className="flex flex-col gap-3 p-10 bg-gray-100">
+        <SectionHeaderSkeleton />
+        {/* Basic Data */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Name */}
           <ArticleSkeleton />
-          {/* Colors */}
-          <ColorArticleSkeleton />
-          {/* Technical Data */}
-          <div className="grid grid-cols-3 gap-5">
-            {/* Adaptation Range */}
-            <ArticleSkeleton />
-            {/* Water Dust Resistance */}
-            <ArticleSkeleton />
-            {/* Ear Location */}
-            <ArticleSkeleton />
-            {/* Level of Discretion */}
-            <ArticleSkeleton />
-            {/* Degree of Loss */}
-            <ArticleSkeleton />
-          </div>
-          {/* List of attributes */}
-          <div className="grid grid-cols-2">
-            {/* Includes */}
-            <UnorderedListSkeleton />
-            {/* Uses */}
-            <UnorderedListSkeleton />
-          </div>
-        </section>
-        {/* Image Preview */}
-        <section className="flex flex-col justify-center gap-3">
-          <SectionHeaderSkeleton />
-          {/* Color Button */}
-          <article className="self-center">
-            <ColorButtonSkeleton />
-          </article>
-          {/* Images Preview */}
-          <article className="flex flex-row gap-2 justify-center">
-            <BigImageSkeleton />
-            <BigImageSkeleton />
-            <BigImageSkeleton />
-          </article>
-        </section>
-      </div>
-    );
-  }
-  
+          {/* Category */}
+          <ArticleSkeleton />
+          {/* Brand */}
+          <ArticleSkeleton />
+          {/* Price */}
+          <ArticleSkeleton />
+        </div>
+        {/* Description */}
+        <ArticleSkeleton />
+        {/* Colors */}
+        <ColorArticleSkeleton />
+        {/* Technical Data */}
+        <div className="grid grid-cols-3 gap-5">
+          {/* Adaptation Range */}
+          <ArticleSkeleton />
+          {/* Water Dust Resistance */}
+          <ArticleSkeleton />
+          {/* Ear Location */}
+          <ArticleSkeleton />
+          {/* Level of Discretion */}
+          <ArticleSkeleton />
+          {/* Degree of Loss */}
+          <ArticleSkeleton />
+        </div>
+        {/* List of attributes */}
+        <div className="grid grid-cols-2">
+          {/* Includes */}
+          <UnorderedListSkeleton />
+          {/* Uses */}
+          <UnorderedListSkeleton />
+        </div>
+      </section>
+      {/* Image Preview */}
+      <section className="flex flex-col justify-center gap-3">
+        <SectionHeaderSkeleton />
+        {/* Color Button */}
+        <article className="self-center">
+          <ColorButtonSkeleton />
+        </article>
+        {/* Images Preview */}
+        <article className="flex flex-row gap-2 justify-center">
+          <BigImageSkeleton />
+          <BigImageSkeleton />
+          <BigImageSkeleton />
+        </article>
+      </section>
+    </div>
+  );
+}

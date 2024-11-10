@@ -1,9 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader";
 import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
 import toast from "react-hot-toast";
@@ -22,6 +24,7 @@ import { getBargainRoute } from "@/app/api/routes";
 import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
 
 export default function AdminBargain() {
+  const router = useRouter();
   const pathname = usePathname();
   const bargainId = pathname.split("/").pop();
   const [showModal, setShowModal] = useState(false);
@@ -70,7 +73,7 @@ export default function AdminBargain() {
           position="end"
           onClick={handleShowModal}
         />
-        <GoBackButton />
+        <GoBackButton link="/admin/bargains" />
       </>
       {/* Display */}
       <section
@@ -97,10 +100,11 @@ export default function AdminBargain() {
             handleAction={() => {
               handleShowModal();
               actionDeleteBargain(bargainId)
-                .then((_) => toast.success("Se ha borrado la oferta."))
-                .catch((_) =>
-                  toast.error("No se ha podido borrar la oferta.")
-                );
+                .then((_) => {
+                  toast.success("Se ha borrado la oferta.");
+                  router.push("/admin/bargains");
+                })
+                .catch((_) => toast.error("No se ha podido borrar la oferta."));
             }}
             message={"Borrar una oferta es una acción irreversible."}
           />
@@ -111,23 +115,23 @@ export default function AdminBargain() {
 }
 
 export function AdminBargainSkeleton() {
-    return (
-      <div
-        className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
-      >
-        {/* Display */}
-        <section className="flex flex-col gap-3 p-10 bg-gray-100">
-          <SectionHeaderSkeleton />
-          {/* Basic Data */}
-          <div className="grid grid-cols-2 gap-3">
-            {/* Name */}
-            <ArticleSkeleton />
-            {/* Category */}
-            <ArticleSkeleton />
-          </div>
-          {/* Description */}
-          <TextAreaInputSkeleton />
-        </section>
-      </div>
-    );
-  }
+  return (
+    <div
+      className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
+    >
+      {/* Display */}
+      <section className="flex flex-col gap-3 p-10 bg-gray-100">
+        <SectionHeaderSkeleton />
+        {/* Basic Data */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Name */}
+          <ArticleSkeleton />
+          {/* Category */}
+          <ArticleSkeleton />
+        </div>
+        {/* Description */}
+        <TextAreaInputSkeleton />
+      </section>
+    </div>
+  );
+}

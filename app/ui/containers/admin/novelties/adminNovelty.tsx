@@ -1,9 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader";
 import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
 import toast from "react-hot-toast";
@@ -24,6 +26,7 @@ import { BigImageSkeleton } from "@/app/ui/components/images/bigImage";
 import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
 
 export default function AdminNovelty() {
+  const router = useRouter();
   const pathname = usePathname();
   const noveltyId = pathname.split("/").pop();
   const [showModal, setShowModal] = useState(false);
@@ -72,7 +75,7 @@ export default function AdminNovelty() {
           position="end"
           onClick={handleShowModal}
         />
-        <GoBackButton />
+        <GoBackButton link="/admin/novelties" />
       </>
       {/* Display */}
       <section
@@ -86,7 +89,7 @@ export default function AdminNovelty() {
           <Article label="Imagen Promocional" value={""} />
           <div className="flex flex-col w-2/3 place-self-center">
             <Image
-            className="rounded"
+              className="rounded"
               src={novelty.promotionalImage}
               alt={"imagen_promocional"}
               height={1500}
@@ -110,7 +113,10 @@ export default function AdminNovelty() {
             handleAction={() => {
               handleShowModal();
               actionDeleteNovelty(noveltyId)
-                .then((_) => toast.success("Se ha borrado la novedad."))
+                .then((_) => {
+                  toast.success("Se ha borrado la novedad.");
+                  router.push("/admin/novelties");
+                })
                 .catch((_) =>
                   toast.error("No se ha podido borrar la novedad.")
                 );
@@ -124,28 +130,27 @@ export default function AdminNovelty() {
 }
 
 export function AdminNoveltySkeleton() {
-    return (
-      <div
-        className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
-      >
-        {/* Display */}
-        <section className="flex flex-col gap-3 p-10 bg-gray-100">
-          <SectionHeaderSkeleton />
-          {/* Promotional Image */}
-          <div className="flex flex-col items-center sm:items-start gap-3 w-full">
-            <div className="flex flex-col w-2/3 place-self-center">
-              <BigImageSkeleton />
-            </div>
+  return (
+    <div
+      className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
+    >
+      {/* Display */}
+      <section className="flex flex-col gap-3 p-10 bg-gray-100">
+        <SectionHeaderSkeleton />
+        {/* Promotional Image */}
+        <div className="flex flex-col items-center sm:items-start gap-3 w-full">
+          <div className="flex flex-col w-2/3 place-self-center">
+            <BigImageSkeleton />
           </div>
-          {/* Data */}
-          <div className="grid grid-cols-2 gap-3">
-            {/* Title */}
-            <ArticleSkeleton />
-            {/* Description */}
-            <TextAreaInputSkeleton />
-          </div>
-        </section>
-      </div>
-    );
-  }
-  
+        </div>
+        {/* Data */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Title */}
+          <ArticleSkeleton />
+          {/* Description */}
+          <TextAreaInputSkeleton />
+        </div>
+      </section>
+    </div>
+  );
+}

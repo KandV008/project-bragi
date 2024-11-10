@@ -64,7 +64,7 @@ export default function Summary({ products }: SummaryProps) {
       <article className="flex flex-col gap-2 ">
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         {/* Bargain */}
-        <BargainInput bargain={bargain} updateBargain={updateBargain} />
+        <BargainInput bargain={bargain} setBargain={updateBargain} />
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         {/* Total */}
         <div className="flex flex-row justify-between gap-10">

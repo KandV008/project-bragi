@@ -73,26 +73,27 @@ export async function createBargain(bargainData: any): Promise<void> {
 
 export async function actionUpdateBargain(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionUpdateBargain")
-    const prevCode = parseString(formData.get(bargainIdName)?.toString(), "BARGAIN_CODE")
+    const id = parseString(formData.get(bargainIdName)?.toString(), "BARGAIN_CODE")
     const newBargain = parseBargainForm(formData)
+    const updatedBargain = { id: id, ...newBargain}
 
-    updateBargain(newBargain, prevCode)
+    updateBargain(updatedBargain)
         .then(() => Logger.endFunction(CONTEXT, "actionUpdateBargain", "void"))
         .catch(error => Logger.errorFunction(CONTEXT, "actionUpdateBargain", error));
 
-    redirect(`/admin/bargains/${prevCode}`)
+    redirect(`/admin/bargains/${id}`)
 }
 
-export async function updateBargain(bargainData: { code: string, title: string, description: string }, prevCode: string): Promise<void> {
+export async function updateBargain(bargainData: any): Promise<void> {
     Logger.startFunction(CONTEXT, "updateBargain")
-    const { code, title, description } = bargainData;
+    const { id, code, title, description } = bargainData;
 
     try {
         const client = await sql.connect();
 
         await client.query(
-            'UPDATE bargain SET code = $1, title = $2, description = $3 WHERE code = $4',
-            [code, title, description, prevCode]
+            'UPDATE bargain SET code = $1, title = $2, description = $3 WHERE id = $4',
+            [code, title, description, id]
         );
         Logger.endFunction(CONTEXT, "updateBargain", bargainData)
     } catch (error) {
@@ -108,31 +109,30 @@ export async function actionDeleteBargain(bargainCode: string | undefined | null
     deleteBargain(code)
 
     Logger.endFunction(CONTEXT, "actionDeleteBargain", "void")
-    redirect("/admin/bargains")
 }
 
-export async function deleteBargain(bargainCode: any): Promise<void> {
+export async function deleteBargain(id: any): Promise<void> {
     Logger.startFunction(CONTEXT, "deleteBargain")
 
     try {
         const client = await sql.connect();
 
         const result = await client.query(
-            'DELETE FROM bargain WHERE code = $1',
-            [bargainCode]
+            'DELETE FROM bargain WHERE id = $1',
+            [id]
         );
 
         if (result.rowCount === 1) {
             Logger.endFunction(
                 CONTEXT, 
                 "deleteBargain", 
-                `Bargain with code: ${bargainCode} has been removed from the bargain.`
+                `Bargain with code: ${id} has been removed from the bargain.`
             )
         } else {
             Logger.errorFunction(
                 CONTEXT, 
                 "deleteBargain", 
-                `Failed to remove bargain with code: ${bargainCode} from the bargain. Bargain not found.`
+                `Failed to remove bargain with code: ${id} from the bargain. Bargain not found.`
             )
         }
     } catch (error) {

@@ -110,7 +110,6 @@ export async function actionDeleteNovelty(noveltyId: string | undefined | null) 
     deleteNovelty(id)
 
     Logger.endFunction(CONTEXT, "actionDeleteNovelty", "void")
-    redirect("/admin/novelties")
 }
 
 export async function deleteNovelty(noveltyId: any): Promise<void> {

@@ -12,17 +12,16 @@ import { BargainEntity } from "@/app/model/entities/Bargain";
 
 interface BargainInputProps {
   bargain: BargainEntity | null,
-  updateBargain: (bargain: BargainEntity | null) => void
+  setBargain: (bargain: BargainEntity | null) => void
 }
 
-export default function BargainInput({ bargain, updateBargain}: BargainInputProps) {
+export default function BargainInput({ bargain, setBargain}: BargainInputProps) {
   
   const formAction = (formData: FormData) => {
     //TODO Validate Bargain
     //TODO Get Bargain
-    updateBargain({ code: formData.get("code")!.toString(), title: "", description: ""})
+    setBargain({ id: "", code: formData.get("code")!.toString(), title: "", description: ""})
   }
-  
   
   return (
     <>
@@ -39,7 +38,7 @@ export default function BargainInput({ bargain, updateBargain}: BargainInputProp
           <div className="self-center">
         <button
           type="button"
-          onClick={() => updateBargain(null)}
+          onClick={() => setBargain(null)}
           className={`hover:underline`}
         >
           Quitar opción
