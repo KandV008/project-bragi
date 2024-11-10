@@ -1,7 +1,12 @@
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import TeamMember from "@/app/ui/containers/services/about-us/teamMember";
 import { componentBackground, componentText } from "@/app/ui/tailwindClasses";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Sobre nosotros",
+};
 
 export default function Page() {
   return (

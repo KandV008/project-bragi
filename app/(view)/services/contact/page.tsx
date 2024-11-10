@@ -9,6 +9,11 @@ import {
   faPenNib,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contáctanos",
+};
 
 export default function Page() {
   return (

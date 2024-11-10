@@ -1,14 +1,13 @@
 "use client";
 
 import { ProductEntity } from "@/app/model/entities/Product";
-import ProductForm from "@/app/ui/containers/admin/products/productForm";
+import ProductForm, { ProductFormSkeleton } from "@/app/ui/containers/admin/products/productForm";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import Loading from "./loading";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { getProductRoute } from "@/app/api/routes";
 
-export default function Page() {
+export default function AdminUpdateProduct() {
   const pathname = usePathname().split("/");
   pathname.pop();
   const productId = pathname.pop();
@@ -28,7 +27,7 @@ export default function Page() {
     }
   }, [productId]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <AdminUpdateProductSkeleton />;
   if (!product) return <EmptyMessage />; 
 
   return (
@@ -37,3 +36,11 @@ export default function Page() {
     </section>
   );
 }
+
+export function AdminUpdateProductSkeleton() {
+    return (
+      <div className="flex flex-col">
+        <ProductFormSkeleton />
+      </div>
+    );
+  }

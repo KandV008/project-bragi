@@ -16,7 +16,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 
-export default function AdminDashboard() {
+export default function Page() {
   return (
     <>
       <SectionHeader text={"Servicios Disponibles"} />
