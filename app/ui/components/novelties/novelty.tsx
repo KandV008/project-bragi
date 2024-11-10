@@ -1,16 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import {
   componentBackground,
   componentBorder,
   componentText,
-  negativeComponentBackground,
-  negativeComponentText,
-  negativeHoverComponentBackground,
   shimmer,
 } from "../../tailwindClasses";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import SeeMoreButton from "../buttons/seeMoreButton";
 
 interface NoveltyProps {
   id: string;
@@ -47,23 +42,7 @@ export default function Novelty({
         </article>
       </div>
       {isPreview ? (
-        <Link
-          href={`/admin/novelties/${id}`}
-          className={`flex flex-row items-center justify-center md:justify-around md:px-2
-          rounded-2xl h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40
-          ${negativeComponentBackground} ${negativeHoverComponentBackground}
-          ${negativeComponentText}`}
-        >
-          <div className=" mr-0 md:mr-2 xl:mr-0">
-            <FontAwesomeIcon icon={faEye} className="" />
-          </div>
-          <span className="hidden xl:block text-sm font-black">
-            Ver Novedad
-          </span>
-          <span className="hidden md:block xl:hidden text-xs font-black">
-            Ver más
-          </span>
-        </Link>
+        <SeeMoreButton link={`/admin/novelties/${id}`} thing={"Novedad"} />
       ) : (
         <></>
       )}
