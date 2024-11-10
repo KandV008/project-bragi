@@ -1,13 +1,13 @@
-import { bargainCodeName } from '@/app/model/JSONnames';
+import { bargainIdName } from '@/app/model/JSONnames';
 import { getBargain } from '@/db/bargain';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const code = searchParams.get(bargainCodeName);
+  const id = searchParams.get(bargainIdName);
 
   try {
-    const bargain = await getBargain(code);
+    const bargain = await getBargain(id);
 
     if (!bargain) {
       return NextResponse.json({ message: 'Bargain not found' }, { status: 404 });

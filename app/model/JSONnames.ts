@@ -1,5 +1,3 @@
-export const prevCodeName = "prev_code"
-
 export const startNameParam = "start"
 export const endNameParam = "end"
 export const productIdNameParam = "productId"
@@ -24,8 +22,9 @@ export const levelOfDiscretionName = "level_of_discretion"
 export const degreeOfLossName = "degree_of_loss"
 export const usesName = "uses"
 export const includeName = "INCLUDE" 
-export const waterDustResistanceName = "water_dust_resistance" //
+export const waterDustResistanceName = "water_dust_resistance"
 
+export const bargainIdName = "id"
 export const bargainCodeName = "code"
 export const bargainTitleName = "title"
 export const bargainDescriptionName = "description"

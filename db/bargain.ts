@@ -1,7 +1,7 @@
 'use server';
 
 import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/Bargain";
-import { prevCodeName } from "@/app/model/JSONnames";
+import { bargainIdName } from "@/app/model/JSONnames";
 import { Logger } from "@/app/model/Logger";
 import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
 import { sql } from "@vercel/postgres";
@@ -26,14 +26,14 @@ export async function getBargains(start: string | null, end: string | null): Pro
     return bargains
 }
 
-export async function getBargain(code: string | null): Promise<BargainEntity> {
+export async function getBargain(id: string | null): Promise<BargainEntity> {
     Logger.startFunction(CONTEXT, "getBargain")
 
     const client = await sql.connect()
 
     const result = await client.query(
-        `SELECT * FROM bargain WHERE code = $1`,
-        [code]
+        `SELECT * FROM bargain WHERE id = $1`,
+        [id]
     )
 
     const bargain = mapDocumentToBargain(result.rows[0])
@@ -73,7 +73,7 @@ export async function createBargain(bargainData: any): Promise<void> {
 
 export async function actionUpdateBargain(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionUpdateBargain")
-    const prevCode = parseString(formData.get(prevCodeName)?.toString(), "BARGAIN_CODE")
+    const prevCode = parseString(formData.get(bargainIdName)?.toString(), "BARGAIN_CODE")
     const newBargain = parseBargainForm(formData)
 
     updateBargain(newBargain, prevCode)

@@ -7,6 +7,7 @@ import {
 import SeeMoreButton from "../buttons/seeMoreButton";
 
 interface BargainProps {
+  id: string;
   title: string;
   description: string;
   code: string;
@@ -14,6 +15,7 @@ interface BargainProps {
 }
 
 export default function Bargain({
+  id,
   title,
   description,
   code,
@@ -39,7 +41,7 @@ export default function Bargain({
         </article>
       </div>
       {isPreview ? (
-        <SeeMoreButton link={`/admin/bargains/${code}`} thing={"Oferta"} />
+        <SeeMoreButton link={`/admin/bargains/${id}`} thing={"Oferta"} />
       ) : (
         <></>
       )}

@@ -23,7 +23,7 @@ import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput"
 
 export default function AdminBargain() {
   const pathname = usePathname();
-  const bargainCode = pathname.split("/").pop();
+  const bargainId = pathname.split("/").pop();
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -33,8 +33,8 @@ export default function AdminBargain() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (bargainCode) {
-      fetch(`${getBargainRoute}?code=${bargainCode}`)
+    if (bargainId) {
+      fetch(`${getBargainRoute}?id=${bargainId}`)
         .then((response) => response.json())
         .then((data) => {
           setBargain(data);
@@ -42,7 +42,7 @@ export default function AdminBargain() {
         })
         .catch((error) => console.error("Error fetching bargain:", error));
     }
-  }, [bargainCode]);
+  }, [bargainId]);
 
   if (isLoading) return <AdminBargainSkeleton />;
   if (!bargain) return <EmptyMessage />;
@@ -60,7 +60,7 @@ export default function AdminBargain() {
           subtext={"Actualizar las atributos"}
           type={"warning"}
           position="center"
-          navigationURL={`/admin/bargains/${bargainCode}/update`}
+          navigationURL={`/admin/bargains/${bargainId}/update`}
         />
         <FloatButton
           icon={faEraser}
@@ -96,7 +96,7 @@ export default function AdminBargain() {
             handleShowModal={handleShowModal}
             handleAction={() => {
               handleShowModal();
-              actionDeleteBargain(bargainCode)
+              actionDeleteBargain(bargainId)
                 .then((_) => toast.success("Se ha borrado la oferta."))
                 .catch((_) =>
                   toast.error("No se ha podido borrar la oferta.")

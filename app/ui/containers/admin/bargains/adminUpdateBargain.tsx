@@ -10,14 +10,14 @@ import { getBargainRoute } from "@/app/api/routes";
 export default function AdminUpdateBargain() {
   const pathname = usePathname().split("/");
   pathname.pop();
-  const code = pathname.pop();
+  const id = pathname.pop();
 
   const [bargain, setBargain] = useState<BargainEntity>();
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (code) {
-      fetch(`${getBargainRoute}?code=${code}`)
+    if (id) {
+      fetch(`${getBargainRoute}?id=${id}`)
         .then((response) => response.json())
         .then((data) => {
           setBargain(data);
@@ -25,7 +25,7 @@ export default function AdminUpdateBargain() {
         })
         .catch((error) => console.error("Error fetching bargain:", error));
     }
-  }, [code]);
+  }, [id]);
 
   if (isLoading) return <AdminUpdateBargainSkeleton />;
   if (!bargain) return <EmptyMessage />; 

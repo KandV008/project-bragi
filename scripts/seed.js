@@ -103,7 +103,8 @@ VALUES ('7POR6', '7x6 en audífonos de la misma marca', 'Por la compra de dos au
 async function createBargainTable(client) {
   await client.sql`
       CREATE TABLE IF NOT EXISTS bargain (
-        code VARCHAR(255) PRIMARY KEY,
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        code VARCHAR(255),
         title VARCHAR(255) NOT NULL,
         description VARCHAR(255) NOT NULL
       );
@@ -111,8 +112,8 @@ async function createBargainTable(client) {
 
   console.log(`Created "bargain" table`);
 
-  //addBargains(client);
-  //console.log("Inserted row into 'bargain' table");
+  addBargains(client);
+  console.log("Inserted row into 'bargain' table");
 }
 
 async function addNovelties(client) {
@@ -149,8 +150,8 @@ async function createNoveltyTable(client) {
 
   console.log(`Created "novelty" table`);
 
-  addNovelties(client);
-  console.log("Inserted row into 'novelty' table");
+  //addNovelties(client);
+  //console.log("Inserted row into 'novelty' table");
 }
 
 async function setPostgresSQL() {
@@ -174,7 +175,7 @@ async function setPostgresSQL() {
 async function dropTables() {
   try {
     const client = await db.connect();
-
+    /*
     // Drop the "favourites" table
     await client.sql`
       DROP TABLE IF EXISTS favourites;
@@ -186,18 +187,19 @@ async function dropTables() {
       DROP TABLE IF EXISTS shoppingList;
     `;
     console.log(`Dropped "shoppingList" table`);
-
+    */
     // Drop the "bargain" table
     await client.sql`
       DROP TABLE IF EXISTS bargain;
     `;
     console.log(`Dropped "bargain" table`);
-
+    /*
     // Drop the "novelty" table
     await client.sql`
       DROP TABLE IF EXISTS novelty;
     `;
     console.log(`Dropped "novelty" table`);
+    */
   } catch (error) {
     console.error("Error dropping tables:", error);
   }
@@ -205,7 +207,7 @@ async function dropTables() {
 
 async function run() {
   await setMongoDB();
-  //await dropTables();
+  await dropTables();
   await setPostgresSQL();
 }
 
