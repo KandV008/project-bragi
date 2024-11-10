@@ -47,8 +47,10 @@ Currently, there are 2 entities.
 
 | Entities |
 | :-: |
-| Product |
-| User |
+| [Product](#product) |
+| [User](#user) |
+| [Bargain](#bargain) |
+| [Novelty](#novelty) |
 
 ##### Product
 The products are the main entity of the application. There are organized by categories. 
@@ -65,13 +67,31 @@ Depending of the category, the information display will be diferent.
 ##### User
 See this section to know more about the [Entity User](#busts_in_silhouette-type-of-users).
 
+##### Bargain
+Bargains are a code that can be used in the shopping cart to apply a series of discounts. 
+
+You can only use one at the same time.
+
+| Attributes | | | | |
+| :-: | :-: | :-: | :-: | :-: |
+| Id | Code | Title | Description | Action |
+
+##### Novelty
+Novelties are notices of events on the web. They can be discounts, news, notification, etc. 
+
+They are accompanied by a promotional image, and may even contain a series of products that are affected by the novelty.
+
+| Attributes | | | | | |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| Id | Code | Title | Promotional Image | Discount | Concerned Products |
+
 #### :busts_in_silhouette: Type of Users
 
 In the application there are 2 different type of user:
 
 | Type of User | Attributes |
 | :-: | :-- |
-| Unregistered User | It can interact with all the page but not with the products |
+| Unregistered User | It can interact with all pages but not with the products |
 | Registered User | It can interact with anything |
 | Admin User | As Registered User plus CRUD operations to entities |
 
@@ -106,6 +126,18 @@ Here are the diferent actions that can do the different type of users:
 | UH-23 Update Product | | | :heavy_check_mark: |
 | UH-24 Delete Product | | | :heavy_check_mark: |
 | UH-25 Read All Products | | | :heavy_check_mark: |
+| UH-26 See All Bargains | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-27 Create Bargain | | | :heavy_check_mark: |
+| UH-28 Read Bargain | | | :heavy_check_mark: |
+| UH-29 Update Bargain | | | :heavy_check_mark: |
+| UH-30 Delete Bargain | | | :heavy_check_mark: |
+| UH-31 Read All Bargains | | | :heavy_check_mark: |
+| UH-32 See All Novelties | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| UH-33 Create Novelty | | | :heavy_check_mark: |
+| UH-34 Read Novelty | | | :heavy_check_mark: |
+| UH-35 Update Novelty | | | :heavy_check_mark: |
+| UH-36 Delete Novelty | | | :heavy_check_mark: |
+| UH-37 Read All Novelties | | | :heavy_check_mark: |
 
 #### :electric_plug: Non Functional Requirements
 
@@ -126,7 +158,7 @@ Here are the diferent actions that can do the different type of users:
 #### :airplane: Navigation
 
 <p align="center">
-  <img src="/docs/versions/v0.2/v0.2-Navigation.svg" alt="Configuration page">
+  <img src="/docs/versions/v0.4/v0.4-Navigation.svg" alt="Configuration page">
   <br>
   <small>Activity Diagram 1. Navigation Map</small>
 </p>
@@ -177,7 +209,7 @@ To see the logos in more detail, [click here](/docs/brand/web_icon/).
 
 | Current Version |
 | :-: |
-| `v0.3` |
+| `v0.4` |
 
 <p align="center">
 <strong>These sections are previews, when the corresponding version has been completed, the section will be completed with the specific additions.</strong>
@@ -195,32 +227,32 @@ To see the logos in more detail, [click here](/docs/brand/web_icon/).
 
 [Click here](/docs/versions/v0.3/v0.3-README.md) to view the User Interface quality of life improvements.
 
-#### `v0.4` Services
+#### `v0.4` Bargains & Novelties
 
-To complete the functionality of the website and the business, the following services will be added:
+[Click here](/docs/versions/v0.4/v0.4-README.md) to understand the new entities: Bargain & Novelty.
 
-* Request appointments online
-* Allow to contact us
-* Description about us
-* What's new and how it relates to products and services
+#### `v1.0` Service-Oriented
 
-#### `v1.0` Payments
-
-All payment-related logic will be added with the legal aspects, ending the application development stage.
+The application will be linked to the different services offered by the website, such as appointment request, contact and product purchase.
 
 ### :dvd: DataBase
 
 #### :dress: SQL Database
 
-The purpose of this database is to manage all the user information. The application uses [PostgreSQL](https://vercel.com/storage/postgres).
+The purpose of this database is to manage the next entities:
+* User
+* Bargain
+* Novelty
+
+The application uses [PostgreSQL](https://vercel.com/storage/postgres).
 
 <p align="center">
-  <img src="/docs/versions/v0.1/v0.1-SQL-DB.svg" alt="Configuration page">
+  <img src="/docs/versions/v0.4/v0.4-SQL-DB.svg" alt="Configuration page">
   <br>
   <small>Entity Relation Diagram 1. SQL Database</small>
 </p>
 
-How the product information is stored in the [NoSQL Database](#page_facing_up-nosql-database), in this database only is stored the neccesary information.
+How the product information is stored in the [NoSQL Database](#page_facing_up-nosql-database), in this database only is stored the neccesary information to optimize.
 
 ##### :heart_decoration: Favorite Table
 
@@ -233,6 +265,18 @@ How the product information is stored in the [NoSQL Database](#page_facing_up-no
 | *product_id* | *user_id* | *color* | *ear_side* | *guarantee* | quantity | name | brand | price | image_url |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |:-: | :-: |
 | Product's Identification (from [MongoDB](#page_facing_up-nosql-database)) | Identification of the user (from [Clerk](https://clerk.com)) | Selected color | Selected ear side | If have guarantee | Quantity added | Product's Name (from [MongoDB](#page_facing_up-nosql-database)) | Product's Brand (from [MongoDB](#page_facing_up-nosql-database)) | Product's Price (from [MongoDB](#page_facing_up-nosql-database)) | Product's color image (from [MongoDB](#page_facing_up-nosql-database)) |
+
+##### :rabbit: Bargain Table
+
+| *id* | *code* | *title* | *description* | *action* |
+| :-: | :-: | :-: | :-: | :-: |
+| Bargain's identification | Code to apply bargain | Bargain's Title | Bargain's Description | How affect to the shopping list (not implemented yet) |
+
+##### :bell: Novelty Table
+
+| *id* | *title* | *description* |  *discount* | *concerned products* |
+| :-: | :-: | :-: | :-: | :-: |
+| Novelty's identification | Novelty's Title | Novelty's Description | Discount to apply to products (not implemented yet) | Products concerned by the Novelty (not implemented yet) |
 
 #### :page_facing_up: NoSQL Database
 
