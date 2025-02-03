@@ -7,12 +7,19 @@ import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/pars
 import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 
-const CONTEXT = "BARGAIN"
+const CONTEXT = "BARGAIN";
 
+/**
+ * Fetches a list of bargains from the database.
+ *
+ * @param {string | null} start - The start index for pagination.
+ * @param {string | null} end - The end index for pagination.
+ * @returns {Promise<BargainEntity[]>} A promise resolving to an array of bargain entities.
+ */
 export async function getBargains(start: string | null, end: string | null): Promise<BargainEntity[]> {
-    Logger.startFunction(CONTEXT, "getBargains")
-    const client = await sql.connect()
-    const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
+    Logger.startFunction(CONTEXT, "getBargains");
+    const client = await sql.connect();
+    const { startIndex, endIndex } = parseStartAndEndIndex(start, end);
     const limit = endIndex - startIndex + 1;
     const offset = startIndex;
 
@@ -22,101 +29,142 @@ export async function getBargains(start: string | null, end: string | null): Pro
     );
 
     const bargains: BargainEntity[] = result.rows.map(mapDocumentToBargain);
-    Logger.endFunction(CONTEXT, "getBargains", bargains)
-    return bargains
+    Logger.endFunction(CONTEXT, "getBargains", bargains);
+    return bargains;
 }
 
-export async function getBargain(id: string | null): Promise<BargainEntity> {
-    Logger.startFunction(CONTEXT, "getBargain")
+/**
+ * Fetches a single bargain by its code.
+ *
+ * @param {string | null | undefined} id - The unique code of the bargain.
+ * @returns {Promise<BargainEntity>} A promise resolving to the found bargain entity.
+ */
+export async function getBargain(id: string | null | undefined): Promise<BargainEntity> {
+    Logger.startFunction(CONTEXT, "getBargain");
 
-    const client = await sql.connect()
-
+    const client = await sql.connect();
     const result = await client.query(
-        `SELECT * FROM bargain WHERE id = $1`,
+        `SELECT * FROM bargain WHERE code = $1`,
         [id]
-    )
+    );
 
-    const bargain = mapDocumentToBargain(result.rows[0])
-    Logger.endFunction(CONTEXT, "getBargain", bargain)
-    return bargain
+    const bargain = mapDocumentToBargain(result.rows[0]);
+    Logger.endFunction(CONTEXT, "getBargain", bargain);
+    return bargain;
 }
 
+/**
+ * Handles the creation of a new bargain via a form submission.
+ *
+ * @param {FormData} formData - The form data containing the bargain details.
+ */
 export async function actionCreateBargain(formData: FormData) {
-    Logger.startFunction(CONTEXT, "actionCreateBargain")
-    const newBargain = parseBargainForm(formData)
+    Logger.startFunction(CONTEXT, "actionCreateBargain");
+    const newBargain = parseBargainForm(formData);
 
     createBargain(newBargain)
         .then(() => Logger.endFunction(CONTEXT, "actionCreateBargain", "void"))
-        .catch(error => Logger.errorFunction(CONTEXT, "actionCreateBargain", error)
-        );
+        .catch(error => Logger.errorFunction(CONTEXT, "actionCreateBargain", error));
 
-    redirect("/admin/bargains")
+    redirect("/admin/bargains");
 }
 
-export async function createBargain(bargainData: any): Promise<void> {
-    Logger.startFunction(CONTEXT, "createBargain")
+/**
+ * Creates a new bargain in the database.
+ *
+ * @param {object} bargainData - The data for the new bargain.
+ * @param {string} bargainData.code - The code of the bargain.
+ * @param {string} bargainData.title - The title of the bargain.
+ * @param {string} bargainData.description - The description of the bargain.
+ * @returns {Promise<void>} A promise that resolves when the bargain is created.
+ */
+export async function createBargain(bargainData: { code: string; title: string; description: string }): Promise<void> {
+    Logger.startFunction(CONTEXT, "createBargain");
     const { code, title, description } = bargainData;
 
     try {
         const client = await sql.connect();
-
         await client.query(
             'INSERT INTO bargain (code, title, description) VALUES ($1, $2, $3)',
             [code, title, description]
         );
-        Logger.endFunction(CONTEXT, "createBargain", bargainData)
+        Logger.endFunction(CONTEXT, "createBargain", bargainData);
     } catch (error) {
-        Logger.errorFunction(CONTEXT, "createBargain", error)
+        Logger.errorFunction(CONTEXT, "createBargain", error);
         throw new Error('Could not create bargain');
     }
 }
 
+/**
+ * Handles the update of a bargain via a form submission.
+ *
+ * @param {FormData} formData - The form data containing updated bargain details.
+ */
 export async function actionUpdateBargain(formData: FormData) {
-    Logger.startFunction(CONTEXT, "actionUpdateBargain")
-    const id = parseString(formData.get(bargainIdName)?.toString(), "BARGAIN_CODE")
-    const newBargain = parseBargainForm(formData)
-    const updatedBargain = { id: id, ...newBargain}
+    Logger.startFunction(CONTEXT, "actionUpdateBargain");
+    const id = parseString(formData.get(bargainIdName)?.toString(), "BARGAIN_CODE");
+    const newBargain = parseBargainForm(formData);
+    const updatedBargain = { id, ...newBargain };
 
     updateBargain(updatedBargain)
         .then(() => Logger.endFunction(CONTEXT, "actionUpdateBargain", "void"))
         .catch(error => Logger.errorFunction(CONTEXT, "actionUpdateBargain", error));
 
-    redirect(`/admin/bargains/${id}`)
+    redirect(`/admin/bargains/${id}`);
 }
 
-export async function updateBargain(bargainData: any): Promise<void> {
-    Logger.startFunction(CONTEXT, "updateBargain")
+/**
+ * Updates an existing bargain in the database.
+ *
+ * @param {object} bargainData - The updated bargain data.
+ * @param {string} bargainData.id - The ID of the bargain.
+ * @param {string} bargainData.code - The updated code of the bargain.
+ * @param {string} bargainData.title - The updated title of the bargain.
+ * @param {string} bargainData.description - The updated description of the bargain.
+ * @returns {Promise<void>} A promise that resolves when the update is successful.
+ */
+export async function updateBargain(bargainData: { id: string; code: string; title: string; description: string }): Promise<void> {
+    Logger.startFunction(CONTEXT, "updateBargain");
     const { id, code, title, description } = bargainData;
 
     try {
         const client = await sql.connect();
-
         await client.query(
             'UPDATE bargain SET code = $1, title = $2, description = $3 WHERE id = $4',
             [code, title, description, id]
         );
-        Logger.endFunction(CONTEXT, "updateBargain", bargainData)
+        Logger.endFunction(CONTEXT, "updateBargain", bargainData);
     } catch (error) {
-        Logger.errorFunction(CONTEXT, "updateBargain", error)
+        Logger.errorFunction(CONTEXT, "updateBargain", error);
         throw new Error('Could not update bargain');
     }
 }
 
+/**
+ * Handles the deletion of a bargain.
+ *
+ * @param {string | undefined | null} bargainCode - The code of the bargain to delete.
+ */
 export async function actionDeleteBargain(bargainCode: string | undefined | null) {
-    Logger.startFunction(CONTEXT, "actionDeleteBargain")
+    Logger.startFunction(CONTEXT, "actionDeleteBargain");
     const code = parseString(bargainCode, "BARGAIN_CODE");
 
-    deleteBargain(code)
+    deleteBargain(code);
 
-    Logger.endFunction(CONTEXT, "actionDeleteBargain", "void")
+    Logger.endFunction(CONTEXT, "actionDeleteBargain", "void");
 }
 
-export async function deleteBargain(id: any): Promise<void> {
-    Logger.startFunction(CONTEXT, "deleteBargain")
+/**
+ * Deletes a bargain from the database.
+ *
+ * @param {string} id - The ID of the bargain to delete.
+ * @returns {Promise<void>} A promise that resolves when the bargain is deleted.
+ */
+export async function deleteBargain(id: string): Promise<void> {
+    Logger.startFunction(CONTEXT, "deleteBargain");
 
     try {
         const client = await sql.connect();
-
         const result = await client.query(
             'DELETE FROM bargain WHERE id = $1',
             [id]
@@ -126,17 +174,17 @@ export async function deleteBargain(id: any): Promise<void> {
             Logger.endFunction(
                 CONTEXT, 
                 "deleteBargain", 
-                `Bargain with code: ${id} has been removed from the bargain.`
-            )
+                `Bargain with ID: ${id} has been removed from the database.`
+            );
         } else {
             Logger.errorFunction(
                 CONTEXT, 
                 "deleteBargain", 
-                `Failed to remove bargain with code: ${id} from the bargain. Bargain not found.`
-            )
+                `Failed to remove bargain with ID: ${id}. Bargain not found.`
+            );
         }
     } catch (error) {
-        Logger.errorFunction(CONTEXT, "deleteBargain", error)
+        Logger.errorFunction(CONTEXT, "deleteBargain", error);
         throw new Error('Could not delete bargain');
     }
 }

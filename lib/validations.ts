@@ -18,6 +18,17 @@ function checkIfNotEmpty(formData: FormData, field: string, message: string){
     }
 }
 
+function checkIfValidBargainCode(formData: FormData){
+    const code = formData.get(bargainCodeName)?.toString()
+    console.log(code?.length)
+    const MIN_SIZE = 4
+    const MAX_SIZE = 6
+
+    if (!code || code.length < MIN_SIZE || MAX_SIZE < code.length){
+        errorMessagesList.push("Código Inválido.")
+    }
+}
+
 export function validateAddShoppingCart(formData: FormData){
     clearErrorMessagesList()
     checkIfNotEmpty(formData, earSideName, "No se ha seleccionado ningún lado del audífono.")
@@ -47,6 +58,15 @@ export function validateFormBargain(formData: FormData){
     checkIfNotEmpty(formData, bargainCodeName, "No se ha introducido ningún código.")
     checkIfNotEmpty(formData, bargainTitleName, "No se ha introducido ningún título.")
     checkIfNotEmpty(formData, bargainDescriptionName, "No se ha introducido ninguna descripción.")
+
+    return checkErrorMessagesList()
+}
+
+export function validateBargainInput(formData: FormData){
+    clearErrorMessagesList()
+
+    checkIfNotEmpty(formData, bargainCodeName, "No se ha introducido ningún código.")
+    checkIfValidBargainCode(formData)
 
     return checkErrorMessagesList()
 }

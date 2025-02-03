@@ -9,80 +9,114 @@ import {
 } from "../../tailwindClasses";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
 import { BargainEntity } from "@/app/model/entities/Bargain";
+import { validateBargainInput } from "@/lib/validations";
+import { useState } from "react";
+import FormValidationPopUp from "../popUps/formValidationPopUp";
+import { getBargain } from "@/db/bargain";
+import { bargainCodeName } from "@/app/model/JSONnames";
+import toast from "react-hot-toast";
 
+/**
+ * Props for the `BargainInput` component.
+ */
 interface BargainInputProps {
-  bargain: BargainEntity | null,
-  setBargain: (bargain: BargainEntity | null) => void
+  /** The currently applied bargain, if any. */
+  bargain: BargainEntity | null;
+  /** Function to update the applied bargain. */
+  setBargain: (bargain: BargainEntity | null) => void;
 }
 
-export default function BargainInput({ bargain, setBargain}: BargainInputProps) {
-  
-  const formAction = (formData: FormData) => {
-    //TODO Validate Bargain
-    //TODO Get Bargain
-    setBargain({ id: "", code: formData.get("code")!.toString(), title: "", description: ""})
-  }
-  
+/**
+ * A component that allows users to input and apply a promotional bargain code.
+ *
+ * @param {BargainInputProps} props - The props for the `BargainInput` component.
+ * @returns {JSX.Element} The `BargainInput` component.
+ */
+export default function BargainInput({
+  bargain,
+  setBargain,
+}: BargainInputProps): JSX.Element {
+  const [showModal, setShowModal] = useState(false);
+
+  /**
+   * Toggles the modal visibility.
+   */
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
+
+  /**
+   * Handles form submission, validates input, and applies a promotional code.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e - The form event.
+   */
+  const formAction = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const isValid = validateBargainInput(formData);
+
+    if (isValid) {
+      getBargain(formData.get(bargainCodeName)?.toString())
+        .then((data) => {
+          toast.success("Código aplicado.");
+          return data;
+        })
+        .catch((_) => toast.error("No existe el código."));
+    } else {
+      handleShowModal();
+    }
+  };
+
   return (
     <>
       {bargain ? (
         <section>
-          {/* Label */}
-          <label
-            className="bg-transparent max-w-fit
-            font-extrabold text-lg cursor-pointer "
-          >
+          <label className="bg-transparent max-w-fit font-extrabold text-lg cursor-pointer">
             Código promocional
           </label>
-          <article className="font-semibold">Código <span className="font-extrabold text-lg">{bargain.code}</span> está aplicado</article>
+          <article className="font-semibold">
+            Código{" "}
+            <span className="font-extrabold text-lg">{bargain.code}</span> está
+            aplicado
+          </article>
           <div className="self-center">
-        <button
-          type="button"
-          onClick={() => setBargain(null)}
-          className={`hover:underline`}
-        >
-          Quitar opción
-        </button>
-      </div>
-        </section> 
+            <button
+              type="button"
+              onClick={() => setBargain(null)}
+              className="hover:underline"
+            >
+              Quitar opción
+            </button>
+          </div>
+        </section>
       ) : (
-        <form className="flex flex-col w-fit gap-2" action={formAction}>
-          {/* Label */}
-          <label
-            className="bg-transparent max-w-fit
-            font-extrabold text-lg cursor-pointer "
-          >
+        <form className="flex flex-col w-fit gap-2" onSubmit={formAction}>
+          <label className="bg-transparent max-w-fit font-extrabold text-lg cursor-pointer">
             Código promocional
           </label>
-          {/* Action */}
           <section className="flex flex-row gap-3">
-            {/* Input */}
             <article
               className={`flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
-              h-12 w-fit font-semibold
-              ${fillDefaultComponentBackground} 
-              ${componentText}
-              ${componentBorder} rounded-2xl`}
+              h-12 w-fit font-semibold ${fillDefaultComponentBackground} 
+              ${componentText} ${componentBorder} rounded-2xl`}
             >
-              <div className="flex items-center align-bottom bg-transparent ">
+              <div className="flex items-center align-bottom bg-transparent">
                 <FontAwesomeIcon icon={faTag} className="size-5" />
               </div>
               <input
                 type="text"
                 name="code"
                 className="w-20 sm:w-fit h-full text-base font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
-                placeholder={"Código"}
+                placeholder="Código"
                 autoComplete="off"
-                step="any"
-                readOnly={false}
+                required
               />
             </article>
-            {/* Submit */}
             <button
               type="submit"
               className={`w-fit p-3 h-12 flex flex-row place-self-center md:place-self-start justify-center rounded 
-                      ${negativeComponentBackground} ${negativeHoverComponentBackground}
-                      ${negativeComponentText}`}
+                      ${negativeComponentBackground} ${negativeHoverComponentBackground} ${negativeComponentText}`}
             >
               <div className="flex flex-row place-self-center gap-3">
                 <span className="text-base font-black">Aplicar</span>
@@ -91,6 +125,9 @@ export default function BargainInput({ bargain, setBargain}: BargainInputProps) 
           </section>
         </form>
       )}
+      <article className="flex flex-center shrink-0 justify-center h-full">
+        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
+      </article>
     </>
   );
 }
