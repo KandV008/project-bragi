@@ -1,8 +1,8 @@
 import { ProductEntity } from "../Product";
 
-const VISIBLE_VALUE = "Visible"
-const DISCREET_VALUE = "Discreto"
-const IMPERCEPTIBLE_VALUE = "Imperceptible"
+const VISIBLE_VALUE = "Visible" // BTE
+const DISCREET_VALUE = "Discreto" // RIC
+const IMPERCEPTIBLE_VALUE = "Imperceptible" // El resto
 const VISIBLE_NAME = "VISIBLE"
 const DISCREET_NAME = "DISCREET"
 const IMPERCEPTIBLE_NAME = "IMPERCEPTIBLE"

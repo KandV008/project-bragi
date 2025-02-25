@@ -1,8 +1,8 @@
 import { ProductEntity } from "../Product";
 
-const MILD_VALUE = "Leve"
+const MILD_VALUE = "Leve" // Leve -> Severo
 const MODERATE_VALUE = "Moderada"
-const SEVERE_VALUE = "Severa"
+const SEVERE_VALUE = "Severa" // Severo -> Profundo
 const PROFOUND_VALUE = "Profunda"
 const MILD_NAME = "MILD"
 const MODERATE_NAME = "MODERATE"

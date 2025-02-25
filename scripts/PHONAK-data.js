@@ -19,13 +19,13 @@ const phonakProducts = [
   { // Audéo Sphere Infinio 90 R
     name: "Audéo Sphere Infinio 90 R",
     category: "EARPHONE",
-    price: [3076.50, 4395.00],
+    price: [3076.50, 4395.00], // Un solo precio, aplicar 70%
     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at
       facilisis ligula. Nulla facilisi. Suspendisse potenti. Nulla facilisi.
       Fusce nec ipsum at velit elementum elementum ut quis est. Duis sed
       placerat odio. Donec eu nunc arcu. Phasellus suscipit, dui vel gravida
       tincidunt, eros sapien sollicitudin lacus, a condimentum sapien tortor
-      vitae eros.`,
+      vitae eros.`, // 2 o 3 líneas
     colors: [
       {
         color: "P1",
@@ -52,13 +52,13 @@ const phonakProducts = [
         ],
       },
     ],
-    include: ["Batería Recargable", "Cargador no incluido"],
-    adaptation_range: "MILD",
-    dust_water_resistance: false,
+    include: ["Batería Recargable", "Cargador incluido", "GPS"],
+    adaptation_range: ["MILD", "MODERATE", "SEVERE"], // Rango de valores (2 opciones)
+    dust_water_resistance: true,
     brand: "PHONAK",
     location: "RETROAURICULAR",
     level_of_discretion: "VISIBLE",
-    degree_of_loss: "MILD",
+    degree_of_loss: ["MILD", "MODERATE", "SEVERE"],
     uses: ["CHAT", "IN_GROUP", "LEISURE", "TELEPHONE", "TV"],
   },
   { // Audéo Sphere Infinio 70 R
@@ -97,13 +97,12 @@ const phonakProducts = [
         ],
       },
     ],
-    include: ["Batería Recargable", "Cargador no incluido"],
-    adaptation_range: "MILD",
-    dust_water_resistance: false,
+    include: ["Batería Recargable", "Cargador incluido", "GPS"],
+    adaptation_range: ["MILD", "MODERATE", "SEVERE"], // Rango de valores
+    dust_water_resistance: true,
     brand: "PHONAK",
     location: "RETROAURICULAR",
-    level_of_discretion: "VISIBLE",
-    degree_of_loss: "MILD",
+    degree_of_loss: ["MILD", "MODERATE", "SEVERE"],
     uses: ["CHAT", "IN_GROUP", "LEISURE", "TELEPHONE", "TV"],
   },
   { // Audéo Infinio 90 R
@@ -142,13 +141,13 @@ const phonakProducts = [
         ],
       },
     ],
-    include: ["Batería Recargable", "Cargador no incluido"],
-    adaptation_range: "MILD",
-    dust_water_resistance: false,
+    include: ["Batería Recargable", "Cargador incluido", "GPS"],
+    adaptation_range: ["MILD", "MODERATE", "SEVERE"], // Rango de valores
+    dust_water_resistance: true,
     brand: "PHONAK",
     location: "RETROAURICULAR",
     level_of_discretion: "VISIBLE",
-    degree_of_loss: "MILD",
+    degree_of_loss: ["MILD", "MODERATE", "SEVERE"],
     uses: ["CHAT", "IN_GROUP", "LEISURE", "TELEPHONE", "TV"],
   },
   { // Audéo Infinio 70 R
@@ -187,19 +186,19 @@ const phonakProducts = [
         ],
       },
     ],
-    include: ["Batería Recargable", "Cargador no incluido"],
+    include: ["Batería Recargable", "Cargador incluido", "GPS"],
     adaptation_range: "MILD",
-    dust_water_resistance: false,
+    dust_water_resistance: true,
     brand: "PHONAK",
     location: "RETROAURICULAR",
     level_of_discretion: "VISIBLE",
-    degree_of_loss: "MILD",
+    degree_of_loss: ["MILD", "MODERATE", "SEVERE"],
     uses: ["CHAT", "IN_GROUP", "LEISURE", "TELEPHONE", "TV"],
   },
   { // CROS Infinio R
     name: "CROS Infinio R",
     category: "EARPHONE",
-    price: [1234.56, 2345,67], // TODO
+    price: [1234.56, 2345,67], // TODO -> Solo puedes comprar 1 audífono (su función y esa cosa)
     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at
       facilisis ligula. Nulla facilisi. Suspendisse potenti. Nulla facilisi.
       Fusce nec ipsum at velit elementum elementum ut quis est. Duis sed
@@ -232,13 +231,13 @@ const phonakProducts = [
         ],
       },
     ],
-    include: ["Batería Recargable", "Cargador no incluido"],
-    adaptation_range: "MILD",
-    dust_water_resistance: false,
+    include: ["Batería Recargable", "Cargador incluido"],
+    adaptation_range: ["COFOSIS"], // COFOSIS -> Oído muerto
+    dust_water_resistance: true,
     brand: "PHONAK",
-    location: "RETROAURICULAR",
+    location: "RETROAURICULAR", // Todos los CROS son Retroauricular
     level_of_discretion: "VISIBLE",
-    degree_of_loss: "MILD",
+    degree_of_loss: ["COFOSIS"], // COFOSIS -> Oído muerto
     uses: ["CHAT", "IN_GROUP", "LEISURE", "TELEPHONE", "TV"],
   },
   /* --- LUMITY --- */
@@ -272,8 +271,8 @@ const phonakProducts = [
         ],
       },
     ],
-    include: ["Batería Recargable", "Cargador no incluido"],
-    adaptation_range: "MILD",
+    include: ["Batería Recargable", "Cargador incluido", ""],
+    adaptation_range: ["MILD"],
     dust_water_resistance: false,
     brand: "PHONAK",
     location: ["RIC", "RETROAURICULAR"],
@@ -5024,8 +5023,8 @@ const phonakAccessories = [
       Fusce nec ipsum at velit elementum elementum ut quis est. Duis sed
       placerat odio. Donec eu nunc arcu. Phasellus suscipit, dui vel gravida
       tincidunt, eros sapien sollicitudin lacus, a condimentum sapien tortor
-      vitae eros.`,
-    include: ["Cargador de X longitud", "Puerto C"],
+      vitae eros.`, // Va a ser para que sirve
+    include: ["Cargador de X longitud", "Puerto C", "Acumulador de Batería"],
     brand: "PHONAK",
     relatedProduct: "Audéo Sphere Infinio"
   },
@@ -5039,12 +5038,12 @@ const phonakAccessories = [
       placerat odio. Donec eu nunc arcu. Phasellus suscipit, dui vel gravida
       tincidunt, eros sapien sollicitudin lacus, a condimentum sapien tortor
       vitae eros.`,
-    include: ["Cargador de X longitud", "Puerto C"],
-    brand: "PHONAK",
+      include: ["Cargador de X longitud", "Puerto C", "Acumulador de Batería"],
+      brand: "PHONAK",
     relatedProduct: "Audéo Infinio"
   },
-  { // ChargerGo RIC Infinio
-    name: "ChargerGo RIC Infinio",
+  { // Charger RIC Infinio
+    name: "Charger RIC Infinio",
     category: "ACCESSORY",
     price: [1234.50], // TODO
     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at
@@ -5055,7 +5054,7 @@ const phonakAccessories = [
       vitae eros.`,
     include: ["Cargador de X longitud", "Puerto C"],
     brand: "PHONAK",
-    relatedProduct: "Infinio"
+    relatedProduct: "Audéo Infinio"
   },
   /* --- LUMITY --- */
   { // Charger Easy
@@ -5070,7 +5069,7 @@ const phonakAccessories = [
       vitae eros.`,
     include: ["Cargador de X longitud", "Puerto C"],
     brand: "PHONAK",
-    relatedProduct: "Lumity"
+    relatedProduct: "Lumity Base" 
   },
   { // Life Charger
     name: "Life Charger",
@@ -5084,7 +5083,7 @@ const phonakAccessories = [
       vitae eros.`,
     include: ["Cargador de X longitud", "Puerto C"],
     brand: "PHONAK",
-    relatedProduct: "Lumity"
+    relatedProduct: "Lumity Base"
   },
   { // Charger Case Go (Life)
     name: "Charger Case Go (Life)",
@@ -5096,23 +5095,9 @@ const phonakAccessories = [
       placerat odio. Donec eu nunc arcu. Phasellus suscipit, dui vel gravida
       tincidunt, eros sapien sollicitudin lacus, a condimentum sapien tortor
       vitae eros.`,
-    include: ["Cargador de X longitud", "Puerto C"],
+    include: ["Cargador de X longitud", "Puerto C", "Acumulador de Bateria"],
     brand: "PHONAK",
-    relatedProduct: "Lumity"
-  },
-  { // Charger Case Go (Life)
-    name: "Charger Case Go (Life)",
-    category: "ACCESSORY",
-    price: [1234.50], // TODO
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at
-      facilisis ligula. Nulla facilisi. Suspendisse potenti. Nulla facilisi.
-      Fusce nec ipsum at velit elementum elementum ut quis est. Duis sed
-      placerat odio. Donec eu nunc arcu. Phasellus suscipit, dui vel gravida
-      tincidunt, eros sapien sollicitudin lacus, a condimentum sapien tortor
-      vitae eros.`,
-    include: ["Cargador de X longitud", "Puerto C"],
-    brand: "PHONAK",
-    relatedProduct: "Lumity"
+    relatedProduct: "Lumity RL"
   },
   { // Charger Slim
     name: "Charger Slim",
