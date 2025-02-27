@@ -1,4 +1,4 @@
-import { ProductEntity } from "../Product";
+import { ProductEntity } from "../product/Product"
 
 const MILD_VALUE = "Leve"
 const MODERATE_VALUE = "Moderada"

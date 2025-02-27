@@ -1,5 +1,5 @@
 import { colorList } from "@/app/model/entities/enums/Color";
-import { usesList } from "@/app/model/entities/enums/Uses";
+import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { adaptationRangeName, brandName, categoryNameParam, colorName, degreeOfLossName, productDescriptionName, earLocationName, earSideName, guaranteeName, imageURLName, levelOfDiscretionName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName } from "@/app/model/JSONnames";
 
 export function parseString(value: string | null | undefined, attribute: string) {

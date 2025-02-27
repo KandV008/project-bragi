@@ -1,4 +1,4 @@
-import { ProductEntity } from "../Product";
+import { ProductEntity } from "../product/Product"
 
 const RETROAURICULAR_VALUE = "Retroauricular - detrás de la oreja"
 const INTRACANAL_VALUE = "Intracanal - dentro del canal auditivo"

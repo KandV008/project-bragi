@@ -1,4 +1,4 @@
-import { ProductEntity } from "../Product";
+import { ProductEntity } from "../product/Product"
 
 const VISIBLE_VALUE = "Visible" // BTE
 const DISCREET_VALUE = "Discreto" // RIC
