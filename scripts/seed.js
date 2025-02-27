@@ -1,7 +1,7 @@
 require("dotenv").config({ path: ".env.local" });
 
 const { MongoClient, ServerApiVersion } = require("mongodb"); // Use require instead of import
-const { docs } = require("./data"); // Require docs from data.js
+const { phonakProducts, phonakAccessories } = require("./PHONAK-data"); // Require docs from data.js
 const { db } = require("@vercel/postgres");
 
 const USERNAME = process.env.USER;
@@ -27,10 +27,16 @@ async function setMongoDB() {
     const coll = db.collection("products");
 
     // insert code goes here
-    const result = await coll.insertMany(docs);
+    const earphonesResult = await coll.insertMany(phonakProducts);
 
     // display the results of your operation
-    console.log(result.insertedIds);
+    console.log(earphonesResult.insertedIds);
+
+    // insert code goes here
+    const accessoriesResult = await coll.insertMany(phonakAccessories);
+
+    // display the results of your operation
+    console.log(accessoriesResult.insertedIds);
 
     console.log("Database seeded. You successfully connected to MongoDB!");
   } catch (error) {
@@ -75,29 +81,29 @@ async function createShoppingListTable(client) {
 
 async function addBargains(client) {
   await client.sql`
-  INSERT INTO bargain (code, title, description)
-  VALUES ('3POR2', '3x2 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-`;
+    INSERT INTO bargain (code, title, description)
+    VALUES ('3POR2', '3x2 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
+  `;
 
   await client.sql`
-INSERT INTO bargain (code, title, description)
-VALUES ('4POR3', '4x3 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-`;
+    INSERT INTO bargain (code, title, description)
+    VALUES ('4POR3', '4x3 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
+  `;
 
   await client.sql`
-INSERT INTO bargain (code, title, description)
-VALUES ('5POR4', '5x4 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-`;
+    INSERT INTO bargain (code, title, description)
+    VALUES ('5POR4', '5x4 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
+  `;
 
   await client.sql`
-INSERT INTO bargain (code, title, description)
-VALUES ('6POR5', '6x5 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-`;
+    INSERT INTO bargain (code, title, description)
+    VALUES ('6POR5', '6x5 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
+  `;
 
   await client.sql`
-INSERT INTO bargain (code, title, description)
-VALUES ('7POR6', '7x6 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-`;
+    INSERT INTO bargain (code, title, description)
+    VALUES ('7POR6', '7x6 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
+  `;
 }
 
 async function createBargainTable(client) {
@@ -118,24 +124,24 @@ async function createBargainTable(client) {
 
 async function addNovelties(client) {
   await client.sql`
-  INSERT INTO novelty (title, description, promotional_image)
-  VALUES ('Novedad 1', 'Esta novedad es muy chula', '/placeholder-carousel.avif');
-`;
+    INSERT INTO novelty (title, description, promotional_image)
+    VALUES ('Novedad 1', 'Esta novedad es muy chula', '/placeholder-carousel.avif');
+  `;
 
   await client.sql`
-INSERT INTO novelty (title, description, promotional_image)
-VALUES ('Novedad 2', 'Esta novedad es mucho más chula', '/placeholder-carousel.avif');
-`;
+    INSERT INTO novelty (title, description, promotional_image)
+    VALUES ('Novedad 2', 'Esta novedad es mucho más chula', '/placeholder-carousel.avif');
+  `;  
 
   await client.sql`
-INSERT INTO novelty (title, description, promotional_image)
-VALUES ('Novedad 3', 'Esta novedad no es muy chula', '/placeholder-carousel.avif');
-`;
+    INSERT INTO novelty (title, description, promotional_image)
+    VALUES ('Novedad 3', 'Esta novedad no es muy chula', '/placeholder-carousel.avif');
+  `;  
 
   await client.sql`
-INSERT INTO novelty (title, description, promotional_image)
-VALUES ('Novedad 4', 'Esta novedad no es mucho más chula', '/placeholder-carousel.avif');
-`;
+    INSERT INTO novelty (title, description, promotional_image)
+    VALUES ('Novedad 4', 'Esta novedad no es mucho más chula', '/placeholder-carousel.avif');
+  `;
 }
 
 async function createNoveltyTable(client) {
@@ -150,8 +156,8 @@ async function createNoveltyTable(client) {
 
   console.log(`Created "novelty" table`);
 
-  //addNovelties(client);
-  //console.log("Inserted row into 'novelty' table");
+  addNovelties(client);
+  console.log("Inserted row into 'novelty' table");
 }
 
 async function setPostgresSQL() {
@@ -175,7 +181,7 @@ async function setPostgresSQL() {
 async function dropTables() {
   try {
     const client = await db.connect();
-    /*
+
     // Drop the "favourites" table
     await client.sql`
       DROP TABLE IF EXISTS favourites;
@@ -187,19 +193,18 @@ async function dropTables() {
       DROP TABLE IF EXISTS shoppingList;
     `;
     console.log(`Dropped "shoppingList" table`);
-    */
+
     // Drop the "bargain" table
     await client.sql`
       DROP TABLE IF EXISTS bargain;
     `;
     console.log(`Dropped "bargain" table`);
-    /*
+
     // Drop the "novelty" table
     await client.sql`
       DROP TABLE IF EXISTS novelty;
     `;
     console.log(`Dropped "novelty" table`);
-    */
   } catch (error) {
     console.error("Error dropping tables:", error);
   }
