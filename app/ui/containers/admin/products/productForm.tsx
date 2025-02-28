@@ -4,8 +4,8 @@ import {
   adaptationRangeList,
   valueOfAdaptationRange,
 } from "@/app/model/entities/enums/AdaptionRange";
-import { Brand } from "@/app/model/entities/enums/Brand";
-import { Category } from "@/app/model/entities/enums/Category";
+import { Brand } from "@/app/model/entities/product/enums/Brand";
+import { Category } from "@/app/model/entities/product/enums/Category";
 import {
   degreeOfLossList,
   valueOfDegreeOfLoss,
@@ -18,8 +18,7 @@ import {
   levelOfDiscretionList,
   valueOfLevelOfDiscretion,
 } from "@/app/model/entities/enums/LevelOfDiscretion";
-import { usesList, valueOfUses } from "@/app/model/entities/enums/Uses";
-import { ProductEntity } from "@/app/model/entities/Product";
+import { usesList, valueOfUses } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import SubmitButton, {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton";
@@ -63,6 +62,7 @@ import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product";
 import { adaptationRangeName, brandName, categoryNameParam, colorName, degreeOfLossName, earLocationName, includeName, levelOfDiscretionName, nameName, priceName, productDescriptionName, productIdName, usesName, waterDustResistanceName } from "@/app/model/JSONnames";
+import { ProductEntity } from "@/app/model/entities/product/Product";
 
 interface FormProps {
   product?: ProductEntity;

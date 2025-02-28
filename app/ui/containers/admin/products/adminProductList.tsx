@@ -3,7 +3,7 @@
 import { ProductEntity } from "@/app/model/entities/Product";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import ProductContainer, { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer";
+import ProductContainer, { ProductContainerSkeleton } from "@/app/ui/components/products/product/productContainer";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";

@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import AmountButton from "../buttons/amountButton";
-import { componentBackground, componentText, componentBorder, shimmer } from "../../tailwindClasses";
 import { useState } from "react";
-import ConfirmationPopUp from "../popUps/confirmationPopUp";
 import { decrementProductInShoppingList, incrementProductInShoppingList } from "@/db/shoppingList";
+import AmountButton from "../../buttons/amountButton";
+import ConfirmationPopUp from "../../popUps/confirmationPopUp";
+import { componentBackground, componentText, componentBorder, shimmer } from "@/app/ui/tailwindClasses";
 
 interface ProductInformationProps {
   id: string;

@@ -2,7 +2,7 @@ import {
   checkAdaptationRangeType,
   valueOfAdaptationRange,
 } from "@/app/model/entities/enums/AdaptionRange";
-import { checkBrandType } from "@/app/model/entities/enums/Brand";
+import { checkBrandType } from "@/app/model/entities/product/enums/Brand";
 import {
   checkDegreeOfLossType,
   valueOfDegreeOfLoss,
@@ -15,7 +15,6 @@ import {
   checkLevelOfDiscretionType,
   valueOfLevelOfDiscretion,
 } from "@/app/model/entities/enums/LevelOfDiscretion";
-import { ProductEntity } from "@/app/model/entities/Product";
 import { ChangeEvent } from "react";
 import SectionHeader, {
   SectionHeaderSkeleton,
@@ -26,12 +25,13 @@ import RadioInputWithQuantity, {
 import {
   checkWaterAndDustResistanceType,
   valueOfWaterDustResistance,
-} from "@/app/model/entities/enums/WaterDustResistance";
+} from "@/app/model/entities/product/enums/earphoneAttributes/WaterDustResistance";
 import {
   componentBackground,
   componentText,
   shimmer,
 } from "../../tailwindClasses";
+import { ProductEntity } from "@/app/model/entities/product/Product";
 
 interface FilterProps {
   onChange: (filter: string) => void;

@@ -3,8 +3,8 @@ import SmallButton from "../ui/components/buttons/smallButton";
 import CarouselWithAction from "../ui/containers/main/carousel";
 import Certifications from "../ui/containers/main/certifications";
 import WorkingFlow from "../ui/containers/main/workingFlow";
-import SomeProductContainer from "../ui/components/products/someProductContainer";
 import { getLatestNoveltiesRoute } from "../api/routes";
+import SomeProductContainer from "../ui/components/products/someProductContainer";
 
 export default function Home() {
   return (

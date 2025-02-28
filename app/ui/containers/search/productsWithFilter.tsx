@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductContainer from "../../components/products/productContainer";
+import ProductContainer from "../../components/products/product/productContainer";
 import Filter from "./filter";
 import { ProductEntity } from "@/app/model/entities/Product";
 import Loading from "@/app/(view)/search/loading";

@@ -1,15 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "../../components/buttons/favoriteToggleButton";
+import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "../../buttons/favoriteToggleButton";
 import {
   componentBackground,
   componentBorder,
   componentText,
   shimmer,
-} from "../../tailwindClasses";
-import SeeMoreButton from "../buttons/seeMoreButton";
+} from "../../../tailwindClasses";
+import SeeMoreButton from "../../buttons/seeMoreButton";
 
+/**
+ * Props for the Product component
+ * @property {string} id - Unique identifier for the product.
+ * @property {string} image - Image URL of the product.
+ * @property {string} name - Name of the product.
+ * @property {string} brand - Brand of the product.
+ * @property {string} price - Price of the product in Euros.
+ * @property {boolean} isFavorite - Indicates whether the product is marked as a favorite.
+ * @property {boolean} [isPreview] - Determines if the component is in preview mode.
+ */
 interface ProductProps {
   id: string;
   image: string;
@@ -20,6 +30,10 @@ interface ProductProps {
   isPreview?: boolean;
 }
 
+/**
+ * Renders a product card with image, details, and action buttons.
+ * @param {ProductProps} props - The properties of the Product component.
+ */
 export default function Product({
   id,
   image,
@@ -74,6 +88,9 @@ export default function Product({
   );
 }
 
+/**
+ * Skeleton component for loading state of Product component.
+ */
 export function ProductSkeleton() {
   return (
     <div

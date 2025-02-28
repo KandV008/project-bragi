@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Loading from "./loading";
 import { ProductEntity } from "@/app/model/entities/Product";
 import Guarantee from "@/app/ui/containers/search/about/guarantee";
-import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
+import SomeProductContainer from "@/app/ui/components/products/product/someProductContainer";
 import ProductDetails from "@/app/ui/containers/search/about/productDetails";
 import ProductOptions from "@/app/ui/containers/search/about/productOptions";
 import { getProductRoute, getRelatedProductsRoute } from "@/app/api/routes";

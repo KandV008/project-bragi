@@ -4,7 +4,7 @@ import Loading from "@/app/(view)/profile/favorites/loading";
 import { getFavoritesRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/Product";
 import NoFavoritesMessage from "@/app/ui/components/messages/noFavoritesMessage";
-import ProductContainer from "@/app/ui/components/products/productContainer";
+import ProductContainer from "@/app/ui/components/products/product/productContainer";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import { useEffect, useState } from "react";
 

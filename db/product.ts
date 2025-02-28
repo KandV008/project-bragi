@@ -1,11 +1,11 @@
 'use server';
 
-import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/Product";
 import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
 import { redirect } from "next/navigation";
 import { deleteProductInShoppingList } from "./shoppingList";
 import { deleteProductInFavorites } from "./favorites";
 import { Logger } from "@/app/model/Logger";
+import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
 
 require("dotenv").config({ path: ".env.local" });
 

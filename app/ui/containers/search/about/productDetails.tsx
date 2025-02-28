@@ -1,5 +1,5 @@
 import { DegreeOfLoss } from "@/app/model/entities/enums/DegreeOfLoss";
-import { UseDefinition } from "@/app/model/entities/enums/Uses";
+import { UseDefinition } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import {

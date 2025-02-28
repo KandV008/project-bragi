@@ -2,21 +2,34 @@
 
 import { useState } from "react";
 import { useEffect } from "react";
-import SectionHeader from "../../components/tags/sectionHeader";
-import { ProductSkeleton } from "./product";
-import ProductContainer from "./productContainer";
-import EmptyMessage from "../messages/emptyMessage";
 import { shimmer } from "../../tailwindClasses";
+import EmptyMessage from "../messages/emptyMessage";
+import SectionHeader from "../tags/sectionHeader";
+import { ProductSkeleton } from "./product/product";
+import ProductContainer from "./productContainer";
 
+/**
+ * Props for the SomeProductContainer component.
+ * 
+ * @property {string} fetchUrl - The API endpoint to fetch product data.
+ * @property {string} title - The title to display above the product list.
+ */
 interface SomeProductContainerProps {
   fetchUrl: string;
   title: string;
 }
 
+/**
+ * Component that fetches and displays a list of products from a given API endpoint.
+ * Displays a loading skeleton while fetching data and an empty message if no data is found.
+ * 
+ * @param {SomeProductContainerProps} props - Component properties.
+ * @returns {JSX.Element}
+ */
 export default function SomeProductContainer({
   fetchUrl,
   title,
-}: SomeProductContainerProps) {
+}: SomeProductContainerProps): JSX.Element {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
@@ -41,10 +54,21 @@ export default function SomeProductContainer({
   );
 }
 
+/**
+ * Props for the SomeProductContainerSkeleton component.
+ * 
+ * @property {string} title - The title to display above the skeleton loader.
+ */
 interface SkeletonProps{
     title: string
 }
 
+/**
+ * Skeleton loader for the SomeProductContainer component, displaying placeholder product cards.
+ * 
+ * @param {SkeletonProps} props - Component properties.
+ * @returns {JSX.Element}
+ */
 export function SomeProductContainerSkeleton({ title }: SkeletonProps) {
   return (
     <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4`}>
