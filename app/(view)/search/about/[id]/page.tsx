@@ -3,12 +3,13 @@
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
-import { ProductEntity } from "@/app/model/entities/Product";
 import Guarantee from "@/app/ui/containers/search/about/guarantee";
-import SomeProductContainer from "@/app/ui/components/products/product/someProductContainer";
-import ProductDetails from "@/app/ui/containers/search/about/productDetails";
-import ProductOptions from "@/app/ui/containers/search/about/productOptions";
+import DisplayProductDetails from "@/app/ui/containers/search/about/displayProductDetails/displayProductDetails";
+import DisplayProductAttributes from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
 import { getProductRoute, getRelatedProductsRoute } from "@/app/api/routes";
+import { ProductEntity } from "@/app/model/entities/product/Product";
+import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
+import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 
 export default function Page() {
   const pathname = usePathname();
@@ -32,24 +33,23 @@ export default function Page() {
   if (isLoading) return <Loading />;
   if (!product) return <p>No product data</p>;
 
+  const isCofosis = product.earphoneAttributes?.earphoneShape === EarphoneShape.COFOSIS
+
   return (
     <div className="flex flex-col gap-3">
-      <ProductOptions
+      <DisplayProductAttributes
         id={product.id}
         name={product.name}
         price={product.price.toString()}
-        colors={product.colors}
+        imageURL={product.imageURL}
+        colors={product.earphoneAttributes ? product.earphoneAttributes.colors : null}
+        isCofosis={isCofosis}
         brand={product.brand}
         include={product.include}
       />
-      <ProductDetails
+      <DisplayProductDetails
         description={product.description}
-        adaptationRange={product.adaptationRange}
-        dustWaterResistance={product.waterDustResistance}
-        location={product.location}
-        levelOfDiscretion={product.levelOfDiscretion}
-        degreeOfLoss={product.degreeOfLoss}
-        uses={product.uses}
+        earphoneAttributes={product.earphoneAttributes}
       />
       <Guarantee />
       <SomeProductContainer

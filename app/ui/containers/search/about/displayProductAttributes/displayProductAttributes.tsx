@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { ProductColor } from "@/app/model/entities/Product";
 import FavoriteToggleButton, {
   FavoriteToggleButtonSkeleton,
 } from "@/app/ui/components/buttons/favoriteToggleButton";
@@ -34,37 +32,112 @@ import toast from "react-hot-toast";
 import BigImage, {
   BigImageSkeleton,
 } from "@/app/ui/components/images/bigImage";
-import SmallImage, {
-  SmallImageSkeleton,
-} from "@/app/ui/components/images/smallImage";
+import { SmallImageSkeleton } from "@/app/ui/components/images/smallImage";
 import Link from "next/link";
 import { addProductToShoppingList } from "@/db/shoppingList";
 import { checkFavoriteRoute } from "@/app/api/routes";
+import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
+import {
+  DISCOUNT_PER_UNIT,
+  GUARANTEE_VALUE,
+} from "@/app/model/entities/product/ProductConfiguration";
 
+/**
+ * Represents the properties of a product, used for displaying product details and options.
+ *
+ * @interface ProductOptionsProps
+ * @property {string} id - The unique identifier of the product.
+ * @property {string} name - The name of the product.
+ * @property {string} price - The price of the product in string format.
+ * @property {string} imageURL - The URL of the product image.
+ * @property {EarphoneColor[] | null} colors - A list of available colors for the product, or null if not applicable.
+ * @property {boolean} isCofosis - A flag indicating whether the product is designed for cofosis users.
+ * @property {string} brand - The brand name of the product.
+ * @property {string[]} include - A list of items included with the product.
+ */
 interface ProductOptionsProps {
   id: string;
   name: string;
   price: string;
-  colors: ProductColor[];
+  imageURL: string;
+  colors: EarphoneColor[] | null;
+  isCofosis: boolean;
   brand: string;
   include: string[];
 }
 
-export default function ProductOptions({
+/**
+ * Displays the attributes of a product, including its image, name, brand, price, and interactive options.
+ *
+ * @param {Object} props - The properties of the product.
+ * @param {string} props.id - The unique identifier of the product.
+ * @param {string} props.name - The name of the product.
+ * @param {string} props.price - The price of the product as a string.
+ * @param {string} props.imageURL - The URL of the product image.
+ * @param {Array} props.colors - Available colors for the product.
+ * @param {boolean} props.isCofosis - Indicates if the product is designed for cofosis users.
+ * @param {string} props.brand - The brand of the product.
+ * @param {Array<string>} props.include - List of items included with the product.
+ * @returns {JSX.Element} The JSX representation of the product attributes.
+ */
+export default function DisplayProductAttributes({
   id,
   name,
   price,
+  imageURL,
   colors,
+  isCofosis,
   brand,
   include,
 }: ProductOptionsProps) {
   const { user } = useUser();
 
+  const LEFT_SIDE = "left";
+  const RIGHT_SIDE = "right";
+  const BOTH_SIDE = "both";
+
+  const parsePrice = parseFloat(price);
+  const [currentPrice, setCurrentPrice] = useState(parsePrice);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [colorIndex, setColorIndex] = useState(0);
+
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
+
+  const [guarantee, setGuarantee] = useState(false);
+  const handleInsuranceButton = () => {
+    setGuarantee(!guarantee);
+  };
+  const guaranteeButtonClasses = guarantee
+    ? pressedButton
+    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
+
+  const [earSide, setEarSide] = useState("");
+  const [isOneSide, setIsOneSide] = useState(false);
+  const handleEarSideButtonClick = (buttonName: string) => {
+    setIsOneSide(buttonName === LEFT_SIDE || buttonName === RIGHT_SIDE);
+    updatePrice();
+    setEarSide(buttonName);
+  };
+  const getEarSideButtonClasses = (buttonName: string) => {
+    const baseClasses = "h-8 w-24 border-2 rounded font-bold";
+    return buttonName === earSide
+      ? `${baseClasses} ${pressedButton}`
+      : `${baseClasses} ${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
+  };
+
+  function updatePrice() {
+    // TODO Optimize the change
+    const guaranteePrice = Number(guarantee) * GUARANTEE_VALUE;
+
+    if (isOneSide && !isCofosis) {
+      setCurrentPrice(parsePrice * DISCOUNT_PER_UNIT + guaranteePrice);
+    } else {
+      setCurrentPrice(parsePrice + guaranteePrice);
+    }
+  }
 
   useEffect(() => {
     if (id && user) {
@@ -77,24 +150,7 @@ export default function ProductOptions({
     }
   }, [id, user]);
 
-  const [imgIndex, setImgIndex] = useState(0);
-  const [earSide, setEarSide] = useState("");
-  const handleEarSideButtonClick = (buttonName: string) => {
-    setEarSide(buttonName);
-  };
-
-  const getEarSideButtonClasses = (buttonName: string) => {
-    const baseClasses = "h-8 w-24 border-2 rounded font-bold";
-    return buttonName === earSide
-      ? `${baseClasses} ${pressedButton}`
-      : `${baseClasses} ${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
-  };
-
-  const [guarantee, setGuarantee] = useState(false);
-  const guaranteeButtonClasses = guarantee
-    ? pressedButton
-    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
-
+  /* Form Handler */
   const handleForm = (formData: FormData) => {
     const isValid = validateAddShoppingCart(formData);
     if (isValid) {
@@ -110,26 +166,11 @@ export default function ProductOptions({
         className={`flex flex-col md:flex-row rounded rounded-tr-3xl p-5
             ${componentBorder} ${componentBackground} ${componentText}`}
       >
-        {/* Product Images */}
+        {/* Product Image */}
         <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
           {/* Main Image */}
           <div className="place-self-center">
-            <BigImage src={colors[imgIndex].images[0]} alt={"img-" + 0} />
-          </div>
-          {/* Secondary Images */}
-          <div className="flex flex-row gap-2 justify-center">
-            {colors[imgIndex].images.map((image, index) => (
-              <div key={colors[imgIndex].color.name + "-img-" + index}>
-                {index === 0 ? (
-                  <></>
-                ) : (
-                  <SmallImage
-                    alt={colors[imgIndex].color.name + "-img-" + index}
-                    src={image}
-                  />
-                )}
-              </div>
-            ))}
+            <BigImage src={imageURL} alt={"img-" + id} />
           </div>
         </article>
         {/* Product Options */}
@@ -147,48 +188,57 @@ export default function ProductOptions({
           <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
           {/* Price */}
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold w-fit">
-            {price}€
+            {currentPrice}€
           </h1>
           <br className="hidden sm:block" />
           {/* Color Buttons */}
-          <div className="w-fit">
-            <ArticleHeader text={"Colores disponibles"} />
-            <ColorButton
-              colors={colors}
-              action={(index: number) => setImgIndex(index)}
-            />
-          </div>
+          {colors ? (
+            <div className="w-fit">
+              <ArticleHeader text={"Colores disponibles"} />
+              <ColorButton
+                colors={colors}
+                action={(index: number) => setColorIndex(index)}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
           {/* Hearing Aid Side Buttons */}
           <div className="w-fit">
             <ArticleHeader text={"Lado del Audífono"} />
             <div className="flex flex-row flex-wrap gap-3">
+              {/* RIGHT SIDE */}
               <button
-                className={getEarSideButtonClasses("right")}
-                onClick={() => handleEarSideButtonClick("right")}
+                className={getEarSideButtonClasses(RIGHT_SIDE)}
+                onClick={() => handleEarSideButtonClick(RIGHT_SIDE)}
               >
                 Derecho
               </button>
+              {/* LEFT SIDE */}
               <button
-                className={getEarSideButtonClasses("left")}
-                onClick={() => handleEarSideButtonClick("left")}
+                className={getEarSideButtonClasses(LEFT_SIDE)}
+                onClick={() => handleEarSideButtonClick(LEFT_SIDE)}
               >
                 Izquierdo
               </button>
-              <button
-                className={getEarSideButtonClasses("both")}
-                onClick={() => handleEarSideButtonClick("both")}
-              >
-                Ambos
-              </button>
+              {/* BOTH SIDE */}
+              {!isCofosis ? (
+                <button
+                  className={getEarSideButtonClasses(BOTH_SIDE)}
+                  onClick={() => handleEarSideButtonClick(BOTH_SIDE)}
+                >
+                  Ambos
+                </button>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           {/* Insurance Button */}
           <div className="w-fit">
             <ArticleHeader text={"Añadir seguro de 1 año al producto"} />
             <button
-              onClick={() => {
-                setGuarantee(!guarantee);
-              }}
+              onClick={() => handleInsuranceButton()}
               className={`h-8 w-24 border-2 rounded font-bold ${guaranteeButtonClasses}`}
             >
               Añadir
@@ -207,11 +257,22 @@ export default function ProductOptions({
           <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
             <form action={handleForm}>
               <input type="hidden" name="id" value={id} />
-              <input
-                type="hidden"
-                name="color"
-                value={colors[imgIndex].color.name}
-              />
+              {colors ? ( // TODO Update form to accept new color
+                <>
+                  <input
+                    type="hidden"
+                    name="color-name"
+                    value={colors[colorIndex].name}
+                  />
+                  <input
+                    type="hidden"
+                    name="color-hex"
+                    value={colors[colorIndex].hex}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
               <input type="hidden" name="earSide" value={earSide} />
               <input
                 type="hidden"
@@ -220,12 +281,8 @@ export default function ProductOptions({
               />
               <input type="hidden" name="name" value={name} />
               <input type="hidden" name="brand" value={brand} />
-              <input type="hidden" name="price" value={price} />
-              <input
-                type="hidden"
-                name="imageURL"
-                value={colors[imgIndex].images[0]}
-              />
+              <input type="hidden" name="price" value={currentPrice} />
+              <input type="hidden" name="imageURL" value={imageURL} />
               <SubmitButton
                 text={"Añadir a la cesta"}
                 icon={faCartShopping}
@@ -236,17 +293,23 @@ export default function ProductOptions({
               <FavoriteToggleButton productId={id} isActive={isFavorite} />
             </div>
           </section>
-          {!user ? (
-            <strong className="font-semibold">
-              *
-              <Link href={"/log-in"} className="hover:underline font-extrabold">
-                Inicia Sesión o Regístrate
-              </Link>{" "}
-              para poder añadirlo a la cesta.
-            </strong>
-          ) : (
-            <></>
-          )}
+          {/* Unregistered Advice */}
+          <>
+            {!user ? (
+              <strong className="font-semibold">
+                *
+                <Link
+                  href={"/log-in"}
+                  className="hover:underline font-extrabold"
+                >
+                  Inicia Sesión o Regístrate
+                </Link>{" "}
+                para poder añadirlo a la cesta.
+              </strong>
+            ) : (
+              <></>
+            )}
+          </>
         </article>
       </div>
       <article className="flex flex-center shrink-0 justify-center h-full">
@@ -256,6 +319,13 @@ export default function ProductOptions({
   );
 }
 
+/**
+ * Skeleton loader component for the product options. It displays a placeholder for the product's 
+ * image, name, brand, price, options (such as colors and ear side), insurance button, and 
+ * included items while the actual content is loading.
+ * 
+ * @returns {JSX.Element} A skeleton structure representing the layout of product options.
+ */
 export function ProductOptionsSkeleton() {
   return (
     <div

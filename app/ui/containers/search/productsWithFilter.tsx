@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductContainer from "../../components/products/product/productContainer";
 import Filter from "./filter";
-import { ProductEntity } from "@/app/model/entities/Product";
 import Loading from "@/app/(view)/search/loading";
 import Spinner from "../../components/common/spinner";
 import EmptyMessage from "../../components/messages/emptyMessage";
@@ -11,6 +9,8 @@ import {
   componentText,
   componentBorder,
 } from "../../tailwindClasses";
+import { ProductEntity } from "@/app/model/entities/product/Product";
+import ProductContainer from "../../components/products/productContainer";
 
 interface ProductsWithFilterProps {
   fetchURL: string;

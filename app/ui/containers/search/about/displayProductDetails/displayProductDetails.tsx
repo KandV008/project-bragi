@@ -1,5 +1,5 @@
-import { DegreeOfLoss } from "@/app/model/entities/enums/DegreeOfLoss";
-import { UseDefinition } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
+import { EarphoneAttributes } from "@/app/model/entities/product/EarphoneAttributes";
+import { EarphoneShapeDetails } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 import {
@@ -10,25 +10,33 @@ import {
 } from "@/app/ui/tailwindClasses";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/**
+ * Interface for product details props.
+ * 
+ * @interface ProductDetailsProps
+ * @property {string} description - The product description.
+ * @property {EarphoneAttributes | null} earphoneAttributes - Optional earphone attributes.
+ */
 interface ProductDetailsProps {
   description: string;
-  adaptationRange: string;
-  dustWaterResistance: boolean;
-  location: string;
-  levelOfDiscretion: string;
-  degreeOfLoss: DegreeOfLoss;
-  uses: UseDefinition[];
+  earphoneAttributes: EarphoneAttributes | null;
 }
 
-export default function ProductDetails({
+/**
+ * This component renders product details including a description and earphone attributes.
+ * If earphone attributes are provided, it displays various characteristics like location,
+ * level of discretion, adaptation range, degree of loss, water and dust resistance, and usage.
+ *
+ * @component
+ * @param {string} description - The product description.
+ * @param {Object} [props.earphoneAttributes] - Optional earphone attributes.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ */
+export default function DisplayProductDetails({
   description,
-  adaptationRange,
-  dustWaterResistance,
-  location,
-  levelOfDiscretion,
-  degreeOfLoss,
-  uses,
-}: ProductDetailsProps) {
+  earphoneAttributes,
+}: ProductDetailsProps): JSX.Element {
   return (
     <div
       className={`flex flex-col-reverse md:flex-row rounded gap-5 p-5
@@ -39,46 +47,57 @@ export default function ProductDetails({
         <SectionHeader text={"Descripción"} />
         <Article label={""} value={description} />
       </article>
-      {/* Product Attributes */}
-      <article className="flex flex-col md:w-1/2 gap-2">
-        <SectionHeader text={"Características"} />
-        {/* Ear Location */}
-        <Article label={"Ubicación"} value={location} />
-        {/* Adaptation Range */}
-        <Article label={"Rango de Adaptación"} value={adaptationRange} />
-        {/* Degree of Loss */}
-        <Article label={"Grado de pérdida"} value={degreeOfLoss} />
-        {/* Level of Discretion */}
-        <Article label={"Nivel de Discreción"} value={levelOfDiscretion} />
-        {/* Dust and Water Resistance */}
-        <Article
-          label={"Resistente al Polvo y al Agua"}
-          value={dustWaterResistance ? "Sí" : "No"}
-        />
-        {/* Uses of the product */}
-        <div>
-          <Article label={"Usos"} value={""} />
-          <div className="flex flex-row flex-wrap gap-5">
-            {uses.map((use, index) => (
-              <div
-                key={"uses-" + index}
-                className="flex flex-col items-center"
-              >
+      {/* Earphone Attributes */}
+      {earphoneAttributes ? (
+        <article className="flex flex-col md:w-1/2 gap-2">
+          <SectionHeader text={"Características"} />
+          {/* Ear Location */}
+          <Article label={"Ubicación"} value={EarphoneShapeDetails[earphoneAttributes?.earphoneShape].location} />
+          {/* Level of Discretion */}
+          <Article label={"Nivel de Discreción"} value={EarphoneShapeDetails[earphoneAttributes?.earphoneShape].level_of_discretion} />
+          {/* Adaptation Range */}
+          <Article label={"Rango de Adaptación"} value={earphoneAttributes.adaptationRange} />
+          {/* Degree of Loss */}
+          <Article label={"Grado de pérdida"} value={earphoneAttributes.degreeOfLoss} />
+          {/* Dust and Water Resistance */}
+          <Article
+            label={"Resistente al Polvo y al Agua"}
+            value={earphoneAttributes.waterDustResistance ? "Sí" : "No"}
+          />
+          {/* Uses of the product */}
+          <div>
+            <Article label={"Usos"} value={""} />
+            <div className="flex flex-row flex-wrap gap-5">
+              {earphoneAttributes.uses.map((use, index) => (
                 <div
-                  className={`flex flex-col justify-center items-center size-10 rounded-3xl ${componentBorder}`}
+                  key={"uses-" + index}
+                  className="flex flex-col items-center"
                 >
-                  <FontAwesomeIcon icon={use.icon} className="w-fit" />
+                  <div
+                    className={`flex flex-col justify-center items-center size-10 rounded-3xl ${componentBorder}`}
+                  >
+                    <FontAwesomeIcon icon={use.icon} className="w-fit" />
+                  </div>
+                  <span className="text-base">{use.text}</span>
                 </div>
-                <span className="text-base">{use.text}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
 
+/**
+ * This component renders a skeleton placeholder for product details while data is loading.
+ * It includes placeholders for the description, earphone attributes, and various characteristics.
+ * 
+ * @component
+ * @returns {JSX.Element} The skeleton loading component.
+ */
 export function ProductDetailsSkeleton() {
   return (
     <div
