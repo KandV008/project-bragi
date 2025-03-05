@@ -41,6 +41,7 @@ import {
   DISCOUNT_PER_UNIT,
   GUARANTEE_VALUE,
 } from "@/app/model/entities/product/ProductConfiguration";
+import { brandName, colorHexName, colorTextName, earSideName, guaranteeName, imageURLName, nameName, priceName, productIdName } from "@/app/model/JSONnames";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -256,33 +257,33 @@ export default function DisplayProductAttributes({
           {/* Shopping Button */}
           <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
             <form action={handleForm}>
-              <input type="hidden" name="id" value={id} />
-              {colors ? ( // TODO Update form to accept new color
+              <input type="hidden" name={productIdName} value={id} />
+              {colors ? ( 
                 <>
                   <input
                     type="hidden"
-                    name="color-name"
+                    name={colorTextName}
                     value={colors[colorIndex].name}
                   />
                   <input
                     type="hidden"
-                    name="color-hex"
+                    name={colorHexName}
                     value={colors[colorIndex].hex}
                   />
                 </>
               ) : (
                 <></>
               )}
-              <input type="hidden" name="earSide" value={earSide} />
+              <input type="hidden" name={earSideName} value={earSide} />
               <input
                 type="hidden"
-                name="guarantee"
+                name={guaranteeName}
                 value={guarantee.toString()}
               />
-              <input type="hidden" name="name" value={name} />
-              <input type="hidden" name="brand" value={brand} />
-              <input type="hidden" name="price" value={currentPrice} />
-              <input type="hidden" name="imageURL" value={imageURL} />
+              <input type="hidden" name={nameName} value={name} />
+              <input type="hidden" name={brandName} value={brand} />
+              <input type="hidden" name={priceName} value={currentPrice} />
+              <input type="hidden" name={imageURLName} value={imageURL} />
               <SubmitButton
                 text={"Añadir a la cesta"}
                 icon={faCartShopping}

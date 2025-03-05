@@ -59,12 +59,13 @@ async function createFavouritesTable(client) {
   console.log(`Created "favourites" table`);
 }
 
-async function createShoppingListTable(client) {
+async function createShoppingListTable(client) { //TODO Optimize space 
   await client.sql`
     CREATE TABLE IF NOT EXISTS shoppingList (
       product_id VARCHAR(24) NOT NULL,
       user_id VARCHAR(36) NOT NULL,
-      color VARCHAR(255) NOT NULL,
+      color_text VARCHAR(255) NOT NULL,
+      color_hex VARCHAR(255) NOT NULL,
       ear_side VARCHAR(255) NOT NULL,
       guarantee BOOLEAN NOT NULL,
       quantity INT NOT NULL,
@@ -72,7 +73,7 @@ async function createShoppingListTable(client) {
       brand VARCHAR(255) NOT NULL,
       price DOUBLE PRECISION NOT NULL,
       image_url VARCHAR(255) NOT NULL,
-      PRIMARY KEY (product_id, user_id, color, ear_side, guarantee)
+      PRIMARY KEY (product_id, user_id, color_text, color_hex, ear_side, guarantee)
     );
   `;
 
@@ -211,7 +212,7 @@ async function dropTables() {
 }
 
 async function run() {
-  await setMongoDB();
+  //await setMongoDB();
   await dropTables();
   await setPostgresSQL();
 }

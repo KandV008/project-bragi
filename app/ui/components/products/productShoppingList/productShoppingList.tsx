@@ -1,25 +1,54 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { decrementProductInShoppingList, incrementProductInShoppingList } from "@/db/shoppingList";
+import {
+  decrementProductInShoppingList,
+  incrementProductInShoppingList,
+} from "@/db/shoppingList";
 import AmountButton from "../../buttons/amountButton";
 import ConfirmationPopUp from "../../popUps/confirmationPopUp";
-import { componentBackground, componentText, componentBorder, shimmer } from "@/app/ui/tailwindClasses";
+import {
+  componentBackground,
+  componentText,
+  componentBorder,
+  shimmer,
+} from "@/app/ui/tailwindClasses";
 
+/**
+ * Props for the ProductShoppingList component.
+ */
 interface ProductInformationProps {
+  /** Unique identifier of the product */
   id: string;
+  /** URL of the product image */
   imageURL: string;
+  /** Name of the product */
   name: string;
+  /** Brand of the product */
   brand: string;
+  /** Price of a single product */
   price: number;
+  /** Ear side specification (e.g., left, right, both) */
   earSide: string;
+  /** Indicates if the product comes with a guarantee */
   guarantee: boolean;
-  color: string;
+  /** Text description of the product color */
+  colorText: string;
+  /** Hexadecimal code of the product color */
+  colorHex: string;
+  /** Quantity of the product in the shopping list */
   quantity: number;
 }
 
+/**
+ * Displays a product's information in the shopping list with options to adjust the quantity.
+ * Includes a modal for confirming the removal of a product when quantity is 1.
+ *
+ * @param props - The product details to be displayed.
+ * @returns JSX element representing the product in the shopping list.
+ */
 export default function ProductShoppingList({
   id,
   imageURL,
@@ -28,31 +57,44 @@ export default function ProductShoppingList({
   price,
   earSide,
   guarantee,
-  color,
+  colorText,
+  colorHex,
   quantity,
 }: ProductInformationProps) {
   let showEarSide: string = getEarSideLabel(earSide);
 
   const [showModal, setShowModal] = useState(false);
-  const [currentFormData, setFormData] = useState<FormData>()
+  const [currentFormData, setFormData] = useState<FormData>();
+
+  /**
+   * Toggles the visibility of the modal.
+   */
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  /**
+   * Checks if the product can be decremented. If the quantity is 1,
+   * a confirmation modal is shown before decrementing.
+   *
+   * @param formData - The form data related to the product.
+   */
   const checkBeforeDecrement = (formData: FormData) => {
-    if (quantity === 1){
-      setFormData(formData)
-      handleShowModal()
+    if (quantity === 1) {
+      setFormData(formData);
+      handleShowModal();
     } else {
-      decrementProductInShoppingList(formData)
+      decrementProductInShoppingList(formData);
     }
-  }
+  };
 
+  /**
+   * Decrements the product amount after confirming the modal.
+   */
   const handleDecrementAmount = () => {
-    handleShowModal()
-    decrementProductInShoppingList(currentFormData!)
-  }
-  
+    handleShowModal();
+    decrementProductInShoppingList(currentFormData!);
+  };
 
   return (
     <section
@@ -103,7 +145,7 @@ export default function ProductShoppingList({
           {/* Color */}
           <div className="flex flex-col sm:flex-row 2xl:flex-col">
             <span className="font-bold">Color del producto</span>
-            <span className="mx-2">{color}</span>
+            <span className="mx-2">{colorText}</span>
           </div>
         </div>
       </article>
@@ -120,7 +162,8 @@ export default function ProductShoppingList({
           <AmountButton
             symbol={faMinus}
             productId={id}
-            color={color}
+            colorText={colorText}
+            colorHex={colorHex}
             earSide={earSide}
             guarantee={guarantee}
             action={checkBeforeDecrement}
@@ -131,7 +174,8 @@ export default function ProductShoppingList({
           <AmountButton
             symbol={faPlus}
             productId={id}
-            color={color}
+            colorText={colorText}
+            colorHex={colorHex}
             earSide={earSide}
             guarantee={guarantee}
             action={incrementProductInShoppingList}
@@ -149,22 +193,31 @@ export default function ProductShoppingList({
       </article>
     </section>
   );
-
-
 }
 
+/**
+ * Returns a label for the ear side (e.g., "Derecho", "Izquierda", "Ambos").
+ *
+ * @param earSide - The ear side value ("right", "left", or "both").
+ * @returns A human-readable label for the ear side.
+ */
 function getEarSideLabel(earSide: String) {
   if (earSide === "right") {
     return "Derecho";
-  } 
-  
+  }
+
   if (earSide === "left") {
     return "Izquierda";
-  } 
-  
-  return"Ambos";
+  }
+
+  return "Ambos";
 }
 
+/**
+ * Skeleton loader for the product information while data is being fetched.
+ *
+ * @returns JSX element representing the skeleton loading state.
+ */
 export function ProductInformationSkeleton() {
   return (
     <div

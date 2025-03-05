@@ -60,17 +60,17 @@ export async function addProductToShoppingList(formData: FormData) {
 
   const { userId } = auth();
   const parsedUserId = parseString(userId?.toString(), "USER_ID")
-  const { productId, color, earSide, guarantee, name, brand, price, imageURL } = parseNewProductToShoppingList(formData)
+  const { productId, colorText, colorHex, earSide, guarantee, name, brand, price, imageURL } = parseNewProductToShoppingList(formData)
 
   try {
     const client = await sql.connect()
 
     await client.query(
-      `INSERT INTO shoppingList (product_id, user_id, color, ear_side, guarantee, quantity, name, brand, price, image_url)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-           ON CONFLICT (product_id, user_id, color, ear_side, guarantee)
+      `INSERT INTO shoppingList (product_id, user_id, color_text, color_hex, ear_side, guarantee, quantity, name, brand, price, image_url)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+           ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side, guarantee)
            DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity`,
-      [productId, parsedUserId, color, earSide, guarantee, 1, name, brand, price, imageURL]
+      [productId, parsedUserId, colorText, colorHex, earSide, guarantee, 1, name, brand, price, imageURL]
     );
 
     Logger.endFunction(
@@ -88,7 +88,7 @@ export async function incrementProductInShoppingList(formData: FormData) {
   Logger.startFunction(CONTEXT, "incrementProductInShoppingList")
 
   const { userId } = auth();
-  const { productId, color, earSide, guarantee } = parseUpdateOfShoppingList(formData)
+  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData)
   const parsedUserId = parseString(userId?.toString(), "USER_ID")
 
   try {
@@ -97,9 +97,9 @@ export async function incrementProductInShoppingList(formData: FormData) {
     const result = await client.query(
       `UPDATE shoppingList
            SET quantity = quantity + 1
-           WHERE product_id = $1 AND user_id = $2 AND color = $3 AND ear_side = $4 AND guarantee = $5
+           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND guarantee = $6
            RETURNING *`,
-      [productId, parsedUserId, color, earSide, guarantee]
+      [productId, parsedUserId, colorText, colorHex, earSide, guarantee]
     );
 
     if (result.rowCount === 0) {
@@ -125,7 +125,7 @@ export async function decrementProductInShoppingList(formData: FormData) {
   Logger.startFunction(CONTEXT, "decrementProductInShoppingList")
 
   const { userId } = auth();
-  const { productId, color, earSide, guarantee } = parseUpdateOfShoppingList(formData)
+  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData)
   const parsedUserId = parseString(userId?.toString(), "USER_ID")
 
   try {
@@ -134,14 +134,14 @@ export async function decrementProductInShoppingList(formData: FormData) {
     await client.query(
       `UPDATE shoppingList
            SET quantity = quantity - 1
-           WHERE product_id = $1 AND user_id = $2 AND color = $3 AND ear_side = $4 AND guarantee = $5 AND quantity > 0`,
-      [productId, parsedUserId, color, earSide, guarantee]
+           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND guarantee = $6 AND quantity > 0`,
+      [productId, parsedUserId, colorText, colorHex, earSide, guarantee]
     );
 
     await client.query(
       `DELETE FROM shoppingList
-           WHERE product_id = $1 AND user_id = $2 AND color = $3 AND ear_side = $4 AND guarantee = $5 AND quantity = 0`,
-      [productId, parsedUserId, color, earSide, guarantee]
+           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND guarantee = $6 AND quantity = 0`,
+      [productId, parsedUserId, colorText, colorHex, earSide, guarantee]
     );
 
     Logger.endFunction(
