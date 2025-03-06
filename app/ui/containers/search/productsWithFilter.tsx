@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Filter from "./filter";
+import Filter from "./filter/filter";
 import Loading from "@/app/(view)/search/loading";
 import Spinner from "../../components/common/spinner";
 import EmptyMessage from "../../components/messages/emptyMessage";
@@ -13,12 +13,21 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import ProductContainer from "../../components/products/productContainer";
 
 interface ProductsWithFilterProps {
+  /** The API endpoint to fetch products from. */
   fetchURL: string;
 }
 
+/**
+ * Component to display a list of products with a filter system.
+ * Fetches products from a given API endpoint and applies filters dynamically.
+ *
+ * @param {ProductsWithFilterProps} props - The component props.
+ * @param {string} props.fetchURL - The API endpoint to fetch products from.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function ProductsWithFilter({
   fetchURL,
-}: ProductsWithFilterProps) {
+}: ProductsWithFilterProps): JSX.Element {
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -30,10 +39,18 @@ export default function ProductsWithFilter({
   const [isSpinnerActive, setSpinnerActive] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  /**
+   * Toggles the filter menu visibility on small screens.
+   */
   const toggleExpandMenu = () => {
     setIsExpanded(!isExpanded);
   };
 
+  /**
+   * Fetches products from the given API endpoint, applying pagination and filters.
+   *
+   * @returns {void}
+   */
   useEffect(() => {
     if (!isLoading) setSpinnerActive(true);
     const joinFilters = filters.join(",");
@@ -59,11 +76,24 @@ export default function ProductsWithFilter({
   if (isLoading) return <Loading />;
   if (products.length === 0) return <EmptyMessage />;
 
+  /**
+   * Increases the product list pagination to load more products.
+   *
+   * @returns {void}
+   */
   const addMoreProducts = () => {
     setStartIndex((prevIndex) => prevIndex + increment);
     setEndIndex((prevIndex) => prevIndex + increment);
   };
 
+  /**
+   * Handles adding/removing filters from the active filter list.
+   * If the same filter is already applied, it is removed.
+   * Otherwise, it updates or adds the filter.
+   *
+   * @param {string} filter - The filter to be added or removed.
+   * @returns {void}
+   */
   const filterAction = (filter: string) => {
     setFilters((prev) => {
       const index = prev.findIndex((value) =>
@@ -82,6 +112,7 @@ export default function ProductsWithFilter({
         return newFilters;
       }
     });
+    
     setStartIndex(0);
     setEndIndex(9);
   };
@@ -98,7 +129,7 @@ export default function ProductsWithFilter({
       <div className="flex flex-col md:flex-row w-full justify-between gap-2">
         {/* Big Screen Filter */}
         <div className="shrink-0 hidden md:flex">
-          <Filter onChange={filterAction} products={products} />
+          <Filter onChange={filterAction} />
         </div>
         {/* Small Screen Filter */}
         <div className="block md:hidden shrink-0">
@@ -118,7 +149,7 @@ export default function ProductsWithFilter({
                 className={`flex flex-col gap-1 w-fit fixed top-64
             ${componentBorder} rounded overflow-y-scroll max-h-96`}
               >
-                <Filter onChange={filterAction} products={products} />
+                <Filter onChange={filterAction} />
               </div>
             ) : (
               <></>

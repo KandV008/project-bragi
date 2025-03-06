@@ -1,53 +1,84 @@
-import {
-  checkAdaptationRangeType,
-  valueOfAdaptationRange,
-} from "@/app/model/entities/enums/AdaptionRange";
-import { checkBrandType } from "@/app/model/entities/product/enums/Brand";
-import {
-  checkDegreeOfLossType,
-  valueOfDegreeOfLoss,
-} from "@/app/model/entities/enums/DegreeOfLoss";
-import {
-  checkEarLocationType,
-  valueOfEarLocation,
-} from "@/app/model/entities/enums/EarLocation";
-import {
-  checkLevelOfDiscretionType,
-  valueOfLevelOfDiscretion,
-} from "@/app/model/entities/enums/LevelOfDiscretion";
-import { ChangeEvent } from "react";
+"use client";
+
+import { ChangeEvent, useEffect, useState } from "react";
 import SectionHeader, {
   SectionHeaderSkeleton,
-} from "../../components/tags/sectionHeader";
+} from "../../../components/tags/sectionHeader";
 import RadioInputWithQuantity, {
   RadioInputWithQuantitySkeleton,
-} from "../../components/inputs/radioInputWithQuantity";
+} from "../../../components/inputs/radioInputWithQuantity";
 import {
-  checkWaterAndDustResistanceType,
   valueOfWaterDustResistance,
 } from "@/app/model/entities/product/enums/earphoneAttributes/WaterDustResistance";
 import {
   componentBackground,
   componentText,
   shimmer,
-} from "../../tailwindClasses";
+} from "../../../tailwindClasses";
 import { ProductEntity } from "@/app/model/entities/product/Product";
+import { getFilterInformationRoute } from "@/app/api/routes";
+import { valueOfEarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
+import { valueOfEarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 
+/**
+ * Props for the Filter component
+ * @property {(filter: string) => void} onChange - Function called when a filter is selected.
+ * @property {ProductEntity[]} products - List of products to filter.
+ */
 interface FilterProps {
   onChange: (filter: string) => void;
-  products: ProductEntity[];
 }
 
+// TODO Check to move this variables into another file
 const adaptationRangeType = "adaptation_range";
 const waterDustResistanceType = "dust_water_resistance";
 const brandType = "brand";
-const earLocationType = "location";
-const levelOfDiscretionType = "level_of_discretion";
+const earphoneShapeType = "earphone_shape";
 const degreeOfLossType = "degree_of_loss";
 
-export default function Filter({ onChange, products }: FilterProps) {
+const elementsToFilter = [
+  adaptationRangeType,
+  waterDustResistanceType,
+  brandType,
+  earphoneShapeType,
+  degreeOfLossType,
+];
+
+/**
+ * Renders a filter sidebar for products.
+ *
+ * @param {FilterProps} props - Component properties
+ * @returns {JSX.Element} The Filter component
+ */
+export default function Filter({
+  onChange,
+}: FilterProps): JSX.Element {
+  const [isLoading, setLoading] = useState(true);
+  const [filterElements, setFilterElements] = useState<any>();
+
+  useEffect(() => {
+    const joinFilters = elementsToFilter.join(",");
+    console.info(getFilterInformationRoute);
+    fetch(
+      `${getFilterInformationRoute}?category=${"EARPHONE"}&filters=${joinFilters}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        setFilterElements(data);
+      });
+  }, []);
+
+  if (isLoading) return <FilterSkeleton />;
+  if (!filterElements) return <></>;
+
+  /**
+   * Handles filter selection.
+   * @param {string} type - The type of filter.
+   * @returns {(event: ChangeEvent<HTMLInputElement>) => void} - Event handler for filter selection.
+   */
   const filterSelected =
-    (type: string) => (event: ChangeEvent<HTMLInputElement>) => {
+    (type: string): (event: ChangeEvent<HTMLInputElement>) => void => (event: ChangeEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement).value;
       const filter = `${type}:${value}`;
       console.log("SELECTED FILTER:", filter);
@@ -69,8 +100,8 @@ export default function Filter({ onChange, products }: FilterProps) {
           <h1 className="text-xl font-bold">Rango de Adaptación</h1>
           <RadioInputWithQuantity
             name={adaptationRangeType}
-            list={Object.values(checkAdaptationRangeType(products))}
-            valueOf={valueOfAdaptationRange}
+            list={filterElements.adaptation_range}
+            valueOf={valueOfEarphoneAdaptationRange}
             type={adaptationRangeType}
             onChange={filterSelected}
           />
@@ -80,7 +111,7 @@ export default function Filter({ onChange, products }: FilterProps) {
           <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
           <RadioInputWithQuantity
             name={waterDustResistanceType}
-            list={Object.values(checkWaterAndDustResistanceType(products))}
+            list={filterElements.dust_water_resistance}
             valueOf={valueOfWaterDustResistance}
             type={waterDustResistanceType}
             onChange={filterSelected}
@@ -91,31 +122,20 @@ export default function Filter({ onChange, products }: FilterProps) {
           <h1 className="text-xl font-bold">Marca</h1>
           <RadioInputWithQuantity
             name={brandType}
-            list={Object.values(checkBrandType(products))}
+            list={filterElements.brand}
             valueOf={(x) => x}
             type={brandType}
             onChange={filterSelected}
           />
         </article>
-        {/* Ear Location */}
+        {/* Earphone Shape */}
         <article className="text-lg">
-          <h1 className="text-xl font-bold">Ubicación</h1>
+          <h1 className="text-xl font-bold">Forma del Audífono</h1>
           <RadioInputWithQuantity
-            name={earLocationType}
-            list={Object.values(checkEarLocationType(products))}
-            valueOf={valueOfEarLocation}
-            type={earLocationType}
-            onChange={filterSelected}
-          />
-        </article>
-        {/* Level of Discretion */}
-        <article className="text-lg">
-          <h1 className="text-xl font-bold">Nivel de discrección</h1>
-          <RadioInputWithQuantity
-            name={levelOfDiscretionType}
-            list={Object.values(checkLevelOfDiscretionType(products))}
-            valueOf={valueOfLevelOfDiscretion}
-            type={levelOfDiscretionType}
+            name={earphoneShapeType}
+            list={filterElements.earphone_shape}
+            valueOf={(x) => x}
+            type={earphoneShapeType}
             onChange={filterSelected}
           />
         </article>
@@ -124,8 +144,8 @@ export default function Filter({ onChange, products }: FilterProps) {
           <h1 className="text-xl font-bold">Grado de perdida</h1>
           <RadioInputWithQuantity
             name={degreeOfLossType}
-            list={Object.values(checkDegreeOfLossType(products))}
-            valueOf={valueOfDegreeOfLoss}
+            list={filterElements.degree_of_loss}
+            valueOf={valueOfEarphoneDegreeOfLoss}
             type={degreeOfLossType}
             onChange={filterSelected}
           />
@@ -135,7 +155,11 @@ export default function Filter({ onChange, products }: FilterProps) {
   );
 }
 
-export function FilterSkeleton() {
+/**
+ * Skeleton version of the Filter component for loading states.
+ * @returns {JSX.Element} The FilterSkeleton component.
+ */
+export function FilterSkeleton(): JSX.Element {
   return (
     <div
       className={`${shimmer} relative overflow-hidden rounded bg-gray-100 shadow-sm p-4`}

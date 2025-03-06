@@ -1,11 +1,12 @@
 'use server';
 
-import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, parseString, parseStringList } from "@/lib/parser";
 import { redirect } from "next/navigation";
 import { deleteProductInShoppingList } from "./shoppingList";
 import { deleteProductInFavorites } from "./favorites";
 import { Logger } from "@/app/model/Logger";
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
+import { Category } from "@/app/model/entities/product/enums/Category";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -61,6 +62,7 @@ export async function getProductsByCategory(categoryToCheck: string | null, star
   const categoryFilter = { category: checkedCategory }
   const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
   const parsedFilters = parseFilters(filters)
+  console.warn(parseFilters)
 
   try {
     await client.connect();
@@ -254,6 +256,47 @@ export async function searchProducts(
 
   Logger.endFunction(CONTEXT, "searchProducts", products.map(product => product.id))
   return products;
+}
+
+export async function getFilterInformation(category: string | null, elementsToFilter: string | null) {
+  Logger.startFunction(CONTEXT, "getFilterInformation");
+
+  const parsedCategory = parseString(category, "CATEGORY");
+  const parsedElementsToFilter = parseStringList(elementsToFilter, "ELEMENTS_TO_FILTER");
+  const result: Record<string, Record<string, number>> = {};
+
+  try {
+    await client.connect();
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const matchStage: Record<string, any> = {};
+    if (parsedCategory) {
+      matchStage.category = parsedCategory;
+    }
+
+    for (const attribute of parsedElementsToFilter) {
+      const aggregationPipeline = [
+        { $match: matchStage },
+        { $group: { _id: `$${attribute}`, count: { $sum: 1 } } }
+      ];
+
+      const counts = await coll.aggregate(aggregationPipeline).toArray();
+
+      result[attribute] = counts.reduce((acc: { [x: string]: any; }, { _id, count }: any) => {
+        acc[_id] = count;
+        return acc;
+      }, {} as Record<string, number>);
+    }
+
+  } catch (error) {
+    Logger.errorFunction(CONTEXT, "getFilterInformation", error);
+  } finally {
+    await client.close();
+  }
+
+  Logger.endFunction(CONTEXT, "getFilterInformation", result);
+  return result;
 }
 
 export async function createProduct(productData: any): Promise<void> {

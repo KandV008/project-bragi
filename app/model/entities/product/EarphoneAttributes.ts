@@ -58,10 +58,10 @@ export function mapDocumentToEarphoneAttributes(attributes: any): EarphoneAttrib
                 name: color.name,
                 hex: color.hex,
             })),
-            adaptationRange: attributes.adaptation_range as EarphoneAdaptationRange,
+            adaptationRange: EarphoneAdaptationRange[attributes.adaptation_range as keyof typeof EarphoneAdaptationRange],
             waterDustResistance: Boolean(attributes.dust_water_resistance),
             earphoneShape: EarphoneShape[attributes.earphone_shape as keyof typeof EarphoneShape],
-            degreeOfLoss: attributes.degree_of_loss as EarphoneDegreeOfLoss,
+            degreeOfLoss: EarphoneDegreeOfLoss[attributes.degree_of_loss as keyof typeof EarphoneDegreeOfLoss],
             uses: attributes.uses.map((use: string) => Uses[use as keyof typeof Uses] as UseDefinition),
         };
     } catch (error) {

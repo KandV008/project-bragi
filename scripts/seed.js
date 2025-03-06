@@ -212,7 +212,7 @@ async function dropTables() {
 }
 
 async function run() {
-  //await setMongoDB();
+  await setMongoDB();
   await dropTables();
   await setPostgresSQL();
 }

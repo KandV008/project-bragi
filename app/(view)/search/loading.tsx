@@ -1,5 +1,5 @@
 import { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer";
-import { FilterSkeleton } from "@/app/ui/containers/search/filter";
+import { FilterSkeleton } from "@/app/ui/containers/search/filter/filter";
 
 /** 
  * This component renders skeleton placeholders for the product filter and product container

@@ -10,6 +10,7 @@ export const getProductsByKeywordRoute = "/api/products/getProductsByKeyword"
 export const getProductsByCategoryRoute = "/api/products/getProductsByCategory"
 export const getLatestNoveltiesRoute = "/api/products/getLatestNovelties"
 export const getRelatedProductsRoute = "/api/products/getRelatedProducts"
+export const getFilterInformationRoute = "/api/products/getFilterInformation"
 
 export const checkFavoriteListRoute = "/api/favorites/checkFavoriteList"
 export const checkFavoriteRoute = "/api/favorites/checkFavorite"

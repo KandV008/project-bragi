@@ -9,6 +9,8 @@ export async function GET(request: Request) {
   const endIndex = searchParams.get(endNameParam);
   const filters = searchParams.get(filtersNameParam);
 
+  console.warn("FILTERS: ", filters) //TODO Fix bug associated with multiple filter per attribute
+
   try {
     const products = await getProductsByCategory(category, startIndex, endIndex, filters);
 

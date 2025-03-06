@@ -4,8 +4,8 @@ import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, pr
 
 export function parseString(value: string | null | undefined, attribute: string) {
     if (!value) {
-        console.log("ERROR:", attribute, "is not valid");
-        console.log(attribute, "VALUE:", value)
+        console.error("ERROR:", attribute, "is not valid");
+        console.error(attribute, "VALUE:", value)
         throw new Error(`${attribute} is not valid. Value -> ${value}`)
     }
 
@@ -14,9 +14,9 @@ export function parseString(value: string | null | undefined, attribute: string)
 
 export function parseStringList(value: string | null | undefined, attribute: string) {
     if (!value) {
-        console.log("WARNING:", attribute, "is not valid");
-        console.log(attribute, "VALUE:", value)
-        console.log("USE DEFAULT VALUE -> [ ]")
+        console.warn("WARNING:", attribute, "is not valid");
+        console.warn(attribute, "VALUE:", value)
+        console.warn("USE DEFAULT VALUE -> [ ]")
         return []
     }
 
@@ -25,8 +25,8 @@ export function parseStringList(value: string | null | undefined, attribute: str
 
 export function parseNumber(value: string | null | undefined, attribute: string) {
     if (!value || isNaN(parseInt(value))) {
-        console.log("ERROR:", attribute, "is not valid");
-        console.log(attribute, "VALUE:", value)
+        console.error("ERROR:", attribute, "is not valid");
+        console.error(attribute, "VALUE:", value)
         throw new Error(`${attribute} is not valid. Value -> ${value}`)
     }
 
@@ -37,18 +37,18 @@ export function parseStartAndEndIndex(start: string | null, end: string | null) 
     let startIndex, endIndex
 
     if (!start || !end) {
-        console.log("START INDEX:", start, "-> Use default value")
+        console.warn("START INDEX:", start, "-> Use default value")
         startIndex = 0
-        console.log("END INDEX:", end, "-> Use default value")
+        console.warn("END INDEX:", end, "-> Use default value")
         endIndex = 9
     } else {
         startIndex = Number(start);
         endIndex = Number(end);
 
         if (isNaN(startIndex) || isNaN(endIndex)) {
-            console.log("ERROR: START or END is not a valid number");
-            console.log("START VALUE:", start)
-            console.log("END VALUE:", end)
+            console.error("ERROR: START or END is not a valid number");
+            console.error("START VALUE:", start)
+            console.error("END VALUE:", end)
             throw new Error("Start or End are not numbers");
         }
     }
@@ -58,8 +58,8 @@ export function parseStartAndEndIndex(start: string | null, end: string | null) 
 
 export function parsePrice(price: string | null | undefined) {
     if (!price || isNaN(parseFloat(price))) {
-        console.log("ERROR: PRICE is null or not valid number")
-        console.log("PRICE VALUE:", price)
+        console.error("ERROR: PRICE is null or not valid number")
+        console.error("PRICE VALUE:", price)
         throw new Error("Price is null or not valid number");
     }
 
@@ -68,8 +68,8 @@ export function parsePrice(price: string | null | undefined) {
 
 export function parseProductIds(productIds: string[] | null | undefined) {
     if (!productIds) {
-        console.log("ERROR: PRODUCT_IDS are null or empty");
-        console.log("PRODUCT_IDS VALUE:", productIds);
+        console.error("ERROR: PRODUCT_IDS are null or empty");
+        console.error("PRODUCT_IDS VALUE:", productIds);
         throw new Error("Product_Ids are null or empty");
     }
 
@@ -112,19 +112,18 @@ export function parseFilters(filters: string | null) {
     }, {});
 }
 
+// TODO Check to move this variables into another file
 const adaptationRangeType = "adaptation_range";
 const waterDustResistanceType = "dust_water_resistance";
 const brandType = "brand";
-const earLocationType = "location";
-const levelOfDiscretionType = "level_of_discretion";
+const earphoneShapeType = "earphone_shape";
 const degreeOfLossType = "degree_of_loss";
 
 const filterFunction = {
     adaptationRangeType: (value: string) => ({ adaptation_range: value }),
     waterDustResistanceType: (value: string) => ({ dust_water_resistance: "true" === value }),
     brandType: (value: string) => ({ brand: value }),
-    earLocationType: (value: string) => ({ location: value }),
-    levelOfDiscretionType: (value: string) => ({ level_of_discretion: value }),
+    earphoneShapeType: (value: string) => ({ earphone_shape: value }),
     degreeOfLossType: (value: string) => ({ degree_of_loss: value }),
 };
 
@@ -142,12 +141,8 @@ function convertToObject(type: string, value: string) {
         return filterFunction.brandType(value);
     }
 
-    if (type === earLocationType) {
-        return filterFunction.earLocationType(value);
-    }
-
-    if (type === levelOfDiscretionType) {
-        return filterFunction.levelOfDiscretionType(value);
+    if (type === earphoneShapeType) {
+        return filterFunction.earphoneShapeType(value);
     }
 
     if (type === degreeOfLossType) {
