@@ -1,6 +1,5 @@
 "use client";
 
-import { ProductEntity } from "@/app/model/entities/Product";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
@@ -33,8 +32,15 @@ import {
 } from "@/app/ui/tailwindClasses";
 import { actionDeleteProduct } from "@/db/product";
 import { getProductRoute } from "@/app/api/routes";
+import { ProductEntity } from "@/app/model/entities/product/Product";
 
-export default function AdminProduct() {
+/**
+ * Admin product management page for viewing and editing a product's details.
+ * Allows product deletion and updating, with a confirmation popup for deletion.
+ * 
+ * @returns {JSX.Element} Admin product details page.
+ */
+export default function AdminProduct(): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
   const productId = pathname.split("/").pop();
@@ -42,8 +48,6 @@ export default function AdminProduct() {
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
-
-  const [imgIndex, setImgIndex] = useState(0);
 
   const [product, setProduct] = useState<ProductEntity | null>(null);
   const [isLoading, setLoading] = useState(true);
@@ -107,28 +111,35 @@ export default function AdminProduct() {
         {/* Description */}
         <Article label="Descripción" value={product.description} />
         {/* Colors */}
-        <ColorArticle label="Colores" colors={product.colors} />
+        <ColorArticle
+          label="Colores"
+          colors={product.earphoneAttributes!.colors}
+        />
         {/* Technical Data */}
         <div className="flex flex-col items-center sm:grid sm:grid-cols-2 lg:grid-cols-3">
           {/* Adaptation Range */}
           <Article
             label="Rango de Adaptación"
-            value={product.adaptationRange}
+            value={product.earphoneAttributes!.adaptationRange}
           />
           {/* Water Dust Resistance */}
           <Article
             label="Resistencia al agua y al polvo"
-            value={product.waterDustResistance ? "Sí" : "No"}
+            value={
+              product.earphoneAttributes!.waterDustResistance ? "Sí" : "No"
+            }
           />
-          {/* Ear Location */}
-          <Article label="Localización en la oreja" value={product.location} />
-          {/* Level of Discretion */}
+          {/* Earphone Shape */}
           <Article
-            label="Nivel de discrección"
-            value={product.levelOfDiscretion}
+            label="Forma de Audífono"
+            value={product.earphoneAttributes!.earphoneShape}
           />
+
           {/* Degree of Loss */}
-          <Article label="Grado de pérdida" value={product.degreeOfLoss} />
+          <Article
+            label="Grado de pérdida"
+            value={product.earphoneAttributes!.degreeOfLoss}
+          />
         </div>
         {/* List of attributes */}
         <div className="flex flex-col sm:grid sm:grid-cols-2">
@@ -137,7 +148,7 @@ export default function AdminProduct() {
           {/* Uses */}
           <UnorderedList
             label={"Usos"}
-            values={product.uses.map((x) => x.text)}
+            values={product.earphoneAttributes!.uses.map((x: any) => x.text)}
           />
         </div>
       </section>
@@ -146,15 +157,11 @@ export default function AdminProduct() {
         <SectionHeader text={"Imagenes del producto por su color"} />
         <article className="self-center">
           <ColorButton
-            colors={product.colors}
-            action={(index: number) => setImgIndex(index)}
+            colors={product.earphoneAttributes!.colors}
+            action={() => {}}
           />
         </article>
-        <article className="flex flex-row flex-wrap gap-2 justify-center">
-          {product.colors[imgIndex].images.map((image, index) => (
-            <BigImage key={"img-" + index} src={image} alt={"img-" + index} />
-          ))}
-        </article>
+        <BigImage src={product.imageURL} alt={"img-" + product.name} />
       </section>
       {/* Pop Up */}
       <article className="flex flex-center shrink-0 justify-center h-full w-full">
@@ -180,7 +187,12 @@ export default function AdminProduct() {
   );
 }
 
-export function AdminProductSkeleton() {
+/**
+ * Skeleton loader for the AdminProduct page, displayed while the product data is being loaded.
+ * 
+ * @returns {JSX.Element} Skeleton loader for the AdminProduct page.
+ */
+export function AdminProductSkeleton(): JSX.Element {
   return (
     <div
       className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}

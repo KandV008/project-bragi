@@ -1,16 +1,36 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
+import {
+  fillDefaultComponentBackground,
+  componentText,
+  componentBorder,
+} from "../../tailwindClasses";
 
+/**
+ * Props for the MiniTextInput component.
+ *
+ * @property {string} name - The name attribute for the input field.
+ * @property {"text" | "password" | "number" | "url"} type - The type of input field.
+ * @property {string} placeholder - The placeholder text for the input field.
+ * @property {string} label - The label text displayed above the input field.
+ * @property {IconDefinition} icon - The FontAwesome icon displayed next to the input.
+ * @property {string} [value] - The optional default value for the input field.
+ */
 interface TextInputProps {
   name: string;
   type: "text" | "password" | "number" | "url";
   placeholder: string;
   label: string;
   icon: IconDefinition;
-  value?: string
+  value?: string;
 }
 
+/**
+ * Renders an input field with a label and an icon.
+ *
+ * @param {TextInputProps} props - Component properties.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function MiniTextInput({
   name,
   type,
@@ -54,6 +74,11 @@ export default function MiniTextInput({
   );
 }
 
+/**
+ * A skeleton placeholder for MiniTextInput, useful for loading states.
+ *
+ * @returns {JSX.Element} The rendered skeleton component.
+ */
 export function MiniTextInputSkeleton() {
   return (
     <section className="flex flex-col sm:flex-row w-full gap-1">

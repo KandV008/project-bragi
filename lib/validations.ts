@@ -1,4 +1,4 @@
-import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryNameParam, degreeOfLossName, earLocationName, earSideName, levelOfDiscretionName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
+import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryNameParam, colorTextName, degreeOfLossName, earLocationName, earphoneShapeName, earSideName, imageURLName, levelOfDiscretionName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
 
 export let errorMessagesList: string[] = []
 
@@ -42,10 +42,10 @@ export function validateFormProduct(formData: FormData){
     checkIfNotEmpty(formData, categoryNameParam, "No se ha elegido ninguna categoría.")
     checkIfNotEmpty(formData, brandName, "No se ha elegido ninguna marca.")
     checkIfNotEmpty(formData, priceName, "No se ha introducido ningún precio.")
+    checkIfNotEmpty(formData, imageURLName, "No se ha introducido ninguna URL para la imagen.")
     checkIfNotEmpty(formData, productDescriptionName, "No se ha introducido ninguna descripción.")
     checkIfNotEmpty(formData, adaptationRangeName, "No se ha elegido ningún rango de adaptación.")
-    checkIfNotEmpty(formData, earLocationName, "No se ha introducido ningún nombre.")
-    checkIfNotEmpty(formData, levelOfDiscretionName, "No se ha elegido ningún nivel de discrección.")
+    checkIfNotEmpty(formData, earphoneShapeName, "No se ha introducido ninguna forma de audífono.")
     checkIfNotEmpty(formData, degreeOfLossName, "No se ha elegido ningún grado de pérdida.")
     checkIfNotEmpty(formData, usesName, "No se ha elegido ningún uso.")
 

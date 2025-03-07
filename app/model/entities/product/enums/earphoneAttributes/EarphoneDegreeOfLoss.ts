@@ -13,10 +13,19 @@ const COFOSIS_NAME = "COFOSIS"
  * - `"COFOSIS"`: Used for cases of total hearing loss (Oído muerto).
  */
 export enum EarphoneDegreeOfLoss {
-    MILD_SEVERE = MILD_SEVERE_NAME,
-    SEVERE_PROFOUND = SEVERE_PROFOUND_NAME,
+    'MILD-SEVERE' = MILD_SEVERE_NAME,
+    'SEVERE-PROFOUND' = SEVERE_PROFOUND_NAME,
     COFOSIS = COFOSIS_NAME,
 }
+
+/**
+ * List of available earphone degree of loss values.
+ */
+export const earphoneDegreeOfLossList = [
+    MILD_SEVERE_NAME,
+    SEVERE_PROFOUND_NAME,
+    COFOSIS_NAME
+];
 
 export function valueOfEarphoneDegreeOfLoss(value: string) {
     if (value === MILD_SEVERE_NAME) {

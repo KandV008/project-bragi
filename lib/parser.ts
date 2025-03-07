@@ -1,6 +1,6 @@
 import { colorList } from "@/app/model/entities/enums/Color";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earLocationName, earSideName, guaranteeName, imageURLName, levelOfDiscretionName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName } from "@/app/model/JSONnames";
+import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earLocationName, earSideName, guaranteeName, imageURLName, levelOfDiscretionName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName } from "@/app/model/JSONnames";
 
 export function parseString(value: string | null | undefined, attribute: string) {
     if (!value) {
@@ -197,17 +197,23 @@ export function parseWaterDustResistance(formData: FormData) {
 }
 
 export function parseColors(formData: FormData) {
-    const colors: any[] = []
+    
+    const counterText = parseNumber(formData.get(colorTextName)?.toString(), "COLOR_TEXT")
+    const counterHex = parseNumber(formData.get(colorHexName)?.toString(), "COLOR_HEX")
 
-    colorList.forEach((element) => {
-        const counter = parseNumber(formData.get(element)?.toString(), element)
-        const imageURLs = getIncrementalValues(formData, counter, element)
-        
-        if (imageURLs.length !== 0){
-            colors.push({
-                color: element,
-                images: imageURLs
-            })
+    if (counterText !== counterHex){ // TODO Improve with a better validator/parser
+        console.error("ERROR:", "Color is not valid");
+        console.error("NUM COLOR TEXT: ", counterText, "NUM COLOR HEX:", counterHex)
+        throw new Error(`Color is not valid.`)
+    }
+
+    const colorTexts = getIncrementalValues(formData, counterText, colorTextName)
+    const colorHexs = getIncrementalValues(formData, counterHex, colorHexName)
+
+    const colors = colorTexts.map((text, index) => {
+        return {
+           name: text,
+           hex: "#" + colorHexs[index] 
         }
     })
 
@@ -219,13 +225,13 @@ export function parseProductForm(formData: FormData){
     const newCategory = parseString(formData.get(categoryNameParam)?.toString(), "CATEGORY")
     const newBrand = parseString(formData.get(brandName)?.toString(), "BRAND")
     const newPrice = parsePrice(formData.get(priceName)?.toString())
+    const newImageURL = parseString(formData.get(imageURLName)?.toString(), "IMAGE_URL")
     const newDescription = parseString(formData.get(productDescriptionName)?.toString(), "DESCRIPTION")
     const newColors = parseColors(formData)
     const newInclude = parseInclude(formData)
     const newAdaptationRange = parseString(formData.get(adaptationRangeName)?.toString(), "ADAPTATION_RANGE")
     const newWaterDustResistance = parseWaterDustResistance(formData)
-    const newEarLocation = parseString(formData.get(earLocationName)?.toString(), "EAR_LOCATION")
-    const newLevelOfDiscretion = parseString(formData.get(levelOfDiscretionName)?.toString(), "LEVEL_OF_DISCRETION")
+    const newEarphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE")
     const newDegreeOfLoss = parseString(formData.get(degreeOfLossName)?.toString(), "DEGREE_OF_LOSS")
     const newUses = parseUses(formData)
 
@@ -233,16 +239,16 @@ export function parseProductForm(formData: FormData){
         name: newName,
         category: newCategory,
         price: newPrice,
+        image_URL: newImageURL,
         description: newDescription,
         colors: newColors,
         include: newInclude,
         adaptation_range: newAdaptationRange,
         dust_water_resistance: newWaterDustResistance,
         brand: newBrand,
-        location: newEarLocation,
-        level_of_discretion: newLevelOfDiscretion,
+        earphone_shape: newEarphoneShape,
         degree_of_loss: newDegreeOfLoss,
-        uses: newUses
+        uses: newUses,
     }
 }
 

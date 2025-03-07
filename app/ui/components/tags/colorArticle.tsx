@@ -1,11 +1,24 @@
-import { ProductColor } from "@/app/model/entities/Product";
+import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import { componentBorder } from "../../tailwindClasses";
 
+/**
+ * Props for the ColorArticle component.
+ * 
+ * @interface ColorArticleProps
+ * @property {string} label - The label text to display for the color article.
+ * @property {EarphoneColor[]} colors - An array of EarphoneColor objects to display in the article.
+ */
 interface ColorArticleProps {
   label: string;
-  colors: ProductColor[];
+  colors: EarphoneColor[];
 }
 
+/**
+ * A component that displays an article with a list of earphone colors.
+ * 
+ * @param {ColorArticleProps} props - The properties to configure the ColorArticle component.
+ * @returns {JSX.Element} A rendered ColorArticle component.
+ */
 export function ColorArticle({ label, colors }: ColorArticleProps) {
   return (
     <article className="flex flex-col items-center sm:items-start gap-2 sm:gap-0">
@@ -17,23 +30,13 @@ export function ColorArticle({ label, colors }: ColorArticleProps) {
               {/* Color title */}
               <div className="flex flex-row gap-5 w-full justify-center lg:justify-start">
                 <button
-                  key={color.color.name + "-" + index}
+                  key={color.name + "-" + index}
                   className={`size-8 md:size-6 lg:size-8 ${componentBorder}`}
-                  style={{ backgroundColor: color.color.hex }}
-                  title={color.color.name}
+                  style={{ backgroundColor: color.hex }}
+                  title={color.name}
                 ></button>
-                <h2 className="font-semibold text-xl w-fit">{color.color.name}</h2>
+                <h2 className="font-semibold text-xl w-fit">{color.name}</h2>
               </div>
-              <ol className="flex flex-col px-2 lg:px-10 gap-1">
-                {/* Color URLs */}
-                {color.images.map((image, index) => {
-                  return (
-                    <li key={color.color.name + "-" + index}>
-                      {index + 1}. {image}
-                    </li>
-                  );
-                })}
-              </ol>
             </li>
           );
         })}
@@ -42,6 +45,11 @@ export function ColorArticle({ label, colors }: ColorArticleProps) {
   );
 }
 
+/**
+ * A skeleton loader for the ColorArticle component, used when data is loading.
+ * 
+ * @returns {JSX.Element} A skeleton loader element for the ColorArticle component.
+ */
 export function ColorArticleSkeleton() {
   return (
     <article className="flex flex-col gap-1">

@@ -1,24 +1,11 @@
 "use client";
 
-import {
-  adaptationRangeList,
-  valueOfAdaptationRange,
-} from "@/app/model/entities/enums/AdaptionRange";
 import { Brand } from "@/app/model/entities/product/enums/Brand";
 import { Category } from "@/app/model/entities/product/enums/Category";
 import {
-  degreeOfLossList,
-  valueOfDegreeOfLoss,
-} from "@/app/model/entities/enums/DegreeOfLoss";
-import {
-  earLocationList,
-  valueOfEarLocation,
-} from "@/app/model/entities/enums/EarLocation";
-import {
-  levelOfDiscretionList,
-  valueOfLevelOfDiscretion,
-} from "@/app/model/entities/enums/LevelOfDiscretion";
-import { usesList, valueOfUses } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
+  usesList,
+  valueOfUses,
+} from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import SubmitButton, {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton";
@@ -45,6 +32,7 @@ import TextInput, {
 } from "@/app/ui/components/inputs/textInput";
 import {
   faEarListen,
+  faImage,
   faMoneyBill,
   faPlus,
   faTextHeight,
@@ -61,13 +49,41 @@ import {
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product";
-import { adaptationRangeName, brandName, categoryNameParam, colorName, degreeOfLossName, earLocationName, includeName, levelOfDiscretionName, nameName, priceName, productDescriptionName, productIdName, usesName, waterDustResistanceName } from "@/app/model/JSONnames";
+import {
+  adaptationRangeName,
+  brandName,
+  categoryNameParam,
+  colorTextName,
+  colorHexName,
+  degreeOfLossName,
+  includeName,
+  earphoneShapeName,
+  nameName,
+  priceName,
+  productDescriptionName,
+  productIdName,
+  usesName,
+  waterDustResistanceName,
+  imageURLName,
+} from "@/app/model/JSONnames";
 import { ProductEntity } from "@/app/model/entities/product/Product";
+import { earphoneAdaptationRangeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
+import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
+import { earphoneDegreeOfLossList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 
 interface FormProps {
   product?: ProductEntity;
 }
 
+/**
+ * ProductForm component handles the creation and updating of product details.
+ * It includes fields for name, category, brand, price, image URL, description,
+ * available colors, product includes, adaptation range, water and dust resistance,
+ * earphone shape, degree of loss, and usage scenarios.
+ *
+ * @param {FormProps} product - Optional product data for editing an existing product.
+ * @returns JSX.Element
+ */
 export default function ProductForm({ product }: FormProps) {
   const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
   const actionForm = product ? actionUpdateProduct : actionCreateProduct;
@@ -78,11 +94,21 @@ export default function ProductForm({ product }: FormProps) {
     ? "No se ha podido actualizar el produto."
     : "Se ha podido crear el producto";
   const [showModal, setShowModal] = useState(false);
+
+  /**
+   * Toggles the validation popup modal.
+   */
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  /**
+   * Handles form submission, validates input, and performs the respective action.
+   *
+   * @param {FormData} formData - The submitted form data.
+   */
   const handleForm = (formData: FormData) => {
+    console.log(formData);
     const isValid = validateFormProduct(formData);
     if (isValid) {
       actionForm(formData)
@@ -102,7 +128,11 @@ export default function ProductForm({ product }: FormProps) {
       >
         <SectionHeader text={actionText} />
         {/* Id */}
-        {product ? <input type="hidden" name={productIdName} value={product.id} /> : <></>}
+        {product ? (
+          <input type="hidden" name={productIdName} value={product.id} />
+        ) : (
+          <></>
+        )}
         {/* Name */}
         <TextInput
           name={nameName}
@@ -137,19 +167,27 @@ export default function ProductForm({ product }: FormProps) {
           icon={faMoneyBill}
           value={product ? product.price.toString() : ""}
         />
+        {/* Image URL */}
+        <TextInput
+          name={imageURLName}
+          type={"text"}
+          placeholder={"https://example.url.com"}
+          label={"URL de la imagen asociada al producto"}
+          icon={faImage}
+          value={product ? product.imageURL : ""}
+        />
         {/* Description */}
         <TextAreaInput
           name={productDescriptionName}
           placeholder={"Lore ipsum..."}
-          label={"Descripción"}
+          label={"Descripción del producto"}
           icon={faTextHeight}
           value={product ? product.description : ""}
         />
         {/* Colors */}
         <ColorInput
-          name={colorName}
           label={"Colores disponibles del producto"}
-          values={product ? product.colors : []}
+          values={product ? product.earphoneAttributes?.colors : []}
         />
         {/* Includes */}
         <IncrementalTextInput
@@ -164,9 +202,9 @@ export default function ProductForm({ product }: FormProps) {
         <RadioInput
           name={adaptationRangeName}
           label={"Rango de adaptación del producto"}
-          list={adaptationRangeList}
+          list={earphoneAdaptationRangeList}
           valueOf={(x) => x}
-          value={product ? valueOfAdaptationRange(product.adaptationRange) : ""}
+          value={product ? product.earphoneAttributes?.adaptationRange : ""}
         />
         {/* Water Dust Resistance */}
         <CheckBoxInput
@@ -174,42 +212,38 @@ export default function ProductForm({ product }: FormProps) {
           label={"Resistencia al Agua y al Polvo"}
           list={["YES"]}
           values={
-            product ? (product.waterDustResistance ? ["YES"] : []) : undefined
+            product
+              ? product.earphoneAttributes?.waterDustResistance
+                ? ["YES"]
+                : []
+              : undefined
           }
         />
-        {/* Ear Location */}
+        {/* Earphone Shape */}
         <RadioInput
-          name={earLocationName}
-          label={"Localización del producto en la oreja"}
-          list={earLocationList}
+          name={earphoneShapeName}
+          label={"Forma del producto"}
+          list={earphoneShapeList}
           valueOf={(x) => x}
-          value={product ? valueOfEarLocation(product.location) : ""}
-        />
-        {/* Level of Discretion */}
-        <RadioInput
-          name={levelOfDiscretionName}
-          label={"Nivel del discrección del producto"}
-          list={levelOfDiscretionList}
-          valueOf={(x) => x}
-          value={
-            product ? valueOfLevelOfDiscretion(product.levelOfDiscretion) : ""
-          }
+          value={product ? product.earphoneAttributes?.earphoneShape : ""}
         />
         {/* Degree of Loss */}
         <RadioInput
           name={degreeOfLossName}
           label={"Grado de pérdida del producto"}
-          list={degreeOfLossList}
+          list={earphoneDegreeOfLossList}
           valueOf={(x) => x}
-          value={product ? valueOfDegreeOfLoss(product.degreeOfLoss) : ""}
+          value={product ? product.earphoneAttributes?.degreeOfLoss : ""}
         />
-        {/* Uses */}
+        {/* TODO Uses */}
         <CheckBoxInput
           name={usesName}
           label={"Usos del producto"}
           list={usesList}
           values={
-            product ? product.uses.map((x) => valueOfUses(x.text)) : undefined
+            product
+              ? product.earphoneAttributes?.uses.map((x) => valueOfUses(x.text))
+              : undefined
           }
         />
         {/* Submit Button */}
@@ -224,6 +258,10 @@ export default function ProductForm({ product }: FormProps) {
   );
 }
 
+/**
+ * Skeleton component for ProductForm to display a loading state.
+ * @returns JSX.Element
+ */
 export function ProductFormSkeleton() {
   return (
     <div
