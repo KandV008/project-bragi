@@ -26,6 +26,8 @@ interface ProductInformationProps {
   imageURL: string;
   /** Name of the product */
   name: string;
+  /** Category of the product */
+  category: string;
   /** Brand of the product */
   brand: string;
   /** Price of a single product */
@@ -53,6 +55,7 @@ export default function ProductShoppingList({
   id,
   imageURL,
   name,
+  category,
   brand,
   price,
   earSide,
@@ -133,20 +136,28 @@ export default function ProductShoppingList({
         {/* Choices */}
         <div className="flex flex-col self-center">
           {/* EarSide */}
-          <div className="flex flex-col sm:flex-row 2xl:flex-col">
-            <span className="font-bold">Lado del audífono</span>
-            <span className="mx-2">{showEarSide}</span>
-          </div>
+          {category === "EARPHONE" ? (
+            <div className="flex flex-col sm:flex-row 2xl:flex-col">
+              <span className="font-bold">Lado del audífono</span>
+              <span className="mx-2">{showEarSide}</span>
+            </div>
+          ) : (
+            <></>
+          )}
           {/* Guarantee */}
           <div className="flex flex-col sm:flex-row 2xl:flex-col">
             <span className="font-bold">Seguro de 1 año</span>
             <span className="mx-2">{guarantee ? "Sí" : "No"}</span>
           </div>
           {/* Color */}
-          <div className="flex flex-col sm:flex-row 2xl:flex-col">
-            <span className="font-bold">Color del producto</span>
-            <span className="mx-2">{colorText}</span>
-          </div>
+          {category === "EARPHONE" ? (
+            <div className="flex flex-col sm:flex-row 2xl:flex-col">
+              <span className="font-bold">Color del producto</span>
+              <span className="mx-2">{colorText}</span>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </article>
       {/* Amount Button */}

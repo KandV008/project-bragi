@@ -1,6 +1,7 @@
 import { colorList } from "@/app/model/entities/enums/Color";
+import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earLocationName, earSideName, guaranteeName, imageURLName, levelOfDiscretionName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName } from "@/app/model/JSONnames";
+import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earLocationName, earSideName, guaranteeName, imageURLName, levelOfDiscretionName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName } from "@/app/model/JSONnames";
 
 export function parseString(value: string | null | undefined, attribute: string) {
     if (!value) {
@@ -78,16 +79,23 @@ export function parseProductIds(productIds: string[] | null | undefined) {
 
 export function parseNewProductToShoppingList(formData: FormData) {
     const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
-    const colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
-    const colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
-    const earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
-    const guarantee = parseString(formData.get(guaranteeName)?.toString(), "GUARANTEE");
     const name = parseString(formData.get(nameName)?.toString(), "NAME");
+    const category = parseString(formData.get(categoryName)?.toString(), "CATEGORY");
     const brand = parseString(formData.get(brandName)?.toString(), "BRAND");
     const price = parsePrice(formData.get(priceName)?.toString());
     const imageURL = parseString(formData.get(imageURLName)?.toString(), "IMAGE_URL")
+    const guarantee = parseString(formData.get(guaranteeName)?.toString(), "GUARANTEE");
+    let colorText = ""
+    let colorHex = ""
+    let earSide = ""
 
-    return { productId, colorText, colorHex, earSide, guarantee, name, brand, price, imageURL }
+    if (category !== "ACCESSORY") {
+        colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
+        colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
+        earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
+    }
+
+    return { productId, colorText, colorHex, earSide, guarantee, name, category, brand, price, imageURL }
 }
 
 export function parseUpdateOfShoppingList(formData: FormData) {
@@ -197,11 +205,11 @@ export function parseWaterDustResistance(formData: FormData) {
 }
 
 export function parseColors(formData: FormData) {
-    
+
     const counterText = parseNumber(formData.get(colorTextName)?.toString(), "COLOR_TEXT")
     const counterHex = parseNumber(formData.get(colorHexName)?.toString(), "COLOR_HEX")
 
-    if (counterText !== counterHex){ // TODO Improve with a better validator/parser
+    if (counterText !== counterHex) { // TODO Improve with a better validator/parser
         console.error("ERROR:", "Color is not valid");
         console.error("NUM COLOR TEXT: ", counterText, "NUM COLOR HEX:", counterHex)
         throw new Error(`Color is not valid.`)
@@ -212,51 +220,67 @@ export function parseColors(formData: FormData) {
 
     const colors = colorTexts.map((text, index) => {
         return {
-           name: text,
-           hex: "#" + colorHexs[index] 
+            name: text,
+            hex: "#" + colorHexs[index]
         }
     })
 
     return colors
 }
 
-export function parseProductForm(formData: FormData){
+export function parseProductForm(formData: FormData) {
     const newName = parseString(formData.get(nameName)?.toString(), "NAME")
     const newCategory = parseString(formData.get(categoryNameParam)?.toString(), "CATEGORY")
     const newBrand = parseString(formData.get(brandName)?.toString(), "BRAND")
     const newPrice = parsePrice(formData.get(priceName)?.toString())
     const newImageURL = parseString(formData.get(imageURLName)?.toString(), "IMAGE_URL")
     const newDescription = parseString(formData.get(productDescriptionName)?.toString(), "DESCRIPTION")
-    const newColors = parseColors(formData)
     const newInclude = parseInclude(formData)
-    const newAdaptationRange = parseString(formData.get(adaptationRangeName)?.toString(), "ADAPTATION_RANGE")
-    const newWaterDustResistance = parseWaterDustResistance(formData)
-    const newEarphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE")
-    const newDegreeOfLoss = parseString(formData.get(degreeOfLossName)?.toString(), "DEGREE_OF_LOSS")
-    const newUses = parseUses(formData)
 
-    return {
+    const productAttributes = {
         name: newName,
         category: newCategory,
         price: newPrice,
         image_URL: newImageURL,
         description: newDescription,
-        colors: newColors,
         include: newInclude,
+        brand: newBrand,
+    }
+
+    if (newCategory === EARPHONE_VALUE) {
+        const earphoneAttributes = parseEarphoneAttributes(formData);
+        return {
+            ...productAttributes,
+            ...earphoneAttributes,
+        }
+    }
+
+    return productAttributes
+}
+
+function parseEarphoneAttributes(formData: FormData) {
+    const newColors = parseColors(formData);
+    const newAdaptationRange = parseString(formData.get(adaptationRangeName)?.toString(), "ADAPTATION_RANGE");
+    const newWaterDustResistance = parseWaterDustResistance(formData);
+    const newEarphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE");
+    const newDegreeOfLoss = parseString(formData.get(degreeOfLossName)?.toString(), "DEGREE_OF_LOSS");
+    const newUses = parseUses(formData);
+
+    return {
+        colors: newColors,
         adaptation_range: newAdaptationRange,
         dust_water_resistance: newWaterDustResistance,
-        brand: newBrand,
         earphone_shape: newEarphoneShape,
         degree_of_loss: newDegreeOfLoss,
         uses: newUses,
-    }
+    };
 }
 
-export function parseBargainForm(formData: FormData){
+export function parseBargainForm(formData: FormData) {
     const newCode = parseString(formData.get(bargainCodeName)?.toString(), "CODE")
     const newTitle = parseString(formData.get(bargainTitleName)?.toString(), "TITLE")
     const newDescription = parseString(formData.get(bargainDescriptionName)?.toString(), "DESCRIPTION")
-    
+
     return {
         code: newCode,
         title: newTitle,
@@ -264,11 +288,11 @@ export function parseBargainForm(formData: FormData){
     }
 }
 
-export function parseNoveltyForm(formData: FormData){
+export function parseNoveltyForm(formData: FormData) {
     const newTitle = parseString(formData.get(noveltyTitleName)?.toString(), "TITLE")
     const newDescription = parseString(formData.get(noveltyDescriptionName)?.toString(), "DESCRIPTION")
     const newPromotionalImage = parseString(formData.get(promotionalImageName)?.toString(), "PROMOTIONAL_IMAGE")
-    
+
     return {
         title: newTitle,
         description: newDescription,

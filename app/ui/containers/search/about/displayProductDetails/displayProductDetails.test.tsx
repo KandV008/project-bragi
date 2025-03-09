@@ -6,16 +6,18 @@ import {
 import { Uses } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { render, screen } from "@testing-library/react";
 import DisplayProductDetails from "./displayProductDetails";
+import { EarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
+import { EarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 
 describe("<DisplayProductDetails />", () => {
   const exampleDescription: string =
     "Example plus example plus example plus...";
   const exampleEarphoneAttributes: EarphoneAttributes = {
     colors: [],
-    adaptationRange: "MILD-SEVERE",
+    adaptationRange: EarphoneAdaptationRange["MILD-SEVERE"],
     waterDustResistance: false,
     earphoneShape: EarphoneShape.BTE,
-    degreeOfLoss: "MILD-SEVERE",
+    degreeOfLoss: EarphoneDegreeOfLoss["MILD-SEVERE"],
     uses: [Uses.CHAT, Uses.IN_GROUP, Uses.LEISURE, Uses.TELEPHONE, Uses.TV],
   };
 
@@ -52,9 +54,9 @@ describe("<DisplayProductDetails />", () => {
   });
 
   it.skip("should render DisplayProductDetails as a EARPHONE with description, with Cofosis, with dust and water resistance, with uses", () => {
-    exampleEarphoneAttributes.adaptationRange = "COFOSIS";
+    exampleEarphoneAttributes.adaptationRange = EarphoneAdaptationRange["COFOSIS"];
     exampleEarphoneAttributes.earphoneShape = EarphoneShape.COFOSIS;
-    exampleEarphoneAttributes.degreeOfLoss = "COFOSIS";
+    exampleEarphoneAttributes.degreeOfLoss = EarphoneDegreeOfLoss["COFOSIS"];
 
     render(
       <DisplayProductDetails

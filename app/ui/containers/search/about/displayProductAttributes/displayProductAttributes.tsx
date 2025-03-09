@@ -41,7 +41,18 @@ import {
   DISCOUNT_PER_UNIT,
   GUARANTEE_VALUE,
 } from "@/app/model/entities/product/ProductConfiguration";
-import { brandName, colorHexName, colorTextName, earSideName, guaranteeName, imageURLName, nameName, priceName, productIdName } from "@/app/model/JSONnames";
+import {
+  brandName,
+  categoryName,
+  colorHexName,
+  colorTextName,
+  earSideName,
+  guaranteeName,
+  imageURLName,
+  nameName,
+  priceName,
+  productIdName,
+} from "@/app/model/JSONnames";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -59,6 +70,7 @@ import { brandName, colorHexName, colorTextName, earSideName, guaranteeName, ima
 interface ProductOptionsProps {
   id: string;
   name: string;
+  category: string;
   price: string;
   imageURL: string;
   colors: EarphoneColor[] | null;
@@ -84,13 +96,14 @@ interface ProductOptionsProps {
 export default function DisplayProductAttributes({
   id,
   name,
+  category,
   price,
   imageURL,
   colors,
   isCofosis,
   brand,
   include,
-}: ProductOptionsProps) {
+}: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
 
   const LEFT_SIDE = "left";
@@ -154,7 +167,7 @@ export default function DisplayProductAttributes({
   /* Form Handler */
   const handleForm = (formData: FormData) => {
     const isValid = validateAddShoppingCart(formData);
-    if (isValid) {
+    if (isValid || category === "ACCESSORY") {
       addProductToShoppingList(formData)
         .then((_) => toast.success("Se ha añadido a la cesta."))
         .catch((_) => toast.error("No se ha podido añadir a la cesta."));
@@ -205,36 +218,40 @@ export default function DisplayProductAttributes({
             <></>
           )}
           {/* Hearing Aid Side Buttons */}
-          <div className="w-fit">
-            <ArticleHeader text={"Lado del Audífono"} />
-            <div className="flex flex-row flex-wrap gap-3">
-              {/* RIGHT SIDE */}
-              <button
-                className={getEarSideButtonClasses(RIGHT_SIDE)}
-                onClick={() => handleEarSideButtonClick(RIGHT_SIDE)}
-              >
-                Derecho
-              </button>
-              {/* LEFT SIDE */}
-              <button
-                className={getEarSideButtonClasses(LEFT_SIDE)}
-                onClick={() => handleEarSideButtonClick(LEFT_SIDE)}
-              >
-                Izquierdo
-              </button>
-              {/* BOTH SIDE */}
-              {!isCofosis ? (
+          {colors ? (
+            <div className="w-fit">
+              <ArticleHeader text={"Lado del Audífono"} />
+              <div className="flex flex-row flex-wrap gap-3">
+                {/* RIGHT SIDE */}
                 <button
-                  className={getEarSideButtonClasses(BOTH_SIDE)}
-                  onClick={() => handleEarSideButtonClick(BOTH_SIDE)}
+                  className={getEarSideButtonClasses(RIGHT_SIDE)}
+                  onClick={() => handleEarSideButtonClick(RIGHT_SIDE)}
                 >
-                  Ambos
+                  Derecho
                 </button>
-              ) : (
-                <></>
-              )}
+                {/* LEFT SIDE */}
+                <button
+                  className={getEarSideButtonClasses(LEFT_SIDE)}
+                  onClick={() => handleEarSideButtonClick(LEFT_SIDE)}
+                >
+                  Izquierdo
+                </button>
+                {/* BOTH SIDE */}
+                {!isCofosis ? (
+                  <button
+                    className={getEarSideButtonClasses(BOTH_SIDE)}
+                    onClick={() => handleEarSideButtonClick(BOTH_SIDE)}
+                  >
+                    Ambos
+                  </button>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
           {/* Insurance Button */}
           <div className="w-fit">
             <ArticleHeader text={"Añadir seguro de 1 año al producto"} />
@@ -258,7 +275,7 @@ export default function DisplayProductAttributes({
           <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
             <form action={handleForm}>
               <input type="hidden" name={productIdName} value={id} />
-              {colors ? ( 
+              {colors ? (
                 <>
                   <input
                     type="hidden"
@@ -281,6 +298,7 @@ export default function DisplayProductAttributes({
                 value={guarantee.toString()}
               />
               <input type="hidden" name={nameName} value={name} />
+              <input type="hidden" name={categoryName} value={category} />
               <input type="hidden" name={brandName} value={brand} />
               <input type="hidden" name={priceName} value={currentPrice} />
               <input type="hidden" name={imageURLName} value={imageURL} />
@@ -321,10 +339,10 @@ export default function DisplayProductAttributes({
 }
 
 /**
- * Skeleton loader component for the product options. It displays a placeholder for the product's 
- * image, name, brand, price, options (such as colors and ear side), insurance button, and 
+ * Skeleton loader component for the product options. It displays a placeholder for the product's
+ * image, name, brand, price, options (such as colors and ear side), insurance button, and
  * included items while the actual content is loading.
- * 
+ *
  * @returns {JSX.Element} A skeleton structure representing the layout of product options.
  */
 export function ProductOptionsSkeleton() {

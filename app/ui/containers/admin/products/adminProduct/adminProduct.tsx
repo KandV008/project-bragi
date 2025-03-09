@@ -33,11 +33,12 @@ import {
 import { actionDeleteProduct } from "@/db/product";
 import { getProductRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
+import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 
 /**
  * Admin product management page for viewing and editing a product's details.
  * Allows product deletion and updating, with a confirmation popup for deletion.
- * 
+ *
  * @returns {JSX.Element} Admin product details page.
  */
 export default function AdminProduct(): JSX.Element {
@@ -110,57 +111,64 @@ export default function AdminProduct(): JSX.Element {
         </div>
         {/* Description */}
         <Article label="Descripción" value={product.description} />
-        {/* Colors */}
-        <ColorArticle
-          label="Colores"
-          colors={product.earphoneAttributes!.colors}
-        />
-        {/* Technical Data */}
-        <div className="flex flex-col items-center sm:grid sm:grid-cols-2 lg:grid-cols-3">
-          {/* Adaptation Range */}
-          <Article
-            label="Rango de Adaptación"
-            value={product.earphoneAttributes!.adaptationRange}
-          />
-          {/* Water Dust Resistance */}
-          <Article
-            label="Resistencia al agua y al polvo"
-            value={
-              product.earphoneAttributes!.waterDustResistance ? "Sí" : "No"
-            }
-          />
-          {/* Earphone Shape */}
-          <Article
-            label="Forma de Audífono"
-            value={product.earphoneAttributes!.earphoneShape}
-          />
+        {/* Earphone Attributes */}
+        {product.category === EARPHONE_VALUE ? (
+          <>
+            {/* Colors */}
+            <ColorArticle
+              label="Colores"
+              colors={product.earphoneAttributes!.colors}
+            />
+            {/* Technical Data */}
+            <div className="flex flex-col items-center sm:grid sm:grid-cols-2 lg:grid-cols-3">
+              {/* Adaptation Range */}
+              <Article
+                label="Rango de Adaptación"
+                value={product.earphoneAttributes!.adaptationRange}
+              />
+              {/* Water Dust Resistance */}
+              <Article
+                label="Resistencia al agua y al polvo"
+                value={
+                  product.earphoneAttributes!.waterDustResistance ? "Sí" : "No"
+                }
+              />
+              {/* Earphone Shape */}
+              <Article
+                label="Forma de Audífono"
+                value={product.earphoneAttributes!.earphoneShape}
+              />
 
-          {/* Degree of Loss */}
-          <Article
-            label="Grado de pérdida"
-            value={product.earphoneAttributes!.degreeOfLoss}
-          />
-        </div>
+              {/* Degree of Loss */}
+              <Article
+                label="Grado de pérdida"
+                value={product.earphoneAttributes!.degreeOfLoss}
+              />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+
         {/* List of attributes */}
         <div className="flex flex-col sm:grid sm:grid-cols-2">
           {/* Includes */}
           <UnorderedList label="Incluye" values={product.include} />
           {/* Uses */}
-          <UnorderedList
-            label={"Usos"}
-            values={product.earphoneAttributes!.uses.map((x: any) => x.text)}
-          />
+
+          {product.category === EARPHONE_VALUE ? (
+            <UnorderedList
+              label={"Usos"}
+              values={product.earphoneAttributes!.uses.map((x: any) => x.text)}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </section>
       {/* Image Preview */}
       <section className="flex flex-col justify-center gap-3">
-        <SectionHeader text={"Imagenes del producto por su color"} />
-        <article className="self-center">
-          <ColorButton
-            colors={product.earphoneAttributes!.colors}
-            action={() => {}}
-          />
-        </article>
+        <SectionHeader text={"Imagen del producto"} />
         <BigImage src={product.imageURL} alt={"img-" + product.name} />
       </section>
       {/* Pop Up */}
@@ -189,7 +197,7 @@ export default function AdminProduct(): JSX.Element {
 
 /**
  * Skeleton loader for the AdminProduct page, displayed while the product data is being loaded.
- * 
+ *
  * @returns {JSX.Element} Skeleton loader for the AdminProduct page.
  */
 export function AdminProductSkeleton(): JSX.Element {

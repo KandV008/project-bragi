@@ -40,6 +40,7 @@ export default function Page() {
       <DisplayProductAttributes
         id={product.id}
         name={product.name}
+        category={product.category}
         price={product.price.toString()}
         imageURL={product.imageURL}
         colors={product.earphoneAttributes ? product.earphoneAttributes.colors : null}

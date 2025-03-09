@@ -15,6 +15,7 @@ interface RadioInputListProps {
   valueOf: (type: string) => string;
   onChange?: (type: string) => (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  valueHook?: (type: string) => void;
 }
 
 export default function RadioInput({
@@ -23,11 +24,13 @@ export default function RadioInput({
   list,
   valueOf,
   value,
+  valueHook,
 }: RadioInputListProps) {
   const [selectedValue, setSelectedValue] = useState<string | undefined>(value);
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
+    if (valueHook) valueHook(newValue)
     setSelectedValue(newValue);
   };
 

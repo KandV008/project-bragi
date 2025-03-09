@@ -25,6 +25,7 @@ export default function ShoppingList({ products }: ShoppingListProps) {
           id={product.id}
           imageURL={product.imageURL}
           name={product.name}
+          category={product.category}
           brand={product.brand}
           price={product.price}
           earSide={product.earSide}

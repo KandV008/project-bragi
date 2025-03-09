@@ -70,6 +70,7 @@ async function createShoppingListTable(client) { //TODO Optimize space
       guarantee BOOLEAN NOT NULL,
       quantity INT NOT NULL,
       name VARCHAR(255) NOT NULL,
+      category VARCHAR(255) NOT NULL,
       brand VARCHAR(255) NOT NULL,
       price DOUBLE PRECISION NOT NULL,
       image_url VARCHAR(255) NOT NULL,
@@ -212,7 +213,7 @@ async function dropTables() {
 }
 
 async function run() {
-  await setMongoDB();
+  //await setMongoDB();
   await dropTables();
   await setPostgresSQL();
 }

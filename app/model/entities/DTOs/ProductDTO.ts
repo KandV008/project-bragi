@@ -6,6 +6,8 @@ export interface ProductDTO {
     id: string;
     /** Name of the product */
     name: string;
+    /** Category of the product */
+    category: string;
     /** Brand of the product */
     brand: string;
     /** Price of the product */
@@ -34,6 +36,7 @@ export function mapDocumentToProductDTO(product: any): ProductDTO {
     return {
         id: product.product_id,
         name: product.name,
+        category: product.category,
         brand: product.brand,
         price: product.price,
         earSide: product.ear_side,

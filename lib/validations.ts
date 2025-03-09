@@ -1,4 +1,5 @@
-import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryNameParam, colorTextName, degreeOfLossName, earLocationName, earphoneShapeName, earSideName, imageURLName, levelOfDiscretionName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
+import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category"
+import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, categoryNameParam, colorTextName, degreeOfLossName, earLocationName, earphoneShapeName, earSideName, imageURLName, levelOfDiscretionName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
 
 export let errorMessagesList: string[] = []
 
@@ -39,16 +40,19 @@ export function validateFormProduct(formData: FormData){
     clearErrorMessagesList()
     
     checkIfNotEmpty(formData, nameName, "No se ha introducido ningún nombre.")
-    checkIfNotEmpty(formData, categoryNameParam, "No se ha elegido ninguna categoría.")
+    checkIfNotEmpty(formData, categoryName, "No se ha elegido ninguna categoría.")
     checkIfNotEmpty(formData, brandName, "No se ha elegido ninguna marca.")
     checkIfNotEmpty(formData, priceName, "No se ha introducido ningún precio.")
     checkIfNotEmpty(formData, imageURLName, "No se ha introducido ninguna URL para la imagen.")
     checkIfNotEmpty(formData, productDescriptionName, "No se ha introducido ninguna descripción.")
-    checkIfNotEmpty(formData, adaptationRangeName, "No se ha elegido ningún rango de adaptación.")
-    checkIfNotEmpty(formData, earphoneShapeName, "No se ha introducido ninguna forma de audífono.")
-    checkIfNotEmpty(formData, degreeOfLossName, "No se ha elegido ningún grado de pérdida.")
-    checkIfNotEmpty(formData, usesName, "No se ha elegido ningún uso.")
 
+    if (formData.get(categoryName) === EARPHONE_VALUE){
+        checkIfNotEmpty(formData, adaptationRangeName, "No se ha elegido ningún rango de adaptación.")
+        checkIfNotEmpty(formData, earphoneShapeName, "No se ha introducido ninguna forma de audífono.")
+        checkIfNotEmpty(formData, degreeOfLossName, "No se ha elegido ningún grado de pérdida.")
+        checkIfNotEmpty(formData, usesName, "No se ha elegido ningún uso.")    
+    }
+    
     return checkErrorMessagesList()
 }
 

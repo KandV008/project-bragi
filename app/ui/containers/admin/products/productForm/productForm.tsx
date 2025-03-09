@@ -1,7 +1,10 @@
 "use client";
 
 import { Brand } from "@/app/model/entities/product/enums/Brand";
-import { Category } from "@/app/model/entities/product/enums/Category";
+import {
+  Category,
+  EARPHONE_VALUE,
+} from "@/app/model/entities/product/enums/Category";
 import {
   usesList,
   valueOfUses,
@@ -39,7 +42,7 @@ import {
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { validateFormProduct } from "@/lib/validations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import {
   componentBackground,
@@ -95,6 +98,10 @@ export default function ProductForm({ product }: FormProps) {
     : "Se ha podido crear el producto";
   const [showModal, setShowModal] = useState(false);
 
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    product ? product.category : ""
+  );
+
   /**
    * Toggles the validation popup modal.
    */
@@ -149,6 +156,7 @@ export default function ProductForm({ product }: FormProps) {
           list={Object.values(Category)}
           valueOf={(x) => x}
           value={product ? product.category : ""}
+          valueHook={(category: string) => setSelectedCategory(category)}
         />
         {/* Brand */}
         <RadioInput
@@ -184,11 +192,6 @@ export default function ProductForm({ product }: FormProps) {
           icon={faTextHeight}
           value={product ? product.description : ""}
         />
-        {/* Colors */}
-        <ColorInput
-          label={"Colores disponibles del producto"}
-          values={product ? product.earphoneAttributes?.colors : []}
-        />
         {/* Includes */}
         <IncrementalTextInput
           name={includeName}
@@ -196,56 +199,71 @@ export default function ProductForm({ product }: FormProps) {
           placeholder={"Incluye..."}
           label={"Incluye el producto"}
           icon={faPlus}
-          values={product ? product.include : []}
+          values={product ? product.include : undefined}
         />
-        {/* Adaptation Range */}
-        <RadioInput
-          name={adaptationRangeName}
-          label={"Rango de adaptación del producto"}
-          list={earphoneAdaptationRangeList}
-          valueOf={(x) => x}
-          value={product ? product.earphoneAttributes?.adaptationRange : ""}
-        />
-        {/* Water Dust Resistance */}
-        <CheckBoxInput
-          name={waterDustResistanceName}
-          label={"Resistencia al Agua y al Polvo"}
-          list={["YES"]}
-          values={
-            product
-              ? product.earphoneAttributes?.waterDustResistance
-                ? ["YES"]
-                : []
-              : undefined
-          }
-        />
-        {/* Earphone Shape */}
-        <RadioInput
-          name={earphoneShapeName}
-          label={"Forma del producto"}
-          list={earphoneShapeList}
-          valueOf={(x) => x}
-          value={product ? product.earphoneAttributes?.earphoneShape : ""}
-        />
-        {/* Degree of Loss */}
-        <RadioInput
-          name={degreeOfLossName}
-          label={"Grado de pérdida del producto"}
-          list={earphoneDegreeOfLossList}
-          valueOf={(x) => x}
-          value={product ? product.earphoneAttributes?.degreeOfLoss : ""}
-        />
-        {/* TODO Uses */}
-        <CheckBoxInput
-          name={usesName}
-          label={"Usos del producto"}
-          list={usesList}
-          values={
-            product
-              ? product.earphoneAttributes?.uses.map((x) => valueOfUses(x.text))
-              : undefined
-          }
-        />
+        {/* Earphone Attributes */}
+        {selectedCategory === EARPHONE_VALUE ? (
+          <>
+            {/* Colors */}
+            <ColorInput
+              label={"Colores disponibles del producto"}
+              values={product ? product.earphoneAttributes?.colors : undefined}
+            />
+            {/* Adaptation Range */}
+            <RadioInput
+              name={adaptationRangeName}
+              label={"Rango de adaptación del producto"}
+              list={earphoneAdaptationRangeList}
+              valueOf={(x) => x}
+              value={product ? product.earphoneAttributes?.adaptationRange : ""}
+            />
+            {/* Water Dust Resistance */}
+            <CheckBoxInput
+              name={waterDustResistanceName}
+              label={"Resistencia al Agua y al Polvo"}
+              list={["YES"]}
+              values={
+                product
+                  ? product.earphoneAttributes?.waterDustResistance
+                    ? ["YES"]
+                    : []
+                  : undefined
+              }
+            />
+            {/* Earphone Shape */}
+            <RadioInput
+              name={earphoneShapeName}
+              label={"Forma del producto"}
+              list={earphoneShapeList}
+              valueOf={(x) => x}
+              value={product ? product.earphoneAttributes?.earphoneShape : ""}
+            />
+            {/* Degree of Loss */}
+            <RadioInput
+              name={degreeOfLossName}
+              label={"Grado de pérdida del producto"}
+              list={earphoneDegreeOfLossList}
+              valueOf={(x) => x}
+              value={product ? product.earphoneAttributes?.degreeOfLoss : ""}
+            />
+            {/* Uses */}
+            <CheckBoxInput
+              name={usesName}
+              label={"Usos del producto"}
+              list={usesList}
+              values={
+                product
+                  ? product.earphoneAttributes?.uses.map((x) =>
+                      valueOfUses(x.text)
+                    )
+                  : undefined
+              }
+            />
+          </>
+        ) : (
+          <></>
+        )}
+
         {/* Submit Button */}
         <section className="self-center">
           <SubmitButton text={actionText} icon={faUpload} isDisable={false} />

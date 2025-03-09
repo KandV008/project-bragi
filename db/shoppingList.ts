@@ -60,17 +60,17 @@ export async function addProductToShoppingList(formData: FormData) {
 
   const { userId } = auth();
   const parsedUserId = parseString(userId?.toString(), "USER_ID")
-  const { productId, colorText, colorHex, earSide, guarantee, name, brand, price, imageURL } = parseNewProductToShoppingList(formData)
+  const { productId, colorText, colorHex, earSide, guarantee, name, category, brand, price, imageURL } = parseNewProductToShoppingList(formData)
 
   try {
     const client = await sql.connect()
 
     await client.query(
-      `INSERT INTO shoppingList (product_id, user_id, color_text, color_hex, ear_side, guarantee, quantity, name, brand, price, image_url)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      `INSERT INTO shoppingList (product_id, user_id, color_text, color_hex, ear_side, guarantee, quantity, name, category, brand, price, image_url)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
            ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side, guarantee)
            DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity`,
-      [productId, parsedUserId, colorText, colorHex, earSide, guarantee, 1, name, brand, price, imageURL]
+      [productId, parsedUserId, colorText, colorHex, earSide, guarantee, 1, name, category, brand, price, imageURL]
     );
 
     Logger.endFunction(
