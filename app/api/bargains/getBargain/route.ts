@@ -2,6 +2,14 @@ import { bargainIdName } from '@/app/model/JSONnames';
 import { getBargain } from '@/db/bargain';
 import { NextResponse } from 'next/server';
 
+/**
+ * Handles the GET request to fetch a specific bargain based on its ID.
+ * It retrieves the bargain using the provided `id` in the request's search parameters.
+ * Returns the bargain data in JSON format if found, or an error message if not.
+ *
+ * @param {Request} request The incoming HTTP request.
+ * @returns {NextResponse} The HTTP response with either the bargain data or an error message.
+ */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get(bargainIdName);

@@ -2,11 +2,19 @@ import { endNameParam, startNameParam } from "@/app/model/JSONnames";
 import { getBargains } from "@/db/bargain";
 import { NextResponse } from "next/server";
 
+/**
+ * Handles the GET request to fetch a list of bargains based on the provided start and end indices.
+ * Retrieves the bargains from the database and returns them in JSON format.
+ * If no bargains are found, it returns a 404 response. If an error occurs during the process,
+ * it returns a 500 Internal Server Error response.
+ *
+ * @param {Request} request The incoming HTTP request.
+ * @returns {NextResponse} The HTTP response containing the bargains data or an error message.
+ */
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const startIndex = searchParams.get(startNameParam);
     const endIndex = searchParams.get(endNameParam);
-    console.log(startIndex, endIndex)
 
     try {
         const bargains = await getBargains(startIndex, endIndex);

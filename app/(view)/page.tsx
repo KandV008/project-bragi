@@ -12,7 +12,7 @@ import SomeProductContainer from "../ui/components/products/someProductContainer
  *
  * @returns {JSX.Element} The homepage layout with interactive elements and product sections.
  */
-export default function Home() {
+export default function Home(): JSX.Element {
   return (
     <>
       <CarouselWithAction />

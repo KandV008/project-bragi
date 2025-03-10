@@ -2,6 +2,14 @@ import { noveltyIdName } from '@/app/model/JSONnames';
 import { getNovelty } from '@/db/novelty';
 import { NextResponse } from 'next/server';
 
+/**
+ * Handles the GET request to fetch a single novelty by its ID. The request includes a novelty ID as a query
+ * parameter. If the novelty is not found, it returns a 404 response. In case of an error, it returns a 500 
+ * Internal Server Error response.
+ *
+ * @param {Request} request The incoming HTTP request containing the novelty ID.
+ * @returns {NextResponse} The HTTP response containing the novelty or an error message.
+ */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get(noveltyIdName);

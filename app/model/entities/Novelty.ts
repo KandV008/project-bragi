@@ -1,12 +1,18 @@
-export interface NoveltyEntity {
+export interface NoveltyEntity { // TODO Update String Doc
     id: string;
     title: string;
     description: string;
     promotionalImage: string;
-    //toProducts: string[];
-    //discount: string;
+    // TODO toProducts: string[];
+    // TODO discount: string;
 }
 
+/**
+ * Maps the raw novelty document to a strongly typed NoveltyEntity.
+ *
+ * @param novelty - The raw novelty data (usually from a database or API).
+ * @returns A strongly typed NoveltyEntity object.
+ */
 export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
     return {
         id: novelty.id,

@@ -1,11 +1,17 @@
-export interface BargainEntity{
+export interface BargainEntity{ // TODO Update String Doc
     id: string;
     code: string;
     title: string;
     description: string;
-    //action: () -> void;
+    // TODO action: () -> void;
 }
 
+/**
+ * Maps the raw bargain document to a strongly typed BargainEntity.
+ *
+ * @param bargain - The raw bargain data (usually from a database or API).
+ * @returns A strongly typed BargainEntity object.
+ */
 export function mapDocumentToBargain(bargain: any): BargainEntity {
     return {
         id: bargain.id,
