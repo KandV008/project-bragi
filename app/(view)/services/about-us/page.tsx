@@ -4,11 +4,20 @@ import { componentBackground, componentText } from "@/app/ui/tailwindClasses";
 import { Metadata } from "next";
 import Link from "next/link";
 
+/**
+ * Metadata for the page, defining the title.
+ */
 export const metadata: Metadata = {
   title: "Sobre nosotros",
 };
 
-export default function Page() {
+/**
+ * Page component that displays information about the team and company.
+ * This component renders a section header, a team member list, and a description of the company's values and services.
+ *
+ * @returns {JSX.Element} The "Sobre nosotros" (About Us) page component.
+ */
+export default function Page(): JSX.Element {
   return (
     <>
       <SectionHeader text={"Sobre Nosotros"} />

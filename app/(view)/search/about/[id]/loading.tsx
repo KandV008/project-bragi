@@ -4,7 +4,13 @@ import { SomeProductContainerSkeleton } from "@/app/ui/components/products/someP
 import { ProductDetailsSkeleton } from "@/app/ui/containers/search/about/displayProductDetails/displayProductDetails";
 import { ProductOptionsSkeleton } from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
 
-export default function Loading() {
+/**
+ * Loading component that displays skeleton loaders while the content is loading.
+ * This component renders skeleton components for product options, details, and related products.
+ *
+ * @returns {JSX.Element} The Loading page component displaying various skeleton loaders.
+ */
+export default function Loading(): JSX.Element {
   return (
     <div className="flex flex-col gap-3">
       <ProductOptionsSkeleton />

@@ -12,33 +12,45 @@ import { customLocalization } from "@/lib/translation";
 
 const inter = Inter({ subsets: ["latin"] });
 
+/**
+ * Metadata for the page, defining the title and description.
+ */
 export const metadata: Metadata = {
   title: "Sain, Audífonos X Menos",
-  description: "Sain is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accesibility, usability and affordable prices.",
+  description: "Sain is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accessibility, usability, and affordable prices.",
 };
 
+/**
+ * Root layout component that wraps around all pages.
+ * It includes the header, footer, and other global settings such as ClerkProvider, font, and NextTopLoader.
+ * 
+ * @param {React.ReactNode} children - The children components that are rendered within the main section.
+ * @returns {JSX.Element} The root layout component with global settings applied.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element {
   return (
     <ClerkProvider localization={customLocalization}>
       <html lang="es">
         <head>
-          {/* Other head elements like meta tags, link tags etc. */}
+          {/* Meta tags and favicon for the page */}
           <link rel="icon" href="/favicon.ico" sizes="any" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          ></meta>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         </head>
         <body
           className={`${inter.className} flex flex-col min-h-screen align-middle ${mainBackground}`}
         >
+          {/* Loader displayed at the top of the page */}
           <NextTopLoader color="#05966A" crawl={false} height={5} showSpinner={false} speed={500}/>
+          
+          {/* Header section */}
           <header className="p-4 flex justify-end"></header>
           <Header />
+          
+          {/* Main content section */}
           <div className="mt-20"></div>
           <main
             className="flex flex-col flex-grow justify-center 
@@ -46,9 +58,12 @@ export default function RootLayout({
             py-16 md:py-12 lg:py-10 2xl:py-5 
             w-11/12 xl:w-4/6 place-self-center"
           >
+            {/* Toast notifications */}
             <Toaster position="bottom-right"/>
             {children}
           </main>
+          
+          {/* Footer section */}
           <Footer />
         </body>
       </html>

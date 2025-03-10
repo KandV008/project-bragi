@@ -11,7 +11,14 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 
-export default function Page() {
+/**
+ * Page component that displays product details, attributes, related products, and a guarantee section.
+ * It fetches product data based on the product ID from the URL and renders various components such as 
+ * product attributes, details, related products, and a guarantee message.
+ *
+ * @returns {JSX.Element} The Product Details page component.
+ */
+export default function Page(): JSX.Element {
   const pathname = usePathname();
   const productId = pathname.split("/").pop();
 
@@ -33,7 +40,7 @@ export default function Page() {
   if (isLoading) return <Loading />;
   if (!product) return <p>No product data</p>;
 
-  const isCofosis = product.earphoneAttributes?.earphoneShape === EarphoneShape.COFOSIS
+  const isCofosis = product.earphoneAttributes?.earphoneShape === EarphoneShape.COFOSIS;
 
   return (
     <div className="flex flex-col gap-3">

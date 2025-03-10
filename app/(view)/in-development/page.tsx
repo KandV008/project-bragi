@@ -1,12 +1,20 @@
 import InDevelopmentMessage from "@/app/ui/components/messages/inDevelopmentMessage";
 import { Metadata } from "next";
 
+/**
+ * Metadata for the page, defining the title.
+ */
 export const metadata: Metadata = {
   title: "En desarrollo",
 };
 
-export default function Page() {
-
+/**
+ * Page component for displaying an "In Development" message.
+ * This component renders the `InDevelopmentMessage` component.
+ *
+ * @returns {JSX.Element} The InDevelopmentMessage page component.
+ */
+export default function Page(): JSX.Element {
   return (
     <>
       <InDevelopmentMessage />
