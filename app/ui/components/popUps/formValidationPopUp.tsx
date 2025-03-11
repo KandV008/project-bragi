@@ -2,11 +2,23 @@ import { errorMessagesList } from "@/lib/validations";
 import MediumButton from "../buttons/mediumButton";
 import { componentBackground, componentText, componentBorder, hoverFillDefaultComponentBackground } from "../../tailwindClasses";
 
+/**
+ * Props for the FormValidationPopUp component.
+ *
+ * @property {() => void} handleShowModal - Function to close the popup when triggered.
+ */
 interface PopUpProps {
   handleShowModal: () => void;
 }
 
-export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
+/**
+ * A popup component that displays validation error messages when a form submission is invalid.
+ * The popup overlays the entire screen with a darkened background and provides an option to dismiss it.
+ *
+ * @param {PopUpProps} props - The properties for the FormValidationPopUp component.
+ * @returns {JSX.Element} The rendered FormValidationPopUp component.
+ */
+export default function FormValidationPopUp({ handleShowModal }: PopUpProps): JSX.Element {
   return (
     <section
       className="flex justify-center items-center w-full h-full fixed  
@@ -19,7 +31,7 @@ export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
             rounded-lg shadow m-1 p-4 sm:px-16 sm:py-8 flex flex-col items-center gap-8
             ${componentBackground} ${componentText} ${componentBorder}`}
       >
-        {/* Icon */}
+        {/* Close Button */}
         <button
           type="button"
           className={`absolute top-3 right-2.5 
@@ -43,15 +55,18 @@ export default function FormValidationPopUp({ handleShowModal }: PopUpProps) {
           </svg>
           <span className="sr-only">Close popup</span>
         </button>
+
         {/* Title */}
-        <h1 className="text-2xl sm:text-4xl font-bold"> Formulario no válido</h1>
-        {/* Elements */}
+        <h1 className="text-2xl sm:text-4xl font-bold">Formulario no válido</h1>
+
+        {/* Error Messages List */}
         <ul>
           {errorMessagesList.map((element, index) => (
             <li key={"errorMessage-" + index} className="text-lg">* {element}</li>
           ))}
         </ul>
-        {/* Actions */}
+
+        {/* Action Button */}
         <MediumButton text={"Continuar"} onClick={handleShowModal} />
       </article>
     </section>

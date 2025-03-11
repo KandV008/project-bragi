@@ -1,6 +1,12 @@
 import NavButton from "../../components/buttons/navButton";
 
-export default function SubHeaderButtons() {
+/**
+ * This component renders a set of navigation buttons for different sections of the website.
+ * It includes links to product categories, services, and company information.
+ * 
+ * @returns {JSX.Element} The rendered SubHeaderButtons component.
+ */
+export default function SubHeaderButtons(): JSX.Element {
   return (
     <>
       <NavButton text="Audífonos" href={"/search?category=EARPHONE"} />

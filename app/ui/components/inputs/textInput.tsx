@@ -1,20 +1,33 @@
+'use client';
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import {
-  fillDefaultComponentBackground,
-  componentText,
-  componentBorder,
-} from "../../tailwindClasses";
+import { fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
+/**
+ * Props for the TextInput component.
+ */
 interface TextInputProps {
+  /** Name attribute for the input */
   name: string;
+  /** Type of the input field */
   type: "text" | "password" | "number" | "url";
+  /** Placeholder text displayed inside the input */
   placeholder: string;
+  /** Label text for the input */
   label: string;
+  /** Icon displayed alongside the input */
   icon: IconDefinition;
+  /** Initial value of the input (optional) */
   value?: string;
 }
 
+/**
+ * A styled text input component with an icon and label.
+ *
+ * @param {TextInputProps} props - The properties for the text input component.
+ * @returns {JSX.Element} The rendered text input component.
+ */
 export default function TextInput({
   name,
   type,
@@ -22,7 +35,7 @@ export default function TextInput({
   label,
   icon,
   value,
-}: TextInputProps) {
+}: TextInputProps): JSX.Element {
   return (
     <section className="flex flex-col w-full">
       <label
@@ -59,7 +72,12 @@ export default function TextInput({
   );
 }
 
-export function TextInputSkeleton() {
+/**
+ * A skeleton loading component for the TextInput.
+ *
+ * @returns {JSX.Element} The skeleton loading state of the text input.
+ */
+export function TextInputSkeleton(): JSX.Element {
   return (
     <section className="flex flex-col w-full gap-1">
       <label

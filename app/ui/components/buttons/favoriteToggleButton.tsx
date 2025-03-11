@@ -14,11 +14,30 @@ import {
   hoverComponentBorder,
 } from "../../tailwindClasses";
 
+/**
+ * Props for the FavoriteToggleButton component.
+ */
 interface FavoriteToggleButtonProps {
+  /**
+   * The ID of the product being favorited.
+   */
   productId: string;
+
+  /**
+   * Boolean indicating whether the product is already favorited.
+   */
   isActive: boolean;
 }
 
+/**
+ * A button component for toggling the favorite status of a product.
+ * Displays a heart icon, which changes color when clicked to indicate 
+ * whether the product is favorited or not.
+ * 
+ * @param productId - The ID of the product being favorited.
+ * @param isActive - Boolean indicating the initial favorited state of the product.
+ * @returns A button that toggles the favorite status of a product.
+ */
 export default function FavoriteToggleButton({
   productId,
   isActive,
@@ -27,7 +46,7 @@ export default function FavoriteToggleButton({
   const { user } = useUser();
 
   useEffect(() => {
-    setIsFavorite(isActive);
+    setIsFavorite(isActive); 
   }, [isActive]);
 
   const toggleFavourite = () => {
@@ -35,8 +54,8 @@ export default function FavoriteToggleButton({
   };
 
   const favoriteClasses = isFavorite
-    ? `${pressedButton}`
-    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
+    ? `${pressedButton}` 
+    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`; 
 
   return (
     <>
@@ -60,6 +79,12 @@ export default function FavoriteToggleButton({
   );
 }
 
+/**
+ * Skeleton component for the FavoriteToggleButton.
+ * It displays a placeholder for the button while the actual component is loading.
+ * 
+ * @returns A JSX element representing a skeleton loader for the favorite toggle button.
+ */
 export function FavoriteToggleButtonSkeleton() {
   return (
     <div className="h-8 w-12 md:size-10 xl:size-12 rounded-2xl border-2 bg-gray-200" />

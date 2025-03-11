@@ -6,7 +6,12 @@ import { useRouter } from "next/navigation";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 import { componentText } from "../../tailwindClasses";
 
-export default function InDevelopmentMessage() {
+/**
+ * A component that displays an 'in development' message when no products are found.
+ *
+ * @returns {JSX.Element} The rendered 'in development' message component.
+ */
+export default function InDevelopmentMessage(): JSX.Element {
   const router = useRouter();
 
   return (

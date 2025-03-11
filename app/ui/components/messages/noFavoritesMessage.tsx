@@ -3,7 +3,12 @@ import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { componentText } from "../../tailwindClasses";
 
-export default function NoFavoritesMessage() {
+/**
+ * A component that displays an empty favorites list message when no products are found.
+ *
+ * @returns {JSX.Element} The rendered empty favorites list message component.
+ */
+export default function NoFavoritesMessage(): JSX.Element {
   return (
     <section
       className={`flex flex-col gap-5 w-full ${componentText}`}

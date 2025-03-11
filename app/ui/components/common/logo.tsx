@@ -1,6 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
+/**
+ * Logo component that renders the brand logo with support for both light and dark modes.
+ * The logo is responsive, displaying different sizes depending on the viewport and theme mode (light or dark).
+ *
+ * - Light mode logos are displayed when the dark theme is not active.
+ * - Dark mode logos are displayed when the dark theme is active.
+ * - The logos are responsive with different sizes for different screen widths (sm, md, lg, xl).
+ *
+ * @returns JSX.Element - A clickable logo that redirects to the homepage.
+ */
 export default function Logo() {
   return (
     <Link href={"/"} className="flex flex-col items-center w-fit">

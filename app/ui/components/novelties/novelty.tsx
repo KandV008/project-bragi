@@ -7,21 +7,39 @@ import {
 import Image from "next/image";
 import SeeMoreButton from "../buttons/seeMoreButton";
 
+/**
+ * Properties for the Novelty component.
+ */
 interface NoveltyProps {
+  /** Unique identifier for the novelty item. */
   id: string;
+  /** Title of the novelty item. */
   title: string;
+  /** Description providing details about the novelty item. */
   description: string;
+  /** URL or path to the promotional image. */
   promotionalImage: string;
+  /**
+   * Determines if the preview button should be displayed.
+   * @default false
+   */
   isPreview?: boolean;
 }
 
+/**
+ * A component that displays a novelty item with an image, title, and description.
+ * Optionally includes a preview button for navigation.
+ *
+ * @param {NoveltyProps} props - The properties for the novelty component.
+ * @returns {JSX.Element} The rendered novelty component.
+ */
 export default function Novelty({
   id,
   title,
   description,
   promotionalImage,
   isPreview,
-}: NoveltyProps) {
+}: NoveltyProps): JSX.Element {
   return (
     <section
       className={`flex flex-col items-center p-1 sm:p-3 sm:gap-3
@@ -50,7 +68,12 @@ export default function Novelty({
   );
 }
 
-export function NoveltySkeleton() {
+/**
+ * A skeleton loading component for the Novelty component.
+ *
+ * @returns {JSX.Element} The skeleton loader for the novelty component.
+ */
+export function NoveltySkeleton(): JSX.Element {
   return (
     <div
       className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm`}

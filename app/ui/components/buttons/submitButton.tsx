@@ -6,12 +6,37 @@ import {
   negativeComponentText,
 } from "../../tailwindClasses";
 
+/**
+ * Props for the SubmitButton component.
+ */
 interface SubmitButtonProps {
+  /**
+   * The text to display on the button.
+   */
   text: string;
+
+  /**
+   * The icon to display inside the button.
+   */
   icon: IconProp;
+
+  /**
+   * Boolean to determine if the button is disabled.
+   */
   isDisable: boolean;
 }
 
+/**
+ * A button component that displays an icon and text, and can be disabled based on the `isDisable` prop.
+ * 
+ * If `isDisable` is true, the button is disabled and styled as inactive.
+ * If `isDisable` is false, the button is enabled and clickable.
+ * 
+ * @param text - The text to display on the button.
+ * @param icon - The icon to display inside the button.
+ * @param isDisable - A boolean to control whether the button is disabled.
+ * @returns A submit button with an icon and text, and a disabled state if necessary.
+ */
 export default function SubmitButton({
   text,
   icon,
@@ -51,6 +76,11 @@ export default function SubmitButton({
   );
 }
 
+/**
+ * Skeleton component for the SubmitButton, used to display a placeholder during loading.
+ * 
+ * @returns A skeleton representation of the SubmitButton with a gray background and basic button shape.
+ */
 export function SubmitButtonSkeleton() {
   return (
     <section className="self-center">

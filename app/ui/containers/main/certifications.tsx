@@ -1,13 +1,22 @@
 import Image from "next/image";
 import SectionHeader from "../../components/tags/sectionHeader";
 
+/**
+ * This component displays certification logos and brand logos for the company.
+ * It is divided into two sections:
+ * - Certifications: Displays accreditation logos.
+ * - Brands: Displays logos of partner brands.
+ * 
+ * @returns {JSX.Element} The rendered Certifications component.
+ */
 export default function Certifications() {
   return (
     <section className="flex flex-col gap-5">
-      {/* Certifications */}
+      {/* Certifications Section */}
       <article className="flex flex-col gap-5">
         <SectionHeader text="Certificaciones" />
         <div className="flex flex-row justify-around align-middle p-5">
+          {/* Certification Logos */}
           <Image
             src={"/logo-CEP.png"}
             alt={"Logo_of_CEP"}
@@ -24,10 +33,12 @@ export default function Certifications() {
           />
         </div>
       </article>
-      {/* Brands */}
+
+      {/* Brands Section */}
       <article className="flex flex-col gap-5">
         <SectionHeader text="Marcas con las que trabajamos" />
         <div className="flex flex-row justify-around align-middle p-5">
+          {/* Partner Brand Logos */}
           <Image
             src={"/logo-phonak.png"}
             alt={"Logo_of_PHONAK"}

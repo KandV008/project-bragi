@@ -15,12 +15,22 @@ import { useUser } from "@clerk/nextjs";
 import ExpandButton from "../../containers/header/expandButton";
 import SubHeaderButtons from "../../containers/header/subHeaderButtons";
 
+/**
+ * Header component of the website, containing:
+ * - Logo and navigation buttons.
+ * - Search bar.
+ * - Profile and shopping actions buttons (e.g., account, favorites, cart).
+ * - Theme toggle button.
+ * 
+ * @returns The Header JSX element.
+ */
 export default function Header() {
   const { user } = useUser();
 
+  // Dynamic text based on user authentication status
   const profileText = user ? "Ver tu perfil" : "Iniciar sesión / Registrarse";
   const favoritesText = user ? "Ver tu lista de favoritos" : "Iniciar sesión";
-  const shoppingLisText = user ? "Ver tu lista de la compra" : "Iniciar sesión";
+  const shoppingListText = user ? "Ver tu lista de la compra" : "Iniciar sesión";
 
   return (
     <header
@@ -28,9 +38,10 @@ export default function Header() {
             ${mainBackground}
             top-0 z-10 fixed`}
     >
-      {/* Top Header */}
+      {/* Top Header Section */}
       <section className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
-        {/* Logo */}
+        
+        {/* Logo and Expand Button */}
         <article className="flex flex-row justify-between w-full sm:w-fit align-middle">
           <section className="block sm:hidden">
             <ThemeToggle />
@@ -40,6 +51,7 @@ export default function Header() {
             <ExpandButton />
           </section>
         </article>
+
         {/* Search Bar */}
         <article className="flex flex-row sm:space-x-4 lg:space-x-0">
           <SearchBar isCompress={true} />
@@ -47,7 +59,8 @@ export default function Header() {
             <ThemeToggle />
           </section>
         </article>
-        {/* Actions */}
+
+        {/* Actions - Profile, Favorites, Cart */}
         <article className="flex flex-row sm:space-x-4 lg:space-x-0">
           <SmallButtonWithIcon
             icon={faUser}
@@ -64,7 +77,7 @@ export default function Header() {
           <SmallButtonWithIcon
             icon={faCartShopping}
             text={"Cesta"}
-            subtext={shoppingLisText}
+            subtext={shoppingListText}
             href={"/profile/shoppingList"}
           />
           <section className="hidden sm:block md:hidden">
@@ -76,11 +89,14 @@ export default function Header() {
             />
           </section>
         </article>
+
+        {/* Theme toggle for larger screens */}
         <article className="hidden 2xl:block">
           <ThemeToggle />
         </article>
       </section>
-      {/* Bottom Header */}
+
+      {/* Bottom Header Section (Subheader buttons) */}
       <section className="flex-row justify-center items-center space-x-4 hidden md:flex pb-2 2xl:pb-0">
         <SubHeaderButtons />
         <div className="block 2xl:hidden">

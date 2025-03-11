@@ -25,11 +25,20 @@ import { actionDeleteNovelty } from "@/db/novelty";
 import { BigImageSkeleton } from "@/app/ui/components/images/bigImage";
 import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
 
-export default function AdminNovelty() {
+/**
+ * This component displays the details of a novelty (news item) and provides options for editing or deleting it.
+ * 
+ * @returns {JSX.Element} The AdminNovelty component.
+ */
+export default function AdminNovelty(): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
   const noveltyId = pathname.split("/").pop();
   const [showModal, setShowModal] = useState(false);
+  
+  /**
+   * Toggles the confirmation popup modal.
+   */
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
@@ -53,10 +62,7 @@ export default function AdminNovelty() {
   if (!novelty) return <EmptyMessage />;
 
   return (
-    <div
-      className={`flex flex-col gap-3 
-      ${componentText}`}
-    >
+    <div className={`flex flex-col gap-3 ${componentText}`}>
       {/* Actions */}
       <>
         <FloatButton
@@ -79,9 +85,7 @@ export default function AdminNovelty() {
       </>
       {/* Display */}
       <section
-        className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10
-          ${componentBackground}
-          ${componentBorder} rounded-xl`}
+        className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10 ${componentBackground} ${componentBorder} rounded-xl`}
       >
         <SectionHeader text={"Detalles de la novedad"} />
         {/* Promotional Image */}
@@ -99,9 +103,7 @@ export default function AdminNovelty() {
         </div>
         {/* Data */}
         <div className="flex flex-row items-center sm:items-start gap-3">
-          {/* Title */}
           <Article label="Título" value={novelty.title} />
-          {/* Description */}
           <Article label="Descripción" value={novelty.description} />
         </div>
       </section>
@@ -129,11 +131,16 @@ export default function AdminNovelty() {
   );
 }
 
-export function AdminNoveltySkeleton() {
+/**
+ * AdminNoveltySkeleton Component
+ * 
+ * This component displays a loading skeleton while novelty data is being fetched.
+ * 
+ * @returns {JSX.Element} The AdminNoveltySkeleton component.
+ */
+export function AdminNoveltySkeleton(): JSX.Element {
   return (
-    <div
-      className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
-    >
+    <div className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}>
       {/* Display */}
       <section className="flex flex-col gap-3 p-10 bg-gray-100">
         <SectionHeaderSkeleton />
@@ -145,9 +152,7 @@ export function AdminNoveltySkeleton() {
         </div>
         {/* Data */}
         <div className="grid grid-cols-2 gap-3">
-          {/* Title */}
           <ArticleSkeleton />
-          {/* Description */}
           <TextAreaInputSkeleton />
         </div>
       </section>

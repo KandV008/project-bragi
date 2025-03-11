@@ -1,22 +1,38 @@
+'use client';
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
+/**
+ * Props for the TextAreaInput component.
+ */
 interface TextInputProps {
+  /** Name attribute for the textarea input */
   name: string;
+  /** Placeholder text displayed inside the textarea */
   placeholder: string;
+  /** Label text for the input */
   label: string;
+  /** Icon displayed alongside the textarea */
   icon: IconDefinition;
+  /** Initial value of the textarea (optional) */
   value?: string;
 }
 
+/**
+ * A styled textarea input component with an icon and label.
+ *
+ * @param {TextInputProps} props - The properties for the textarea input component.
+ * @returns {JSX.Element} The rendered textarea input component.
+ */
 export default function TextAreaInput({
   name,
   placeholder,
   label,
   icon,
   value,
-}: TextInputProps) {
+}: TextInputProps): JSX.Element {
   return (
     <section className="flex flex-col w-full">
       <label
@@ -51,7 +67,12 @@ export default function TextAreaInput({
   );
 }
 
-export function TextAreaInputSkeleton() {
+/**
+ * A skeleton loading component for the TextAreaInput.
+ *
+ * @returns {JSX.Element} The skeleton loading state of the textarea input.
+ */
+export function TextAreaInputSkeleton(): JSX.Element {
   return (
     <section className="flex flex-col w-full gap-1">
       <label

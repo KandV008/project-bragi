@@ -1,12 +1,9 @@
-import { colorList, valueOfColor } from "@/app/model/entities/enums/Color";
-import IncrementalTextInput, {
+import {
   IncrementalTextInputSkeleton,
 } from "./incrementalTextInput";
 import {
   faBrush,
-  faCode,
   faHashtag,
-  faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
 import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import { useState } from "react";

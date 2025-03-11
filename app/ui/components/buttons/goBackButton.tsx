@@ -9,16 +9,31 @@ import {
   fillYellowComponentBackground,
 } from "../../tailwindClasses";
 
+/**
+ * Props for the GoBackButton component.
+ */
 interface GoBackButtonInterface {
+  /**
+   * An optional link to navigate to a specific URL instead of going back to the previous page.
+   */
   link?: string;
 }
 
+/**
+ * A button component for navigating back to the previous page or a specific link.
+ * If a link is provided, it will navigate to that URL; otherwise, it will go back 
+ * to the previous page in the browser history.
+ * 
+ * @param link - An optional URL to navigate to instead of using the browser's history.
+ * @returns A button that allows the user to go back to the previous page or to a specific URL.
+ */
 export default function GoBackButton({ link }: GoBackButtonInterface) {
   const router = useRouter();
 
   return (
-    <article className="flex flex-center shrink-0 justify-start ">
-      <div className="fixed top-48 ">
+    <article className="flex flex-center shrink-0 justify-start">
+      <div className="fixed top-48">
+        {/* Render the medium button for larger screens */}
         <div className="hidden md:block">
           {link ? (
             <MediumButtonWithIcon
@@ -34,13 +49,14 @@ export default function GoBackButton({ link }: GoBackButtonInterface) {
               text={"Volver atrás"}
               subtext={"Volver a la página anterior"}
               type={"warning"}
-              onClick={router.back}
+              onClick={router.back} 
             />
           )}
         </div>
+
+        {/* Render the small button for smaller screens */}
         <div
-          className={`w-fit block md:hidden rounded
-          ${fillYellowComponentBackground} ${componentBorder}`}
+          className={`w-fit block md:hidden rounded ${fillYellowComponentBackground} ${componentBorder}`}
         >
           {link ? (
             <SmallButtonWithIcon

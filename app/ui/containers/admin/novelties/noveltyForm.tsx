@@ -36,7 +36,14 @@ interface FormProps {
   novelty?: NoveltyEntity;
 }
 
-export default function NoveltyForm({ novelty }: FormProps) {
+/**
+ * A form component for creating or updating a novelty (offer).
+ * It supports validation, submission handling, and displays appropriate UI elements.
+ * 
+ * @param {FormProps} props - The component props containing an optional novelty entity.
+ * @returns {JSX.Element} The rendered novelty form component.
+ */
+export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
   const actionText = novelty ? "Actualizar novedad" : "Crear nueva novedad";
   const actionForm = novelty ? actionUpdateNovelty : actionCreateNovelty;
   const succesToastText = novelty
@@ -46,10 +53,19 @@ export default function NoveltyForm({ novelty }: FormProps) {
     ? "No se ha podido actualizar la novedad."
     : "No se ha podido crear la novedad";
   const [showModal, setShowModal] = useState(false);
+  
+  /**
+   * Toggles the validation modal visibility.
+   */
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  /**
+   * Handles form submission and validates input data.
+   * 
+   * @param {FormData} formData - The form data submitted by the user.
+   */
   const handleForm = (formData: FormData) => {
     const isValid = validateFormNovelty(formData);
     if (isValid) {
@@ -69,7 +85,7 @@ export default function NoveltyForm({ novelty }: FormProps) {
                    ${componentBorder} rounded-xl`}
       >
         <SectionHeader text={actionText} />
-        {/* Id */}
+        {/* Id (Hidden input for updating novelties) */}
         {novelty ? (
           <input type="hidden" name={noveltyIdName} value={novelty.id} />
         ) : (
@@ -113,7 +129,12 @@ export default function NoveltyForm({ novelty }: FormProps) {
   );
 }
 
-export function NoveltyFormSkeleton() {
+/**
+ * Displays a skeleton loader for the novelty form while data is being fetched or processed.
+ * 
+ * @returns {JSX.Element} The rendered skeleton loader component.
+ */
+export function NoveltyFormSkeleton(): JSX.Element {
   return (
     <div
       className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm p-5`}

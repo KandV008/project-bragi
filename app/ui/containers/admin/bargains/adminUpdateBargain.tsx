@@ -7,28 +7,35 @@ import BargainForm, { BargainFormSkeleton } from "@/app/ui/containers/admin/barg
 import { BargainEntity } from "@/app/model/entities/Bargain";
 import { getBargainRoute } from "@/app/api/routes";
 
-export default function AdminUpdateBargain() {
-  const pathname = usePathname().split("/");
-  pathname.pop();
-  const id = pathname.pop();
+/**
+ * AdminUpdateBargain component for fetching and updating a bargain's details.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
+export default function AdminUpdateBargain(): JSX.Element {
+  const pathnameSegments = usePathname().split("/");
+  const bargainId = pathnameSegments[pathnameSegments.length - 2];
 
-  const [bargain, setBargain] = useState<BargainEntity>();
+  const [bargain, setBargain] = useState<BargainEntity | null>(null);
   const [isLoading, setLoading] = useState(true);
 
+  /**
+   * Fetches the bargain details when the component mounts.
+   */
   useEffect(() => {
-    if (id) {
-      fetch(`${getBargainRoute}?id=${id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setBargain(data);
-          setLoading(false);
-        })
-        .catch((error) => console.error("Error fetching bargain:", error));
-    }
-  }, [id]);
+    if (!bargainId) return;
+
+    fetch(`${getBargainRoute}?id=${bargainId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBargain(data);
+        setLoading(false);
+      })
+      .catch((error) => console.error("Error fetching bargain:", error));
+  }, [bargainId]);
 
   if (isLoading) return <AdminUpdateBargainSkeleton />;
-  if (!bargain) return <EmptyMessage />; 
+  if (!bargain) return <EmptyMessage />;
 
   return (
     <section>
@@ -37,10 +44,15 @@ export default function AdminUpdateBargain() {
   );
 }
 
-export function AdminUpdateBargainSkeleton() {
-    return (
-      <div className="flex flex-col">
-          <BargainFormSkeleton />
-      </div>
-    );
-  }
+/**
+ * Skeleton loading state for the AdminUpdateBargain component.
+ *
+ * @returns {JSX.Element} The loading skeleton UI.
+ */
+export function AdminUpdateBargainSkeleton(): JSX.Element {
+  return (
+    <div className="flex flex-col">
+      <BargainFormSkeleton />
+    </div>
+  );
+}

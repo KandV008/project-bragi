@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -6,20 +6,25 @@ import { useRouter } from "next/navigation";
 import MediumButtonWithIcon from "../buttons/mediumButtonWithIcon";
 import { componentText } from "../../tailwindClasses";
 
-export default function NotFoundMessage() {
+/**
+ * A component that displays a 404 not found message when a page is unavailable.
+ *
+ * @returns {JSX.Element} The rendered not found message component.
+ */
+export default function NotFoundMessage(): JSX.Element {
   const router = useRouter();
 
   return (
-    <section
-      className={`flex flex-col gap-5 w-full ${componentText}`}
-    >
+    <section className={`flex flex-col gap-5 w-full ${componentText}`}>
+      {/* Icon */}
       <Image
         src="/placeholder-parrot.png"
-        alt={""}
+        alt=""
         width={1000}
         height={1000}
         className="w-5/6 lg:size-1/2 self-center"
       />
+      {/* Message */}
       <article className="flex flex-col m-auto">
         <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-center">
           ERROR 404
@@ -30,7 +35,7 @@ export default function NotFoundMessage() {
       </article>
       <article className="flex flex-col m-auto">
         <p className="p-3 text-sm sm:text-lg lg:text-xl text-center">
-          La página a la que estas intentando acceder no existe o no esta
+          La página a la que estás intentando acceder no existe o no está
           disponible actualmente.
         </p>
       </article>

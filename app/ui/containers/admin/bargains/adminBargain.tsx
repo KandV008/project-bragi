@@ -23,10 +23,18 @@ import { actionDeleteBargain } from "@/db/bargain";
 import { getBargainRoute } from "@/app/api/routes";
 import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
 
-export default function AdminBargain() {
+/**
+ * AdminBargain component for managing and displaying a specific bargain.
+ *
+ * Fetches bargain details and allows editing or deleting it.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
+export default function AdminBargain(): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
   const bargainId = pathname.split("/").pop();
+  
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -51,25 +59,22 @@ export default function AdminBargain() {
   if (!bargain) return <EmptyMessage />;
 
   return (
-    <div
-      className={`flex flex-col gap-3 
-      ${componentText}`}
-    >
+    <div className={`flex flex-col gap-3 ${componentText}`}>
       {/* Actions */}
       <>
         <FloatButton
           icon={faPencil}
-          text={"Editar Oferta"}
-          subtext={"Actualizar las atributos"}
-          type={"warning"}
+          text="Editar Oferta"
+          subtext="Actualizar los atributos"
+          type="warning"
           position="center"
           navigationURL={`/admin/bargains/${bargainId}/update`}
         />
         <FloatButton
           icon={faEraser}
-          text={"Borrar Oferta"}
-          subtext={"Eliminar para siempre"}
-          type={"danger"}
+          text="Borrar Oferta"
+          subtext="Eliminar para siempre"
+          type="danger"
           position="end"
           onClick={handleShowModal}
         />
@@ -78,15 +83,12 @@ export default function AdminBargain() {
       {/* Display */}
       <section
         className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10
-          ${componentBackground}
-          ${componentBorder} rounded-xl`}
+          ${componentBackground} ${componentBorder} rounded-xl`}
       >
-        <SectionHeader text={"Detalles de la oferta"} />
+        <SectionHeader text="Detalles de la oferta" />
         {/* Basic Data */}
         <div className="flex flex-col items-center sm:grid sm:grid-cols-2 gap-3">
-          {/* Code */}
           <Article label="Código" value={bargain.code} />
-          {/* Title */}
           <Article label="Título" value={bargain.title} />
         </div>
         {/* Description */}
@@ -100,13 +102,13 @@ export default function AdminBargain() {
             handleAction={() => {
               handleShowModal();
               actionDeleteBargain(bargainId)
-                .then((_) => {
+                .then(() => {
                   toast.success("Se ha borrado la oferta.");
                   router.push("/admin/bargains");
                 })
-                .catch((_) => toast.error("No se ha podido borrar la oferta."));
+                .catch(() => toast.error("No se ha podido borrar la oferta."));
             }}
-            message={"Borrar una oferta es una acción irreversible."}
+            message="Borrar una oferta es una acción irreversible."
           />
         )}
       </article>
@@ -114,22 +116,21 @@ export default function AdminBargain() {
   );
 }
 
-export function AdminBargainSkeleton() {
+/**
+ * Skeleton loading state for the AdminBargain component.
+ *
+ * @returns {JSX.Element} The loading skeleton UI.
+ */
+export function AdminBargainSkeleton(): JSX.Element {
   return (
-    <div
-      className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
-    >
+    <div className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}>
       {/* Display */}
       <section className="flex flex-col gap-3 p-10 bg-gray-100">
         <SectionHeaderSkeleton />
-        {/* Basic Data */}
         <div className="grid grid-cols-2 gap-3">
-          {/* Name */}
           <ArticleSkeleton />
-          {/* Category */}
           <ArticleSkeleton />
         </div>
-        {/* Description */}
         <TextAreaInputSkeleton />
       </section>
     </div>

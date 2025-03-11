@@ -10,31 +10,40 @@ import { useUser } from "@clerk/nextjs";
 import { faCalendar, faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
-export default function AppointmentForm() {
+/**
+ * This component renders a form to book an appointment online.
+ * It includes a calendar for selecting a date and input fields for user details.
+ *
+ * @returns {JSX.Element} The rendered appointment form.
+ */
+export default function AppointmentForm(): JSX.Element {
   const { user } = useUser();
 
   return (
     <form className="flex flex-col w-full px-5 gap-5">
-      <SectionHeader text={"Pedir cita vía online"} />
+      <SectionHeader text="Pedir cita vía online" />
+
       {/* Calendar */}
       <Calendar />
+
       {/* User Data */}
       <section className="flex flex-col items-center">
-        <ArticleHeader text={"Datos que se usarán para pedir la cita"} />
+        <ArticleHeader text="Datos que se usarán para pedir la cita" />
+
         {user ? (
-          <article className={`flex flex-row gap-8 justify-between w-2/3`}>
-            <Article label={"Nombre del Cliente"} value={user.fullName!.toString()} />
-            <Article label={"Correo del Cliente"} value={user.emailAddresses[0].toString()} />
-            <input type="hidden" name="name" value={user.fullName!.toString()} />
-            <input type="hidden" name="email" value={user.emailAddresses[0].toString()} />
+          <article className="flex flex-row gap-8 justify-between w-2/3">
+            <Article label="Nombre del Cliente" value={user.fullName ?? ""} />
+            <Article label="Correo del Cliente" value={user.emailAddresses[0]?.emailAddress ?? ""} />
+            <input type="hidden" name="name" value={user.fullName ?? ""} />
+            <input type="hidden" name="email" value={user.emailAddresses[0]?.emailAddress ?? ""} />
           </article>
         ) : (
-          <article className={`flex flex-col gap-3`}>
-            <TextInput name={"name"} type={"text"} placeholder={"Nombre"} label={"Nombre del Cliente"} icon={faUser} />
-            <TextInput name={"email"} type={"text"} placeholder={"Correo electrónico"} label={"Correo del Cliente"} icon={faEnvelope} />
+          <article className="flex flex-col gap-3">
+            <TextInput name="name" type="text" placeholder="Nombre" label="Nombre del Cliente" icon={faUser} />
+            <TextInput name="email" type="text" placeholder="Correo electrónico" label="Correo del Cliente" icon={faEnvelope} />
             <strong className="font-semibold">
-              *
-              <Link href={"/log-in"} className="hover:underline font-extrabold">
+              *{" "}
+              <Link href="/log-in" className="hover:underline font-extrabold">
                 Inicia Sesión o Regístrate
               </Link>{" "}
               para usar tus datos a la hora de pedir la cita.
@@ -42,9 +51,10 @@ export default function AppointmentForm() {
           </article>
         )}
       </section>
+
       {/* Submit */}
       <section className="self-center">
-        <SubmitButton text={"Realizar Reserva"} icon={faCalendar} isDisable={false} />
+        <SubmitButton text="Realizar Reserva" icon={faCalendar} isDisable={false} />
       </section>
     </form>
   );

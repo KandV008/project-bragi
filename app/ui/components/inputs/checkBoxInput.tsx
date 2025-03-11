@@ -3,21 +3,39 @@
 import { ChangeEvent, useState } from "react";
 import { pressedButton, fillDefaultComponentBackground, componentText, componentBorder } from "../../tailwindClasses";
 
+/**
+ * Props for the CheckBoxInput component.
+ */
 interface CheckBoxInputProps {
+  /** The name attribute for the checkbox group */
   name: string;
+  /** The label for the checkbox group */
   label: string;
+  /** The list of options to display as checkboxes */
   list: any[];
+  /** The pre-selected values (optional) */
   values?: string[];
 }
 
+/**
+ * A checkbox input component that allows multiple selections.
+ *
+ * @param {CheckBoxInputProps} props - The properties for the checkbox component.
+ * @returns {JSX.Element} The rendered checkbox component.
+ */
 export default function CheckBoxInput({
   name,
   label,
   list,
   values,
-}: CheckBoxInputProps) {
+}: CheckBoxInputProps): JSX.Element {
   const [selectedValues, setSelectedValues] = useState<string[]>(values ? values : []);
 
+  /**
+   * Handles changes to the checkboxes, updating the selected values.
+   *
+   * @param {ChangeEvent<HTMLInputElement>} event - The change event for the checkbox.
+   */
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
@@ -29,7 +47,13 @@ export default function CheckBoxInput({
     );
   };
 
-  const getCheckBoxStatus = (buttonName: string) => {
+  /**
+   * Determines the CSS class for a checkbox based on whether it is selected.
+   *
+   * @param {string} buttonName - The name of the checkbox button.
+   * @returns {string} The appropriate class name for styling.
+   */
+  const getCheckBoxStatus = (buttonName: string): string => {
     const baseClasses =
       "flex flex-row gap-2 items-center justify-start cursor-pointer py-1 px-2 rounded-2xl border-2";
     return selectedValues.includes(buttonName)
@@ -70,7 +94,12 @@ export default function CheckBoxInput({
   );
 }
 
-export function CheckBoxInputSkeleton(){
+/**
+ * A skeleton placeholder for the CheckBoxInput component.
+ *
+ * @returns {JSX.Element} A skeleton structure to simulate loading state.
+ */
+export function CheckBoxInputSkeleton(): JSX.Element {
     return (
       <section className="flex flex-col w-full gap-1">
         <label

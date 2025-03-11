@@ -1,14 +1,20 @@
+'use client';
+
 import Image from "next/image";
 import { componentText } from "../../tailwindClasses";
 
-export default function EmptyMessage() {
+/**
+ * A component that displays an empty message when no products are found.
+ *
+ * @returns {JSX.Element} The rendered empty message component.
+ */
+export default function EmptyMessage(): JSX.Element {
   return (
-    <section
-      className={`flex flex-col gap-5 w-full ${componentText}`}>
+    <section className={`flex flex-col gap-5 w-full ${componentText}`}>
       {/* Icon */}
       <Image
         src="/placeholder-parrot.png"
-        alt={""}
+        alt=""
         width={1000}
         height={1000}
         className="w-5/6 lg:size-1/2 self-center"

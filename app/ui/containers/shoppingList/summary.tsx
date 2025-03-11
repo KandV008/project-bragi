@@ -4,134 +4,100 @@ import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import MediumButtonWithIcon, { MediumButtonWithIconSkeleton } from "../../components/buttons/mediumButtonWithIcon";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import SectionHeader, {
-  SectionHeaderSkeleton,
-} from "../../components/tags/sectionHeader";
-import {
-  componentBorder,
-  componentBackground,
-  componentText,
-  shimmer,
-} from "../../tailwindClasses";
+import SectionHeader, { SectionHeaderSkeleton } from "../../components/tags/sectionHeader";
+import { componentBorder, componentBackground, componentText, shimmer } from "../../tailwindClasses";
 import BargainInput from "../../components/bargains/bargainInput";
 import { useState } from "react";
 import { BargainEntity } from "@/app/model/entities/Bargain";
 
+/**
+ * Props for the Summary component.
+ */
 interface SummaryProps {
   products: ProductDTO[];
 }
 
-export default function Summary({ products }: SummaryProps) {
+/**
+ * Summary component displaying the details of selected products, including name, color, quantity, and total cost.
+ * Also includes a section for applying bargain discounts and a purchase button.
+ *
+ * @param {SummaryProps} props - Component properties containing the list of products.
+ * @returns {JSX.Element} The summary component.
+ */
+export default function Summary({ products }: SummaryProps): JSX.Element {
   const router = useRouter();
-  const [bargain, setBargain] = useState<BargainEntity | null>(null)
+  const [bargain, setBargain] = useState<BargainEntity | null>(null);
 
+  /**
+   * Updates the current bargain applied to the purchase.
+   * @param {BargainEntity | null} newBargain - The new bargain entity to apply.
+   */
   const updateBargain = (newBargain: BargainEntity | null) => {
-    setBargain(newBargain)
-  }
+    setBargain(newBargain);
+  };
 
-  const totalPrice = products.reduce(
-    (total, product) => total + product.price * product.quantity,
-    0
-  );
+  const totalPrice = products.reduce((total, product) => total + product.price * product.quantity, 0);
 
   return (
-    <section
-      className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6  
-                ${componentBorder} ${componentBackground} ${componentText}`}
-    >
-      {/* Header */}
+    <section className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}> 
       <SectionHeader text={"Resumen"} />
-      {/* Body */}
       <article className="flex flex-col gap-3">
-        {/* Header Table */}
         <div className="flex flex-row gap-1 justify-between">
-          <span className="">Nombre</span>
-          <span className="">Color</span>
-          <span className="">Cantidad</span>
-          <span className="">Coste</span>
+          <span>Nombre</span>
+          <span>Color</span>
+          <span>Cantidad</span>
+          <span>Coste</span>
         </div>
-        {/* Rows Table */}
         {products.map((product, index) => (
           <div className="flex flex-row gap-1 justify-between" key={index}>
-            <span className="">{product.name}</span>
-            <span className="">{product.color}</span>
-            <span className="">x{product.quantity}</span>
-            <span className="">{product.price * product.quantity}€</span>
+            <span>{product.name}</span>
+            <span>{product.colorText}</span>
+            <span>x{product.quantity}</span>
+            <span>{product.price * product.quantity}€</span>
           </div>
         ))}
       </article>
-      {/* Footer */}
-      <article className="flex flex-col gap-2 ">
+      <article className="flex flex-col gap-2">
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
-        {/* Bargain */}
         <BargainInput bargain={bargain} setBargain={updateBargain} />
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
-        {/* Total */}
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
           <span className="text-2xl font-bold text-red-1">{totalPrice}€</span>
         </div>
-        {/* Shopping Button */}
         <div className="place-self-center">
-          <MediumButtonWithIcon
-            icon={faCartShopping}
-            text={"Comprar"}
-            subtext={"Empezar compra"}
-            type={"default"}
-            onClick={() => {
-              router.push("/in-development");
-            }}
-          />{" "}
-          {/* TODO Add speacial type */}
+          <MediumButtonWithIcon icon={faCartShopping} text={"Comprar"} subtext={"Empezar compra"} type={"default"} onClick={() => router.push("/in-development")} />
         </div>
       </article>
     </section>
   );
 }
 
-export function SummarySkeleton() {
+/**
+ * Skeleton loader for the Summary component, used while data is loading.
+ * @returns {JSX.Element} A skeleton UI placeholder for the Summary component.
+ */
+export function SummarySkeleton(): JSX.Element {
   return (
-    <div
-      className={`${shimmer} relative overflow-hidden rounded bg-gray-100 shadow-sm `}
-    >
+    <div className={`${shimmer} relative overflow-hidden rounded bg-gray-100 shadow-sm`}>
       <section className="sticky top-32 flex flex-col w-full justify-between p-6 border-2 rounded">
-        {/* Header */}
         <SectionHeaderSkeleton />
-        {/* Body */}
         <article className="flex flex-col gap-3">
-          {/* Header Table */}
-          <div className="flex flex-row gap-1 justify-between">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
-          </div>
-          {/* Rows Table */}
-          <div className="flex flex-row gap-1 justify-between">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
-          </div>
-          <div className="flex flex-row gap-1 justify-between">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
-          </div>
-          <div className="flex flex-row gap-1 justify-between">
-            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
-          </div>
           <div className="flex flex-row gap-1 justify-between">
             <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
           </div>
         </article>
-        {/* Footer */}
-        <article className="flex flex-col gap-2 ">
+        <article className="flex flex-col gap-2">
           <div className="w-full border-2 border-t mb-3"></div>
-          {/* Bargain */}
           <div className="flex flex-col justify-between gap-10">
             <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
             <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
           </div>
           <div className="w-full border-2 border-t mb-3"></div>
-          {/* Total */}
           <div className="flex flex-row justify-between gap-10">
             <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
             <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
           </div>
-          {/* Shopping Button */}
           <div className="place-self-center">
             <MediumButtonWithIconSkeleton />
           </div>

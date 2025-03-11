@@ -2,6 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import UnorderedListWithLink from "../tags/unorderedListWithLink";
 
+/**
+ * Footer component for the website. It contains links to information pages, customer service, account management, 
+ * a logo, and powered by logos. It is split into a top and bottom section.
+ * 
+ * @returns The Footer JSX element.
+ */
 export default function Footer() {
   return (
     <footer className="bg-emerald-950 dark:bg-emerald-900 flex flex-col p-5">
@@ -11,6 +17,7 @@ export default function Footer() {
           className="md:grid text-emerald-300 dark:text-emerald-200 text-sm md:text-xl
                      flex flex-row flex-wrap justify-center md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-12"
         >
+          {/* Information Links */}
           <UnorderedListWithLink
             title={"Información"}
             elements={[
@@ -28,6 +35,7 @@ export default function Footer() {
               "/in-development",
             ]}
           />
+          {/* Customer Service Links */}
           <UnorderedListWithLink
             title={"Atención al cliente"}
             elements={[
@@ -43,11 +51,13 @@ export default function Footer() {
               "/in-development",
             ]}
           />
+          {/* Account Links */}
           <UnorderedListWithLink
             title={"Mi cuenta"}
             elements={["Mi Cuenta", "Mi Cesta", "Mis Favoritos"]}
             links={["/profile", "/profile/shoppingList", "/profile/favorites"]}
           />
+          {/* Logo and Powered By Section */}
           <article className="flex flex-col gap-3 justify-center">
             <Link href={"/"}>
               <Image
@@ -61,6 +71,7 @@ export default function Footer() {
             <div className="flex flex-col gap-2">
               <h3 className="text-base font-bold">Impulsado por</h3>
               <div className="flex flex-row lg:flex-col xl:flex-row gap-3 items-center">
+                {/* Vercel Logo */}
                 <Link href={"https://vercel.com"}>
                   <Image
                     src="/vercel.svg"
@@ -70,6 +81,7 @@ export default function Footer() {
                     className="w-24"
                   />
                 </Link>
+                {/* Next.js Logo */}
                 <Link href={"https://nextjs.org"}>
                   <Image
                     src="/next.svg"

@@ -10,13 +10,22 @@ import { NoveltyEntity } from "@/app/model/entities/Novelty";
 import NoveltyContainer from "@/app/ui/components/novelties/novletyContainer";
 import { NoveltyContainerSkeleton } from "@/app/ui/components/novelties/novletyContainer";
 
-export default function AdminNoveltyList() {
+/**
+ * This component fetches and displays a paginated list of novelties (offers).
+ * It includes a floating button for creating new novelties, a back button, and a novelty container.
+ * 
+ * @returns {JSX.Element} The rendered admin novelty list component.
+ */
+export default function AdminNoveltyList(): JSX.Element {
   const [startIndex, setStartIndex] = useState<number>(0);
   const [endIndex, setEndIndex] = useState<number>(9);
   const increment = 10;
   const [novelties, setNovelties] = useState<NoveltyEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
 
+  /**
+   * Fetches novelties from the API based on the current start and end indices.
+   */
   useEffect(() => {
     fetch(`${getNoveltiesRoute}?start=${startIndex}&end=${endIndex}`)
       .then((response) => response.json())
@@ -34,6 +43,9 @@ export default function AdminNoveltyList() {
   if (isLoading) return <AdminNoveltyListSkeleton />;
   if (!novelties) return <EmptyMessage />;
 
+  /**
+   * Loads more novelties by updating the start and end indices.
+   */
   const addMoreProducts = () => {
     setStartIndex((prevIndex) => prevIndex + increment);
     setEndIndex((prevIndex) => prevIndex + increment);
@@ -64,7 +76,12 @@ export default function AdminNoveltyList() {
   );
 }
 
-export function AdminNoveltyListSkeleton() {
+/**
+ * Displays a skeleton loader for the admin novelty list while data is being fetched.
+ * 
+ * @returns {JSX.Element} The rendered skeleton loader component.
+ */
+export function AdminNoveltyListSkeleton(): JSX.Element {
   return (
     <div className="flex flex-row w-full justify-center">
       <NoveltyContainerSkeleton />

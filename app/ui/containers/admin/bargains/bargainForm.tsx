@@ -32,10 +32,21 @@ import { BargainEntity } from "@/app/model/entities/Bargain";
 import { actionUpdateBargain, actionCreateBargain } from "@/db/bargain";
 import { bargainCodeName, bargainDescriptionName, bargainIdName, bargainTitleName } from "@/app/model/JSONnames";
 
+/**
+ * Interface for form properties used in BargainForm
+ */
 interface FormProps {
+  /** Optional bargain entity to edit an existing bargain */
   bargain?: BargainEntity;
 }
 
+/**
+ * BargainForm component handles creating and updating bargain offers.
+ * It displays a form with fields for code, title, and description.
+ *
+ * @param {FormProps} props - The component properties.
+ * @returns {JSX.Element} The rendered bargain form component.
+ */
 export default function BargainForm({ bargain }: FormProps) {
   const actionText = bargain ? "Actualizar oferta" : "Crear nueva oferta";
   const actionForm = bargain ? actionUpdateBargain : actionCreateBargain;
@@ -46,10 +57,20 @@ export default function BargainForm({ bargain }: FormProps) {
     ? "No se ha podido actualizar la oferta."
     : "No se ha podido crear la oferta";
   const [showModal, setShowModal] = useState(false);
+
+  /**
+   * Toggles the validation modal visibility.
+   */
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
+  /**
+   * Handles the form submission.
+   * Validates the form and submits the data to the appropriate action.
+   *
+   * @param {FormData} formData - The form data containing bargain details.
+   */
   const handleForm = (formData: FormData) => {
     const isValid = validateFormBargain(formData);
     if (isValid) {
@@ -109,6 +130,12 @@ export default function BargainForm({ bargain }: FormProps) {
   );
 }
 
+/**
+ * Skeleton loader component for the BargainForm.
+ * Displays placeholders while the form is loading.
+ *
+ * @returns {JSX.Element} The skeleton component.
+ */
 export function BargainFormSkeleton() {
   return (
     <div

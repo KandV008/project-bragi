@@ -42,7 +42,7 @@ import {
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { validateFormProduct } from "@/lib/validations";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import {
   componentBackground,
@@ -56,8 +56,6 @@ import {
   adaptationRangeName,
   brandName,
   categoryNameParam,
-  colorTextName,
-  colorHexName,
   degreeOfLossName,
   includeName,
   earphoneShapeName,
