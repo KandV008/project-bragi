@@ -1,16 +1,32 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category"
-import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, categoryNameParam, colorTextName, degreeOfLossName, earLocationName, earphoneShapeName, earSideName, imageURLName, levelOfDiscretionName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
+import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, degreeOfLossName, earphoneShapeName, earSideName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
 
+/**
+ * List to store validation error messages.
+ */
 export let errorMessagesList: string[] = []
 
+/**
+ * Clears the error messages list.
+ */
 function clearErrorMessagesList(){
     errorMessagesList = []
 }
 
-function checkErrorMessagesList(){
+/**
+ * Checks if there are any error messages.
+ * @returns {boolean} - Returns true if no errors exist, false otherwise.
+ */
+function checkErrorMessagesList(): boolean{
     return errorMessagesList.length === 0
 }
 
+/**
+ * Validates if a form field is not empty.
+ * @param {FormData} formData - The form data.
+ * @param {string} field - The field name.
+ * @param {string} message - The error message if the field is empty.
+ */
 function checkIfNotEmpty(formData: FormData, field: string, message: string){
     const value = formData.get(field)?.toString()
 
@@ -19,6 +35,10 @@ function checkIfNotEmpty(formData: FormData, field: string, message: string){
     }
 }
 
+/**
+ * Validates if the bargain code meets the required length constraints.
+ * @param {FormData} formData - The form data.
+ */
 function checkIfValidBargainCode(formData: FormData){
     const code = formData.get(bargainCodeName)?.toString()
     console.log(code?.length)
@@ -30,13 +50,23 @@ function checkIfValidBargainCode(formData: FormData){
     }
 }
 
-export function validateAddShoppingCart(formData: FormData){
+/**
+ * Validates the form for adding a product to the shopping cart.
+ * @param {FormData} formData - The form data.
+ * @returns {boolean} - Returns true if the form is valid.
+ */
+export function validateAddShoppingCart(formData: FormData): boolean{
     clearErrorMessagesList()
     checkIfNotEmpty(formData, earSideName, "No se ha seleccionado ningún lado del audífono.")
     return checkErrorMessagesList()
 }
 
-export function validateFormProduct(formData: FormData){
+/**
+ * Validates the form for creating or updating a product.
+ * @param {FormData} formData - The form data.
+ * @returns {boolean} - Returns true if the form is valid.
+ */
+export function validateFormProduct(formData: FormData): boolean{
     clearErrorMessagesList()
     
     checkIfNotEmpty(formData, nameName, "No se ha introducido ningún nombre.")
@@ -56,7 +86,12 @@ export function validateFormProduct(formData: FormData){
     return checkErrorMessagesList()
 }
 
-export function validateFormBargain(formData: FormData){
+/**
+ * Validates the form for creating a bargain.
+ * @param {FormData} formData - The form data.
+ * @returns {boolean} - Returns true if the form is valid.
+ */
+export function validateFormBargain(formData: FormData): boolean{
     clearErrorMessagesList()
     
     checkIfNotEmpty(formData, bargainCodeName, "No se ha introducido ningún código.")
@@ -66,7 +101,12 @@ export function validateFormBargain(formData: FormData){
     return checkErrorMessagesList()
 }
 
-export function validateBargainInput(formData: FormData){
+/**
+ * Validates the input for a bargain code.
+ * @param {FormData} formData - The form data.
+ * @returns {boolean} - Returns true if the input is valid.
+ */
+export function validateBargainInput(formData: FormData): boolean{
     clearErrorMessagesList()
 
     checkIfNotEmpty(formData, bargainCodeName, "No se ha introducido ningún código.")
@@ -75,7 +115,12 @@ export function validateBargainInput(formData: FormData){
     return checkErrorMessagesList()
 }
 
-export function validateFormNovelty(formData: FormData){
+/**
+ * Validates the form for creating a novelty.
+ * @param {FormData} formData - The form data.
+ * @returns {boolean} - Returns true if the form is valid.
+ */
+export function validateFormNovelty(formData: FormData): boolean{
     clearErrorMessagesList()
     
     checkIfNotEmpty(formData, noveltyTitleName, "No se ha introducido ningún título.")

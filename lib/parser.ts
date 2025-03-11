@@ -1,9 +1,15 @@
-import { colorList } from "@/app/model/entities/enums/Color";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earLocationName, earSideName, guaranteeName, imageURLName, levelOfDiscretionName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName } from "@/app/model/JSONnames";
+import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, guaranteeName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName } from "@/app/model/JSONnames";
 
-export function parseString(value: string | null | undefined, attribute: string) {
+/**
+ * Parses a string value and ensures it is valid.
+ * @param {string | null | undefined} value - The value to parse.
+ * @param {string} attribute - The attribute name for logging purposes.
+ * @returns {string} - The validated string value.
+ * @throws {Error} - Throws an error if the value is invalid.
+ */
+export function parseString(value: string | null | undefined, attribute: string): string {
     if (!value) {
         console.error("ERROR:", attribute, "is not valid");
         console.error(attribute, "VALUE:", value)
@@ -13,7 +19,13 @@ export function parseString(value: string | null | undefined, attribute: string)
     return value
 }
 
-export function parseStringList(value: string | null | undefined, attribute: string) {
+/**
+ * Parses a string into a list by splitting on commas.
+ * @param {string | null | undefined} value - The string value to parse.
+ * @param {string} attribute - The attribute name for logging.
+ * @returns {string[]} - An array of string values.
+ */
+export function parseStringList(value: string | null | undefined, attribute: string): string[] {
     if (!value) {
         console.warn("WARNING:", attribute, "is not valid");
         console.warn(attribute, "VALUE:", value)
@@ -24,7 +36,14 @@ export function parseStringList(value: string | null | undefined, attribute: str
     return value.split(",")
 }
 
-export function parseNumber(value: string | null | undefined, attribute: string) {
+/**
+ * Parses a string into a number and ensures validity.
+ * @param {string | null | undefined} value - The string to parse.
+ * @param {string} attribute - The attribute name for logging.
+ * @returns {number} - The parsed number.
+ * @throws {Error} - Throws an error if the value is invalid.
+ */
+export function parseNumber(value: string | null | undefined, attribute: string): number {
     if (!value || isNaN(parseInt(value))) {
         console.error("ERROR:", attribute, "is not valid");
         console.error(attribute, "VALUE:", value)
@@ -34,7 +53,13 @@ export function parseNumber(value: string | null | undefined, attribute: string)
     return parseInt(value)
 }
 
-export function parseStartAndEndIndex(start: string | null, end: string | null) {
+/**
+ * Parses start and end index values, providing defaults if invalid.
+ * @param {string | null} start - The start index as a string.
+ * @param {string | null} end - The end index as a string.
+ * @returns {{startIndex: number, endIndex: number}} - An object containing valid start and end indices.
+ */
+export function parseStartAndEndIndex(start: string | null, end: string | null): { startIndex: number; endIndex: number; } {
     let startIndex, endIndex
 
     if (!start || !end) {
@@ -57,7 +82,13 @@ export function parseStartAndEndIndex(start: string | null, end: string | null) 
     return { startIndex, endIndex }
 }
 
-export function parsePrice(price: string | null | undefined) {
+/**
+ * Parses a price value from a string.
+ * @param {string | null | undefined} price - The price as a string.
+ * @returns {number} - The parsed price.
+ * @throws {Error} - Throws an error if the price is invalid.
+ */
+export function parsePrice(price: string | null | undefined): number {
     if (!price || isNaN(parseFloat(price))) {
         console.error("ERROR: PRICE is null or not valid number")
         console.error("PRICE VALUE:", price)
@@ -67,7 +98,13 @@ export function parsePrice(price: string | null | undefined) {
     return parseFloat(price)
 }
 
-export function parseProductIds(productIds: string[] | null | undefined) {
+/**
+ * Parses a list of product IDs and ensures they are valid.
+ * @param {string[] | null | undefined} productIds - The list of product IDs.
+ * @returns {string[]} - The validated list of product IDs.
+ * @throws {Error} - Throws an error if productIds is null or empty.
+ */
+export function parseProductIds(productIds: string[] | null | undefined): string[] {
     if (!productIds) {
         console.error("ERROR: PRODUCT_IDS are null or empty");
         console.error("PRODUCT_IDS VALUE:", productIds);
@@ -77,6 +114,11 @@ export function parseProductIds(productIds: string[] | null | undefined) {
     return productIds
 }
 
+/**
+ * Parses product data from FormData for adding to a shopping list.
+ * @param {FormData} formData - The form data object.
+ * @returns {Object} - The parsed product data.
+ */
 export function parseNewProductToShoppingList(formData: FormData) {
     const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
     const name = parseString(formData.get(nameName)?.toString(), "NAME");
@@ -98,7 +140,26 @@ export function parseNewProductToShoppingList(formData: FormData) {
     return { productId, colorText, colorHex, earSide, guarantee, name, category, brand, price, imageURL }
 }
 
-export function parseUpdateOfShoppingList(formData: FormData) {
+/**
+ * Parses and extracts the updated product details from a FormData object.
+ *
+ * @param {FormData} formData - The form data containing the updated product details.
+ * @returns {{
+ *   productId: string;
+ *   colorText: string;
+ *   colorHex: string;
+ *   earSide: string;
+ *   guarantee: string;
+ * }} An object containing the parsed product details.
+ * @throws {Error} If any required attribute is missing or invalid.
+ */
+export function parseUpdateOfShoppingList(formData: FormData): {
+    productId: string;
+    colorText: string;
+    colorHex: string;
+    earSide: string;
+    guarantee: string;
+} {
     const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
     const colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
     const colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
@@ -108,7 +169,12 @@ export function parseUpdateOfShoppingList(formData: FormData) {
     return { productId, colorText, colorHex, earSide, guarantee }
 }
 
-export function parseFilters(filters: string | null) {
+/**
+ * Parses a list of filters from a string.
+ * @param {string | null} filters - The filters as a string.
+ * @returns {Object} - An object containing parsed filters.
+ */
+export function parseFilters(filters: string | null): object {
     const filtersList = parseStringList(filters, "FILTERS")
     const convertedFilters = filtersList.map((filter: string) => {
         const component = filter.split(":")
@@ -127,6 +193,9 @@ const brandType = "brand";
 const earphoneShapeType = "earphone_shape";
 const degreeOfLossType = "degree_of_loss";
 
+/**
+ * Object containing functions that map filter types to their respective parsing logic.
+ */
 const filterFunction = {
     adaptationRangeType: (value: string) => ({ adaptation_range: value }),
     waterDustResistanceType: (value: string) => ({ dust_water_resistance: "true" === value }),
@@ -135,7 +204,15 @@ const filterFunction = {
     degreeOfLossType: (value: string) => ({ degree_of_loss: value }),
 };
 
-function convertToObject(type: string, value: string) {
+/**
+ * Converts a given type-value pair into an object using predefined filter functions.
+ * 
+ * @param {string} type - The type of the filter.
+ * @param {string} value - The value associated with the type.
+ * @returns {Object} The mapped object for the given filter type.
+ * @throws {Error} If the filter type is not valid.
+ */
+function convertToObject(type: string, value: string): object {
 
     if (type === adaptationRangeType) {
         return filterFunction.adaptationRangeType(value);
@@ -160,6 +237,12 @@ function convertToObject(type: string, value: string) {
     throw Error("FILTER not valid")
 }
 
+/**
+ * Parses the selected uses from a FormData object.
+ * 
+ * @param {FormData} formData - The form data containing use attributes.
+ * @returns {string[]} An array of selected uses.
+ */
 export function parseUses(formData: FormData): string[] {
     const parse: string[] = []
     usesList.forEach((element) => {
@@ -171,7 +254,15 @@ export function parseUses(formData: FormData): string[] {
     return parse
 }
 
-function getIncrementalValues(formData: FormData, counter: number, tag: string) {
+/**
+ * Extracts a list of values from FormData using a counter-based tag system.
+ * 
+ * @param {FormData} formData - The form data containing multiple values.
+ * @param {number} counter - The number of values to extract.
+ * @param {string} tag - The base tag name used for indexing.
+ * @returns {string[]} An array of extracted values.
+ */
+function getIncrementalValues(formData: FormData, counter: number, tag: string): string[] {
     const values: string[] = []
 
     for (let i = 1; i <= counter; i += 1) {
@@ -188,12 +279,24 @@ function getIncrementalValues(formData: FormData, counter: number, tag: string) 
     return values
 }
 
-export function parseInclude(formData: FormData) {
+/**
+ * Parses the "include" section from FormData.
+ * 
+ * @param {FormData} formData - The form data containing inclusion details.
+ * @returns {string[]} A list of included items.
+ */
+export function parseInclude(formData: FormData): string[] {
     const counter = parseNumber(formData.get(includeName)?.toString(), "INCLUDE_COUNTER")
     return getIncrementalValues(formData, counter, "INCLUDE")
 }
 
-export function parseWaterDustResistance(formData: FormData) {
+/**
+ * Parses the water and dust resistance field from FormData.
+ * 
+ * @param {FormData} formData - The form data containing the resistance value.
+ * @returns {boolean} True if water and dust resistance is enabled, otherwise false.
+ */
+export function parseWaterDustResistance(formData: FormData): boolean {
     const resistanceElement = formData.get("YES")
 
     if (resistanceElement === null) {
@@ -204,7 +307,14 @@ export function parseWaterDustResistance(formData: FormData) {
     return resistance === "YES"
 }
 
-export function parseColors(formData: FormData) {
+/**
+ * Parses and validates color attributes from FormData.
+ * 
+ * @param {FormData} formData - The form data containing color details.
+ * @returns {Array<{ name: string; hex: string }>} A list of colors with text and hex values.
+ * @throws {Error} If the color text count and hex count do not match.
+ */
+export function parseColors(formData: FormData): Array<{ name: string; hex: string; }> {
 
     const counterText = parseNumber(formData.get(colorTextName)?.toString(), "COLOR_TEXT")
     const counterHex = parseNumber(formData.get(colorHexName)?.toString(), "COLOR_HEX")
@@ -228,7 +338,13 @@ export function parseColors(formData: FormData) {
     return colors
 }
 
-export function parseProductForm(formData: FormData) {
+/**
+ * Parses product data from FormData.
+ * 
+ * @param {FormData} formData - The form data containing product details.
+ * @returns {Object} The parsed product attributes.
+ */
+export function parseProductForm(formData: FormData): object {
     const newName = parseString(formData.get(nameName)?.toString(), "NAME")
     const newCategory = parseString(formData.get(categoryNameParam)?.toString(), "CATEGORY")
     const newBrand = parseString(formData.get(brandName)?.toString(), "BRAND")
@@ -258,7 +374,15 @@ export function parseProductForm(formData: FormData) {
     return productAttributes
 }
 
-function parseEarphoneAttributes(formData: FormData) {
+
+/**
+ * Parses earphone-related attributes from a given form.
+ * 
+ * @param {FormData} formData - The form data containing earphone attributes.
+ * @returns {object} An object containing parsed earphone attributes including colors, 
+ * adaptation range, water/dust resistance, earphone shape, degree of loss, and usage types.
+ */
+function parseEarphoneAttributes(formData: FormData): object {
     const newColors = parseColors(formData);
     const newAdaptationRange = parseString(formData.get(adaptationRangeName)?.toString(), "ADAPTATION_RANGE");
     const newWaterDustResistance = parseWaterDustResistance(formData);
@@ -276,7 +400,13 @@ function parseEarphoneAttributes(formData: FormData) {
     };
 }
 
-export function parseBargainForm(formData: FormData) {
+/**
+ * Parses bargain form data from FormData.
+ * 
+ * @param {FormData} formData - The form data containing bargain details.
+ * @returns {Object} The parsed bargain attributes.
+ */
+export function parseBargainForm(formData: FormData): object {
     const newCode = parseString(formData.get(bargainCodeName)?.toString(), "CODE")
     const newTitle = parseString(formData.get(bargainTitleName)?.toString(), "TITLE")
     const newDescription = parseString(formData.get(bargainDescriptionName)?.toString(), "DESCRIPTION")
@@ -288,7 +418,13 @@ export function parseBargainForm(formData: FormData) {
     }
 }
 
-export function parseNoveltyForm(formData: FormData) {
+/**
+ * Parses novelty form data from FormData.
+ * 
+ * @param {FormData} formData - The form data containing novelty details.
+ * @returns {Object} The parsed novelty attributes.
+ */
+export function parseNoveltyForm(formData: FormData): object {
     const newTitle = parseString(formData.get(noveltyTitleName)?.toString(), "TITLE")
     const newDescription = parseString(formData.get(noveltyDescriptionName)?.toString(), "DESCRIPTION")
     const newPromotionalImage = parseString(formData.get(promotionalImageName)?.toString(), "PROMOTIONAL_IMAGE")
