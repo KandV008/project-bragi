@@ -6,26 +6,34 @@ import { ProductDTO, mapDocumentToProductDTO } from "@/app/model/entities/DTOs/P
 import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList } from "@/lib/parser";
 import { Logger } from "@/app/model/Logger";
 
-const CONTEXT = "SHOPPING_LIST"
+const CONTEXT = "SHOPPING_LIST";
 
+/**
+ * Retrieves the shopping list for the authenticated user.
+ * @returns {Promise<ProductDTO[]>} A promise that resolves to an array of products.
+ */
 export async function getShoppingList(): Promise<ProductDTO[]> {
-  Logger.startFunction(CONTEXT, "getShoppingList")
+  Logger.startFunction(CONTEXT, "getShoppingList");
 
   const { userId } = auth();
-  const client = await sql.connect()
+  const client = await sql.connect();
 
   const result = await client.query(
     `SELECT * FROM shoppingList WHERE user_id = $1 ORDER BY product_id`,
     [userId]
-  )
+  );
 
-  const shoppinList = result.rows.map(row => mapDocumentToProductDTO(row))
-  Logger.endFunction(CONTEXT, "getShoppingList", shoppinList)
-  return shoppinList
+  const shoppinList = result.rows.map(row => mapDocumentToProductDTO(row));
+  Logger.endFunction(CONTEXT, "getShoppingList", shoppinList);
+  return shoppinList;
 }
 
+/**
+ * Deletes a product from the user's shopping list.
+ * @param {string | null | undefined} productId - The ID of the product to be removed.
+ */
 export async function deleteProductInShoppingList(productId: string | null | undefined) {
-  Logger.startFunction(CONTEXT, "deleteProductInShoppingList")
+  Logger.startFunction(CONTEXT, "deleteProductInShoppingList");
   const id = parseString(productId, "PRODUCT_ID");
 
   try {
@@ -42,28 +50,32 @@ export async function deleteProductInShoppingList(productId: string | null | und
         CONTEXT,
         "deleteProductInShoppingList",
         `Product with ID: ${id} has been removed from the shopping list.`
-      )
+      );
     } else {
       Logger.errorFunction(
         CONTEXT,
         "deleteProductInShoppingList",
         `Failed to remove product with ID: ${id} from the shopping list. Product not found.`
-      )
+      );
     }
   } catch (error) {
-    Logger.errorFunction(CONTEXT, "deleteProductInShoppingList", error)
+    Logger.errorFunction(CONTEXT, "deleteProductInShoppingList", error);
   }
 }
 
+/**
+ * Adds a product to the user's shopping list.
+ * @param {FormData} formData - The form data containing product details.
+ */
 export async function addProductToShoppingList(formData: FormData) {
-  Logger.startFunction(CONTEXT, "addProductToShoppingList")
+  Logger.startFunction(CONTEXT, "addProductToShoppingList");
 
   const { userId } = auth();
-  const parsedUserId = parseString(userId?.toString(), "USER_ID")
-  const { productId, colorText, colorHex, earSide, guarantee, name, category, brand, price, imageURL } = parseNewProductToShoppingList(formData)
+  const parsedUserId = parseString(userId?.toString(), "USER_ID");
+  const { productId, colorText, colorHex, earSide, guarantee, name, category, brand, price, imageURL } = parseNewProductToShoppingList(formData);
 
   try {
-    const client = await sql.connect()
+    const client = await sql.connect();
 
     await client.query(
       `INSERT INTO shoppingList (product_id, user_id, color_text, color_hex, ear_side, guarantee, quantity, name, category, brand, price, image_url)
@@ -77,19 +89,23 @@ export async function addProductToShoppingList(formData: FormData) {
       CONTEXT,
       "addProductToShoppingList",
       `Added product ${productId} to shoppingList for user ${parsedUserId}`
-    )
+    );
   } catch (error) {
-    Logger.errorFunction(CONTEXT, "addProductToShoppingList", error)
+    Logger.errorFunction(CONTEXT, "addProductToShoppingList", error);
     throw error;
   }
 }
 
+/**
+ * Increments the quantity of a product in the user's shopping list.
+ * @param {FormData} formData - The form data containing product details.
+ */
 export async function incrementProductInShoppingList(formData: FormData) {
-  Logger.startFunction(CONTEXT, "incrementProductInShoppingList")
+  Logger.startFunction(CONTEXT, "incrementProductInShoppingList");
 
   const { userId } = auth();
-  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData)
-  const parsedUserId = parseString(userId?.toString(), "USER_ID")
+  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData);
+  const parsedUserId = parseString(userId?.toString(), "USER_ID");
 
   try {
     const client = await sql.connect();
@@ -107,26 +123,31 @@ export async function incrementProductInShoppingList(formData: FormData) {
         CONTEXT,
         "incrementProductInShoppingList",
         `Product ${productId} not found in shoppingList for user ${parsedUserId}`
-      )
+      );
     } else {
       Logger.endFunction(
         CONTEXT,
         "incrementProductInShoppingList",
         `Incremented product ${productId} in shoppingList for user ${parsedUserId}`
-      )
+      );
     }
   } catch (error) {
-    Logger.errorFunction(CONTEXT, "incrementProductInShoppingList", error)
+    Logger.errorFunction(CONTEXT, "incrementProductInShoppingList", error);
     throw error;
   }
 }
 
+/**
+ * Decrements the quantity of a product in the user's shopping list.
+ * If quantity reaches zero, the product is removed.
+ * @param {FormData} formData - The form data containing product details.
+ */
 export async function decrementProductInShoppingList(formData: FormData) {
-  Logger.startFunction(CONTEXT, "decrementProductInShoppingList")
+  Logger.startFunction(CONTEXT, "decrementProductInShoppingList");
 
   const { userId } = auth();
-  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData)
-  const parsedUserId = parseString(userId?.toString(), "USER_ID")
+  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData);
+  const parsedUserId = parseString(userId?.toString(), "USER_ID");
 
   try {
     const client = await sql.connect();
@@ -148,12 +169,9 @@ export async function decrementProductInShoppingList(formData: FormData) {
       CONTEXT,
       "decrementProductInShoppingList",
       `Decremented product ${productId} in shoppingList for user ${parsedUserId}`
-    )
+    );
   } catch (error) {
-    Logger.errorFunction(CONTEXT, "decrementProductInShoppingList", error)
+    Logger.errorFunction(CONTEXT, "decrementProductInShoppingList", error);
     throw error;
   }
 }
-
-
-

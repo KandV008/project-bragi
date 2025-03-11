@@ -4,12 +4,18 @@ import { parseProductIds, parseString, parseStartAndEndIndex } from "@/lib/parse
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
 import { getProductsByIds } from "./product";
-import { ProductEntity } from "@/app/model/entities/Product";
 import { Logger } from "@/app/model/Logger";
 import { productIdName } from "@/app/model/JSONnames";
+import { ProductEntity } from "@/app/model/entities/product/Product";
 
 const CONTEXT = "FAVORITES"
 
+/**
+ * Retrieves the favorite products for the authenticated user within the specified range.
+ * @param {string | null} start - The starting index for pagination.
+ * @param {string | null} end - The ending index for pagination.
+ * @returns {Promise<ProductEntity[]>} A promise resolving to an array of favorite products.
+ */
 export async function getFavorites(start: string | null, end: string | null): Promise<ProductEntity[]> {
     Logger.startFunction(CONTEXT, "getFavorites")
     const { userId } = auth();
@@ -28,7 +34,13 @@ export async function getFavorites(start: string | null, end: string | null): Pr
     return await getProductsByIds(favoriteProductIds)
 }
 
-export async function checkFavorite(userIdToParse: string | null, productIdToParse: string | null) {
+/**
+ * Checks if a product is in the user's favorites.
+ * @param {string | null} userIdToParse - The user ID.
+ * @param {string | null} productIdToParse - The product ID.
+ * @returns {Promise<boolean>} A promise resolving to a boolean indicating whether the product is a favorite.
+ */
+export async function checkFavorite(userIdToParse: string | null, productIdToParse: string | null): Promise<boolean> {
     Logger.startFunction(CONTEXT, "checkFavorite")
     const productId = parseString(productIdToParse, "PRODUCT_ID")
     const userId = parseString(userIdToParse, "USER_ID")
@@ -44,7 +56,13 @@ export async function checkFavorite(userIdToParse: string | null, productIdToPar
     return check
 }
 
-export async function checkFavoriteList(userIdToParse: string | null, productIdsToParse: string[] | undefined) {
+/**
+ * Checks multiple product IDs to see if they are in the user's favorites.
+ * @param {string | null} userIdToParse - The user ID.
+ * @param {string[] | undefined} productIdsToParse - An array of product IDs.
+ * @returns {Promise<boolean[]>} A promise resolving to an array of booleans indicating favorite status.
+ */
+export async function checkFavoriteList(userIdToParse: string | null, productIdsToParse: string[] | undefined): Promise<boolean[]> {
     Logger.startFunction(CONTEXT, "checkFavoriteList")
     const userId = parseString(userIdToParse, "USER_ID")
     const productIds = parseProductIds(productIdsToParse)
@@ -70,6 +88,10 @@ export async function checkFavoriteList(userIdToParse: string | null, productIds
     }
 }
 
+/**
+ * Toggles a product's favorite status for the authenticated user.
+ * @param {FormData} formData - The form data containing the product ID.
+ */
 export async function toggleFavorites(formData: FormData) {
     Logger.startFunction(CONTEXT, "toggleFavorites")
     const { userId } = auth();
@@ -112,6 +134,10 @@ export async function toggleFavorites(formData: FormData) {
     }
 }
 
+/**
+ * Deletes a product from the authenticated user's favorites.
+ * @param {string | null | undefined} productId - The product ID to remove.
+ */
 export async function deleteProductInFavorites(productId: string | null | undefined) {
     Logger.startFunction(CONTEXT, "deleteProductInFavorites")
 

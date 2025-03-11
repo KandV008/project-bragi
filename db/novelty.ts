@@ -9,6 +9,12 @@ import { redirect } from "next/navigation";
 
 const CONTEXT = "NOVELTY"
 
+/**
+ * Fetches a paginated list of novelties.
+ * @param {string | null} start - The start index.
+ * @param {string | null} end - The end index.
+ * @returns {Promise<NoveltyEntity[]>} - List of novelty entities.
+ */
 export async function getNovelties(start: string | null, end: string | null): Promise<NoveltyEntity[]> {
     Logger.startFunction(CONTEXT, "getNovelties")
     const client = await sql.connect()
@@ -26,6 +32,11 @@ export async function getNovelties(start: string | null, end: string | null): Pr
     return novelties
 }
 
+/**
+ * Retrieves a single novelty by ID.
+ * @param {string | null} id - The ID of the novelty.
+ * @returns {Promise<NoveltyEntity>} - The retrieved novelty entity.
+ */
 export async function getNovelty(id: string | null): Promise<NoveltyEntity> {
     Logger.startFunction(CONTEXT, "getNovelty")
 
@@ -41,6 +52,10 @@ export async function getNovelty(id: string | null): Promise<NoveltyEntity> {
     return novelty
 }
 
+/**
+ * Handles the creation of a new novelty from form data.
+ * @param {FormData} formData - The form data containing novelty details.
+ */
 export async function actionCreateNovelty(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionCreateNovelty")
     const newNovelty = parseNoveltyForm(formData)
@@ -53,6 +68,10 @@ export async function actionCreateNovelty(formData: FormData) {
     redirect("/admin/novelties")
 }
 
+/**
+ * Creates a new novelty entry in the database.
+ * @param {any} bargainData - The data for the new novelty.
+ */
 export async function createNovelty(bargainData: any): Promise<void> {
     Logger.startFunction(CONTEXT, "createNovelty")
     const { title, description, promotionalImage } = bargainData;
@@ -71,6 +90,10 @@ export async function createNovelty(bargainData: any): Promise<void> {
     }
 }
 
+/**
+ * Handles updating a novelty based on form data.
+ * @param {FormData} formData - The form data containing updated novelty details.
+ */
 export async function actionUpdateNovelty(formData: FormData) {
     Logger.startFunction(CONTEXT, "actionUpdateNovelty")
     const id = parseString(formData.get(noveltyIdName)?.toString(), "NOVELTY_ID")
@@ -84,6 +107,10 @@ export async function actionUpdateNovelty(formData: FormData) {
     redirect(`/admin/novelties/${id}`)
 }
 
+/**
+ * Updates an existing novelty in the database.
+ * @param {any} novelty - The updated novelty data.
+ */
 export async function updateNovelty(novelty: any): Promise<void> {
     Logger.startFunction(CONTEXT, "updateNovelty");
     const { id, title, description, promotionalImage } = novelty;
@@ -103,6 +130,10 @@ export async function updateNovelty(novelty: any): Promise<void> {
     }
 }
 
+/**
+ * Handles deletion of a novelty.
+ * @param {string | undefined | null} noveltyId - The ID of the novelty to be deleted.
+ */
 export async function actionDeleteNovelty(noveltyId: string | undefined | null) {
     Logger.startFunction(CONTEXT, "actionDeleteNovelty")
     const id = parseString(noveltyId, "BARGAIN_CODE");
@@ -112,6 +143,10 @@ export async function actionDeleteNovelty(noveltyId: string | undefined | null) 
     Logger.endFunction(CONTEXT, "actionDeleteNovelty", "void")
 }
 
+/**
+ * Deletes a novelty from the database.
+ * @param {any} noveltyId - The ID of the novelty to delete.
+ */
 export async function deleteNovelty(noveltyId: any): Promise<void> {
     Logger.startFunction(CONTEXT, "deleteNovelty")
 
