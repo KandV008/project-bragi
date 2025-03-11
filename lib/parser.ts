@@ -406,7 +406,7 @@ function parseEarphoneAttributes(formData: FormData): object {
  * @param {FormData} formData - The form data containing bargain details.
  * @returns {Object} The parsed bargain attributes.
  */
-export function parseBargainForm(formData: FormData): object {
+export function parseBargainForm(formData: FormData) {
     const newCode = parseString(formData.get(bargainCodeName)?.toString(), "CODE")
     const newTitle = parseString(formData.get(bargainTitleName)?.toString(), "TITLE")
     const newDescription = parseString(formData.get(bargainDescriptionName)?.toString(), "DESCRIPTION")
