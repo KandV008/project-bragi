@@ -29,7 +29,7 @@ const {
   P8_HEX,
   H0_TEXT,
   H0_HEX,
-} = require("./PHONAK/colors");
+} = require("./colors");
 
 const phonakProducts = [
   /* --- INFINIO --- */
@@ -6819,6 +6819,6 @@ const phonakAccessories = [
 ];
 
 module.exports = {
-  phonakProducts: phonakProducts,
-  phonakAccessories: phonakAccessories,
+  phonakProducts,
+  phonakAccessories,
 };

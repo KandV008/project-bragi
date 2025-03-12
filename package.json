@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "node -r dotenv/config ./scripts/seed.js",
+    "seed:sql": "node -r dotenv/config ./scripts/SQL/initializeSQL.js",
+    "seed:nosql": "node -r dotenv/config ./scripts/NoSQL/initializeNoSQL.js",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
