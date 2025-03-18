@@ -1,4 +1,4 @@
-import { BargainContainerSkeleton } from "@/app/ui/components/bargains/bargainContainer";
+import { BargainContainerSkeleton } from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
 
 /**
  * Loading component that displays a skeleton loader while the content is being fetched.

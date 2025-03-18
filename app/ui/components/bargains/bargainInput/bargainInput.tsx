@@ -6,12 +6,12 @@ import {
   negativeComponentBackground,
   negativeComponentText,
   negativeHoverComponentBackground,
-} from "../../tailwindClasses";
+} from "../../../tailwindClasses";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
-import { BargainEntity } from "@/app/model/entities/Bargain";
+import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { validateBargainInput } from "@/lib/validations";
 import { useState } from "react";
-import FormValidationPopUp from "../popUps/formValidationPopUp";
+import FormValidationPopUp from "../../popUps/formValidationPopUp";
 import { getBargain } from "@/db/bargain";
 import { bargainCodeName } from "@/app/model/JSONnames";
 import toast from "react-hot-toast";
@@ -24,6 +24,8 @@ interface BargainInputProps {
   bargain: BargainEntity | null;
   /** Function to update the applied bargain. */
   setBargain: (bargain: BargainEntity | null) => void;
+  /** Status of the bargain introduced */
+  status: 0 | 1;
 }
 
 /**
@@ -35,6 +37,7 @@ interface BargainInputProps {
 export default function BargainInput({
   bargain,
   setBargain,
+  status,
 }: BargainInputProps): JSX.Element {
   const [showModal, setShowModal] = useState(false);
 
@@ -60,7 +63,8 @@ export default function BargainInput({
       getBargain(formData.get(bargainCodeName)?.toString())
         .then((data) => {
           toast.success("Código aplicado.");
-          return data;
+          console.log(data);
+          setBargain(data);
         })
         .catch((_) => toast.error("No existe el código."));
     } else {
@@ -75,11 +79,21 @@ export default function BargainInput({
           <label className="bg-transparent max-w-fit font-extrabold text-lg cursor-pointer">
             Código promocional
           </label>
-          <article className="font-semibold">
-            Código{" "}
-            <span className="font-extrabold text-lg">{bargain.code}</span> está
-            aplicado
-          </article>
+          {status === 0 ? (
+            <article className="font-semibold">
+              Código{" "}
+              <span className="font-extrabold text-lg">{bargain.code}</span>{" "}
+              está aplicado
+            </article>
+          ) : (
+            <>
+                        <article className="font-semibold">
+              Código{" "}
+              <span className="font-extrabold text-lg">{bargain.code}</span>{" "}
+              no está aplicado. No se cumplen los requisitos mínimos necesarios.
+            </article>
+            </>
+          )}
           <div className="self-center">
             <button
               type="button"

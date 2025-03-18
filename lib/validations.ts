@@ -41,7 +41,7 @@ function checkIfNotEmpty(formData: FormData, field: string, message: string){
  */
 function checkIfValidBargainCode(formData: FormData){
     const code = formData.get(bargainCodeName)?.toString()
-    console.log(code?.length)
+
     const MIN_SIZE = 4
     const MAX_SIZE = 6
 

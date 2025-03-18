@@ -1,6 +1,6 @@
 'use server';
 
-import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/Bargain";
+import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/bargain/Bargain";
 import { bargainIdName } from "@/app/model/JSONnames";
 import { Logger } from "@/app/model/Logger";
 import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser";

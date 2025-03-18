@@ -3,30 +3,15 @@
  * 
  * @param {object} client - The PostgreSQL client instance.
  */
-async function addBargains(client) {
+async function addBargains(client) { // TODO Check this predefined
   await client.sql`
     INSERT INTO bargain (code, title, description)
-    VALUES ('3POR2', '3x2 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-  `;
-
-  await client.sql`
-    INSERT INTO bargain (code, title, description)
-    VALUES ('4POR3', '4x3 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-  `;
-
-  await client.sql`
-    INSERT INTO bargain (code, title, description)
-    VALUES ('5POR4', '5x4 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-  `;
-
-  await client.sql`
-    INSERT INTO bargain (code, title, description)
-    VALUES ('6POR5', '6x5 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
-  `;
-
-  await client.sql`
-    INSERT INTO bargain (code, title, description)
-    VALUES ('7POR6', '7x6 en audífonos de la misma marca', 'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.');
+    VALUES (
+      '2POR1', 
+      '2x1 en audífonos de la misma marca', 
+      'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.',
+      ARRAY['Solo audífonos de la misma marca', 'Han de ser el mismo modelo o CROS', 'Han de ser de oídos distintos']      
+    );
   `;
 
   console.log("Inserted rows into 'bargain' table");
@@ -44,6 +29,7 @@ async function createBargainTable(client) {
         code VARCHAR(255),
         title VARCHAR(255) NOT NULL,
         description VARCHAR(255) NOT NULL
+        requirements TEXT[]
       );
     `;
 

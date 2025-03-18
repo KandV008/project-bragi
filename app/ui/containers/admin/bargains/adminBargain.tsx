@@ -17,7 +17,7 @@ import {
   componentText,
   shimmer,
 } from "@/app/ui/tailwindClasses";
-import { BargainEntity } from "@/app/model/entities/Bargain";
+import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { actionDeleteBargain } from "@/db/bargain";
 import { getBargainRoute } from "@/app/api/routes";

@@ -3,8 +3,8 @@ import {
   componentBorder,
   componentText,
   shimmer,
-} from "../../tailwindClasses";
-import SeeMoreButton from "../buttons/seeMoreButton";
+} from "../../../tailwindClasses";
+import SeeMoreButton from "../../buttons/seeMoreButton";
 
 /**
  * Props for the `Bargain` component.

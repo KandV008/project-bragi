@@ -1,9 +1,9 @@
 "use client";
 
-import { BargainEntity } from "@/app/model/entities/Bargain";
-import Bargain, { BargainSkeleton } from "./bargain";
-import MediumButton from "../buttons/mediumButton";
-import { shimmer } from "../../tailwindClasses";
+import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
+import Bargain, { BargainSkeleton } from "../bargain/bargain";
+import MediumButton from "../../buttons/mediumButton";
+import { shimmer } from "../../../tailwindClasses";
 
 /**
  * Props for the `BargainContainer` component.

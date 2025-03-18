@@ -1,14 +1,26 @@
 "use client";
 
 import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
-import MediumButtonWithIcon, { MediumButtonWithIconSkeleton } from "../../components/buttons/mediumButtonWithIcon";
+import MediumButtonWithIcon, {
+  MediumButtonWithIconSkeleton,
+} from "../../components/buttons/mediumButtonWithIcon";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import SectionHeader, { SectionHeaderSkeleton } from "../../components/tags/sectionHeader";
-import { componentBorder, componentBackground, componentText, shimmer } from "../../tailwindClasses";
-import BargainInput from "../../components/bargains/bargainInput";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "../../components/tags/sectionHeader";
+import {
+  componentBorder,
+  componentBackground,
+  componentText,
+  shimmer,
+} from "../../tailwindClasses";
+import BargainInput from "../../components/bargains/bargainInput/bargainInput";
 import { useState } from "react";
-import { BargainEntity } from "@/app/model/entities/Bargain";
+import {
+  BargainEntity,
+  getCodeAction,
+} from "@/app/model/entities/bargain/Bargain";
 
 /**
  * Props for the Summary component.
@@ -27,19 +39,37 @@ interface SummaryProps {
 export default function Summary({ products }: SummaryProps): JSX.Element {
   const router = useRouter();
   const [bargain, setBargain] = useState<BargainEntity | null>(null);
+  const [currentProducts, setCurrentProducts] =
+    useState<ProductDTO[]>(products);
+  const [status, setStatus] = useState<0 | 1 >(0)
 
   /**
    * Updates the current bargain applied to the purchase.
    * @param {BargainEntity | null} newBargain - The new bargain entity to apply.
    */
   const updateBargain = (newBargain: BargainEntity | null) => {
+    const bargainAction = getCodeAction(newBargain!.code);
+
+    if (!bargainAction) {
+      setBargain(null);
+      return; // TODO handle invalid bargain
+    }
+
     setBargain(newBargain);
+    const {shoppingList, status} = bargainAction(products);
+    setCurrentProducts(shoppingList);
+    setStatus(status)
   };
 
-  const totalPrice = products.reduce((total, product) => total + product.price * product.quantity, 0);
+  const totalPrice = currentProducts.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0
+  );
 
   return (
-    <section className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}> 
+    <section
+      className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+    >
       <SectionHeader text={"Resumen"} />
       <article className="flex flex-col gap-3">
         <div className="flex flex-row gap-1 justify-between">
@@ -59,14 +89,20 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
       </article>
       <article className="flex flex-col gap-2">
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
-        <BargainInput bargain={bargain} setBargain={updateBargain} />
+        <BargainInput bargain={bargain} setBargain={updateBargain} status={status}/>
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
           <span className="text-2xl font-bold text-red-1">{totalPrice}€</span>
         </div>
         <div className="place-self-center">
-          <MediumButtonWithIcon icon={faCartShopping} text={"Comprar"} subtext={"Empezar compra"} type={"default"} onClick={() => router.push("/in-development")} />
+          <MediumButtonWithIcon
+            icon={faCartShopping}
+            text={"Comprar"}
+            subtext={"Empezar compra"}
+            type={"default"}
+            onClick={() => router.push("/in-development")}
+          />
         </div>
       </article>
     </section>
@@ -79,7 +115,9 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
  */
 export function SummarySkeleton(): JSX.Element {
   return (
-    <div className={`${shimmer} relative overflow-hidden rounded bg-gray-100 shadow-sm`}>
+    <div
+      className={`${shimmer} relative overflow-hidden rounded bg-gray-100 shadow-sm`}
+    >
       <section className="sticky top-32 flex flex-col w-full justify-between p-6 border-2 rounded">
         <SectionHeaderSkeleton />
         <article className="flex flex-col gap-3">

@@ -1,5 +1,5 @@
-import { BargainEntity } from '@/app/model/entities/Bargain'
-import BargainContainer from '@/app/ui/components/bargains/bargainContainer'
+import { BargainEntity } from '@/app/model/entities/bargain/Bargain'
+import BargainContainer from '@/app/ui/components/bargains/bargainContainer/bargainContainer'
 import { render, screen } from '@testing-library/react'
 
 describe("<BargainContainer />", () => {
@@ -15,9 +15,18 @@ describe("<BargainContainer />", () => {
 
     it('should render 3 bargains as not preview with no Show More Button', () => {
         const bargains: BargainEntity[] = [
-            { id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1"},
-            { id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2"},
-            { id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3"},
+            {
+                id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1",
+                requirements: []
+            },
+            {
+                id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2",
+                requirements: []
+            },
+            {
+                id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3",
+                requirements: []
+            },
         ]
 
         render(<BargainContainer bargains={bargains} showMoreButton={false} />)
@@ -36,9 +45,18 @@ describe("<BargainContainer />", () => {
 
     it('should render 3 bargains as not preview with Show More Button', () => {
         const bargains: BargainEntity[] = [
-            { id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1"},
-            { id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2"},
-            { id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3"},
+            {
+                id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1",
+                requirements: []
+            },
+            {
+                id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2",
+                requirements: []
+            },
+            {
+                id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3",
+                requirements: []
+            },
         ]
 
         render(<BargainContainer bargains={bargains} showMoreButton={true} />)
@@ -57,9 +75,18 @@ describe("<BargainContainer />", () => {
 
     it('should render 3 bargains as preview with no Show More Button', () => {
         const bargains: BargainEntity[] = [
-            { id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1"},
-            { id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2"},
-            { id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3"},
+            {
+                id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1",
+                requirements: []
+            },
+            {
+                id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2",
+                requirements: []
+            },
+            {
+                id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3",
+                requirements: []
+            },
         ]
 
         render(<BargainContainer bargains={bargains} showMoreButton={false} isPreview={true} />)
@@ -82,9 +109,18 @@ describe("<BargainContainer />", () => {
 
     it('should render 3 bargains as preview with Show More Button', () => {
         const bargains: BargainEntity[] = [
-            { id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1"},
-            { id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2"},
-            { id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3"},
+            {
+                id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1",
+                requirements: []
+            },
+            {
+                id: "2", code: "TEST2", title: "Test 2", description: "Texto Ejemplo 2",
+                requirements: []
+            },
+            {
+                id: "3", code: "TEST3", title: "Test 3", description: "Texto Ejemplo 3",
+                requirements: []
+            },
         ]
 
         render(<BargainContainer bargains={bargains} showMoreButton={true} isPreview={true} />)

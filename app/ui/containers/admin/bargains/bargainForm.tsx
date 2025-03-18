@@ -28,7 +28,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
-import { BargainEntity } from "@/app/model/entities/Bargain";
+import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { actionUpdateBargain, actionCreateBargain } from "@/db/bargain";
 import { bargainCodeName, bargainDescriptionName, bargainIdName, bargainTitleName } from "@/app/model/JSONnames";
 

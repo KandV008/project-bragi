@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";
-import BargainContainer, { BargainContainerSkeleton } from "@/app/ui/components/bargains/bargainContainer";
-import { BargainEntity } from "@/app/model/entities/Bargain";
+import BargainContainer, { BargainContainerSkeleton } from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
+import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { getBargainsRoute } from "@/app/api/routes";
 
 /**

@@ -1,4 +1,4 @@
-import Bargain from '@/app/ui/components/bargains/bargain'
+import Bargain from '@/app/ui/components/bargains/bargain/bargain'
 import { render, screen } from '@testing-library/react'
 
 describe("<Bargain />", () => {

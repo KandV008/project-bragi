@@ -1,5 +1,5 @@
-import { BargainEntity } from "@/app/model/entities/Bargain";
-import BargainInput from "@/app/ui/components/bargains/bargainInput";
+import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
+import BargainInput from "@/app/ui/components/bargains/bargainInput/bargainInput";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
@@ -14,8 +14,7 @@ describe("<BargainInput />", () => {
     return (
       <BargainInput
         bargain={bargain}
-        setBargain={(bargain) => setBargain(bargain)}
-      />
+        setBargain={(bargain) => setBargain(bargain)} status={0}      />
     );
   };
 
@@ -25,8 +24,7 @@ describe("<BargainInput />", () => {
     render(
       <BargainInput
         bargain={bargain}
-        setBargain={function (bargain: BargainEntity | null): void {}}
-      />
+        setBargain={function (bargain: BargainEntity | null): void { } } status={0}      />
     );
 
     const user = userEvent.setup();
@@ -77,6 +75,7 @@ describe("<BargainInput />", () => {
       code: "TEST2",
       title: "Test 4",
       description: "Texto Ejemplo 4",
+      requirements: []
     };
 
     render(<Wrapper currentBargain={currentBargain} />);

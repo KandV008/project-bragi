@@ -74,7 +74,7 @@ export function mapDocumentToProduct(product: any): ProductEntity {
         const newProduct: Omit<ProductEntity, "earphoneAttributes"> = {
             id: product._id.toString(),
             name: product.name,
-            category: Category[product.category as keyof typeof Category] || Category.EARPHONE, // Fallback to EARPHONE
+            category: Category[product.category as keyof typeof Category] || Category.EARPHONE, 
             price: product.price,
             imageURL: product.image_URL,
             description: product.description,

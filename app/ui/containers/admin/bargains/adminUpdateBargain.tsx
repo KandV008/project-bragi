@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import BargainForm, { BargainFormSkeleton } from "@/app/ui/containers/admin/bargains/bargainForm";
-import { BargainEntity } from "@/app/model/entities/Bargain";
+import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { getBargainRoute } from "@/app/api/routes";
 
 /**
