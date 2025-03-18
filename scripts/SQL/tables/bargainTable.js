@@ -5,7 +5,7 @@
  */
 async function addBargains(client) { // TODO Check this predefined
   await client.sql`
-    INSERT INTO bargain (code, title, description)
+    INSERT INTO bargain (code, title, description, requirements)
     VALUES (
       '2POR1', 
       '2x1 en audífonos de la misma marca', 
@@ -28,7 +28,7 @@ async function createBargainTable(client) {
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         code VARCHAR(255),
         title VARCHAR(255) NOT NULL,
-        description VARCHAR(255) NOT NULL
+        description VARCHAR(255) NOT NULL,
         requirements TEXT[]
       );
     `;
