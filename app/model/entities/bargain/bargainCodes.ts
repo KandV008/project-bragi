@@ -1,4 +1,4 @@
-import { ProductDTO } from "../shoppingProductDTO/ShoppingProductDTO";
+import { ShoppingProductDTO } from "../shoppingProductDTO/ShoppingProductDTO";
 import { CODE_2PER1, codeAction2PER1 } from "./codes/2per1Code/2per1Code";
 
 /**
@@ -6,7 +6,7 @@ import { CODE_2PER1, codeAction2PER1 } from "./codes/2per1Code/2per1Code";
  */
 export interface BargainActionProps {
     /** The updated shopping list after applying the bargain. */
-    shoppingList: ProductDTO[];
+    shoppingList: ShoppingProductDTO[];
     /** Status of the bargain application: `0` for applied, `1` for not applied. */
     status: 0 /* applied */ | 1 /* not applied */;
 }

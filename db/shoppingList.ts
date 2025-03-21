@@ -2,7 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
-import { ProductDTO, mapDocumentToProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
+import { ShoppingProductDTO, mapDocumentToShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList } from "@/lib/parser";
 import { Logger } from "@/app/model/Logger";
 import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
@@ -12,9 +12,9 @@ const CONTEXT = "SHOPPING_LIST";
 
 /**
  * Retrieves the shopping list for the authenticated user.
- * @returns {Promise<ProductDTO[]>} A promise that resolves to an array of products.
+ * @returns {Promise<ShoppingProductDTO[]>} A promise that resolves to an array of products.
  */
-export async function getShoppingList(): Promise<ProductDTO[]> {
+export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
   Logger.startFunction(CONTEXT, "getShoppingList");
 
   const { userId } = auth();
@@ -25,7 +25,7 @@ export async function getShoppingList(): Promise<ProductDTO[]> {
     [userId]
   );
 
-  const productDTOs = result.rows.map(row => mapDocumentToProductDTO(row));
+  const productDTOs = result.rows.map(row => mapDocumentToShoppingProductDTO(row));
   const shoppingList = await applyNoveltyToList(NoveltyContext["SHOPPING-LIST"], productDTOs)
   Logger.endFunction(CONTEXT, "getShoppingList", shoppingList);
   return shoppingList;
@@ -75,17 +75,17 @@ export async function addProductToShoppingList(formData: FormData) {
 
   const { userId } = auth();
   const parsedUserId = parseString(userId?.toString(), "USER_ID");
-  const { productId, colorText, colorHex, earSide, guarantee, name, category, brand, price, imageURL } = parseNewProductToShoppingList(formData);
+  const { productId, colorText, colorHex, earSide, earphoneShape, name, category, brand, price, imageURL } = parseNewProductToShoppingList(formData);
 
   try {
     const client = await sql.connect();
 
     await client.query(
-      `INSERT INTO shoppingList (product_id, user_id, color_text, color_hex, ear_side, guarantee, quantity, name, category, brand, price, image_url)
+      `INSERT INTO shoppingList (product_id, user_id, color_text, color_hex, ear_side, earphone_shape, quantity, name, category, brand, price, image_url)
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-           ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side, guarantee)
+           ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side)
            DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity`,
-      [productId, parsedUserId, colorText, colorHex, earSide, guarantee, 1, name, category, brand, price, imageURL]
+      [productId, parsedUserId, colorText, colorHex, earSide, earphoneShape, 1, name, category, brand, price, imageURL]
     );
 
     Logger.endFunction(
@@ -107,7 +107,7 @@ export async function incrementProductInShoppingList(formData: FormData) {
   Logger.startFunction(CONTEXT, "incrementProductInShoppingList");
 
   const { userId } = auth();
-  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData);
+  const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
   const parsedUserId = parseString(userId?.toString(), "USER_ID");
 
   try {
@@ -116,9 +116,9 @@ export async function incrementProductInShoppingList(formData: FormData) {
     const result = await client.query(
       `UPDATE shoppingList
            SET quantity = quantity + 1
-           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND guarantee = $6
+           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5
            RETURNING *`,
-      [productId, parsedUserId, colorText, colorHex, earSide, guarantee]
+      [productId, parsedUserId, colorText, colorHex, earSide]
     );
 
     if (result.rowCount === 0) {
@@ -149,7 +149,7 @@ export async function decrementProductInShoppingList(formData: FormData) {
   Logger.startFunction(CONTEXT, "decrementProductInShoppingList");
 
   const { userId } = auth();
-  const { productId, colorText, colorHex, earSide, guarantee } = parseUpdateOfShoppingList(formData);
+  const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
   const parsedUserId = parseString(userId?.toString(), "USER_ID");
 
   try {
@@ -158,14 +158,14 @@ export async function decrementProductInShoppingList(formData: FormData) {
     await client.query(
       `UPDATE shoppingList
            SET quantity = quantity - 1
-           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND guarantee = $6 AND quantity > 0`,
-      [productId, parsedUserId, colorText, colorHex, earSide, guarantee]
+           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND quantity > 0`,
+      [productId, parsedUserId, colorText, colorHex, earSide]
     );
 
     await client.query(
       `DELETE FROM shoppingList
-           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND guarantee = $6 AND quantity = 0`,
-      [productId, parsedUserId, colorText, colorHex, earSide, guarantee]
+           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND quantity = 0`,
+      [productId, parsedUserId, colorText, colorHex, earSide]
     );
 
     Logger.endFunction(

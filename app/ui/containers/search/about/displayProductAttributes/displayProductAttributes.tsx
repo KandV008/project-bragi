@@ -38,20 +38,18 @@ import { addProductToShoppingList } from "@/db/shoppingList";
 import { checkFavoriteRoute } from "@/app/api/routes";
 import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import {
-  GUARANTEE_VALUE,
-} from "@/app/model/entities/product/ProductConfiguration";
-import {
   brandName,
   categoryName,
   colorHexName,
   colorTextName,
+  earphoneShapeName,
   earSideName,
-  guaranteeName,
   imageURLName,
   nameName,
   priceName,
   productIdName,
 } from "@/app/model/JSONnames";
+import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -73,6 +71,7 @@ interface ProductOptionsProps {
   price: string;
   imageURL: string;
   colors: EarphoneColor[] | null;
+  earphoneShape: EarphoneShape | null;
   isCofosis: boolean;
   brand: string;
   include: string[];
@@ -87,6 +86,7 @@ interface ProductOptionsProps {
  * @param {string} props.price - The price of the product as a string.
  * @param {string} props.imageURL - The URL of the product image.
  * @param {Array} props.colors - Available colors for the product.
+ * @param {Object} props.earphoneShape - Earphone shape of the product.
  * @param {boolean} props.isCofosis - Indicates if the product is designed for cofosis users.
  * @param {string} props.brand - The brand of the product.
  * @param {Array<string>} props.include - List of items included with the product.
@@ -99,6 +99,7 @@ export default function DisplayProductAttributes({
   price,
   imageURL,
   colors,
+  earphoneShape,
   isCofosis,
   brand,
   include,
@@ -109,8 +110,6 @@ export default function DisplayProductAttributes({
   const RIGHT_SIDE = "right";
   const BOTH_SIDE = "both";
 
-  const parsePrice = parseFloat(price);
-  const [currentPrice, setCurrentPrice] = useState(parsePrice);
   const [isFavorite, setIsFavorite] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
 
@@ -119,19 +118,8 @@ export default function DisplayProductAttributes({
     setShowModal(!showModal);
   };
 
-  const [guarantee, setGuarantee] = useState(false);
-  const handleInsuranceButton = () => {
-    setGuarantee(!guarantee);
-  };
-  const guaranteeButtonClasses = guarantee
-    ? pressedButton
-    : `${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
-
   const [earSide, setEarSide] = useState("");
-  const [isOneSide, setIsOneSide] = useState(false);
   const handleEarSideButtonClick = (buttonName: string) => {
-    setIsOneSide(buttonName === LEFT_SIDE || buttonName === RIGHT_SIDE);
-    updatePrice();
     setEarSide(buttonName);
   };
   const getEarSideButtonClasses = (buttonName: string) => {
@@ -140,17 +128,6 @@ export default function DisplayProductAttributes({
       ? `${baseClasses} ${pressedButton}`
       : `${baseClasses} ${negativeComponentText} ${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
   };
-
-  function updatePrice() {
-    // TODO Optimize the change
-    const guaranteePrice = Number(guarantee) * GUARANTEE_VALUE;
-
-    if (isOneSide && !isCofosis) {
-      setCurrentPrice(parsePrice + guaranteePrice);
-    } else {
-      setCurrentPrice(parsePrice + guaranteePrice);
-    }
-  }
 
   useEffect(() => {
     if (id && user) {
@@ -201,7 +178,7 @@ export default function DisplayProductAttributes({
           <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
           {/* Price */}
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold w-fit">
-            {currentPrice}€
+            {price}€
           </h1>
           <br className="hidden sm:block" />
           {/* Color Buttons */}
@@ -251,16 +228,6 @@ export default function DisplayProductAttributes({
           ) : (
             <></>
           )}
-          {/* Insurance Button */}
-          <div className="w-fit">
-            <ArticleHeader text={"Añadir seguro de 1 año al producto"} />
-            <button
-              onClick={() => handleInsuranceButton()}
-              className={`h-8 w-24 border-2 rounded font-bold ${guaranteeButtonClasses}`}
-            >
-              Añadir
-            </button>
-          </div>
           {/* Include list */}
           <div className="mb-3 md:mb-1 lg:mb-3 w-fit">
             <ArticleHeader text={"Incluye"} />
@@ -293,13 +260,13 @@ export default function DisplayProductAttributes({
               <input type="hidden" name={earSideName} value={earSide} />
               <input
                 type="hidden"
-                name={guaranteeName}
-                value={guarantee.toString()}
+                name={earphoneShapeName}
+                value={earphoneShape ? earphoneShape : " "}
               />
               <input type="hidden" name={nameName} value={name} />
               <input type="hidden" name={categoryName} value={category} />
               <input type="hidden" name={brandName} value={brand} />
-              <input type="hidden" name={priceName} value={currentPrice} />
+              <input type="hidden" name={priceName} value={price} />
               <input type="hidden" name={imageURLName} value={imageURL} />
               <SubmitButton
                 text={"Añadir a la cesta"}

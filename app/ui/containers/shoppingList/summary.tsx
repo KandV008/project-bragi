@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import MediumButtonWithIcon, {
   MediumButtonWithIconSkeleton,
 } from "../../components/buttons/mediumButtonWithIcon";
@@ -26,7 +26,7 @@ import {
  * Props for the Summary component.
  */
 interface SummaryProps {
-  products: ProductDTO[];
+  products: ShoppingProductDTO[];
 }
 
 /**
@@ -40,7 +40,7 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
   const router = useRouter();
   const [bargain, setBargain] = useState<BargainEntity | null>(null);
   const [currentProducts, setCurrentProducts] =
-    useState<ProductDTO[]>(products);
+    useState<ShoppingProductDTO[]>(products);
   const [status, setStatus] = useState<0 | 1 >(0)
 
   /**
@@ -101,7 +101,7 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
             text={"Comprar"}
             subtext={"Empezar compra"}
             type={"default"}
-            onClick={() => router.push("/in-development")}
+            onClick={() => router.push(`/profile/shoppingList/shopping?bargain=${bargain?.code}`)}
           />
         </div>
       </article>

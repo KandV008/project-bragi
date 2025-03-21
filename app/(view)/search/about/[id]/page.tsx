@@ -51,6 +51,7 @@ export default function Page(): JSX.Element {
         price={product.price.toString()}
         imageURL={product.imageURL}
         colors={product.earphoneAttributes ? product.earphoneAttributes.colors : null}
+        earphoneShape={product.earphoneAttributes ? product.earphoneAttributes.earphoneShape : null}
         isCofosis={isCofosis}
         brand={product.brand}
         include={product.include}

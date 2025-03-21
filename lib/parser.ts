@@ -1,6 +1,6 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, guaranteeName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName } from "@/app/model/JSONnames";
+import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName } from "@/app/model/JSONnames";
 
 /**
  * Parses a string value and ensures it is valid.
@@ -126,7 +126,7 @@ export function parseNewProductToShoppingList(formData: FormData) {
     const brand = parseString(formData.get(brandName)?.toString(), "BRAND");
     const price = parsePrice(formData.get(priceName)?.toString());
     const imageURL = parseString(formData.get(imageURLName)?.toString(), "IMAGE_URL")
-    const guarantee = parseString(formData.get(guaranteeName)?.toString(), "GUARANTEE");
+    let earphoneShape = ""
     let colorText = ""
     let colorHex = ""
     let earSide = ""
@@ -135,9 +135,10 @@ export function parseNewProductToShoppingList(formData: FormData) {
         colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
         colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
         earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
+        earphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE");
     }
 
-    return { productId, colorText, colorHex, earSide, guarantee, name, category, brand, price, imageURL }
+    return { productId, colorText, colorHex, earSide, earphoneShape, name, category, brand, price, imageURL }
 }
 
 /**
@@ -158,15 +159,13 @@ export function parseUpdateOfShoppingList(formData: FormData): {
     colorText: string;
     colorHex: string;
     earSide: string;
-    guarantee: string;
 } {
     const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
     const colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
     const colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
     const earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
-    const guarantee = parseString(formData.get(guaranteeName)?.toString(), "GUARANTEE");
 
-    return { productId, colorText, colorHex, earSide, guarantee }
+    return { productId, colorText, colorHex, earSide }
 }
 
 /**

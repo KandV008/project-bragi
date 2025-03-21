@@ -44,13 +44,13 @@ import {
   audiometryFileName,
 } from "@/app/model/JSONnames";
 import { useUser } from "@clerk/nextjs";
-import { ProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { useSearchParams } from "next/navigation";
 import { getCodeAction } from "@/app/model/entities/bargain/Bargain";
 import FileInput from "../../components/inputs/fileInput";
 
 interface FormProps {
-  products: ProductDTO[];
+  products: ShoppingProductDTO[];
 }
 
 /**
@@ -67,7 +67,7 @@ export default function ShoppingForm({ products }: FormProps) {
   const searchParams = useSearchParams();
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
   const [currentProducts, setCurrentProducts] =
-    useState<ProductDTO[]>(products);
+    useState<ShoppingProductDTO[]>(products);
 
   useEffect(() => {
     const bargain = searchParams.get("bargain");

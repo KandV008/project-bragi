@@ -34,8 +34,8 @@ interface ProductInformationProps {
   price: number;
   /** Ear side specification (e.g., left, right, both) */
   earSide: string;
-  /** Indicates if the product comes with a guarantee */
-  guarantee: boolean;
+  /** Earphone Shape of the product */
+  earphoneShape: string;
   /** Text description of the product color */
   colorText: string;
   /** Hexadecimal code of the product color */
@@ -59,7 +59,7 @@ export default function ProductShoppingList({
   brand,
   price,
   earSide,
-  guarantee,
+  earphoneShape,
   colorText,
   colorHex,
   quantity,
@@ -144,11 +144,16 @@ export default function ProductShoppingList({
           ) : (
             <></>
           )}
-          {/* Guarantee */}
-          <div className="flex flex-col sm:flex-row 2xl:flex-col">
-            <span className="font-bold">Seguro de 1 año</span>
-            <span className="mx-2">{guarantee ? "Sí" : "No"}</span>
-          </div>
+          {/* Earphone Shape */}
+          {category === "EARPHONE" ? (
+            <div className="flex flex-col sm:flex-row 2xl:flex-col">
+              <span className="font-bold">Forma del Audífono</span>
+              <span className="mx-2">{earphoneShape}</span>
+            </div>
+          ) : (
+            <></>
+          )}
+
           {/* Color */}
           {category === "EARPHONE" ? (
             <div className="flex flex-col sm:flex-row 2xl:flex-col">
@@ -176,7 +181,6 @@ export default function ProductShoppingList({
             colorText={colorText}
             colorHex={colorHex}
             earSide={earSide}
-            guarantee={guarantee}
             action={checkBeforeDecrement}
           />
           {/* Amount */}
@@ -188,7 +192,6 @@ export default function ProductShoppingList({
             colorText={colorText}
             colorHex={colorHex}
             earSide={earSide}
-            guarantee={guarantee}
             action={incrementProductInShoppingList}
           />
         </div>

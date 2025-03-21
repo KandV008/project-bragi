@@ -3,14 +3,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { useRouter } from "next/navigation";
-import { 
-  negativeComponentBackground, 
-  negativeHoverComponentBackground, 
-  componentBorder, 
-  hoverComponentBorder, 
-  negativeComponentText 
+import {
+  negativeComponentBackground,
+  negativeHoverComponentBackground,
+  componentBorder,
+  hoverComponentBorder,
+  negativeComponentText,
 } from "../../tailwindClasses";
-import { colorHexName, colorTextName, earSideName, guaranteeName, productIdName } from "@/app/model/JSONnames";
+import {
+  colorHexName,
+  colorTextName,
+  earSideName,
+  productIdName,
+} from "@/app/model/JSONnames";
 
 /**
  * Props for the AmountButton component.
@@ -28,14 +33,12 @@ interface AmountButtonProps {
   colorHex: string;
   /** Ear side specification (e.g., left, right, both) */
   earSide: string;
-  /** Indicates if the product has a guarantee */
-  guarantee: boolean;
 }
 
 /**
- * A button component that submits a form with hidden input values 
+ * A button component that submits a form with hidden input values
  * related to a product and triggers an action.
- * 
+ *
  * @param props - The properties for the AmountButton component.
  * @returns JSX element representing the button.
  */
@@ -46,14 +49,13 @@ export default function AmountButton({
   colorText,
   colorHex,
   earSide,
-  guarantee,
 }: AmountButtonProps) {
   const router = useRouter();
 
   /**
-   * Handles form submission, executes the provided action, 
+   * Handles form submission, executes the provided action,
    * and refreshes the page.
-   * 
+   *
    * @param formData - The form data to be submitted.
    */
   const formAction = (formData: FormData) => {
@@ -67,7 +69,6 @@ export default function AmountButton({
       <input type="hidden" name={colorTextName} value={colorText} />
       <input type="hidden" name={colorHexName} value={colorHex} />
       <input type="hidden" name={earSideName} value={earSide} />
-      <input type="hidden" name={guaranteeName} value={guarantee.toString()} />
       <button
         type="submit"
         className={`flex flex-col p-2 rounded-xl 

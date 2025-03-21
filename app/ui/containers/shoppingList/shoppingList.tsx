@@ -1,4 +1,4 @@
-import { ProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { shimmer } from "../../tailwindClasses";
 import ProductShoppingList, { ProductInformationSkeleton } from "../../components/products/productShoppingList/productShoppingList";
 
@@ -7,7 +7,7 @@ import ProductShoppingList, { ProductInformationSkeleton } from "../../component
  */
 interface ShoppingListProps {
   /** Array of products to be displayed in the shopping list */
-  products: ProductDTO[];
+  products: ShoppingProductDTO[];
 }
 
 /**
@@ -29,7 +29,7 @@ export default function ShoppingList({ products }: ShoppingListProps) {
           brand={product.brand}
           price={product.price}
           earSide={product.earSide}
-          guarantee={product.guarantee}
+          earphoneShape={product.earphoneShape}
           colorText={product.colorText}
           colorHex={product.colorHex}
           quantity={product.quantity} 

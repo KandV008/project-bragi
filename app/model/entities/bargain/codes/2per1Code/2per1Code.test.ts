@@ -1,8 +1,8 @@
-import { ProductDTO } from "../../../DTOs/ProductDTO"
+import { ShoppingProductDTO } from "../../../shoppingProductDTO/ShoppingProductDTO"
 import { codeAction2PER1 } from "./2per1Code"
 
 describe("2per1Code Bargain", () => {
-    const exampleProductsDTO: ProductDTO[] = [
+    const exampleProductsDTO: ShoppingProductDTO[] = [
         {
             id: "",
             name: "Audeo Ejemplo",

@@ -12,14 +12,14 @@ async function createShoppingListTable(client) {
       color_text VARCHAR(255) NOT NULL,
       color_hex VARCHAR(255) NOT NULL,
       ear_side VARCHAR(255) NOT NULL,
-      guarantee BOOLEAN NOT NULL,
+      earphone_shape VARCHAR(255) NOT NULL,
       quantity INT NOT NULL,
       name VARCHAR(255) NOT NULL,
       category VARCHAR(255) NOT NULL,
       brand VARCHAR(255) NOT NULL,
       price DOUBLE PRECISION NOT NULL,
       image_url VARCHAR(255) NOT NULL,
-      PRIMARY KEY (product_id, user_id, color_text, color_hex, ear_side, guarantee)
+      PRIMARY KEY (product_id, user_id, color_text, color_hex, ear_side)
     );
   `;
   console.log(`Created "shoppingList" table`);
