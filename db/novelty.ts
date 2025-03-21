@@ -1,6 +1,6 @@
 'use server';
 
-import { mapDocumentToNovelty, NoveltyEntity } from "@/app/model/entities/Novelty";
+import { mapDocumentToNovelty, NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import { noveltyIdName } from "@/app/model/JSONnames";
 import { Logger } from "@/app/model/Logger";
 import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
@@ -31,6 +31,36 @@ export async function getNovelties(start: string | null, end: string | null): Pr
     Logger.endFunction(CONTEXT, "getNovelties", novelties)
     return novelties
 }
+
+/**
+ * Retrieves valid novelties where the `end_date` is greater than the current date.
+ *
+ * This function queries the `novelty` table and filters out expired novelties
+ * by comparing `end_date` with the current timestamp (`NOW()`).
+ *
+ * @returns {Promise<NoveltyEntity[]>} A list of valid novelties.
+ * @throws {Error} If the database query fails.
+ */
+export async function getValidNovelties(context: string): Promise<NoveltyEntity[]> {
+    Logger.startFunction(CONTEXT, "getValidNovelties");
+    const client = await sql.connect();
+
+    try {
+        const result = await client.query(
+            `SELECT * FROM novelty WHERE end_date > NOW() AND context = $1 AND type != 'INFO'`, [context]
+        );
+        
+        const novelties: NoveltyEntity[] = result.rows.map(mapDocumentToNovelty);
+        Logger.endFunction(CONTEXT, "getValidNovelties", novelties);
+        return novelties;
+    } catch (error) {
+        Logger.errorFunction(CONTEXT, "getValidNovelties", error);
+        throw new Error(""); //TODO error message
+    } finally {
+        client.release();
+    }
+}
+
 
 /**
  * Retrieves a single novelty by ID.

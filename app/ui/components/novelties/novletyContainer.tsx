@@ -3,7 +3,7 @@
 import MediumButton from "../buttons/mediumButton";
 import { shimmer } from "../../tailwindClasses";
 import Novelty, { NoveltySkeleton } from "./novelty";
-import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 
 /**
  * Props for the NoveltyContainer component.

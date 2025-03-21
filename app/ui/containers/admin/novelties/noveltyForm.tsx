@@ -28,7 +28,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
-import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty";
 import { noveltyDescriptionName, noveltyIdName, noveltyTitleName, promotionalImageName } from "@/app/model/JSONnames";
 

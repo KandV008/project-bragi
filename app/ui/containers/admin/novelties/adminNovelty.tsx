@@ -19,7 +19,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { getNoveltyRoute } from "@/app/api/routes";
-import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import Image from "next/image";
 import { actionDeleteNovelty } from "@/db/novelty";
 import { BigImageSkeleton } from "@/app/ui/components/images/bigImage";

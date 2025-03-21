@@ -5,6 +5,8 @@ import { sql } from '@vercel/postgres';
 import { ProductDTO, mapDocumentToProductDTO } from "@/app/model/entities/DTOs/ProductDTO";
 import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList } from "@/lib/parser";
 import { Logger } from "@/app/model/Logger";
+import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
+import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
 
 const CONTEXT = "SHOPPING_LIST";
 
@@ -23,9 +25,10 @@ export async function getShoppingList(): Promise<ProductDTO[]> {
     [userId]
   );
 
-  const shoppinList = result.rows.map(row => mapDocumentToProductDTO(row));
-  Logger.endFunction(CONTEXT, "getShoppingList", shoppinList);
-  return shoppinList;
+  const productDTOs = result.rows.map(row => mapDocumentToProductDTO(row));
+  const shoppingList = await applyNoveltyToList(NoveltyContext["SHOPPING-LIST"], productDTOs)
+  Logger.endFunction(CONTEXT, "getShoppingList", shoppingList);
+  return shoppingList;
 }
 
 /**

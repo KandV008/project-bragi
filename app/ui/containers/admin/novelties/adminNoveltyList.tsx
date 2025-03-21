@@ -6,7 +6,7 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import FloatButton from "@/app/ui/components/buttons/floatButton";
 import { getNoveltiesRoute } from "@/app/api/routes";
-import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import NoveltyContainer from "@/app/ui/components/novelties/novletyContainer";
 import { NoveltyContainerSkeleton } from "@/app/ui/components/novelties/novletyContainer";
 

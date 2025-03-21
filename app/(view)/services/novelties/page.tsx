@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getNoveltiesRoute } from "@/app/api/routes";
 import Loading from "./loading";
 import NoveltyContainer from "@/app/ui/components/novelties/novletyContainer";
-import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 
 /**
  * Page component that handles the display of novelties.

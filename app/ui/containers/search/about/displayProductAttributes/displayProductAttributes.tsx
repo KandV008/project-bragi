@@ -38,7 +38,6 @@ import { addProductToShoppingList } from "@/db/shoppingList";
 import { checkFavoriteRoute } from "@/app/api/routes";
 import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import {
-  DISCOUNT_PER_UNIT,
   GUARANTEE_VALUE,
 } from "@/app/model/entities/product/ProductConfiguration";
 import {
@@ -147,7 +146,7 @@ export default function DisplayProductAttributes({
     const guaranteePrice = Number(guarantee) * GUARANTEE_VALUE;
 
     if (isOneSide && !isCofosis) {
-      setCurrentPrice(parsePrice * DISCOUNT_PER_UNIT + guaranteePrice);
+      setCurrentPrice(parsePrice + guaranteePrice);
     } else {
       setCurrentPrice(parsePrice + guaranteePrice);
     }

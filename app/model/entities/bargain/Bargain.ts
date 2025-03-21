@@ -26,9 +26,12 @@ export interface BargainEntity {
  */
 export function mapDocumentToBargain(bargain: any): BargainEntity {
     try {
-        if (!bargain || !bargain.id || !bargain.code || !bargain.title || !bargain.description) {
+        const requiredFields = ["id", "code", "title", "description"];
+
+        if (!bargain || requiredFields.some(field => !bargain[field])) {
             throw new Error(MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE);
         }
+        
 
         return {
             id: bargain.id,
