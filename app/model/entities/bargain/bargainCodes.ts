@@ -1,4 +1,4 @@
-import { ProductDTO } from "../DTOs/ProductDTO";
+import { ProductDTO } from "../shoppingProductDTO/ShoppingProductDTO";
 import { CODE_2PER1, codeAction2PER1 } from "./codes/2per1Code/2per1Code";
 
 /**
