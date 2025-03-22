@@ -10,14 +10,12 @@ import { CheckBoxInputSkeleton } from "@/app/ui/components/inputs/checkBoxInput"
 import { ColorInputSkeleton } from "@/app/ui/components/inputs/colorInput";
 import { IncrementalTextInputSkeleton } from "@/app/ui/components/inputs/incrementalTextInput";
 import { RadioInputSkeleton } from "@/app/ui/components/inputs/radioInput";
-import TextAreaInput, {
-  TextAreaInputSkeleton,
-} from "@/app/ui/components/inputs/textAreaInput";
+import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
 import TextInput, {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput";
 import {
-    faFile,
+  faFile,
   faMailBulk,
   faMap,
   faPhone,
@@ -34,7 +32,6 @@ import {
   shimmer,
 } from "@/app/ui/tailwindClasses";
 import {
-  productDescriptionName,
   userIdName,
   userNameName,
   userFirstName,
@@ -66,12 +63,23 @@ export default function ShoppingForm({ products }: FormProps) {
   const { user } = useUser();
   const searchParams = useSearchParams();
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
-  const [currentProducts, setCurrentProducts] =
-    useState<ShoppingProductDTO[]>(products);
+  const [currentProducts, setCurrentProducts] = useState<ShoppingProductDTO[]>(
+    products.map((product: ShoppingProductDTO) => {
+      if (checkInvalidEarphoneShape(product)) {
+        product.price = -0;
+      }
+
+      return product;
+    })
+  );
+
+  function checkInvalidEarphoneShape(product: ShoppingProductDTO) {
+    return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
+  }
 
   useEffect(() => {
     const bargain = searchParams.get("bargain");
-    
+
     if (!bargain) {
       return;
     }
@@ -177,9 +185,12 @@ export default function ShoppingForm({ products }: FormProps) {
             icon={faMap}
           />
         </section>
-
         {/* Audiometry */}
-        <FileInput name={audiometryFileName} label={"Archivo de Audiometría"} icon={faFile} />
+        <FileInput
+          name={audiometryFileName}
+          label={"Archivo de Audiometría"}
+          icon={faFile}
+        />
       </section>
       {/* Summary */}
       <section
@@ -199,7 +210,12 @@ export default function ShoppingForm({ products }: FormProps) {
               <span>{product.name}</span>
               <span>{product.colorText}</span>
               <span>x{product.quantity}</span>
-              <span>{product.price * product.quantity}€</span>
+
+              {product.price == 0 && checkInvalidEarphoneShape(product) ? (
+                <span>Pedir Cita</span>
+              ) : (
+                <span>{product.price * product.quantity}€</span>
+              )}
             </div>
           ))}
         </article>
@@ -208,8 +224,6 @@ export default function ShoppingForm({ products }: FormProps) {
           <p>Código de oferta aplicado:</p>
           {bargainCode ? <p>{bargainCode}</p> : <p>Ninguno</p>}
         </article>
-        {/* TODO (?) Guarantee Applyed */}
-
         {/* Total */}
         <article className="flex flex-col gap-2">
           <div className={`w-full border-t my-3 ${componentBorder}`}></div>
@@ -235,9 +249,10 @@ export default function ShoppingForm({ products }: FormProps) {
       </article>
     </form>
   );
+
 }
 
-/**
+/** TODO
  * Skeleton component for ProductForm to display a loading state.
  * @returns JSX.Element
  */
