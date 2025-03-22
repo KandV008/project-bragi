@@ -65,6 +65,7 @@ export default function FileInput({
           maxLength={255}
           readOnly={false}
           accept="image/*,.pdf"
+          required
         />
       </article>
     </section>

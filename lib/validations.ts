@@ -1,5 +1,5 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category"
-import { adaptationRangeName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, degreeOfLossName, earphoneShapeName, earSideName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, priceName, productDescriptionName, promotionalImageName, usesName } from "@/app/model/JSONnames"
+import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/model/JSONnames"
 
 /**
  * List to store validation error messages.
@@ -130,3 +130,21 @@ export function validateFormNovelty(formData: FormData): boolean{
     return checkErrorMessagesList()
 }
 
+/**
+ * Validates the form for creating an order.
+ * @param {FormData} formData - The form data.
+ * @returns {boolean} - Returns true if the form is valid.
+ */
+export function validateFormShopping(formData: FormData): boolean{
+    clearErrorMessagesList()
+    
+    checkIfNotEmpty(formData, userIdName, "No se ha introducido ningún nombre.")
+    checkIfNotEmpty(formData, userNameName, "No se ha elegido ninguna categoría.")
+    checkIfNotEmpty(formData, userFirstName, "No se ha elegido ninguna marca.")
+    checkIfNotEmpty(formData, phoneNumberName, "No se ha introducido ningún precio.")
+    checkIfNotEmpty(formData, emailName, "No se ha introducido ninguna URL para la imagen.")
+    checkIfNotEmpty(formData, addressName, "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, audiometryFileName, "No se ha introducido ninguna descripción.")
+
+    return checkErrorMessagesList()
+}

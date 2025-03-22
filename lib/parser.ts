@@ -1,6 +1,6 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName } from "@/app/model/JSONnames";
+import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName } from "@/app/model/JSONnames";
 
 /**
  * Parses a string value and ensures it is valid.
@@ -96,6 +96,24 @@ export function parsePrice(price: string | null | undefined): number {
     }
 
     return parseFloat(price)
+}
+
+/**
+ * Validates and returns a `File` object if it is valid.
+ * 
+ * @param {string | File | null | undefined} value - The input value, expected to be a `File`.
+ * @param {string} attribute - The name of the attribute being validated (used for error messages).
+ * @returns {File} - Returns the `File` object if valid.
+ * @throws {Error} If the value is not a valid `File`.
+ */
+export function parseFile(value: string | File | null | undefined, attribute: string): File {
+    if (!(value instanceof File)) {
+        console.error(`ERROR: ${attribute} is not valid`);
+        console.error(`${attribute} VALUE:`, value);
+        throw new Error(`${attribute} is not valid. Value -> ${value}`);
+    }
+
+    return value;
 }
 
 /**
@@ -434,3 +452,30 @@ export function parseNoveltyForm(formData: FormData): object {
         promotionalImage: newPromotionalImage,
     }
 }
+
+/**
+ * Parses Shopping form data from FormData.
+ * 
+ * @param {FormData} formData - The form data containing novelty details.
+ * @returns {Object} The parsed shopping form.
+ */
+export function parseShoppingForm(formData: FormData): object {
+    const newUserId = parseString(formData.get(userIdName)?.toString(), "USER_ID")
+    const newUserName = parseString(formData.get(userNameName)?.toString(), "USER_NAME")
+    const newUserFirstName = parseString(formData.get(userFirstName)?.toString(), "USER_FIRST_NAME")
+    const newPhoneNumber = parseString(formData.get(phoneNumberName)?.toString(), "PHONE_NUMBER")
+    const newEmail = parseString(formData.get(emailName)?.toString(), "EMAIL")
+    const newAddress = parseString(formData.get(addressName)?.toString(), "ADDRESS")
+    const newAudiometryFile = parseFile(formData.get(audiometryFileName), "AUDIOMETRY_FILE")
+
+    return {
+        userId: newUserId,
+        userName: newUserName,
+        userFirstName: newUserFirstName,
+        phoneNumber: newPhoneNumber,
+        email: newEmail,
+        address: newAddress,
+        audiometryFile: newAudiometryFile,
+    };
+}
+

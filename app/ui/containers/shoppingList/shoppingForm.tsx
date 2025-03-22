@@ -22,7 +22,7 @@ import {
   faUpload,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { validateFormProduct } from "@/lib/validations";
+import { validateFormProduct, validateFormShopping } from "@/lib/validations";
 import { useEffect, useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import {
@@ -45,6 +45,7 @@ import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/Shop
 import { useSearchParams } from "next/navigation";
 import { getCodeAction } from "@/app/model/entities/bargain/Bargain";
 import FileInput from "../../components/inputs/fileInput";
+import { actionCreateOrder, createOrder } from "@/db/order";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -111,11 +112,11 @@ export default function ShoppingForm({ products }: FormProps) {
    */
   const handleForm = (formData: FormData) => {
     console.log(formData);
-    const isValid = validateFormProduct(formData);
+    const isValid = validateFormShopping(formData);
     if (isValid) {
-      //actionForm(formData)
-      //  .then((_) => {})
-      //  .catch((_) => {});
+      actionCreateOrder(formData, currentProducts)
+        .then((_) => {})
+        .catch((_) => {});
     } else handleShowModal();
   };
 
@@ -210,7 +211,6 @@ export default function ShoppingForm({ products }: FormProps) {
               <span>{product.name}</span>
               <span>{product.colorText}</span>
               <span>x{product.quantity}</span>
-
               {product.price == 0 && checkInvalidEarphoneShape(product) ? (
                 <span>Pedir Cita</span>
               ) : (

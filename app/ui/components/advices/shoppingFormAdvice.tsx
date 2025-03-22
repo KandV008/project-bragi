@@ -27,7 +27,6 @@ export default function ShoppingFormAdvice({products}: ShoppingFormAdviceProps) 
       </div>
       <p>{bottomText}</p>
       <p>{adviceText}</p>
-
     </div>
   );
 }

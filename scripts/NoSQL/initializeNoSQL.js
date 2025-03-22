@@ -27,20 +27,35 @@ async function setMongoDB() {
     await clientMongoDB.connect();
 
     const db = clientMongoDB.db("Product-DDBB");
-    const coll = db.collection("products");
+    await createProductsCollection(db);
 
-    const earphonesResult = await coll.insertMany(phonakProducts);
-    console.log(earphonesResult.insertedIds);
+    await createOrdersCollection(db);
 
-    const accessoriesResult = await coll.insertMany(phonakAccessories);
-    console.log(accessoriesResult.insertedIds);
 
-    console.log("Database seeded. You successfully connected to MongoDB!");
   } catch (error) {
     console.log(`ERROR: MongoDB not set. ${error}`);
   } finally {
     await clientMongoDB.close();
   }
+}
+
+async function createProductsCollection(db) {
+  const coll = db.collection("products");
+  console.log("Products Collection created.");
+
+  const earphonesResult = await coll.insertMany(phonakProducts);
+  console.log(earphonesResult.insertedIds);
+
+  const accessoriesResult = await coll.insertMany(phonakAccessories);
+  console.log(accessoriesResult.insertedIds);
+
+  console.log("Products Collection created.");
+}
+
+async function createOrdersCollection(db) {
+  const coll = db.collection("orders");
+
+  console.log("Orders Collection created.");
 }
 
 /**
