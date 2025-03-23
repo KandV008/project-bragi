@@ -8,7 +8,7 @@ export interface OrderEntity {
     /**
      * Unique identifier and number of the order
      */
-    id: number;
+    id: string;
 
     /**
      * Date of creation of the order

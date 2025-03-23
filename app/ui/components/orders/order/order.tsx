@@ -13,9 +13,9 @@ interface OrderProps {
   /** Unique identifier for the order. */
   id: string;
   /** Address associated with the order. */
-  address: string; 
+  address: string;
   /** Total price of the order. */
-  totalPrice: string;
+  totalPrice: number;
   /** Creation date of the order. */
   creationDate: Date;
 }
@@ -30,7 +30,7 @@ export default function Order({
   id,
   address,
   totalPrice,
-  creationDate
+  creationDate,
 }: OrderProps): JSX.Element {
   return (
     <section
@@ -48,10 +48,11 @@ export default function Order({
             Dirección: {address}
           </p>
         </article>
-        {/* Code */}
         <article className="font-bold text-xl sm:text-2xl self-center text-center">
           {/* Date of the order */}
-          <h1 className="font-extrabold text-xl sm:text-2xl">Fecha: {creationDate.toUTCString()}</h1>
+          <h1 className="font-extrabold text-xl sm:text-2xl">
+            Fecha: {creationDate.toUTCString()}
+          </h1>
           {/* Address */}
           <p role="contentinfo" className="font-semibold text-lg sm:text-xl">
             Precio total: {totalPrice}
@@ -64,13 +65,13 @@ export default function Order({
 }
 
 /**
- * Skeleton loader for the `Bargain` component.
+ * Skeleton loader for the `Order` component.
  *
- * This component is used to show a placeholder while the actual `Bargain` data is being loaded.
+ * This component is used to show a placeholder while the actual `Order` data is being loaded.
  *
- * @returns {JSX.Element} The `BargainSkeleton` component.
+ * @returns {JSX.Element} The `OrderSkeleton` component.
  */
-export function BargainSkeleton(): JSX.Element {
+export function OrderSkeleton(): JSX.Element {
   return (
     <div
       className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm`}
@@ -78,14 +79,16 @@ export function BargainSkeleton(): JSX.Element {
       <div className="flex flex-col justify-between items-center gap-3 p-3 md:p-4 xl:p-5 h-fit">
         <div className="flex flex-col sm:flex-row justify-between p-3 sm:p-5 gap-3">
           <article className="text-center sm:text-justify">
-            {/* Title */}
+            {/* Order ID */}
             <div className="md:self-start h-4 sm:h-5 xl:h-6 w-64 rounded-md bg-gray-200 mb-1" />
-            {/* Description */}
+            {/* Address */}
             <div className="md:self-start h-20 w-64 rounded-md bg-gray-200 mb-1" />
           </article>
-          {/* Code */}
           <article className="font-bold text-xl sm:text-2xl self-center text-center">
-            <div className="h-8 w-12 md:w-24 md:h-10 xl:h-12 xl:w-40 rounded-2xl border-2 bg-gray-200" />
+            {/* Date of the order */}
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-64 rounded-md bg-gray-200 mb-1" />
+            {/* Address */}
+            <div className="md:self-start h-20 w-64 rounded-md bg-gray-200 mb-1" />
           </article>
         </div>
       </div>
