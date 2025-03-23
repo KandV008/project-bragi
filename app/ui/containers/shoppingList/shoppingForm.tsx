@@ -74,6 +74,12 @@ export default function ShoppingForm({ products }: FormProps) {
     })
   );
 
+  /**
+   * Checks if the product's earphone shape requires special handling.
+   *
+   * @param {ShoppingProductDTO} product - The product to check.
+   * @returns {boolean} True if the earphone shape requires an appointment.
+   */
   function checkInvalidEarphoneShape(product: ShoppingProductDTO) {
     return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
   }
@@ -249,48 +255,85 @@ export default function ShoppingForm({ products }: FormProps) {
       </article>
     </form>
   );
-
 }
 
-/** TODO
- * Skeleton component for ProductForm to display a loading state.
+/**
+ * Skeleton component for ShoppingForm to display a loading state.
  * @returns JSX.Element
  */
-export function ProductFormSkeleton() {
+export function ShoppingFormSkeleton() {
   return (
-    <div
-      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm p-5`}
-    >
-      <div className="flex flex-col gap-5 p-5 sm:p-10">
+    <div className={`p-5 flex flex-col-reverse lg:flex-row gap-3`}>
+      {/* Shopping Form */}
+      <div
+        className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 shadow-sm flex flex-col gap-5 p-5 sm:p-10 w-1/2`}
+      >
         <SectionHeaderSkeleton />
-        {/* Name */}
-        <TextInputSkeleton />
-        {/* Category */}
-        <RadioInputSkeleton />
-        {/* Brand */}
-        <RadioInputSkeleton />
-        {/* Price */}
-        <TextInputSkeleton />
-        {/* Description */}
-        <TextAreaInputSkeleton />
-        {/* Colors */}
-        <ColorInputSkeleton />
-        {/* Includes */}
-        <IncrementalTextInputSkeleton />
-        {/* Adaptation Range */}
-        <RadioInputSkeleton />
-        {/* Water Dust Resistance */}
-        <CheckBoxInputSkeleton />
-        {/* Ear Location */}
-        <RadioInputSkeleton />
-        {/* Level of Discretion */}
-        <RadioInputSkeleton />
-        {/* Degree of Loss */}
-        <RadioInputSkeleton />
-        {/* Uses */}
-        <CheckBoxInputSkeleton />
-        {/* Submit Button */}
-        <SubmitButtonSkeleton />
+        {/* User Identification Data */}
+        <section>
+          {/* User Name */}
+          <TextInputSkeleton />
+          {/* User Firstname */}
+          <TextInputSkeleton />
+        </section>
+        {/** User Contact Data */}
+        <section>
+          <section>
+            {/* Phone Number */}
+            <TextInputSkeleton />
+            {/* E-mail */}
+            <TextInputSkeleton />
+            {/* Address */}
+            <TextInputSkeleton />
+          </section>
+        </section>
+      </div>
+      {/* Summary */}
+      <div
+        className={`${shimmer} overflow-hidden bg-gray-100 shadow-sm sticky top-32 flex flex-col w-1/2 justify-between p-6 border-2 rounded`}
+      >
+        <SectionHeaderSkeleton />
+        <article className="flex flex-col gap-3">
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+          <div className="flex flex-row gap-1 justify-between">
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 sm:h-5 xl:h-6 w-full rounded-md bg-gray-200 mb-1" />
+          </div>
+        </article>
+        <article className="flex flex-col gap-2">
+          <div className="flex flex-row justify-start gap-10">
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+          </div>
+          <div className="w-full border-2 border-t mb-3"></div>
+          <div className="flex flex-row justify-between gap-10">
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+            <div className="md:self-start h-10 w-28 rounded-md bg-gray-200" />
+          </div>
+          <div className="place-self-center">
+            {/* Submit Button */}
+            <SubmitButtonSkeleton />
+          </div>
+        </article>
       </div>
     </div>
   );
