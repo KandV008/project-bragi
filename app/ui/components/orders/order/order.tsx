@@ -17,7 +17,7 @@ interface OrderProps {
   /** Total price of the order. */
   totalPrice: number;
   /** Creation date of the order. */
-  creationDate: Date;
+  creationDate: any;
 }
 
 /**
@@ -51,7 +51,7 @@ export default function Order({
         <article className="font-bold text-xl sm:text-2xl self-center text-center">
           {/* Date of the order */}
           <h1 className="font-extrabold text-xl sm:text-2xl">
-            Fecha: {creationDate.toUTCString()}
+            Fecha: {creationDate}
           </h1>
           {/* Address */}
           <p role="contentinfo" className="font-semibold text-lg sm:text-xl">
@@ -82,14 +82,17 @@ export function OrderSkeleton(): JSX.Element {
             {/* Order ID */}
             <div className="md:self-start h-4 sm:h-5 xl:h-6 w-64 rounded-md bg-gray-200 mb-1" />
             {/* Address */}
-            <div className="md:self-start h-20 w-64 rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 w-64 rounded-md bg-gray-200 mb-1" />
           </article>
           <article className="font-bold text-xl sm:text-2xl self-center text-center">
             {/* Date of the order */}
             <div className="md:self-start h-4 sm:h-5 xl:h-6 w-64 rounded-md bg-gray-200 mb-1" />
             {/* Address */}
-            <div className="md:self-start h-20 w-64 rounded-md bg-gray-200 mb-1" />
+            <div className="md:self-start h-4 w-64 rounded-md bg-gray-200 mb-1" />
           </article>
+        </div>
+        <div>
+          <div className="md:self-start h-12 w-64 rounded-md bg-gray-200 mb-1" />
         </div>
       </div>
     </div>

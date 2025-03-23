@@ -1,8 +1,9 @@
 'use server';
 
+import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Order";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/model/Logger";
-import { parseShoppingForm } from "@/lib/parser";
+import { parseShoppingForm, parseStartAndEndIndex } from "@/lib/parser";
 import { redirect } from "next/navigation";
 
 require("dotenv").config({ path: ".env.local" });
@@ -24,22 +25,37 @@ const client = new MongoClient(uri, {
 const CONTEXT = "ORDER";
 
 /**
- * Fetches all orders from the database.
+ * Fetches orders from the database within a specified range.
+ * @param {string | null} start - The start index.
+ * @param {string | null} end - The end index.
+ * @returns {Promise<OrderEntity[]>} - A list of orders.
  */
-export async function getAllOrders() {
-    Logger.startFunction(CONTEXT, "getAllOrders");
+export async function getOrders(start: string | null, end: string | null): Promise<OrderEntity[]> {
+    Logger.startFunction(CONTEXT, "getOrders");
 
-    try {
-        const database = client.db("ordersDb");
-        const ordersCollection = database.collection("orders");
-        const orders = await ordersCollection.find().toArray();
+  const orders: OrderEntity[] = [];
+  const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
-        Logger.endFunction(CONTEXT, "getAllOrders", orders);
-        return orders;
-    } catch (error) {
-        Logger.errorFunction(CONTEXT, "getAllOrders", error);
-        throw new Error("Error fetching all orders.");
-    }
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("orders");
+
+    const cursor = coll.find()
+      .sort({ _id: -1 })
+      .skip(startIndex)
+      .limit(endIndex - startIndex + 1);
+
+    await cursor.forEach((doc: any) => {
+      orders.push(mapDocumentToOrder(doc));
+    });
+  } catch (error) {
+    Logger.errorFunction(CONTEXT, "getOrders", error)
+  }
+
+  Logger.endFunction(CONTEXT, "getOrders", orders.map(product => product.id))
+  return orders;
 }
 
 /**

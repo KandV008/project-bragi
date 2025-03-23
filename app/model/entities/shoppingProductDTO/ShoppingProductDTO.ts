@@ -41,7 +41,6 @@ export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingP
             "name", 
             "category", 
             "brand", 
-            "price", 
             "ear_side", 
             "earphone_shape",
             "color_text",
@@ -50,7 +49,7 @@ export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingP
             "quantity",
         ]
 
-        if (!shoppingProduct || requiredFields.some(field => !shoppingProduct[field])) {
+        if (!shoppingProduct || isNaN(shoppingProduct["price"]) || requiredFields.some(field => !shoppingProduct[field])) {
             throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE);
         }
 

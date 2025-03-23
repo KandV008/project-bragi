@@ -6,6 +6,7 @@ import {
   faCircleXmark,
   faTrash,
   faLock,
+  faBoxesPacking,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   OrganizationSwitcher,
@@ -31,7 +32,7 @@ import toast from "react-hot-toast";
  * - Navigate to their favorite items or shopping list.
  * - Log out of their account.
  * - Delete their account (with a confirmation popup).
- * 
+ *
  * @returns {JSX.Element} The rendered UserDashboard component.
  */
 export default function UserDashboard() {
@@ -90,10 +91,8 @@ export default function UserDashboard() {
 
       {/* Separator */}
       <div className={`w-full border-t mb-1 ${componentBorder}`}></div>
-
       {/* User Actions */}
       <h1 className="text-base sm:text-lg">¿Qué desea hacer con su cuenta?</h1>
-
       {/* Admin Panel (Only for authorized users) */}
       <Protect permission="org:product:managment">
         <MediumButtonWithIcon
@@ -104,7 +103,6 @@ export default function UserDashboard() {
           navigationURL="/admin"
         />
       </Protect>
-
       {/* Navigation Buttons */}
       <MediumButtonWithIcon
         icon={faHeart}
@@ -119,6 +117,13 @@ export default function UserDashboard() {
         subtext={"Ver tu lista de la compra"}
         type={"default"}
         navigationURL="/profile/shoppingList"
+      />
+      <MediumButtonWithIcon
+        icon={faBoxesPacking}
+        text={"Pedidos"}
+        subtext={"Ver todos tus pedidos"}
+        type={"default"}
+        navigationURL="/profile/orders"
       />
       <MediumButtonWithIcon
         icon={faCircleXmark}

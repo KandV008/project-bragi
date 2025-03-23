@@ -15,3 +15,5 @@ export const getFilterInformationRoute = "/api/products/getFilterInformation"
 export const checkFavoriteListRoute = "/api/favorites/checkFavoriteList"
 export const checkFavoriteRoute = "/api/favorites/checkFavorite"
 export const getFavoritesRoute = "/api/favorites/getFavorites"
+
+export const getOrdersRoute = "/api/orders/getOrders"

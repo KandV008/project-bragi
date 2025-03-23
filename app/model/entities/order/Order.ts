@@ -69,16 +69,15 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             "_id",
             "user_id",
             "user_name",
-            "first_name",
+            "user_first_name",
             "phone_number",
             "email",
             "address",
             "products",
-            "total_price",
             "creation_date",
         ];
 
-        if (!order || requiredFields.some(field => !order[field])) {
+        if (!order || isNaN(order["total_price"]) || requiredFields.some(field => !order[field])) {
             throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE);
         }
 
@@ -95,7 +94,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             creationDate: creationDate,
             userId: order.user_id,
             userName: order.user_name,
-            firstName: order.first_name,
+            firstName: order.user_first_name,
             phoneNumber: order.phone_number,
             email: order.email,
             address: order.address,
