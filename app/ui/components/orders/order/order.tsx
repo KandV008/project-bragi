@@ -59,7 +59,7 @@ export default function Order({
           </p>
         </article>
       </div>
-      <SeeMoreButton link={`/profile/orders/${id}`} thing={"Pedido"} />
+      <SeeMoreButton link={`/profile/orders/about/${id}`} thing={"Pedido"} />
     </section>
   );
 }

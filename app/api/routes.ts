@@ -17,3 +17,4 @@ export const checkFavoriteRoute = "/api/favorites/checkFavorite"
 export const getFavoritesRoute = "/api/favorites/getFavorites"
 
 export const getOrdersRoute = "/api/orders/getOrders"
+export const getOrderRoute = "/api/orders/getOrder"

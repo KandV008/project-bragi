@@ -1,9 +1,10 @@
 'use server';
 
 import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Order";
+import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/model/Logger";
-import { parseShoppingForm, parseStartAndEndIndex } from "@/lib/parser";
+import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
 import { redirect } from "next/navigation";
 
 require("dotenv").config({ path: ".env.local" });
@@ -59,23 +60,35 @@ export async function getOrders(start: string | null, end: string | null): Promi
 }
 
 /**
- * Fetches a specific order by orderId.
+ * Retrieves an order by its ID.
+ * @param {string | null} orderIdToParse - The order ID.
+ * @returns {Promise<OrderEntity | null>} - The order entity if found, otherwise null.
  */
-export async function getOrder(orderId: string) {
-    Logger.startFunction(CONTEXT, "getOrder");
-
+export async function getOrder(orderIdToParse: string | null): Promise<OrderEntity | null> {
+    Logger.startFunction(CONTEXT, "getOrder")
+  
+    const parsedOrderId = parseString(orderIdToParse, "ORDER_ID")
+  
     try {
-        const database = client.db("ordersDb");
-        const ordersCollection = database.collection("orders");
-        const order = await ordersCollection.findOne({ _id: new ObjectId(orderId) });
-
-        Logger.endFunction(CONTEXT, "getOrder", order);
-        return order;
-    } catch (error) {
-        Logger.errorFunction(CONTEXT, "getOrder", error);
-        throw new Error(`Error fetching order with id ${orderId}`);
+      await client.connect();
+  
+      const db = client.db("Product-DDBB");
+      const coll = db.collection("orders");
+  
+      const objectId = new ObjectId(parsedOrderId);
+      const order = await coll.findOne({ _id: objectId });
+  
+      if (!order) {
+        Logger.errorFunction(CONTEXT, "getOrder", "Order not found")
+        return null;
+      }
+  
+      Logger.endFunction(CONTEXT, "getOrder", order)
+      return mapDocumentToOrder(order)
+    } finally {
+      ;
     }
-}
+  }
 
 /**
  * Handles the creation of a new order from form data.
