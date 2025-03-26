@@ -149,12 +149,36 @@ export function validateFormShopping(formData: FormData): boolean{
     return checkErrorMessagesList()
 }
 
+/**
+ * Validates the contact form by checking if required fields are not empty.
+ * Displays error messages for missing fields.
+ *
+ * @param {FormData} formData - The form data containing input values.
+ * @returns {boolean} - Returns true if the form is valid, otherwise false.
+ */
 export function validateContactForm(formData: FormData): boolean{
     clearErrorMessagesList()
 
     checkIfNotEmpty(formData, contactEmailName, "No se ha introducido ningún correo electrónico.")
     checkIfNotEmpty(formData, contactSubjectName, "No se ha escrito ningún asunto.")
     checkIfNotEmpty(formData, contactBodyName, "No se ha escrito ningún mensaje en el cuerpo.")
+
+    return checkErrorMessagesList()
+}
+
+/**
+ * Validates the appointment form by ensuring required fields are not empty.
+ * Displays error messages for missing fields.
+ *
+ * @param {FormData} formData - The form data containing input values.
+ * @returns {boolean} - Returns true if the form is valid, otherwise false.
+ */
+export function validateAppointmentForm(formData: FormData): boolean{
+    clearErrorMessagesList()
+
+    checkIfNotEmpty(formData, userNameName, "No se ha introducido ningún nombre.")
+    checkIfNotEmpty(formData, contactEmailName, "No se ha introducido ningún correo electrónico.")
+    checkIfNotEmpty(formData, phoneNumberName, "No se ha escrito ningún número de teléfono.")
 
     return checkErrorMessagesList()
 }

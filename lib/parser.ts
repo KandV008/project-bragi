@@ -496,3 +496,23 @@ export function parseContactForm(formData: FormData) {
         body: newBody,
     };
 }
+
+/**
+ * Parses Appointment form data from FormData.
+ * 
+ * @param {FormData} formData - The form data containing appointment details.
+ * @returns {Object} The parsed appointment form.
+ */
+export function parseAppointmentForm(formData: FormData) {
+    const newUserName = parseString(formData.get(userNameName)?.toString(), "APPOINTMENT_USER_NAME")
+    const newEmail = parseString(formData.get(contactEmailName)?.toString(), "APPOINTMENT_EMAIL")
+    const newPhoneNumber = parseString(formData.get(phoneNumberName)?.toString(), "APPOINTMENT_PHONE_NUMBER")
+    const newBody = formData.get(contactBodyName)?.toString()
+
+    return {
+        userName: newUserName,
+        email: newEmail,
+        phoneNumber: newPhoneNumber,
+        body: newBody ?  newBody : "",
+    };
+}
