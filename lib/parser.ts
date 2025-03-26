@@ -1,6 +1,6 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName } from "@/app/model/JSONnames";
+import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName } from "@/app/model/JSONnames";
 
 /**
  * Parses a string value and ensures it is valid.
@@ -456,7 +456,7 @@ export function parseNoveltyForm(formData: FormData): object {
 /**
  * Parses Shopping form data from FormData.
  * 
- * @param {FormData} formData - The form data containing novelty details.
+ * @param {FormData} formData - The form data containing shopping details.
  * @returns {Object} The parsed shopping form.
  */
 export function parseShoppingForm(formData: FormData): object {
@@ -479,3 +479,20 @@ export function parseShoppingForm(formData: FormData): object {
     };
 }
 
+/**
+ * Parses Contact form data from FormData.
+ * 
+ * @param {FormData} formData - The form data containing contact details.
+ * @returns {Object} The parsed contact form.
+ */
+export function parseContactForm(formData: FormData) {
+    const newEmail = parseString(formData.get(contactEmailName)?.toString(), "CONTACT_EMAIL")
+    const newSubject = parseString(formData.get(contactSubjectName)?.toString(), "CONTACT_SUBJECT")
+    const newBody = parseString(formData.get(contactBodyName)?.toString(), "CONTACT_BODY")
+
+    return {
+        email: newEmail,
+        subject: newSubject,
+        body: newBody,
+    };
+}

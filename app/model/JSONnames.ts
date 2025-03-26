@@ -43,3 +43,7 @@ export const phoneNumberName = "phone_number"
 export const emailName = "email"
 export const addressName = "address"
 export const audiometryFileName = "audiometry_file"
+
+export const contactEmailName = "email"
+export const contactSubjectName = "subject"
+export const contactBodyName = "body"

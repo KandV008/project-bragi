@@ -1,5 +1,5 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category"
-import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/model/JSONnames"
+import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/model/JSONnames"
 
 /**
  * List to store validation error messages.
@@ -145,6 +145,16 @@ export function validateFormShopping(formData: FormData): boolean{
     checkIfNotEmpty(formData, emailName, "No se ha introducido ninguna URL para la imagen.")
     checkIfNotEmpty(formData, addressName, "No se ha introducido ninguna descripción.")
     checkIfNotEmpty(formData, audiometryFileName, "No se ha introducido ninguna descripción.")
+
+    return checkErrorMessagesList()
+}
+
+export function validateContactForm(formData: FormData): boolean{
+    clearErrorMessagesList()
+
+    checkIfNotEmpty(formData, contactEmailName, "No se ha introducido ningún correo electrónico.")
+    checkIfNotEmpty(formData, contactSubjectName, "No se ha escrito ningún asunto.")
+    checkIfNotEmpty(formData, contactBodyName, "No se ha escrito ningún mensaje en el cuerpo.")
 
     return checkErrorMessagesList()
 }
