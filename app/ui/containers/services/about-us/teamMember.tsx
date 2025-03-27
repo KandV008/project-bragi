@@ -28,11 +28,10 @@ export default function TeamMember({ name, imageURL, rol }: TeamMemberProps): JS
           src={imageURL}
           alt={`img-${name}`}
           width={1000}
-          height={1000}
-          className={`size-28 md:size-40 rounded-full ${componentBorder}`}
+          height={1200}
+          className={`size-28 md:w-40 md:h-44 rounded-2xl ${componentBorder}`}
         />
       </article>
-
       {/* Display */}
       <article className="flex flex-col items-center gap-1">
         {/* Name */}

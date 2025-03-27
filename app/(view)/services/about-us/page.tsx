@@ -26,13 +26,23 @@ export default function Page(): JSX.Element {
         className={`flex flex-row flex-wrap justify-around w-full p-4 md:p-8 rounded-xl ${componentBackground}`}
       >
         <TeamMember
-          name={"Marta González"}
-          imageURL={"/placeholder-team-member-image.jpg"}
+          name={"Irina Osuna"}
+          imageURL={"/team/picture_irina.HEIC"}
           rol={"Encargada"}
         />
         <TeamMember
-          name={"Marta González"}
-          imageURL={"/placeholder-team-member-image.jpg"}
+          name={"Jorge Martínez de Lizarduy"}
+          imageURL={"/team/picture_jorge.HEIC"}
+          rol={"Encargada"}
+        />
+        <TeamMember
+          name={"Liz Torres"}
+          imageURL={"/team/picture_liz.HEIC"}
+          rol={"Encargada"}
+        />
+        <TeamMember
+          name={"Natalia Kostornichenko"}
+          imageURL={"/team/picture_natalia.HEIC"}
           rol={"Encargada"}
         />
       </section>
