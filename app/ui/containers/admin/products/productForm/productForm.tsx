@@ -41,7 +41,7 @@ import {
   faTextHeight,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
-import { validateFormProduct } from "@/lib/validations";
+import { validateFormProduct } from "@/lib/validations/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import {

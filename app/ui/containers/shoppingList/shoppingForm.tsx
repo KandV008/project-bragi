@@ -22,7 +22,7 @@ import {
   faUpload,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { validateFormProduct, validateFormShopping } from "@/lib/validations";
+import { validateFormProduct, validateFormShopping } from "@/lib/validations/validations";
 import { useEffect, useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import {

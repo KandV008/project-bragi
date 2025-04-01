@@ -16,7 +16,7 @@ import {
   componentBorder,
 } from "@/app/ui/tailwindClasses";
 import { sendContactEmail } from "@/lib/mail";
-import { validateContactForm } from "@/lib/validations";
+import { validateContactForm } from "@/lib/validations/validations";
 import {
   faEnvelope,
   faPenNib,

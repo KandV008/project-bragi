@@ -59,7 +59,7 @@ export function validateAddShoppingCart(formData: FormData): boolean{
     clearErrorMessagesList()
     checkIfNotEmpty(formData, earSideName, "No se ha seleccionado ningún lado del audífono.")
     return checkErrorMessagesList()
-}
+} // TODO Maybe I should use a library for form validation (?)
 
 /**
  * Validates the form for creating or updating a product.

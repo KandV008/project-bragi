@@ -9,7 +9,7 @@ import {
 } from "../../../tailwindClasses";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
-import { validateBargainInput } from "@/lib/validations";
+import { validateBargainInput } from "@/lib/validations/validations";
 import { useState } from "react";
 import FormValidationPopUp from "../../popUps/formValidationPopUp";
 import { getBargain } from "@/db/bargain";

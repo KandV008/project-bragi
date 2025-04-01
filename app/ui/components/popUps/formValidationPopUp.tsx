@@ -1,4 +1,4 @@
-import { errorMessagesList } from "@/lib/validations";
+import { errorMessagesList } from "@/lib/validations/validations";
 import MediumButton from "../buttons/mediumButton";
 import { componentBackground, componentText, componentBorder, hoverFillDefaultComponentBackground } from "../../tailwindClasses";
 

@@ -12,7 +12,7 @@ import SubmitButton, {
 import ColorButton, {
   ColorButtonSkeleton,
 } from "@/app/ui/components/buttons/colorButton";
-import { validateAddShoppingCart } from "@/lib/validations";
+import { validateAddShoppingCart } from "@/lib/validations/validations";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import ArticleHeader, {
   ArticleHeaderSkeleton,
