@@ -1,5 +1,6 @@
 import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, colorHexName, colorTextName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, productIdName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
 import { validateAddShoppingCart, validateAppointmentForm, validateBargainInput, validateContactForm, validateFormBargain, validateFormNovelty, validateFormProduct, validateFormShopping } from "./validations"
+import { INVALID_FORM_DATA_TEST_MESSAGE, METHOD_VALIDATE_ADD_SHOPPING_CART_NAME, METHOD_VALIDATE_APPOINTMENT_FORM_NAME, METHOD_VALIDATE_BARGAIN_INPUT_NAME, METHOD_VALIDATE_CONTACT_FORM_NAME, METHOD_VALIDATE_FORM_BARGAIN_NAME, METHOD_VALIDATE_FORM_NOVELTY_NAME, METHOD_VALIDATE_FORM_PRODUCT_NAME, METHOD_VALIDATE_FORM_SHOPPING_NAME, VALID_FORM_DATA_TEST_MESSAGE } from "./validationsMessages";
 
 describe("validations", () => {
 
@@ -24,7 +25,7 @@ describe("validations", () => {
     
         const result = validateAddShoppingCart(formData);
 
-        assert.isTrue(result, "FormData not valid for validateAddShoppingCart")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_ADD_SHOPPING_CART_NAME)
     });
 
     it("should not validate Add Shopping Cart form and show a message about the error when you introduce the incorect form data", () => {
@@ -44,7 +45,7 @@ describe("validations", () => {
     
         const result = validateAddShoppingCart(formData);
 
-        assert.isFalse(result, "FormData is valid for validateAddShoppingCart")
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_ADD_SHOPPING_CART_NAME)
     })
 
     it("should validate EARPHONE Product form when you introduce the correct form data", () => {
@@ -68,7 +69,7 @@ describe("validations", () => {
     
         const result = validateFormProduct(formData);
 
-        assert.isTrue(result, "FormData not valid for validateFormProduct")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_PRODUCT_NAME)
     })
 
     it("should validate ACCESSORY Product form when you introduce the correct form data", () => {
@@ -88,7 +89,7 @@ describe("validations", () => {
     
         const result = validateFormProduct(formData);
 
-        assert.isTrue(result, "FormData not valid for validateFormProduct")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_PRODUCT_NAME)
     })
 
     it("should not validate EARPHONE Product form and show a message about the error when you introduce the incorect form data", () => {
@@ -109,25 +110,24 @@ describe("validations", () => {
     
         const result = validateFormProduct(formData);
 
-        assert.isFalse(result, "FormData valid for validateFormProduct")
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_PRODUCT_NAME)
 
     })
 
     it("should not validate ACCESSORY Product form and show a message about the error when you introduce the incorect form data", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleAccessoryProductFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "ACCESSORY",
         };
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleAccessoryProductFormData).forEach(([key, value]) => {
             formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
         });
     
         const result = validateFormProduct(formData);
 
-        assert.isFalse(result, "FormData valid for validateFormProduct")
-
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_PRODUCT_NAME)
     })
 
     it("should validate Bargain form when you introduce the correct form data", () => {
@@ -144,7 +144,7 @@ describe("validations", () => {
     
         const result = validateFormBargain(formData);
 
-        assert.isTrue(result, "FormData not valid for validateFormBargain")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_BARGAIN_NAME)
     })
 
     it("should not validate Bargain form and show a message about the error when you introduce the incorect form data", () => {
@@ -159,7 +159,7 @@ describe("validations", () => {
     
         const result = validateFormBargain(formData);
 
-        assert.isFalse(result, "FormData not valid for validateFormBargain")    
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_BARGAIN_NAME)    
     })
 
     it("should validate Bargain Input when you introduce the correct form data", () => {
@@ -174,7 +174,7 @@ describe("validations", () => {
     
         const result = validateBargainInput(formData);
 
-        assert.isTrue(result, "FormData not valid for validateBargainInput")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_BARGAIN_INPUT_NAME)
     })
 
     it("should not validate Bargain Input and show a message about the error when you introduce a large bargain code", () => {
@@ -189,7 +189,7 @@ describe("validations", () => {
     
         const result = validateBargainInput(formData);
 
-        assert.isFalse(result, "FormData valid for validateBargainInput")
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_BARGAIN_INPUT_NAME)
     })
 
     it("should not validate Bargain Input and show a message about the error when you introduce a short bargain code", () => {
@@ -204,7 +204,7 @@ describe("validations", () => {
     
         const result = validateBargainInput(formData);
 
-        assert.isFalse(result, "FormData valid for validateBargainInput")    
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_BARGAIN_INPUT_NAME)    
     })
 
     it("should validate Novelty form when you introduce the correct form data", () => {
@@ -221,7 +221,7 @@ describe("validations", () => {
     
         const result = validateFormNovelty(formData);
 
-        assert.isTrue(result, "FormData not valid for validateFormNovelty")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_NOVELTY_NAME)
     })
 
     it("should not validate Novelty form and show a message about the error when you introduce the incorect form data", () => {
@@ -236,7 +236,7 @@ describe("validations", () => {
     
         const result = validateFormNovelty(formData);
 
-        assert.isFalse(result, "FormData valid for validateFormNovelty")
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_NOVELTY_NAME)
     })
 
     it("should validate Shopping form when you introduce the correct form data", () => {
@@ -257,7 +257,7 @@ describe("validations", () => {
     
         const result = validateFormShopping(formData);
 
-        assert.isTrue(result, "FormData not valid for validateFormShopping")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_SHOPPING_NAME)
     })
 
     it("should not validate Shopping form and show a message about the error when you introduce the incorect form data", () => {
@@ -272,7 +272,7 @@ describe("validations", () => {
     
         const result = validateFormShopping(formData);
 
-        assert.isFalse(result, "FormData valid for validateFormShopping")
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_SHOPPING_NAME)
     })
 
     it("should validate Contact form when you introduce the correct form data", () => {
@@ -289,7 +289,7 @@ describe("validations", () => {
     
         const result = validateContactForm(formData);
 
-        assert.isTrue(result, "FormData not valid for validateContactForm")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_CONTACT_FORM_NAME)
     })
 
     it("should not validate Contact form and show a message about the error when you introduce the incorect form data", () => {
@@ -304,7 +304,7 @@ describe("validations", () => {
     
         const result = validateContactForm(formData);
 
-        assert.isFalse(result, "FormData valid for validateContactForm")
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_CONTACT_FORM_NAME)
     })
 
     it("should validate Appointment form when you introduce the correct form data", () => {
@@ -321,7 +321,7 @@ describe("validations", () => {
     
         const result = validateAppointmentForm(formData);
 
-        assert.isTrue(result, "FormData not valid for validateAppointmentForm")
+        assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_APPOINTMENT_FORM_NAME)
     })
 
     it("should not validate Appointment form and show a message about the error when you introduce the incorect form data", () => {
@@ -336,6 +336,6 @@ describe("validations", () => {
     
         const result = validateAppointmentForm(formData);
 
-        assert.isFalse(result, "FormData valid for validateAppointmentForm")
+        assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_APPOINTMENT_FORM_NAME)
     })
 })

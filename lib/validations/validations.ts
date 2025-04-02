@@ -1,5 +1,6 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category"
 import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
+import { EMPTY_ADAPTATION_RANGE_INPUT_MESSAGE, EMPTY_BARGAIN_CODE_INPUT_MESSAGE, EMPTY_TITLE_INPUT_MESSAGE, EMPTY_BRAND_INPUT_MESSAGE, EMPTY_CATEGORY_INPUT_MESSAGE, EMPTY_DEGREE_OF_LOSS_INPUT_MESSAGE, EMPTY_DESCRIPTION_INPUT_MESSAGE, EMPTY_EARPHONE_SHAPE_INPUT_MESSAGE, EMPTY_IMAGE_URL_INPUT_MESSAGE, EMPTY_NAME_INPUT_MESSAGE, EMPTY_PRICE_INPUT_MESSAGE, EMPTY_USES_INPUT_MESSAGE, INVALID_BARGAIN_CODE_MESSAGE, NOT_SELECTED_EAR_SIDE_MESSAGE, EMPTY_USER_ID_INPUT_MESSAGE, EMPTY_USER_NAME_INPUT_MESSAGE, EMPTY_USER_FIRST_NAME_INPUT_MESSAGE, EMPTY_PHONE_NUMBER_INPUT_MESSAGE, EMPTY_EMAIL_INPUT_MESSAGE, EMPTY_ADDRESS_INPUT_MESSAGE, EMPTY_AUDIOMETRY_FILE_INPUT_MESSAGE, EMPTY_SUBJECT_INPUT_MESSAGE, EMPTY_BODY_INPUT_MESSAGE } from "./validationsMessages"
 
 /**
  * List to store validation error messages.
@@ -46,7 +47,7 @@ function checkIfValidBargainCode(formData: FormData){
     const MAX_SIZE = 6
 
     if (!code || code.length < MIN_SIZE || MAX_SIZE < code.length){
-        errorMessagesList.push("Código Inválido.")
+        errorMessagesList.push(INVALID_BARGAIN_CODE_MESSAGE)
     }
 }
 
@@ -57,7 +58,7 @@ function checkIfValidBargainCode(formData: FormData){
  */
 export function validateAddShoppingCart(formData: FormData): boolean{
     clearErrorMessagesList()
-    checkIfNotEmpty(formData, earSideName, "No se ha seleccionado ningún lado del audífono.")
+    checkIfNotEmpty(formData, earSideName, NOT_SELECTED_EAR_SIDE_MESSAGE)
     return checkErrorMessagesList()
 } // TODO Maybe I should use a library for form validation (?)
 
@@ -69,18 +70,18 @@ export function validateAddShoppingCart(formData: FormData): boolean{
 export function validateFormProduct(formData: FormData): boolean{
     clearErrorMessagesList()
     
-    checkIfNotEmpty(formData, nameName, "No se ha introducido ningún nombre.")
-    checkIfNotEmpty(formData, categoryName, "No se ha elegido ninguna categoría.")
-    checkIfNotEmpty(formData, brandName, "No se ha elegido ninguna marca.")
-    checkIfNotEmpty(formData, priceName, "No se ha introducido ningún precio.")
-    checkIfNotEmpty(formData, imageURLName, "No se ha introducido ninguna URL para la imagen.")
-    checkIfNotEmpty(formData, productDescriptionName, "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, nameName, EMPTY_NAME_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, categoryName, EMPTY_CATEGORY_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, brandName, EMPTY_BRAND_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, priceName, EMPTY_PRICE_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, imageURLName, EMPTY_IMAGE_URL_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, productDescriptionName, EMPTY_DESCRIPTION_INPUT_MESSAGE)
 
     if (formData.get(categoryName) === EARPHONE_VALUE){
-        checkIfNotEmpty(formData, adaptationRangeName, "No se ha elegido ningún rango de adaptación.")
-        checkIfNotEmpty(formData, earphoneShapeName, "No se ha introducido ninguna forma de audífono.")
-        checkIfNotEmpty(formData, degreeOfLossName, "No se ha elegido ningún grado de pérdida.")
-        checkIfNotEmpty(formData, usesName, "No se ha elegido ningún uso.")    
+        checkIfNotEmpty(formData, adaptationRangeName, EMPTY_ADAPTATION_RANGE_INPUT_MESSAGE)
+        checkIfNotEmpty(formData, earphoneShapeName, EMPTY_EARPHONE_SHAPE_INPUT_MESSAGE)
+        checkIfNotEmpty(formData, degreeOfLossName, EMPTY_DEGREE_OF_LOSS_INPUT_MESSAGE)
+        checkIfNotEmpty(formData, usesName, EMPTY_USES_INPUT_MESSAGE)    
     }
     
     return checkErrorMessagesList()
@@ -94,9 +95,9 @@ export function validateFormProduct(formData: FormData): boolean{
 export function validateFormBargain(formData: FormData): boolean{
     clearErrorMessagesList()
     
-    checkIfNotEmpty(formData, bargainCodeName, "No se ha introducido ningún código.")
-    checkIfNotEmpty(formData, bargainTitleName, "No se ha introducido ningún título.")
-    checkIfNotEmpty(formData, bargainDescriptionName, "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, bargainCodeName, EMPTY_BARGAIN_CODE_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, bargainTitleName, EMPTY_TITLE_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, bargainDescriptionName, EMPTY_DESCRIPTION_INPUT_MESSAGE)
 
     return checkErrorMessagesList()
 }
@@ -109,7 +110,7 @@ export function validateFormBargain(formData: FormData): boolean{
 export function validateBargainInput(formData: FormData): boolean{
     clearErrorMessagesList()
 
-    checkIfNotEmpty(formData, bargainCodeName, "No se ha introducido ningún código.")
+    checkIfNotEmpty(formData, bargainCodeName, EMPTY_BARGAIN_CODE_INPUT_MESSAGE)
     checkIfValidBargainCode(formData)
 
     return checkErrorMessagesList()
@@ -123,9 +124,9 @@ export function validateBargainInput(formData: FormData): boolean{
 export function validateFormNovelty(formData: FormData): boolean{
     clearErrorMessagesList()
     
-    checkIfNotEmpty(formData, noveltyTitleName, "No se ha introducido ningún título.")
-    checkIfNotEmpty(formData, noveltyDescriptionName, "No se ha introducido ninguna descripción.")
-    checkIfNotEmpty(formData, promotionalImageName, "No se ha introducido ninguna URL.")
+    checkIfNotEmpty(formData, noveltyTitleName, EMPTY_TITLE_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, noveltyDescriptionName, EMPTY_DESCRIPTION_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, promotionalImageName, EMPTY_IMAGE_URL_INPUT_MESSAGE)
 
     return checkErrorMessagesList()
 }
@@ -138,13 +139,13 @@ export function validateFormNovelty(formData: FormData): boolean{
 export function validateFormShopping(formData: FormData): boolean{
     clearErrorMessagesList()
     
-    checkIfNotEmpty(formData, userIdName, "No se ha introducido ningún nombre.")
-    checkIfNotEmpty(formData, userNameName, "No se ha elegido ninguna categoría.")
-    checkIfNotEmpty(formData, userFirstName, "No se ha elegido ninguna marca.")
-    checkIfNotEmpty(formData, phoneNumberName, "No se ha introducido ningún precio.")
-    checkIfNotEmpty(formData, emailName, "No se ha introducido ninguna URL para la imagen.")
-    checkIfNotEmpty(formData, addressName, "No se ha introducido ninguna descripción.")
-    checkIfNotEmpty(formData, audiometryFileName, "No se ha introducido ninguna descripción.")
+    checkIfNotEmpty(formData, userIdName, EMPTY_USER_ID_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, userNameName, EMPTY_USER_NAME_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, userFirstName, EMPTY_USER_FIRST_NAME_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, phoneNumberName, EMPTY_PHONE_NUMBER_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, emailName, EMPTY_EMAIL_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, addressName, EMPTY_ADDRESS_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, audiometryFileName, EMPTY_AUDIOMETRY_FILE_INPUT_MESSAGE)
 
     return checkErrorMessagesList()
 }
@@ -159,9 +160,9 @@ export function validateFormShopping(formData: FormData): boolean{
 export function validateContactForm(formData: FormData): boolean{
     clearErrorMessagesList()
 
-    checkIfNotEmpty(formData, contactEmailName, "No se ha introducido ningún correo electrónico.")
-    checkIfNotEmpty(formData, contactSubjectName, "No se ha escrito ningún asunto.")
-    checkIfNotEmpty(formData, contactBodyName, "No se ha escrito ningún mensaje en el cuerpo.")
+    checkIfNotEmpty(formData, contactEmailName, EMPTY_EMAIL_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, contactSubjectName, EMPTY_SUBJECT_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, contactBodyName, EMPTY_BODY_INPUT_MESSAGE)
 
     return checkErrorMessagesList()
 }
@@ -176,9 +177,9 @@ export function validateContactForm(formData: FormData): boolean{
 export function validateAppointmentForm(formData: FormData): boolean{
     clearErrorMessagesList()
 
-    checkIfNotEmpty(formData, userNameName, "No se ha introducido ningún nombre.")
-    checkIfNotEmpty(formData, contactEmailName, "No se ha introducido ningún correo electrónico.")
-    checkIfNotEmpty(formData, phoneNumberName, "No se ha escrito ningún número de teléfono.")
+    checkIfNotEmpty(formData, userNameName, EMPTY_USER_NAME_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, contactEmailName, EMPTY_EMAIL_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, phoneNumberName, EMPTY_PHONE_NUMBER_INPUT_MESSAGE)
 
     return checkErrorMessagesList()
 }
