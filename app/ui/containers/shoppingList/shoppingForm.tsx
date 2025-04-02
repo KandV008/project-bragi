@@ -39,7 +39,7 @@ import {
   emailName,
   addressName,
   audiometryFileName,
-} from "@/app/model/JSONnames";
+} from "@/app/config/JSONnames";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { useSearchParams } from "next/navigation";

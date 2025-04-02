@@ -1,6 +1,6 @@
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { adaptationRangeName, brandName, categoryNameParam, degreeOfLossName, productDescriptionName, earSideName, imageURLName, nameName, priceName, productIdName, bargainCodeName, bargainTitleName, bargainDescriptionName, promotionalImageName, noveltyDescriptionName, noveltyTitleName, includeName, colorTextName, colorHexName, earphoneShapeName, categoryName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName } from "@/app/model/JSONnames";
 
 /**
  * Parses a string value and ensures it is valid.
@@ -14,6 +14,23 @@ export function parseString(value: string | null | undefined, attribute: string)
         console.error("ERROR:", attribute, "is not valid");
         console.error(attribute, "VALUE:", value)
         throw new Error(`${attribute} is not valid. Value -> ${value}`)
+    }
+
+    return value
+}
+
+/**
+ * Parses a string value and ensures it is valid.
+ * @param {string | null | undefined} value - The value to parse.
+ * @param {string} attribute - The attribute name for logging purposes.
+ * @returns {string} - The validated string value.
+ */
+function parseStringOrEmpty(value: string | null | undefined, attribute: string): string {
+    if (!value) {
+        console.warn("WARNING:", attribute, "is not valid");
+        console.warn(attribute, "VALUE: ", value)
+        console.warn("USE DEFAULT VALUE -> ''")
+        return ""
     }
 
     return value
@@ -44,13 +61,15 @@ export function parseStringList(value: string | null | undefined, attribute: str
  * @throws {Error} - Throws an error if the value is invalid.
  */
 export function parseNumber(value: string | null | undefined, attribute: string): number {
-    if (!value || isNaN(parseInt(value))) {
+    const parsedValue = Number(value);
+
+    if (!value || isNaN(parsedValue)) {
         console.error("ERROR:", attribute, "is not valid");
-        console.error(attribute, "VALUE:", value)
-        throw new Error(`${attribute} is not valid. Value -> ${value}`)
+        console.error(attribute, "VALUE:", value);
+        throw new Error(`${attribute} is not valid. Value -> ${value}`);
     }
 
-    return parseInt(value)
+    return parsedValue;
 }
 
 /**
@@ -80,7 +99,7 @@ export function parseStartAndEndIndex(start: string | null, end: string | null):
     }
 
     return { startIndex, endIndex }
-}
+} // TODO Check about the cardinality of the indexes
 
 /**
  * Parses a price value from a string.
@@ -179,9 +198,9 @@ export function parseUpdateOfShoppingList(formData: FormData): {
     earSide: string;
 } {
     const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
-    const colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
-    const colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
-    const earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
+    const colorText = parseStringOrEmpty(formData.get(colorTextName)?.toString(), "COLOR_TEXT");
+    const colorHex = parseStringOrEmpty(formData.get(colorHexName)?.toString(), "COLOR_HEX");
+    const earSide = parseStringOrEmpty(formData.get(earSideName)?.toString(), "EAR_SIDE");
 
     return { productId, colorText, colorHex, earSide }
 }
@@ -202,13 +221,6 @@ export function parseFilters(filters: string | null): object {
         return { ...prev, ...current };
     }, {});
 }
-
-// TODO Check to move this variables into another file
-const adaptationRangeType = "adaptation_range";
-const waterDustResistanceType = "dust_water_resistance";
-const brandType = "brand";
-const earphoneShapeType = "earphone_shape";
-const degreeOfLossType = "degree_of_loss";
 
 /**
  * Object containing functions that map filter types to their respective parsing logic.
@@ -231,23 +243,23 @@ const filterFunction = {
  */
 function convertToObject(type: string, value: string): object {
 
-    if (type === adaptationRangeType) {
+    if (type === adaptationRangeName) {
         return filterFunction.adaptationRangeType(value);
     }
 
-    if (type === waterDustResistanceType) {
+    if (type === dustWaterResistanceName) {
         return filterFunction.waterDustResistanceType(value);
     }
 
-    if (type === brandType) {
+    if (type === brandName) {
         return filterFunction.brandType(value);
     }
 
-    if (type === earphoneShapeType) {
+    if (type === earphoneShapeName) {
         return filterFunction.earphoneShapeType(value);
     }
 
-    if (type === degreeOfLossType) {
+    if (type === degreeOfLossName) {
         return filterFunction.degreeOfLossType(value);
     }
 
@@ -260,14 +272,16 @@ function convertToObject(type: string, value: string): object {
  * @param {FormData} formData - The form data containing use attributes.
  * @returns {string[]} An array of selected uses.
  */
-export function parseUses(formData: FormData): string[] {
+function parseUses(formData: FormData): string[] {
     const parse: string[] = []
+
     usesList.forEach((element) => {
         if (formData.get(element) !== null) {
             const use = parseString(formData.get(element)?.toString(), element)
             parse.push(use)
         }
     })
+
     return parse
 }
 
@@ -302,7 +316,7 @@ function getIncrementalValues(formData: FormData, counter: number, tag: string):
  * @param {FormData} formData - The form data containing inclusion details.
  * @returns {string[]} A list of included items.
  */
-export function parseInclude(formData: FormData): string[] {
+function parseInclude(formData: FormData): string[] {
     const counter = parseNumber(formData.get(includeName)?.toString(), "INCLUDE_COUNTER")
     return getIncrementalValues(formData, counter, "INCLUDE")
 }
@@ -313,8 +327,8 @@ export function parseInclude(formData: FormData): string[] {
  * @param {FormData} formData - The form data containing the resistance value.
  * @returns {boolean} True if water and dust resistance is enabled, otherwise false.
  */
-export function parseWaterDustResistance(formData: FormData): boolean {
-    const resistanceElement = formData.get("YES")
+function parseWaterDustResistance(formData: FormData): boolean {
+    const resistanceElement = formData.get(hasDustWaterResistanceName)
 
     if (resistanceElement === null) {
         return false
@@ -331,7 +345,7 @@ export function parseWaterDustResistance(formData: FormData): boolean {
  * @returns {Array<{ name: string; hex: string }>} A list of colors with text and hex values.
  * @throws {Error} If the color text count and hex count do not match.
  */
-export function parseColors(formData: FormData): Array<{ name: string; hex: string; }> {
+function parseColors(formData: FormData): Array<{ name: string; hex: string; }> {
 
     const counterText = parseNumber(formData.get(colorTextName)?.toString(), "COLOR_TEXT")
     const counterHex = parseNumber(formData.get(colorHexName)?.toString(), "COLOR_HEX")
@@ -390,7 +404,6 @@ export function parseProductForm(formData: FormData): object {
 
     return productAttributes
 }
-
 
 /**
  * Parses earphone-related attributes from a given form.

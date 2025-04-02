@@ -1,11 +1,11 @@
 'use server';
 
-import { parseProductIds, parseString, parseStartAndEndIndex } from "@/lib/parser";
+import { parseProductIds, parseString, parseStartAndEndIndex } from "@/lib/parser/parser";
 import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
 import { getProductsByIds } from "./product";
 import { Logger } from "@/app/model/Logger";
-import { productIdName } from "@/app/model/JSONnames";
+import { productIdName } from "@/app/config/JSONnames";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 
 const CONTEXT = "FAVORITES"

@@ -64,9 +64,9 @@ import {
   productDescriptionName,
   productIdName,
   usesName,
-  waterDustResistanceName,
+  dustWaterResistanceName,
   imageURLName,
-} from "@/app/model/JSONnames";
+} from "@/app/config/JSONnames";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import { earphoneAdaptationRangeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
@@ -217,7 +217,7 @@ export default function ProductForm({ product }: FormProps) {
             />
             {/* Water Dust Resistance */}
             <CheckBoxInput
-              name={waterDustResistanceName}
+              name={dustWaterResistanceName}
               label={"Resistencia al Agua y al Polvo"}
               list={["YES"]}
               values={

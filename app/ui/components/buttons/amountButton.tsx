@@ -15,7 +15,7 @@ import {
   colorTextName,
   earSideName,
   productIdName,
-} from "@/app/model/JSONnames";
+} from "@/app/config/JSONnames";
 
 /**
  * Props for the AmountButton component.

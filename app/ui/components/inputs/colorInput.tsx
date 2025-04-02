@@ -8,7 +8,7 @@ import {
 import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import { useState } from "react";
 import MiniTextInput from "./miniTextInput";
-import { colorHexName, colorTextName } from "@/app/model/JSONnames";
+import { colorHexName, colorTextName } from "@/app/config/JSONnames";
 
 /**
  * Props for the ColorInput component.

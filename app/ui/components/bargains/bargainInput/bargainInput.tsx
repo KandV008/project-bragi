@@ -13,7 +13,7 @@ import { validateBargainInput } from "@/lib/validations/validations";
 import { useState } from "react";
 import FormValidationPopUp from "../../popUps/formValidationPopUp";
 import { getBargain } from "@/db/bargain";
-import { bargainCodeName } from "@/app/model/JSONnames";
+import { bargainCodeName } from "@/app/config/JSONnames";
 import toast from "react-hot-toast";
 
 /**

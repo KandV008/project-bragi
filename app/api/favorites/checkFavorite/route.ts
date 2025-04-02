@@ -1,4 +1,4 @@
-import { productIdNameParam, userIdNameParam } from "@/app/model/JSONnames";
+import { productIdNameParam, userIdNameParam } from "@/app/config/JSONnames";
 import { checkFavorite } from "@/db/favorites";
 import { NextResponse } from "next/server";
 

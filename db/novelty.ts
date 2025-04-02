@@ -1,9 +1,9 @@
 'use server';
 
 import { mapDocumentToNovelty, NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
-import { noveltyIdName } from "@/app/model/JSONnames";
+import { noveltyIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/model/Logger";
-import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 

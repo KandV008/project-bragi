@@ -48,7 +48,7 @@ import {
   nameName,
   priceName,
   productIdName,
-} from "@/app/model/JSONnames";
+} from "@/app/config/JSONnames";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 
 /**

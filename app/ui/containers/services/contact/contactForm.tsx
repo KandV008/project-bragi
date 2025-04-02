@@ -4,7 +4,7 @@ import {
   contactBodyName,
   contactEmailName,
   contactSubjectName,
-} from "@/app/model/JSONnames";
+} from "@/app/config/JSONnames";
 import SubmitButton from "@/app/ui/components/buttons/submitButton";
 import TextAreaInput from "@/app/ui/components/inputs/textAreaInput";
 import TextInput from "@/app/ui/components/inputs/textInput";

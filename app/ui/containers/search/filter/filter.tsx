@@ -19,6 +19,7 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import { getFilterInformationRoute } from "@/app/api/routes";
 import { valueOfEarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { valueOfEarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
+import { adaptationRangeName, brandName, degreeOfLossName, earphoneShapeName, dustWaterResistanceName } from "@/app/config/JSONnames";
 
 /**
  * Props for the Filter component
@@ -29,19 +30,12 @@ interface FilterProps {
   onChange: (filter: string) => void;
 }
 
-// TODO Check to move this variables into another file
-const adaptationRangeType = "adaptation_range";
-const waterDustResistanceType = "dust_water_resistance";
-const brandType = "brand";
-const earphoneShapeType = "earphone_shape";
-const degreeOfLossType = "degree_of_loss";
-
 const elementsToFilter = [
-  adaptationRangeType,
-  waterDustResistanceType,
-  brandType,
-  earphoneShapeType,
-  degreeOfLossType,
+  adaptationRangeName,
+  dustWaterResistanceName,
+  brandName,
+  earphoneShapeName,
+  degreeOfLossName,
 ];
 
 /**
@@ -99,10 +93,10 @@ export default function Filter({
         <article className="text-lg">
           <h1 className="text-xl font-bold">Rango de Adaptación</h1>
           <RadioInputWithQuantity
-            name={adaptationRangeType}
+            name={adaptationRangeName}
             list={filterElements.adaptation_range}
             valueOf={valueOfEarphoneAdaptationRange}
-            type={adaptationRangeType}
+            type={adaptationRangeName}
             onChange={filterSelected}
           />
         </article>
@@ -110,10 +104,10 @@ export default function Filter({
         <article className="text-lg">
           <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
           <RadioInputWithQuantity
-            name={waterDustResistanceType}
+            name={dustWaterResistanceName}
             list={filterElements.dust_water_resistance}
             valueOf={valueOfWaterDustResistance}
-            type={waterDustResistanceType}
+            type={dustWaterResistanceName}
             onChange={filterSelected}
           />
         </article>
@@ -121,10 +115,10 @@ export default function Filter({
         <article className="text-lg">
           <h1 className="text-xl font-bold">Marca</h1>
           <RadioInputWithQuantity
-            name={brandType}
+            name={brandName}
             list={filterElements.brand}
             valueOf={(x) => x}
-            type={brandType}
+            type={brandName}
             onChange={filterSelected}
           />
         </article>
@@ -132,10 +126,10 @@ export default function Filter({
         <article className="text-lg">
           <h1 className="text-xl font-bold">Forma del Audífono</h1>
           <RadioInputWithQuantity
-            name={earphoneShapeType}
+            name={earphoneShapeName}
             list={filterElements.earphone_shape}
             valueOf={(x) => x}
-            type={earphoneShapeType}
+            type={earphoneShapeName}
             onChange={filterSelected}
           />
         </article>
@@ -143,10 +137,10 @@ export default function Filter({
         <article className="text-lg">
           <h1 className="text-xl font-bold">Grado de perdida</h1>
           <RadioInputWithQuantity
-            name={degreeOfLossType}
+            name={degreeOfLossName}
             list={filterElements.degree_of_loss}
             valueOf={valueOfEarphoneDegreeOfLoss}
-            type={degreeOfLossType}
+            type={degreeOfLossName}
             onChange={filterSelected}
           />
         </article>

@@ -1,6 +1,6 @@
 'use server';
 
-import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, parseString, parseStringList } from "@/lib/parser";
+import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, parseString, parseStringList } from "@/lib/parser/parser";
 import { redirect } from "next/navigation";
 import { deleteProductInShoppingList } from "./shoppingList";
 import { deleteProductInFavorites } from "./favorites";

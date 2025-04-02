@@ -1,9 +1,9 @@
 'use server';
 
 import { BargainEntity, mapDocumentToBargain } from "@/app/model/entities/bargain/Bargain";
-import { bargainIdName } from "@/app/model/JSONnames";
+import { bargainIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/model/Logger";
-import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser";
+import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";
 

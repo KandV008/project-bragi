@@ -1,4 +1,4 @@
-import { brandName, priceName, productIdName } from '@/app/model/JSONnames';
+import { brandName, priceName, productIdName } from '@/app/config/JSONnames';
 import { getRelatedProducts } from '@/db/product';
 import { NextResponse } from 'next/server';
 

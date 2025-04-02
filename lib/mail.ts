@@ -1,7 +1,7 @@
 'use server';
 
 import nodemailer from "nodemailer";
-import { parseAppointmentForm, parseContactForm } from "./parser";
+import { parseAppointmentForm, parseContactForm } from "./parser/parser";
 import { Logger } from "@/app/model/Logger";
 
 require("dotenv").config({ path: ".env.local" });

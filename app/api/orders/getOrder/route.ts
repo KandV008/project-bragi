@@ -1,4 +1,4 @@
-import { productIdName } from '@/app/model/JSONnames';
+import { productIdName } from '@/app/config/JSONnames';
 import { getOrder } from '@/db/order';
 import { getProduct } from '@/db/product';
 import { NextResponse } from 'next/server';

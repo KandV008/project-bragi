@@ -1,4 +1,4 @@
-import { endNameParam, startNameParam } from '@/app/model/JSONnames';
+import { endNameParam, startNameParam } from '@/app/config/JSONnames';
 import { getAllProducts } from '@/db/product';
 import { NextResponse } from 'next/server';
 

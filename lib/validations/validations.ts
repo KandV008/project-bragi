@@ -1,5 +1,5 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category"
-import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/model/JSONnames"
+import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
 
 /**
  * List to store validation error messages.

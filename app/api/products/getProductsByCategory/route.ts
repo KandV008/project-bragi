@@ -1,4 +1,4 @@
-import { categoryNameParam, endNameParam, filtersNameParam, startNameParam } from '@/app/model/JSONnames';
+import { categoryNameParam, endNameParam, filtersNameParam, startNameParam } from '@/app/config/JSONnames';
 import { getProductsByCategory } from '@/db/product';
 import { NextResponse } from 'next/server';
 

@@ -1,4 +1,4 @@
-import { noveltyIdName } from '@/app/model/JSONnames';
+import { noveltyIdName } from '@/app/config/JSONnames';
 import { getNovelty } from '@/db/novelty';
 import { NextResponse } from 'next/server';
 
