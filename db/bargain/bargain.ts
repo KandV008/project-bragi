@@ -5,15 +5,15 @@ import { bargainIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
 import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
-import { redirect } from "next/navigation";
 import { BARGAIN_CONTEXT, METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_DELETE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_CREATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAINS, METHOD_UPDATE_BARGAIN } from "../dbConfig";
 
 /**
- * Fetches a list of bargains from the database.
+ * Retrieves a list of bargains from the database.
  *
  * @param {string | null} start - The start index for pagination.
  * @param {string | null} end - The end index for pagination.
- * @returns {Promise<BargainEntity[]>} A promise resolving to an array of bargain entities.
+ * @returns {Promise<BargainEntity[]>} - A list of bargains.
+ * @throws {Error} - If an error occurs while retrieving bargains from the database.
  */
 export async function getBargains(start: string | null, end: string | null): Promise<BargainEntity[]> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS);
@@ -39,10 +39,11 @@ export async function getBargains(start: string | null, end: string | null): Pro
 }
 
 /**
- * Fetches a single bargain by its code.
+ * Retrieves a single bargain by ID from the database.
  *
- * @param {string | null | undefined} id - The unique code of the bargain.
- * @returns {Promise<BargainEntity>} A promise resolving to the found bargain entity.
+ * @param {string | null | undefined} id - The ID of the bargain to retrieve.
+ * @returns {Promise<BargainEntity>} - The requested bargain entity.
+ * @throws {Error} - If the bargain cannot be retrieved from the database.
  */
 export async function getBargain(id: string | null | undefined): Promise<BargainEntity> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN);
@@ -64,11 +65,13 @@ export async function getBargain(id: string | null | undefined): Promise<Bargain
 }
 
 /**
- * Handles the creation of a new bargain via a form submission.
+ * Creates a bargain record with the provided form data.
  *
- * @param {FormData} formData - The form data containing the bargain details.
+ * @param {FormData} formData - Form data containing bargain details.
+ * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @throws {Error} - If the bargain creation process fails.
  */
-export async function actionCreateBargain(formData: FormData) {
+export async function actionCreateBargain(formData: FormData): Promise<number> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_ACTION_CREATE_BARGAIN);
 
     try {
@@ -93,13 +96,11 @@ export async function actionCreateBargain(formData: FormData) {
 }
 
 /**
- * Creates a new bargain in the database.
+ * Creates a bargain entry.
  *
- * @param {object} bargainData - The data for the new bargain.
- * @param {string} bargainData.code - The code of the bargain.
- * @param {string} bargainData.title - The title of the bargain.
- * @param {string} bargainData.description - The description of the bargain.
- * @returns {Promise<void>} A promise that resolves when the bargain is created.
+ * @param {FormData} bargainData - Form data containing creation bargain details.
+ * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @throws {Error} - If the bargain creation process fails.
  */
 async function createBargain(bargainData: { code: string; title: string; description: string }): Promise<void> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_CREATE_BARGAIN);
@@ -119,11 +120,13 @@ async function createBargain(bargainData: { code: string; title: string; descrip
 }
 
 /**
- * Handles the update of a bargain via a form submission.
- *
- * @param {FormData} formData - The form data containing updated bargain details.
+ * Updates a bargain record with the provided form data.
+ * 
+ * @param formData - The FormData object containing the bargain details and the bargain ID.
+ * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @throws {Error} - Throws an error if there is an exception during the operation.
  */
-export async function actionUpdateBargain(formData: FormData) {
+export async function actionUpdateBargain(formData: FormData): Promise<number> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_ACTION_UPDATE_BARGAIN);
 
     try {
@@ -150,14 +153,11 @@ export async function actionUpdateBargain(formData: FormData) {
 }
 
 /**
- * Updates an existing bargain in the database.
+ * Updates a bargain entry.
  *
- * @param {object} bargainData - The updated bargain data.
- * @param {string} bargainData.id - The ID of the bargain.
- * @param {string} bargainData.code - The updated code of the bargain.
- * @param {string} bargainData.title - The updated title of the bargain.
- * @param {string} bargainData.description - The updated description of the bargain.
- * @returns {Promise<void>} A promise that resolves when the update is successful.
+ * @param {FormData} bargainData - Form data containing update bargain details.
+ * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @throws {Error} - If the bargain update process fails.
  */
 async function updateBargain(bargainData: { id: string; code: string; title: string; description: string }): Promise<void> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_UPDATE_BARGAIN);
@@ -177,11 +177,13 @@ async function updateBargain(bargainData: { id: string; code: string; title: str
 }
 
 /**
- * Handles the deletion of a bargain.
- *
- * @param {string | undefined | null} bargainId - The code of the bargain to delete.
+ * Deletes a bargain record with the provided bargain id.
+ * 
+ * @param bargainId - The FormData object containing the the bargain ID.
+ * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @throws {Error} - Throws an error if there is an exception during the operation.
  */
-export async function actionDeleteBargain(bargainId: string | undefined | null) {
+export async function actionDeleteBargain(bargainId: string | undefined | null): Promise<number> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_ACTION_DELETE_BARGAIN);
 
     try{
@@ -206,10 +208,11 @@ export async function actionDeleteBargain(bargainId: string | undefined | null) 
 }
 
 /**
- * Deletes a bargain from the database.
+ * Deletes a bargain entry.
  *
- * @param {string} id - The ID of the bargain to delete.
- * @returns {Promise<void>} A promise that resolves when the bargain is deleted.
+ * @param {FormData} id - Id of the bargain to delete.
+ * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @throws {Error} - If the bargain deletion process fails.
  */
 async function deleteBargain(id: string): Promise<void> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_DELETE_BARGAIN);
