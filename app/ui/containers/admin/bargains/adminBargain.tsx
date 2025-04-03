@@ -19,7 +19,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
-import { actionDeleteBargain } from "@/db/bargain";
+import { actionDeleteBargain } from "@/db/bargain/bargain";
 import { getBargainRoute } from "@/app/api/routes";
 import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
 

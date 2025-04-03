@@ -4,7 +4,7 @@ import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, pars
 import { redirect } from "next/navigation";
 import { deleteProductInShoppingList } from "./shoppingList";
 import { deleteProductInFavorites } from "./favorites";
-import { Logger } from "@/app/model/Logger";
+import { Logger } from "@/app/config/Logger";
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
 
 require("dotenv").config({ path: ".env.local" });
@@ -227,7 +227,6 @@ export async function getProduct(productIdToParse: string | null): Promise<Produ
  * @param {string[]} ids - An array of product IDs to fetch from the database.
  * @returns {Promise<ProductEntity[]>} A list of matching products.
  */
-
 export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> {
   Logger.startFunction(CONTEXT, "getProductsByIds")
 

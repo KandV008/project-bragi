@@ -3,7 +3,7 @@
 import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Order";
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
-import { Logger } from "@/app/model/Logger";
+import { Logger } from "@/app/config/Logger";
 import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { redirect } from "next/navigation";
 

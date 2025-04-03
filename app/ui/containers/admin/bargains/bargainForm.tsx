@@ -29,7 +29,7 @@ import {
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
-import { actionUpdateBargain, actionCreateBargain } from "@/db/bargain";
+import { actionUpdateBargain, actionCreateBargain } from "@/db/bargain/bargain";
 import { bargainCodeName, bargainDescriptionName, bargainIdName, bargainTitleName } from "@/app/config/JSONnames";
 
 /**

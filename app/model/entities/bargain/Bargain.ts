@@ -32,7 +32,6 @@ export function mapDocumentToBargain(bargain: any): BargainEntity {
             throw new Error(MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE);
         }
         
-
         return {
             id: bargain.id,
             code: bargain.code,

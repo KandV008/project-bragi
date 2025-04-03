@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { sql } from '@vercel/postgres';
 import { ShoppingProductDTO, mapDocumentToShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList } from "@/lib/parser/parser";
-import { Logger } from "@/app/model/Logger";
+import { Logger } from "@/app/config/Logger";
 import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
 import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
 

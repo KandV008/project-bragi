@@ -2,7 +2,7 @@
 
 import { mapDocumentToNovelty, NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import { noveltyIdName } from "@/app/config/JSONnames";
-import { Logger } from "@/app/model/Logger";
+import { Logger } from "@/app/config/Logger";
 import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
 import { redirect } from "next/navigation";

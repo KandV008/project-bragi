@@ -2,7 +2,7 @@
 
 import nodemailer from "nodemailer";
 import { parseAppointmentForm, parseContactForm } from "./parser/parser";
-import { Logger } from "@/app/model/Logger";
+import { Logger } from "@/app/config/Logger";
 
 require("dotenv").config({ path: ".env.local" });
 
