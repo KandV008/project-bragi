@@ -1,6 +1,6 @@
 import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, earphoneShapeName, colorTextName, colorHexName, earSideName, adaptationRangeName, dustWaterResistanceName, degreeOfLossName, productDescriptionName, usesName, includeName, hasDustWaterResistanceName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName } from "@/app/config/JSONnames"
 import { parseAppointmentForm, parseBargainForm, parseContactForm, parseFile, parseFilters, parseNewProductToShoppingList, parseNoveltyForm, parseNumber, parsePrice, parseProductForm, parseProductIds, parseShoppingForm, parseStartAndEndIndex, parseString, parseStringList, parseUpdateOfShoppingList } from "./parser"
-import { waterDustResistanceList } from "@/app/model/entities/product/enums/earphoneAttributes/WaterDustResistance"
+import { APPOINTMENT_FORM_PARSER_NAME, BARGAIN_FORM_PARSER_NAME, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, END_INDEX_PARSER_NAME, FILE_PARSER_NAME, FILTERS_PARSER_NAME, NEW_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME, NOVELTY_FORM_PARSER_NAME, NUMBER_PARSER_NAME, ORDER_FORM_PARSER_NAME, PARSER_DOESNT_WORK_MESSAGE, PARSER_DOESNT_WORK_WITH_REASON_MESSAGE, PRICE_PARSER_NAME, PRODUCT_FORM_PARSER_NAME, PRODUCT_IDS_PARSER_NAME, START_INDEX_PARSER_NAME, STRING_LIST_PARSER_NAME, STRING_PARSER_NAME, UPDATE_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME } from "./parserMessages"
 
 describe("parser", () => {
     const exampleAttribute = "TEST"
@@ -10,18 +10,20 @@ describe("parser", () => {
 
         const result = parseString(exampleValue, exampleAttribute)
 
-        assert.isString(result, "String parser doesn't work. It is not a string.")
-        assert.equal(result, exampleValue, "String parser doesn't work. It is not the correct string.")
+        assert.isString(result, `${STRING_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} string.`)
+        assert.equal(result, exampleValue, `${STRING_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} the correct string.`)
     })
 
     it("should not parse a null or undefined into string and will throw an Error", () => {
         const testCases = [null, undefined];
     
         testCases.forEach((exampleValue) => {
+            const errorRegex = new RegExp(`${CONTEXT_PARSE_STRING}.*${exampleValue}`);
+
             assert.throws(
                 () => parseString(exampleValue, exampleAttribute),
                 Error,
-                `${exampleAttribute} is not valid. Value -> ${exampleValue}`
+                errorRegex, 
             );
         });
     });
@@ -31,16 +33,16 @@ describe("parser", () => {
 
         const result = parseStringList(exampleValue, exampleAttribute)
 
-        assert.lengthOf(result, exampleValue.split(",").length, "String List parser doesn't work")
+        assert.lengthOf(result, exampleValue.split(",").length, `${STRING_LIST_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} the correct length.`)
     })
 
-    it("should not parse a null or undefined into a list of string", () => {
+    it("should parse a null or undefined into an empty list of string", () => {
         const testCases = [null, undefined];
     
         testCases.forEach((exampleValue) => {
             const result = parseStringList(exampleValue, exampleAttribute)
 
-            assert.lengthOf(result, 0, "String List parse doesn't work")            
+            assert.lengthOf(result, 0, `${STRING_LIST_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} empty.`)            
         });
     });
     
@@ -49,17 +51,19 @@ describe("parser", () => {
 
         const result = parseNumber(exampleValue, exampleAttribute)
 
-        checkNumber(result, exampleValue, "Number parser doesn't work")
+        checkNumber(result, exampleValue, NUMBER_PARSER_NAME)
     })
 
     it("should not parse a null, undefined or not a number into number and will throw an Error", () => {
         const testCases = [null, undefined, "not a number"];
     
         testCases.forEach((exampleValue) => {
+            const errorRegex = new RegExp(`${CONTEXT_PARSE_NUMBER}.*${exampleValue}`);
+
             assert.throws(
                 () => parseNumber(exampleValue, exampleAttribute),
                 Error,
-                `${exampleAttribute} is not valid. Value -> ${exampleValue}`
+                errorRegex
             );
         });
     });
@@ -69,8 +73,8 @@ describe("parser", () => {
 
         const {startIndex, endIndex} = parseStartAndEndIndex(exampleValue[0], exampleValue[1])
         
-        checkNumber(startIndex, exampleValue[0], "Start Index parser doesn't work")
-        checkNumber(endIndex, exampleValue[1], "End Index parser doesn't work")
+        checkNumber(startIndex, exampleValue[0], START_INDEX_PARSER_NAME)
+        checkNumber(endIndex, exampleValue[1], END_INDEX_PARSER_NAME)
     })
 
     it("should parse a null into default indexes", () => {
@@ -78,19 +82,23 @@ describe("parser", () => {
     
         testCases.forEach((exampleValue) => {
             const {startIndex, endIndex} = parseStartAndEndIndex(exampleValue, exampleValue)
-            checkNumber(startIndex, "0", "Start Index parser doesn't work")
-            checkNumber(endIndex, "9", "End Index parser doesn't work")    
+            checkNumber(startIndex, "0", START_INDEX_PARSER_NAME)
+            checkNumber(endIndex, "9", END_INDEX_PARSER_NAME)    
         });
     });
 
     it("should not parse a not a number into number and will throw an Error", () => {
-        const exampleValue = "not a number";
-    
-        assert.throws(
-            () => parseStartAndEndIndex(exampleValue, exampleAttribute),
-            Error,
-            "Start or End are not numbers"
-        );
+        const testCases = [["NAN", "NAN"], ["1", "NAN"], ["NAN", "2"]]
+
+        testCases.forEach((exampleValue) => {
+            const errorRegex = new RegExp(`${CONTEXT_PARSE_START_AND_END_INDEX}.*${exampleValue[0]}.*${exampleValue[1]}`);
+            
+            assert.throws(
+                () => parseStartAndEndIndex(exampleValue[0], exampleValue[1]),
+                Error,
+                errorRegex
+            );
+        })
     });
 
     it("should parse a text value into price", () => {
@@ -98,17 +106,19 @@ describe("parser", () => {
 
         const result = parsePrice(exampleValue)
 
-        checkNumber(result, exampleValue, "Price parser doesn't work")
+        checkNumber(result, exampleValue, PRICE_PARSER_NAME)
     })
 
     it("should not parse a null, undefined or not a number into price and will throw an Error", () => {
         const testCases = [null, undefined, "not a number"];
     
         testCases.forEach((exampleValue) => {
+            const errorRegex = new RegExp(`${CONTEXT_PARSE_PRICE}.*${exampleValue}`);
+
             assert.throws(
                 () => parsePrice(exampleValue),
                 Error,
-                "Price is null or not valid number"
+                errorRegex
             );
         });
     });
@@ -119,17 +129,19 @@ describe("parser", () => {
 
         const result = parseFile(exampleValue, exampleAttribute);
 
-        assert.equal(result, exampleValue, "File parser doesn't work.");
+        assert.equal(result, exampleValue, `${FILE_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} the correct file`);
     })
 
     it("should not parse a null, undefined or invalid file into file and will throw an Error", () => {
         const testCases = [null, undefined, "not a file"];
     
         testCases.forEach((exampleValue) => {
+            const errorRegex = new RegExp(`${CONTEXT_PARSE_FILE}.*${exampleValue}`);
+
             assert.throws(
                 () => parseFile(exampleValue, exampleAttribute),
                 Error,
-                `${exampleAttribute} is not valid. Value -> ${exampleValue}`
+                errorRegex
             );
         });
     });
@@ -139,25 +151,27 @@ describe("parser", () => {
 
         const result = parseProductIds(exampleValue)
 
-        assert.isArray(result, "Product Ids parser doesn't work. It is not a lilst of ids.")
-        assert.lengthOf(result, exampleValue.length, "Product Ids parser doesn't work. It is not the correct length.")
-        assert.deepEqual(result, exampleValue, "Product Ids parser doesn't work. It is not the correct values.")
+        assert.isArray(result, `${PRODUCT_IDS_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} a list of product ids.`)
+        assert.lengthOf(result, exampleValue.length, `${PRODUCT_IDS_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} the correct length.`)
+        assert.deepEqual(result, exampleValue, `${PRODUCT_IDS_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} the correct values.`)
     })
 
     it("should not parse a null or undefined into a list of string and will throw an Error", () => {
         const testCases = [null, undefined];
     
         testCases.forEach((exampleValue) => {
+            const errorRegex = new RegExp(`${CONTEXT_PARSE_PRODUCT_IDS}.*${exampleValue}`);
+
             assert.throws(
                 () => parseProductIds(exampleValue),
                 Error,
-                "Product_Ids are null or empty"
+                errorRegex
             );
         });
     });
 
     it("should parse a form data into a EARPHONE Product", () => {
-        const exampleShoppingCartFormData = {
+        const exampleFormData = {
             [productIdName]: "1",
             [nameName]: "Example EARPHONE",
             [categoryName]: "EARPHONE",
@@ -171,17 +185,17 @@ describe("parser", () => {
         };
     
         const formData = new FormData();
-        Object.entries(exampleShoppingCartFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseNewProductToShoppingList(formData)
 
-        assert.isObject(result, "New EARPHONE Product to Shopping List parser doesn't work")
+        assert.isObject(result, `EARPHONE ${NEW_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should parse a form data into a ACCESSORY Product", () => {
-        const exampleShoppingCartFormData = {
+        const exampleFormData = {
             [productIdName]: "2",
             [nameName]: "Example EARPHONE",
             [categoryName]: "ACCESSORY",
@@ -191,13 +205,13 @@ describe("parser", () => {
         };
     
         const formData = new FormData();
-        Object.entries(exampleShoppingCartFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseNewProductToShoppingList(formData)
 
-        assert.isObject(result, "New ACCESSORY Product to Shopping List parser doesn't work")
+        assert.isObject(result, `ACCESSORY ${NEW_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into a Product and throw an Error", () => {
@@ -212,7 +226,7 @@ describe("parser", () => {
     });
 
     it("should parse a form data into an update of Shopping EARPHONE Product Object ", () => {
-        const exampleShoppingCartFormData = {
+        const exampleFormData = {
             [productIdName]: "1",
             [colorTextName]: "Color Ejemplo",
             [colorHexName]: "#FFFFFF",
@@ -220,39 +234,39 @@ describe("parser", () => {
         };
     
         const formData = new FormData();
-        Object.entries(exampleShoppingCartFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseUpdateOfShoppingList(formData)
 
-        assert.isObject(result, "Update EARPHONE Product to Shopping List parser doesn't work")
+        assert.isObject(result, `EARPHONE ${UPDATE_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should parse a form data into an update of Shopping ACCESSORY Product Object ", () => {
-        const exampleShoppingCartFormData = {
+        const exampleFormData = {
             [productIdName]: "1",
         };
     
         const formData = new FormData();
-        Object.entries(exampleShoppingCartFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseUpdateOfShoppingList(formData)
 
-        assert.isObject(result, "Update ACCESSORY Product to Shopping List parser doesn't work")
+        assert.isObject(result, `ACCESSORY ${UPDATE_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into an update of Shopping List Object and throw an Error", () => {
-        const exampleShoppingCartFormData = {
+        const exampleFormData = {
             [colorTextName]: "Color Ejemplo",
             [colorHexName]: "#FFFFFF",
             [earSideName]: "left"
         };
     
         const formData = new FormData();
-        Object.entries(exampleShoppingCartFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -268,19 +282,19 @@ describe("parser", () => {
 
         const result = parseFilters(exampleValue)
 
-        assert.isObject(result, "Filters parser doesn't work. It is not an object.")
-    })
+        assert.isObject(result, `${FILTERS_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} an object`)
+    });
 
     it("should parse a null into a default object of filters", () => {
         const exampleValue = null;
     
         const result = parseFilters(exampleValue)
 
-        assert.isObject(result, "Filters parser doesn't work. It is not an object.")
+        assert.isObject(result, `${FILTERS_PARSER_NAME} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} an object`)
     });
 
     it("should parse a form data into a new EARPHONE Product", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "EARPHONE",
             [brandName]: "EXAMPLE",
@@ -302,17 +316,17 @@ describe("parser", () => {
         };
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseProductForm(formData)
 
-        assert.isObject(result, "New EARPHONE Product parser doesn't work")
+        assert.isObject(result, `EARPHONE ${PRODUCT_FORM_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should parse a form data into a new ACCESSORY Product", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "ACCESSORY",
             [brandName]: "EXAMPLE",
@@ -324,17 +338,17 @@ describe("parser", () => {
         };
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseProductForm(formData)
 
-        assert.isObject(result, "New ACCESSORY Product parser doesn't work")
+        assert.isObject(result, `ACCESSORY ${PRODUCT_FORM_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into a new EARPHONE Product and throw an Error", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "EARPHONE",
             [brandName]: "EXAMPLE",
@@ -346,7 +360,7 @@ describe("parser", () => {
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -357,7 +371,7 @@ describe("parser", () => {
     });
 
     it("should not parse an incorrect form data into a new ACCESSORY Product and throw an Error", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "ACCESSORY",
             [brandName]: "EXAMPLE",
@@ -365,7 +379,7 @@ describe("parser", () => {
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -376,29 +390,29 @@ describe("parser", () => {
     })
 
     it("should parse a form data into a new Bargain", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [bargainCodeName]: "EXAMPLE",
             [bargainTitleName]: "Bargain Title",
             [bargainDescriptionName]: "Bargain Description",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseBargainForm(formData)
 
-        assert.isObject(result, "New Bargain parser doesn't work")
+        assert.isObject(result, `${BARGAIN_FORM_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into a new Bargain and throw an Error", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [bargainCodeName]: "EXAMPLE",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -409,29 +423,29 @@ describe("parser", () => {
     });
 
     it("should parse a form data into a new Novelty", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [noveltyTitleName]: "Novelty Title",
             [noveltyDescriptionName]: "Novelty Description",
             [promotionalImageName]: "./no-image",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseNoveltyForm(formData)
 
-        assert.isObject(result, "New Novelty parser doesn't work")
+        assert.isObject(result, `${NOVELTY_FORM_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into a new Novelty and throw an Error", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [noveltyTitleName]: "Novelty Title",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -442,7 +456,7 @@ describe("parser", () => {
     });
 
     it("should parse a form data into a new Order", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [userIdName]: "Novelty Title",
             [userNameName]: "Novelty Description",
             [userFirstName]: "./no-image",
@@ -453,24 +467,24 @@ describe("parser", () => {
         const exampleValue = new File(["content"], "example.txt", { type: "text/plain" });
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
         formData.append(audiometryFileName, exampleValue);
 
         const result = parseShoppingForm(formData)
 
-        assert.isObject(result, "New Order parser doesn't work")
+        assert.isObject(result, `${ORDER_FORM_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into a new Order and throw an Error", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [userIdName]: "Novelty Title",
             [userNameName]: "Novelty Description",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -481,29 +495,29 @@ describe("parser", () => {
     });
 
     it("should parse a form data into a contact object", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [contactEmailName]: "example@email.com",
             [contactSubjectName]: "Example Subject",
             [contactBodyName]: "Lore ipsum...",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseContactForm(formData)
 
-        assert.isObject(result, "Contact Object parser doesn't work")
+        assert.isObject(result, `${CONTEXT_PARSE_FILE} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into a contact object and throw an Error", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [contactEmailName]: "example@email.com",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -514,7 +528,7 @@ describe("parser", () => {
     });
 
     it("should parse a form data into a appointment object", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [userNameName]: "Pepo",
             [contactEmailName]: "example@email.com",
             [phoneNumberName]: "123 456 789",
@@ -522,23 +536,23 @@ describe("parser", () => {
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         const result = parseAppointmentForm(formData)
 
-        assert.isObject(result, "Appointment Object parser doesn't work")
+        assert.isObject(result, `${APPOINTMENT_FORM_PARSER_NAME} ${PARSER_DOESNT_WORK_MESSAGE}`)
     })
 
     it("should not parse an incorrect form data into a appointment object and throw an Error", () => {
-        const exampleEarphoneProductFormData = {
+        const exampleFormData = {
             [userNameName]: "Pepo",
             [contactEmailName]: "example@email.com",
         }
         
         const formData = new FormData();
-        Object.entries(exampleEarphoneProductFormData).forEach(([key, value]) => {
+        Object.entries(exampleFormData).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
@@ -557,6 +571,6 @@ describe("parser", () => {
  * @param context The reason why is checking the value
  */
 function checkNumber(value: number | null | undefined, expected: string, context: string) {
-    assert.isNumber(value, `${context}. It is not a number."`)
-    assert.equal(value, parseInt(expected), `${context}. It is not correct number.`)
+    assert.isNumber(value, `${context} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} a number."`)
+    assert.equal(value, parseInt(expected), `${context} ${PARSER_DOESNT_WORK_WITH_REASON_MESSAGE} the correct number.`)
 }

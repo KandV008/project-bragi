@@ -1,6 +1,63 @@
 import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
+import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
+
+/**
+ * Logs an error message for an invalid value and throws an error.
+ * @param {any} value - The invalid value that caused the error.
+ * @param {string} attribute - The name of the attribute associated with the error.
+ * @throws {Error} - Always throws an error indicating the invalid attribute and value.
+ */
+function handleInvalidValueError(value: any, attribute: string, context: string){
+    console.error(ERROR_TAG, attribute, INVALID_ATTRIBUTE_MESSAGE);
+    console.error(attribute, VALUE_TAG, value)
+    throw new Error(`[${context}] ${attribute} ${INVALID_ATTRIBUTE_MESSAGE}. ${VALUE_TAG} ${value}`)
+} 
+
+/**
+ * Logs an error message when invalid start and end index values are encountered and throws an error.
+ * @param {any} start - The start index that caused the error.
+ * @param {any} end - The end index that caused the error.
+ * @param {string} context - The context or location where the error occurred.
+ * @throws {Error} - Always throws an error indicating the invalid start and end indexes.
+ */
+function handleStartAndEndIndexValueError(start: any, end: any, context: string){
+    console.error(ERROR_TAG, INVALID_START_END_INDEXES_MESSAGE);
+    console.error(START_PREFIX_TAG, VALUE_TAG, start)
+    console.error(END_PREFIX_TAG, VALUE_TAG, end)
+    throw new Error(`[${context}] ${INVALID_START_END_INDEXES_MESSAGE}. ${START_PREFIX_TAG} ${VALUE_TAG} ${start}; ${END_PREFIX_TAG} ${VALUE_TAG} ${end}`);
+}
+
+/**
+ * Logs an error message when invalid color counter values are encountered and throws an error.
+ * @param {number} counterText - The text color counter value that caused the error.
+ * @param {number} counterHex - The hexadecimal color counter value that caused the error.
+ * @param {string} context - The context or location where the error occurred.
+ * @throws {Error} - Always throws an error indicating the invalid color counter values.
+ */
+function handleColorCountersValueError(counterText: number, counterHex: number, context: string) {
+    console.error(ERROR_TAG, INVALID_COLOR_COUNTERS_MESSAGE);
+    console.error(COLOR_TEXT_PREFIX_TAG, VALUE_TAG, counterText);
+    console.error(COLOR_HEX_PREFIX_TAG, VALUE_TAG, counterHex);
+    throw new Error(`[${context}] ${INVALID_COLOR_COUNTERS_MESSAGE}. 
+            ${COLOR_TEXT_PREFIX_TAG} ${VALUE_TAG} ${counterText}
+            ${COLOR_HEX_PREFIX_TAG} ${VALUE_TAG} ${counterHex}
+        `);
+}
+
+/**
+ * Logs a warning message when an invalid value is encountered and a default value is used.
+ * @param {any} value - The invalid value that triggered the warning.
+ * @param {string} attribute - The name of the attribute associated with the warning.
+ * @param {string} defaultValue - The default value being used as a fallback.
+ * @param {string} context - The context or location where the warning occurred.
+ */
+function handleDefaultValueWarning(value: any, attribute: string, defaultValue: string, context:string){
+    console.warn(WARNING_TAG, attribute, INVALID_ATTRIBUTE_MESSAGE);
+    console.warn(attribute, VALUE_TAG, value)
+    console.warn(`[${context}] ${USE_DEFAULT_VALUE_MESSAGE} ${defaultValue}`)
+}
 
 /**
  * Parses a string value and ensures it is valid.
@@ -11,9 +68,8 @@ import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/
  */
 export function parseString(value: string | null | undefined, attribute: string): string {
     if (!value) {
-        console.error("ERROR:", attribute, "is not valid");
-        console.error(attribute, "VALUE:", value)
-        throw new Error(`${attribute} is not valid. Value -> ${value}`)
+        handleInvalidValueError(value, attribute, CONTEXT_PARSE_STRING)
+        return ""
     }
 
     return value
@@ -27,9 +83,7 @@ export function parseString(value: string | null | undefined, attribute: string)
  */
 function parseStringOrEmpty(value: string | null | undefined, attribute: string): string {
     if (!value) {
-        console.warn("WARNING:", attribute, "is not valid");
-        console.warn(attribute, "VALUE: ", value)
-        console.warn("USE DEFAULT VALUE -> ''")
+        handleDefaultValueWarning(value, attribute, "", CONTEXT_PARSE_STRING_OR_EMPTY)
         return ""
     }
 
@@ -44,9 +98,7 @@ function parseStringOrEmpty(value: string | null | undefined, attribute: string)
  */
 export function parseStringList(value: string | null | undefined, attribute: string): string[] {
     if (!value) {
-        console.warn("WARNING:", attribute, "is not valid");
-        console.warn(attribute, "VALUE:", value)
-        console.warn("USE DEFAULT VALUE -> [ ]")
+        handleDefaultValueWarning(value, attribute, "[ ]", CONTEXT_PARSE_STRING_LIST)
         return []
     }
 
@@ -64,9 +116,7 @@ export function parseNumber(value: string | null | undefined, attribute: string)
     const parsedValue = Number(value);
 
     if (!value || isNaN(parsedValue)) {
-        console.error("ERROR:", attribute, "is not valid");
-        console.error(attribute, "VALUE:", value);
-        throw new Error(`${attribute} is not valid. Value -> ${value}`);
+        handleInvalidValueError(value, attribute, CONTEXT_PARSE_NUMBER)
     }
 
     return parsedValue;
@@ -82,19 +132,16 @@ export function parseStartAndEndIndex(start: string | null, end: string | null):
     let startIndex, endIndex
 
     if (!start || !end) {
-        console.warn("START INDEX:", start, "-> Use default value")
+        handleDefaultValueWarning(start, "START INDEX", "0", CONTEXT_PARSE_START_AND_END_INDEX)
         startIndex = 0
-        console.warn("END INDEX:", end, "-> Use default value")
+        handleDefaultValueWarning(end, "END INDEX", "9", CONTEXT_PARSE_START_AND_END_INDEX)
         endIndex = 9
     } else {
         startIndex = Number(start);
         endIndex = Number(end);
 
         if (isNaN(startIndex) || isNaN(endIndex)) {
-            console.error("ERROR: START or END is not a valid number");
-            console.error("START VALUE:", start)
-            console.error("END VALUE:", end)
-            throw new Error("Start or End are not numbers");
+            handleStartAndEndIndexValueError(start, end, CONTEXT_PARSE_START_AND_END_INDEX)
         }
     }
 
@@ -109,9 +156,8 @@ export function parseStartAndEndIndex(start: string | null, end: string | null):
  */
 export function parsePrice(price: string | null | undefined): number {
     if (!price || isNaN(parseFloat(price))) {
-        console.error("ERROR: PRICE is null or not valid number")
-        console.error("PRICE VALUE:", price)
-        throw new Error("Price is null or not valid number");
+        handleInvalidValueError(price, "PRICE", CONTEXT_PARSE_PRICE)
+        return -1
     }
 
     return parseFloat(price)
@@ -127,9 +173,8 @@ export function parsePrice(price: string | null | undefined): number {
  */
 export function parseFile(value: string | File | null | undefined, attribute: string): File {
     if (!(value instanceof File)) {
-        console.error(`ERROR: ${attribute} is not valid`);
-        console.error(`${attribute} VALUE:`, value);
-        throw new Error(`${attribute} is not valid. Value -> ${value}`);
+        handleInvalidValueError(value, attribute, CONTEXT_PARSE_FILE)
+        return new File(["content"], "error.txt", { type: "text/plain" })
     }
 
     return value;
@@ -143,9 +188,8 @@ export function parseFile(value: string | File | null | undefined, attribute: st
  */
 export function parseProductIds(productIds: string[] | null | undefined): string[] {
     if (!productIds) {
-        console.error("ERROR: PRODUCT_IDS are null or empty");
-        console.error("PRODUCT_IDS VALUE:", productIds);
-        throw new Error("Product_Ids are null or empty");
+        handleInvalidValueError(productIds, "PRODUCT_IDS", CONTEXT_PARSE_PRODUCT_IDS)
+        return []
     }
 
     return productIds
@@ -263,7 +307,8 @@ function convertToObject(type: string, value: string): object {
         return filterFunction.degreeOfLossType(value);
     }
 
-    throw Error("FILTER not valid")
+    handleInvalidValueError(type, "FILTER", CONTEXT_CONVERT_TO_OBJECT)
+    return {}
 }
 
 /**
@@ -346,14 +391,11 @@ function parseWaterDustResistance(formData: FormData): boolean {
  * @throws {Error} If the color text count and hex count do not match.
  */
 function parseColors(formData: FormData): Array<{ name: string; hex: string; }> {
-
     const counterText = parseNumber(formData.get(colorTextName)?.toString(), "COLOR_TEXT")
     const counterHex = parseNumber(formData.get(colorHexName)?.toString(), "COLOR_HEX")
 
-    if (counterText !== counterHex) { // TODO Improve with a better validator/parser
-        console.error("ERROR:", "Color is not valid");
-        console.error("NUM COLOR TEXT: ", counterText, "NUM COLOR HEX:", counterHex)
-        throw new Error(`Color is not valid.`)
+    if (counterText !== counterHex) {
+        handleColorCountersValueError(counterText, counterHex, CONTEXT_PARSE_COLORS);
     }
 
     const colorTexts = getIncrementalValues(formData, counterText, colorTextName)
