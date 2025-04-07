@@ -1,4 +1,5 @@
 export const BARGAIN_CONTEXT = "BARGAIN"
+export const FAVORITES_CONTEXT = "FAVORITES"
 
 export const METHOD_GET_BARGAINS = "getBargains"
 export const METHOD_GET_BARGAIN = "getBargain"
@@ -8,3 +9,9 @@ export const METHOD_ACTION_UPDATE_BARGAIN = "actionUpdateBargain"
 export const METHOD_UPDATE_BARGAIN = "updateBargain"
 export const METHOD_ACTION_DELETE_BARGAIN = "actionDeleteBargain"
 export const METHOD_DELETE_BARGAIN = "deleteBargain"
+
+export const METHOD_GET_FAVORITES = "getFavorites"
+export const METHOD_CHECK_FAVORITE = "checkFavorite"
+export const METHOD_CHECK_FAVORITE_LIST = "checkFavoriteList"
+export const METHOD_TOGGLE_FAVORITES = "toggleFavorites"
+export const METHOD_DELETE_IN_FAVORITES = "deleteProductInFavorites"

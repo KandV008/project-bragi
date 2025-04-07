@@ -1,5 +1,5 @@
 import { endNameParam, startNameParam } from "@/app/config/JSONnames";
-import { getFavorites } from "@/db/favorites";
+import { getFavorites } from "@/db/favorites/favorites";
 import { NextResponse } from "next/server";
 
 /**

@@ -3,9 +3,9 @@
 import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, parseString, parseStringList } from "@/lib/parser/parser";
 import { redirect } from "next/navigation";
 import { deleteProductInShoppingList } from "./shoppingList";
-import { deleteProductInFavorites } from "./favorites";
 import { Logger } from "@/app/config/Logger";
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
+import { deleteProductInFavorites } from "./favorites/favorites";
 
 require("dotenv").config({ path: ".env.local" });
 
