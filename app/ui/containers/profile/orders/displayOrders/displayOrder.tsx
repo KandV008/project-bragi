@@ -34,7 +34,7 @@ import BigImage, {
 } from "@/app/ui/components/images/bigImage";
 import { SmallImageSkeleton } from "@/app/ui/components/images/smallImage";
 import Link from "next/link";
-import { addProductToShoppingList } from "@/db/shoppingList";
+import { addProductToShoppingList } from "@/db/shoppingList/shoppingList";
 import { checkFavoriteRoute } from "@/app/api/routes";
 import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import {

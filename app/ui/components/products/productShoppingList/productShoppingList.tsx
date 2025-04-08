@@ -6,7 +6,7 @@ import { useState } from "react";
 import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
-} from "@/db/shoppingList";
+} from "@/db/shoppingList/shoppingList";
 import AmountButton from "../../buttons/amountButton";
 import ConfirmationPopUp from "../../popUps/confirmationPopUp";
 import {

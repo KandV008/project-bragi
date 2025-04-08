@@ -1,6 +1,7 @@
 export const BARGAIN_CONTEXT = "BARGAIN"
 export const FAVORITES_CONTEXT = "FAVORITES"
 export const NOVELTY_CONTEXT = "NOVELTY"
+export const SHOPPING_LIST_CONTEXT = "SHOPPING_LIST";
 
 export const METHOD_GET_BARGAINS = "getBargains"
 export const METHOD_GET_BARGAIN = "getBargain"
@@ -26,3 +27,9 @@ export const METHOD_ACTION_UPDATE_NOVELTY = "actionUpdateNovelty"
 export const METHOD_UPDATE_NOVELTY = "updateNovelty"
 export const METHOD_ACTION_DELETE_NOVELTY = "actionDeleteNovelty"
 export const METHOD_DELETE_NOVELTY = "deleteNovelty"
+
+export const METHOD_GET_SHOPPING_LIST = "getShoppingList"
+export const METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST = "deleteProductInShoppingList"
+export const METHOD_ADD_PRODUCT_TO_SHOPPING_LIST = "addProductToShoppingList"
+export const METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST = "incrementProductInShoppingList"
+export const METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST = "decrementProductInShoppingList"
