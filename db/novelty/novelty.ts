@@ -248,20 +248,15 @@ async function deleteNovelty(noveltyId: any): Promise<void> {
             [noveltyId]
         );
 
-        if (result.rowCount === 1) {
-            Logger.endFunction(
-                NOVELTY_CONTEXT,
-                METHOD_DELETE_NOVELTY,
-                `Novelty with id: ${noveltyId} has been removed from the novelty.`
-            )
-        } else {
-            Logger.errorFunction(
-                NOVELTY_CONTEXT,
-                METHOD_DELETE_NOVELTY,
-                `Failed to remove novelty with id: ${noveltyId} from the novelty. Novelty not found.`
-            )
-            throw new Error(`[${METHOD_DELETE_NOVELTY}] Bargain not found.`);
+        if (result.rowCount === 0) {
+            throw new Error(`Failed to remove novelty with id: ${noveltyId} from the novelty. Novelty not found.`);
         }
+
+        Logger.endFunction(
+            NOVELTY_CONTEXT,
+            METHOD_DELETE_NOVELTY,
+            `Novelty with id: ${noveltyId} has been removed from the novelty.`
+        )
     } catch (error) {
         Logger.errorFunction(NOVELTY_CONTEXT, METHOD_DELETE_NOVELTY, error)
         throw new Error(`[${METHOD_DELETE_NOVELTY}] ${error}`)

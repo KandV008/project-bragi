@@ -224,19 +224,15 @@ async function deleteBargain(id: string): Promise<void> {
             [id]
         );
 
-        if (result.rowCount === 1) {
-            Logger.endFunction(
-                BARGAIN_CONTEXT,
-                METHOD_DELETE_BARGAIN,
-                `Bargain with ID: ${id} has been removed from the database.`
-            );
-        } else {
-            Logger.errorFunction(
-                BARGAIN_CONTEXT,
-                METHOD_DELETE_BARGAIN,
-                `Failed to remove bargain with ID: ${id}. Bargain not found.`
-            );
-            throw new Error(`[${METHOD_DELETE_BARGAIN}] Bargain not found.`);        }
+        if (result.rowCount === 0) {
+            throw new Error(`Failed to remove bargain with ID: ${id}. Bargain not found.`);        
+        }
+
+        Logger.endFunction(
+            BARGAIN_CONTEXT,
+            METHOD_DELETE_BARGAIN,
+            `Bargain with ID: ${id} has been removed from the database.`
+        );
     } catch (error) {
         Logger.errorFunction(BARGAIN_CONTEXT, METHOD_DELETE_BARGAIN, error);
         throw new Error(`[${METHOD_DELETE_BARGAIN}] ${error}`);

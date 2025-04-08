@@ -226,7 +226,8 @@ describe("deleteProductInFavorites", () => {
     
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
-                rowCount: 1
+                rowCount: 1,
+                rows: []
             }),
         });
 
@@ -235,22 +236,7 @@ describe("deleteProductInFavorites", () => {
         expect(endFunctionMock).toHaveBeenCalled();
     })
 
-    it("should not delete a Product from favorites", async () => {
-        const errorFunctionMock = vi.fn();
-        Logger.errorFunction = errorFunctionMock;
-
-        vi.mocked(sql.connect).mockResolvedValueOnce({
-            query: vi.fn().mockResolvedValue({
-                rowCount: 0
-            }),
-        });
-
-        await deleteProductInFavorites(exampleProduct)
-
-        expect(errorFunctionMock).toHaveBeenCalled();
-    })
-
-    it("should throw an Error when you try to delete a no existing product", async () => {
+    it("should throw an Error when the database doesn't work", async () => {
         const mockQuery = vi.fn().mockRejectedValue(new Error("Database error"))
 
         vi.mocked(sql.connect).mockResolvedValueOnce({

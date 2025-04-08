@@ -167,19 +167,11 @@ export async function deleteProductInFavorites(productId: string | null | undefi
             [id]
         );
 
-        if ((result.rowCount ?? 0) >= 1) {
-            Logger.endFunction(
-                FAVORITES_CONTEXT,
-                METHOD_DELETE_IN_FAVORITES,
-                `Product with ID: ${id} has been removed from favorites.`
-            )
-        } else {
-            Logger.errorFunction(
-                FAVORITES_CONTEXT,
-                METHOD_DELETE_IN_FAVORITES,
-                `Failed to remove product with ID: ${id} from favorites. Product not found.`
-            )
-        }
+        Logger.endFunction(
+            FAVORITES_CONTEXT,
+            METHOD_DELETE_IN_FAVORITES,
+            `Product with ID: ${id} has been removed from ${result.rowCount ?? 0} favorites.`
+        )
     } catch (error) {
         Logger.errorFunction(FAVORITES_CONTEXT, METHOD_DELETE_IN_FAVORITES, error)
         throw new Error(`[${METHOD_DELETE_IN_FAVORITES}] ${error}`)
