@@ -1,9 +1,9 @@
-import { getValidNovelties } from "@/db/novelty";
 import { NoveltyContext } from "./enums/NoveltyContext";
 import { NoveltyType } from "./enums/NoveltyType";
 import { MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE } from "./NoveltyConfiguration";
 import { NoveltyActionProps, noveltyCodeMap } from "./noveltyCodes";
 import { Logger } from "../../../config/Logger";
+import { getValidNovelties } from "@/db/novelty/novelty";
 
 /**
  * Represents a novelty entity with detailed information about the novelty.

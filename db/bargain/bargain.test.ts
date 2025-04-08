@@ -1,5 +1,5 @@
 import { sql } from "@/__mocks__/@vercel/postgres";
-import { actionCreateBargain, actionDeleteBargain, getBargain, getBargains } from "./bargain"
+import { actionCreateBargain, actionDeleteBargain, actionUpdateBargain, getBargain, getBargains } from "./bargain"
 import { randomUUID } from "crypto";
 import { bargainCodeName, bargainTitleName, bargainDescriptionName, bargainIdName } from "@/app/config/JSONnames";
 
@@ -147,7 +147,7 @@ describe("actionUpdateBargain", () => {
             }),
         });
 
-        const result = await actionCreateBargain(formData)
+        const result = await actionUpdateBargain(formData)
 
         assert.equal(result, 0, "Bargain have not been updated")
     })
@@ -157,7 +157,7 @@ describe("actionUpdateBargain", () => {
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         });
 
-        const result = await actionCreateBargain(formData)
+        const result = await actionUpdateBargain(formData)
 
         assert.equal(result, 1, "Bargain have been updated")
     })
@@ -165,7 +165,7 @@ describe("actionUpdateBargain", () => {
     it("should throw an Error when the formData is invalid", async () => {
         const invalidFormData = new FormData()
 
-        await expect(actionCreateBargain(invalidFormData)).rejects.toThrow(Error)
+        await expect(actionUpdateBargain(invalidFormData)).rejects.toThrow(Error)
     })
 })
 

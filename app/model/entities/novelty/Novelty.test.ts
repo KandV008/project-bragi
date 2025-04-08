@@ -73,7 +73,7 @@ describe("Novelty Entity", async () => {
     it("should apply a Novelty to a list of product from a SHOPPING-LIST context, all of them should have 50% of discount", async () => {
         const productPrices = [100, 200]
 
-        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty"), "getValidNovelties")
+        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")
             .mockResolvedValue([
                 {
                     id: "123",
@@ -102,7 +102,7 @@ describe("Novelty Entity", async () => {
     it("should apply a Novelty to a list of product from a SEARCH context, all of them should have 50% of discount", async () => {
         const productPrices = [100, 200]
 
-        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty"), "getValidNovelties")
+        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")
             .mockResolvedValue([
                 {
                     id: "123",
@@ -129,7 +129,7 @@ describe("Novelty Entity", async () => {
     it("should apply a Novelty to a product from a SEARCH context, with a 50% of discount", async () => {
         const productPrices = 100
 
-        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty"), "getValidNovelties")
+        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")
             .mockResolvedValue([
                 {
                     id: "123",
@@ -156,7 +156,7 @@ describe("Novelty Entity", async () => {
     it("should not apply a Novelty to a product from a SHOPPING-LIST context, with a 50% of discount", async () => {
         const productPrices = 100
 
-        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty"), "getValidNovelties")
+        const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")
             .mockResolvedValue([
                 {
                     id: "123",
