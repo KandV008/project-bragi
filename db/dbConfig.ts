@@ -2,6 +2,7 @@ export const BARGAIN_CONTEXT = "BARGAIN"
 export const FAVORITES_CONTEXT = "FAVORITES"
 export const NOVELTY_CONTEXT = "NOVELTY"
 export const SHOPPING_LIST_CONTEXT = "SHOPPING_LIST";
+export const ORDER_CONTEXT = "ORDER"; 
 
 export const METHOD_GET_BARGAINS = "getBargains"
 export const METHOD_GET_BARGAIN = "getBargain"
@@ -33,3 +34,8 @@ export const METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST = "deleteProductInShoppingLi
 export const METHOD_ADD_PRODUCT_TO_SHOPPING_LIST = "addProductToShoppingList"
 export const METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST = "incrementProductInShoppingList"
 export const METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST = "decrementProductInShoppingList"
+
+export const METHOD_GET_ORDERS = "getOrders"
+export const METHOD_GET_ORDER = "getOrder"
+export const METHOD_ACTION_CREATE_ORDER = "actionCreateOrder"
+export const METHOD_CREATE_ORDER = "createOrder"

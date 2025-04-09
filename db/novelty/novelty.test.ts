@@ -141,7 +141,7 @@ describe("actionCreateNovelty", () => {
         formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    it("should update a new Novelty Entity", async () => {
+    it("should create a new Novelty Entity", async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
                 rows: []
@@ -150,17 +150,17 @@ describe("actionCreateNovelty", () => {
 
         const result = await actionCreateNovelty(formData)
 
-        assert.equal(result, 0, "Novelty have not been updated")
+        assert.equal(result, 0, "Novelty have not been created")
     })
 
-    it("should not update a new Novelty Entity", async () => {
+    it("should not create a new Novelty Entity", async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         });
 
         const result = await actionCreateNovelty(formData)
 
-        assert.equal(result, 1, "Novelty have been updated")
+        assert.equal(result, 1, "Novelty have been creted")
     })
 
     it("should throw an Error when the formData is invalid", async () => {
