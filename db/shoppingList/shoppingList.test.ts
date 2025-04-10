@@ -1,17 +1,16 @@
 import { sql } from "@/__mocks__/@vercel/postgres";
+import { exampleUser } from "@/__mocks__/@clerk/nextjs/server";
 import { randomUUID } from "crypto";
 import { Logger } from "@/app/config/Logger";
 import { addProductToShoppingList, decrementProductInShoppingList, deleteProductInShoppingList, getShoppingList, incrementProductInShoppingList } from "./shoppingList";
 import { brandName, categoryName, imageURLName, nameName, priceName, productIdName } from "@/app/config/JSONnames";
+import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST } from "../dbConfig";
+import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
-const exampleUser = "user_2jjYF34Vt4fdqWEVYwVx8fQtNgz"
 const exampleProduct = randomUUID()
 
 vi.mock("@vercel/postgres");
-
-vi.mock("@clerk/nextjs/server", () => ({
-    auth: () => ({ userId: exampleUser }),
-}));
+vi.mock("@clerk/nextjs/server");
 
 const generateMockRow = (index: number) => ({
     product_id: randomUUID(),
@@ -28,9 +27,9 @@ const generateMockRow = (index: number) => ({
     image_url: "/no-image.png",
 });
 
-describe("getShoppingList", () => {
+describe(METHOD_GET_SHOPPING_LIST, () => {
 
-    it("should get all Products in shopping list", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get all Products in shopping list`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValueOnce({
                 rows: Array.from({ length: 5 }, (_, i) => generateMockRow(i))
@@ -42,7 +41,7 @@ describe("getShoppingList", () => {
         assert.lengthOf(result, 5, "It is not the correct amount of Products in shopping list")
     })
 
-    it("should get 0 Products in shopping list", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 0 Products in shopping list`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValueOnce({
                 rows: []
@@ -54,7 +53,7 @@ describe("getShoppingList", () => {
         assert.lengthOf(result, 0, "It is not the correct amount of Products in Favorites")
     })
 
-    it("throw an Error when the Product are not correct", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] throw an Error when the Product are not correct`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         });
@@ -63,8 +62,8 @@ describe("getShoppingList", () => {
     })
 })
 
-describe("deleteProductInShoppingList", () => {
-    it("should delete a Product from all shopping list", async () => {
+describe(METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, () => {
+    it(`[${INTEGRATION_TEST_TAG}] should delete a Product from all shopping list`, async () => {
         const endFunctionMock = vi.fn();
         Logger.endFunction = endFunctionMock;
     
@@ -82,7 +81,7 @@ describe("deleteProductInShoppingList", () => {
         expect(endFunctionMock).toHaveBeenCalled();
     })
 
-    it("should throw an Error when the database doesn't work", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the database doesn't work`, async () => {
         const mockQuery = vi.fn().mockRejectedValue(new Error("Database error"))
 
         vi.mocked(sql.connect).mockResolvedValue({
@@ -93,7 +92,7 @@ describe("deleteProductInShoppingList", () => {
     })
 })
 
-describe("addProductToShoppingList", () => {
+describe(METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [nameName]: exampleUser,
@@ -108,7 +107,7 @@ describe("addProductToShoppingList", () => {
         formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    it("should add the product to shopping list", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should add the product to shopping list`, async () => {
 
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValueOnce({
@@ -120,7 +119,7 @@ describe("addProductToShoppingList", () => {
         await expect(addProductToShoppingList(formData)).resolves.not.toThrow(Error);
     })
 
-    it("should throw an Error when the database doesn't work", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the database doesn't work`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         }); 
@@ -129,7 +128,7 @@ describe("addProductToShoppingList", () => {
     })
 })
 
-describe("incrementProductInShoppingList", () => {
+describe(METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [exampleUser]: exampleUser,
@@ -140,7 +139,7 @@ describe("incrementProductInShoppingList", () => {
         formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    it("should increase in one the quantity of the product in the shopping list", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should increase in one the quantity of the product in the shopping list`, async () => {
         const endFunctionMock = vi.fn();
         Logger.endFunction = endFunctionMock;
     
@@ -156,7 +155,7 @@ describe("incrementProductInShoppingList", () => {
         expect(endFunctionMock).toHaveBeenCalledTimes(1);
     })
 
-    it("should throw an Error when the formData is invalid", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, async () => {
         const mockQuery = vi.fn().mockRejectedValue(new Error("Database error"))
 
         vi.mocked(sql.connect).mockResolvedValueOnce({
@@ -168,7 +167,7 @@ describe("incrementProductInShoppingList", () => {
     })
 })
 
-describe("decrementProductInShoppingList", () => {
+describe(METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [exampleUser]: exampleUser,
@@ -179,7 +178,7 @@ describe("decrementProductInShoppingList", () => {
         formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    it("should decrease in one the quantity of the product in the shopping list", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should decrease in one the quantity of the product in the shopping list`, async () => {
         const endFunctionMock = vi.fn();
         Logger.endFunction = endFunctionMock;
     
@@ -195,7 +194,7 @@ describe("decrementProductInShoppingList", () => {
         expect(endFunctionMock).toHaveBeenCalledTimes(1);
     })
 
-    it("should throw an Error when the formData is invalid", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, async () => {
         const mockQuery = vi.fn().mockRejectedValue(new Error("Database error"))
 
         vi.mocked(sql.connect).mockResolvedValueOnce({

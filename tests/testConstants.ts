@@ -1,0 +1,4 @@
+export const UNIT_TEST_TAG = "UNIT"
+export const INTEGRATION_TEST_TAG = "INTEGRATION"
+export const SYSTEM_TEST_TAG = "E2E"
+export const SMOKE_TEST_TAG = "SMOKE"

@@ -2,11 +2,13 @@ import { sql } from "@/__mocks__/@vercel/postgres";
 import { actionCreateBargain, actionDeleteBargain, actionUpdateBargain, getBargain, getBargains } from "./bargain"
 import { randomUUID } from "crypto";
 import { bargainCodeName, bargainTitleName, bargainDescriptionName, bargainIdName } from "@/app/config/JSONnames";
+import { METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAINS } from "../dbConfig";
+import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
 vi.mock("@vercel/postgres");
 
-describe("getBargains", () => {
-    it("should get 5 Bargains when the start index is 0 and end index is 4", async () => {
+describe(METHOD_GET_BARGAINS, () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 5 Bargains when the start index is 0 and end index is 4`, async () => {
         const startIndex = "0"
         const endIndex = "4"
 
@@ -27,7 +29,7 @@ describe("getBargains", () => {
         assert.lengthOf(result, 5, "It is not the correct amount of Bargains")
     })
 
-    it("should get 0 Bargains when there is no bargains", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 0 Bargains when there is no bargains`, async () => {
         const startIndex = "0"
         const endIndex = "4"
 
@@ -36,7 +38,7 @@ describe("getBargains", () => {
         assert.lengthOf(result, 0, "It is not the correct amount of Bargains")
     })
 
-    it("throw an Error when the bargain are not correct", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] throw an Error when the bargain are not correct`, async () => {
         const startIndex = "0"
         const endIndex = "4"
 
@@ -52,8 +54,8 @@ describe("getBargains", () => {
     })
 })
 
-describe("getBargain", () => {
-    it("should get a Bargain with the id 1", async () => {
+describe(METHOD_GET_BARGAIN, () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get a Bargain with the id 1`, async () => {
         const bargainId = "1"
 
         vi.mocked(sql.connect).mockResolvedValueOnce({
@@ -70,7 +72,7 @@ describe("getBargain", () => {
         assert.equal(result.id, bargainId, "It is not the correct bargain")
     })
 
-    it("should throw an Error when the bargain doesn't exist", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the bargain doesn't exist`, async () => {
         const bargainId = "1"
 
         vi.mocked(sql.connect).mockResolvedValueOnce({
@@ -84,7 +86,7 @@ describe("getBargain", () => {
     })
 })
 
-describe("actionCreateBargain", () => {
+describe(METHOD_ACTION_CREATE_BARGAIN, () => {
     const exampleBargainFormData = {
         [bargainCodeName]: "Example Code",
         [bargainTitleName]: "Example Title",
@@ -96,7 +98,7 @@ describe("actionCreateBargain", () => {
         formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    it("should create a new Bargain Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should create a new Bargain Entity`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
                 rows: [
@@ -109,7 +111,7 @@ describe("actionCreateBargain", () => {
         assert.equal(result, 0, "Bargain have not been created")
     })
 
-    it("should not create a new Bargain Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should not create a new Bargain Entity`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         });
@@ -119,14 +121,14 @@ describe("actionCreateBargain", () => {
         assert.equal(result, 1, "Bargain have been created")
     })
 
-    it("should throw an Error when the formData is invalid", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, async () => {
         const invalidFormData = new FormData()
 
         await expect(actionCreateBargain(invalidFormData)).rejects.toThrow(Error)
     })
 })
 
-describe("actionUpdateBargain", () => {
+describe(METHOD_ACTION_UPDATE_BARGAIN, () => {
     const exampleBargainFormData = {
         [bargainIdName]: "1",
         [bargainCodeName]: "Example Code",
@@ -139,7 +141,7 @@ describe("actionUpdateBargain", () => {
         formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    it("should update a new Bargain Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should update a new Bargain Entity`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
                 rows: [
@@ -152,7 +154,7 @@ describe("actionUpdateBargain", () => {
         assert.equal(result, 0, "Bargain have not been updated")
     })
 
-    it("should not update a new Bargain Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should not update a new Bargain Entity`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         });
@@ -162,17 +164,17 @@ describe("actionUpdateBargain", () => {
         assert.equal(result, 1, "Bargain have been updated")
     })
 
-    it("should throw an Error when the formData is invalid", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, async () => {
         const invalidFormData = new FormData()
 
         await expect(actionUpdateBargain(invalidFormData)).rejects.toThrow(Error)
     })
 })
 
-describe("actionDeleteBargain", () => {
+describe(METHOD_DELETE_BARGAIN, () => {
     const bargainId = "1"
 
-    it("should delete a new Bargain Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should delete a new Bargain Entity`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
                 rowCount: 1
@@ -184,13 +186,13 @@ describe("actionDeleteBargain", () => {
         assert.equal(result, 0, "Bargain have not been deleted")
     })
 
-    it("should not delete a new Bargain Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should not delete a new Bargain Entity`, async () => {
         const result = await actionDeleteBargain(bargainId)
 
         assert.equal(result, 1, "Bargain have been deleted")
     })
 
-    it("should throw an Error when the formData is invalid", () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, () => {
         const testCases = [null, undefined]
 
         testCases.forEach(async (exampleValue) => {

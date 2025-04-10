@@ -3,21 +3,19 @@ vi.mock("../product/product", () => ({
 }));
 
 import { sql } from "@/__mocks__/@vercel/postgres";
+import { exampleUser } from "@/__mocks__/@clerk/nextjs/server";
 import { checkFavorite, checkFavoriteList, deleteProductInFavorites, getFavorites, toggleFavorites } from "./favorites";
 import { randomUUID } from "crypto";
 import { productIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
 import { getProductsByIds } from "../product/product";
-import { METHOD_GET_FAVORITES } from "../dbConfig";
+import { METHOD_CHECK_FAVORITE, METHOD_CHECK_FAVORITE_LIST, METHOD_DELETE_IN_FAVORITES, METHOD_GET_FAVORITES, METHOD_TOGGLE_FAVORITES } from "../dbConfig";
+import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
-const exampleUser = "user_2jjYF34Vt4fdqWEVYwVx8fQtNgz"
 const exampleProduct = randomUUID()
 
 vi.mock("@vercel/postgres");
-
-vi.mock("@clerk/nextjs/server", () => ({
-    auth: () => ({ userId: exampleUser }),
-}));
+vi.mock("@clerk/nextjs/server",);
 
 describe(METHOD_GET_FAVORITES, () => {
 
@@ -25,7 +23,7 @@ describe(METHOD_GET_FAVORITES, () => {
         vi.clearAllMocks();
     });
 
-    it("should get 5 Products in favorites when the start index is 0 and end index is 4", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 5 Products in favorites when the start index is 0 and end index is 4`, async () => {
         const startIndex = "0"
         const endIndex = "4"
 
@@ -55,7 +53,7 @@ describe(METHOD_GET_FAVORITES, () => {
         assert.lengthOf(result, 5, "It is not the correct amount of Products in Favorites")
     })
 
-    it("should get 0 Products in favorites when there is no favorites", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 0 Products in favorites when there is no favorites`, async () => {
         const startIndex = "0"
         const endIndex = "4"
 
@@ -72,7 +70,7 @@ describe(METHOD_GET_FAVORITES, () => {
         assert.lengthOf(result, 0, "It is not the correct amount of Products in Favorites")
     })
 
-    it("throw an Error when the Product are not correct", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] throw an Error when the Product are not correct`, async () => {
         const startIndex = "0"
         const endIndex = "4"
 
@@ -84,8 +82,8 @@ describe(METHOD_GET_FAVORITES, () => {
     })
 })
 
-describe("checkFavorite", () => {
-    it("should get a true because it is a favorite product", async () => {
+describe(METHOD_CHECK_FAVORITE, () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get a true because it is a favorite product`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
                 rows: [
@@ -99,7 +97,7 @@ describe("checkFavorite", () => {
         assert.isTrue(result, "It is not a favorite product")
     })
 
-    it("should get a false because it is not a favorite product", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get a false because it is not a favorite product`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
                 rows: [
@@ -113,7 +111,7 @@ describe("checkFavorite", () => {
         assert.isFalse(result, "It is a favorite product")
     })
 
-    it("should throw an Error when the database doesn't work", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the database doesn't work`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         });
@@ -122,8 +120,8 @@ describe("checkFavorite", () => {
     })
 })
 
-describe("checkFavoriteList", () => {
-    it("should get a list of boolean with 3 trues and 2 falses", async () => {
+describe(METHOD_CHECK_FAVORITE_LIST, () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get a list of boolean with 3 trues and 2 falses`, async () => {
         const productIds = Array.from({ length: 5 }, () => randomUUID().toString())
 
         vi.mocked(sql.connect).mockResolvedValueOnce({
@@ -146,7 +144,7 @@ describe("checkFavoriteList", () => {
         assert.strictEqual(falseCount, 2, "Should have 2 false values");
     })
 
-    it("should get an empty list of boolean", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get an empty list of boolean`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
                 rows: []
@@ -164,7 +162,7 @@ describe("checkFavoriteList", () => {
         assert.strictEqual(falseCount, 0, "Should have 0 false values");
     })
 
-    it("should throw an Error when the database doesn't work", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the database doesn't work`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockRejectedValue(new Error("Database error")),
         });
@@ -173,7 +171,7 @@ describe("checkFavoriteList", () => {
     })
 })
 
-describe("toggleFavorites", () => {
+describe(METHOD_TOGGLE_FAVORITES, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [exampleUser]: exampleUser,
@@ -184,7 +182,7 @@ describe("toggleFavorites", () => {
         formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value);
     });
 
-    it("should removed the product from favorites", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should removed the product from favorites`, async () => {
         const mockQuery = vi.fn()
             .mockResolvedValueOnce({ rows: [{ count: 1 }] })
             .mockResolvedValueOnce({ rows: [] });
@@ -198,7 +196,7 @@ describe("toggleFavorites", () => {
         expect(mockQuery).toHaveBeenCalledTimes(2);
     })
 
-    it("should add the product to favorites", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should add the product to favorites`, async () => {
         const mockQuery = vi.fn()
             .mockResolvedValueOnce({ rows: [{ count: 1 }] })
             .mockResolvedValueOnce({ rows: [] });
@@ -212,7 +210,7 @@ describe("toggleFavorites", () => {
         expect(mockQuery).toHaveBeenCalledTimes(2);
     })
 
-    it("should throw an Error when the formData is invalid", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, async () => {
         const mockQuery = vi.fn().mockRejectedValue(new Error("Database error"))
 
         vi.mocked(sql.connect).mockResolvedValueOnce({
@@ -224,8 +222,8 @@ describe("toggleFavorites", () => {
     })
 })
 
-describe("deleteProductInFavorites", () => {
-    it("should delete a Product from favorites", async () => {
+describe(METHOD_DELETE_IN_FAVORITES, () => {
+    it(`[${INTEGRATION_TEST_TAG}]should delete a Product from favorites`, async () => {
         const endFunctionMock = vi.fn();
         Logger.endFunction = endFunctionMock;
     
@@ -241,7 +239,7 @@ describe("deleteProductInFavorites", () => {
         expect(endFunctionMock).toHaveBeenCalled();
     })
 
-    it("should throw an Error when the database doesn't work", async () => {
+    it(`[${INTEGRATION_TEST_TAG}]should throw an Error when the database doesn't work`, async () => {
         const mockQuery = vi.fn().mockRejectedValue(new Error("Database error"))
 
         vi.mocked(sql.connect).mockResolvedValueOnce({

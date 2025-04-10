@@ -3,8 +3,9 @@ import { actionCreateOrder, getOrder, getOrders } from "./order"
 import { ObjectId } from "mongodb"
 import { addressName, audiometryFileName, emailName, phoneNumberName, userFirstName, userIdName, userNameName } from "@/app/config/JSONnames"
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO"
-
-const exampleUser = "user_2jjYF34Vt4fdqWEVYwVx8fQtNgz"
+import { exampleUser } from "@/__mocks__/@clerk/nextjs/server"
+import { METHOD_ACTION_CREATE_ORDER, METHOD_GET_ORDER, METHOD_GET_ORDERS } from "../dbConfig"
+import { INTEGRATION_TEST_TAG } from "@/tests/testConstants"
 
 const createFakeOrders = (index: number) =>
     Array.from({ length: index }, (_, i) => (
@@ -38,7 +39,7 @@ const createFakeOrders = (index: number) =>
 
 vi.mock("mongodb")
 
-describe("getOrders", () => {
+describe(METHOD_GET_ORDERS, () => {
     const startIndex = "0"
     const endIndex = "9"
 
@@ -46,7 +47,7 @@ describe("getOrders", () => {
         vi.clearAllMocks();
     });
 
-    it("should get 10 Orders when the start index is 0 and end index is 9", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 10 Orders when the start index is 0 and end index is 9`, async () => {
         const numOrders = 10
         const fakeOrders = createFakeOrders(numOrders)
 
@@ -57,7 +58,7 @@ describe("getOrders", () => {
         expect(result).toHaveLength(numOrders)
     })
 
-    it("should get 0 Orders when there is any order", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 0 Orders when there is any order`, async () => {
         const numOrders = 0
         const fakeOrders = createFakeOrders(numOrders)
 
@@ -68,7 +69,7 @@ describe("getOrders", () => {
         expect(result).toHaveLength(numOrders)
     })
 
-    it("should throw an error when the orders are not correct", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an error when the orders are not correct`, async () => {
         const invalidOrder = [{ text: "Not valid" }]
 
         mockCursor.toArray.mockResolvedValue(invalidOrder);
@@ -77,7 +78,7 @@ describe("getOrders", () => {
     })
 })
 
-describe("getOrder", () => {
+describe(METHOD_GET_ORDER, () => {
     const fakeObjectId = new ObjectId().toString();
     const fakeOrder = {
         _id: fakeObjectId,
@@ -104,7 +105,7 @@ describe("getOrder", () => {
         creation_date: new Date().toISOString(),
     };
 
-    it("should get an Order", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get an Order`, async () => {
         mockCollection.findOne.mockResolvedValue(fakeOrder)
 
         const result = await getOrder(fakeOrder._id)
@@ -113,14 +114,14 @@ describe("getOrder", () => {
         assert.equal(result.id, fakeOrder._id, "It is not the correct order")
     })
 
-    it("should throw an Error when the order doesn't exist", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the order doesn't exist`, async () => {
         mockCollection.findOne.mockResolvedValue([]);
 
         await expect(getOrder(fakeOrder._id)).rejects.toThrow(Error);
     })
 })
 
-describe("actionCreateOrder", () => {
+describe(METHOD_ACTION_CREATE_ORDER, () => {
     const exampleFormData = {
         [userIdName]: "Example Title",
         [userNameName]: "Example Description",
@@ -154,7 +155,7 @@ describe("actionCreateOrder", () => {
         }
     ]
 
-    it("should create a new Order Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should create a new Order Entity`, async () => {
         mockCollection.insertOne.mockResolvedValue([])
 
         const result = await actionCreateOrder(formData, exampleProducts)
@@ -162,7 +163,7 @@ describe("actionCreateOrder", () => {
         assert.equal(result, 0, "Order have not been created")
     })
 
-    it("should not create a new Order Entity", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should not create a new Order Entity`, async () => {
         mockCollection.insertOne.mockRejectedValue(new Error("Database error"))
 
         const result = await actionCreateOrder(formData, exampleProducts)
@@ -170,7 +171,7 @@ describe("actionCreateOrder", () => {
         assert.equal(result, 1, "Order have been created")
     })
 
-    it("should throw an Error when the formData is invalid", async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, async () => {
         const invalidFormData = new FormData()
 
         await expect(actionCreateOrder(invalidFormData, exampleProducts)).rejects.toThrow(Error)
