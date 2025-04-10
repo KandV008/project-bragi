@@ -6,7 +6,7 @@ import { sql } from '@vercel/postgres';
 import { Logger } from "@/app/config/Logger";
 import { productIdName } from "@/app/config/JSONnames";
 import { ProductEntity } from "@/app/model/entities/product/Product";
-import { getProductsByIds } from "../product";
+import { getProductsByIds } from "../product/product";
 import { FAVORITES_CONTEXT, METHOD_CHECK_FAVORITE, METHOD_CHECK_FAVORITE_LIST, METHOD_DELETE_IN_FAVORITES, METHOD_GET_FAVORITES, METHOD_TOGGLE_FAVORITES } from "../dbConfig";
 
 /**

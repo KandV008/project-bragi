@@ -1,13 +1,14 @@
-vi.mock("../product", () => ({
+vi.mock("../product/product", () => ({
     getProductsByIds: vi.fn()
 }));
 
 import { sql } from "@/__mocks__/@vercel/postgres";
 import { checkFavorite, checkFavoriteList, deleteProductInFavorites, getFavorites, toggleFavorites } from "./favorites";
 import { randomUUID } from "crypto";
-import { getProductsByIds } from "../product";
 import { productIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
+import { getProductsByIds } from "../product/product";
+import { METHOD_GET_FAVORITES } from "../dbConfig";
 
 const exampleUser = "user_2jjYF34Vt4fdqWEVYwVx8fQtNgz"
 const exampleProduct = randomUUID()
@@ -18,7 +19,11 @@ vi.mock("@clerk/nextjs/server", () => ({
     auth: () => ({ userId: exampleUser }),
 }));
 
-describe("getFavorites", () => {
+describe(METHOD_GET_FAVORITES, () => {
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
 
     it("should get 5 Products in favorites when the start index is 0 and end index is 4", async () => {
         const startIndex = "0"
@@ -33,7 +38,7 @@ describe("getFavorites", () => {
             })
         });
 
-        vi.mock("../product", async () => {
+        vi.mock("../product/product", async () => {
             return {
                 getProductsByIds: vi.fn().mockResolvedValueOnce([
                     { id: "1" },

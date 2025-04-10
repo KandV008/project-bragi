@@ -4,7 +4,6 @@ import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Orde
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/config/Logger";
 import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
-import { redirect } from "next/navigation";
 import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_ORDER, METHOD_GET_ORDERS, ORDER_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
