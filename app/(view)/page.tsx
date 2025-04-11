@@ -3,7 +3,7 @@ import SmallButton from "../ui/components/buttons/smallButton";
 import CarouselWithAction from "../ui/containers/main/carousel";
 import Certifications from "../ui/containers/main/certifications";
 import WorkingFlow from "../ui/containers/main/workingFlow";
-import { getLatestNoveltiesRoute } from "../api/routes";
+import { getLatestProductsRoute } from "../api/routes";
 import SomeProductContainer from "../ui/components/products/someProductContainer";
 
 /**
@@ -26,7 +26,7 @@ export default function Home(): JSX.Element {
         </div>
       </section>
       {/* Container displaying the latest novelties */}
-      <SomeProductContainer fetchUrl={`${getLatestNoveltiesRoute}`} title={"Últimas novedades"} />
+      <SomeProductContainer fetchUrl={`${getLatestProductsRoute}`} title={"Últimas novedades"} />
       {/* Working flow section */}
       <WorkingFlow />
       {/* Certifications section */}

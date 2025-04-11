@@ -29,8 +29,8 @@ import {
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
-import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty";
 import { noveltyDescriptionName, noveltyIdName, noveltyTitleName, promotionalImageName } from "@/app/config/JSONnames";
+import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty/novelty";
 
 interface FormProps {
   novelty?: NoveltyEntity;

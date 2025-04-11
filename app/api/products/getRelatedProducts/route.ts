@@ -1,5 +1,5 @@
 import { brandName, priceName, productIdName } from '@/app/config/JSONnames';
-import { getRelatedProducts } from '@/db/product';
+import { getRelatedProducts } from '@/db/product/product';
 import { NextResponse } from 'next/server';
 
 /**

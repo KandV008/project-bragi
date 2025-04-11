@@ -1,5 +1,5 @@
 import { endNameParam, startNameParam } from "@/app/config/JSONnames";
-import { getNovelties } from "@/db/novelty";
+import { getNovelties } from "@/db/novelty/novelty";
 import { NextResponse } from "next/server";
 
 /**

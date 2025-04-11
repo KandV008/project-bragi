@@ -30,10 +30,10 @@ import {
   componentText,
   shimmer,
 } from "@/app/ui/tailwindClasses";
-import { actionDeleteProduct } from "@/db/product";
 import { getProductRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
+import { actionDeleteProduct } from "@/db/product/product";
 
 /**
  * Admin product management page for viewing and editing a product's details.

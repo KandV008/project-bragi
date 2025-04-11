@@ -6,11 +6,6 @@ import SubmitButton, {
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader";
-import { CheckBoxInputSkeleton } from "@/app/ui/components/inputs/checkBoxInput";
-import { ColorInputSkeleton } from "@/app/ui/components/inputs/colorInput";
-import { IncrementalTextInputSkeleton } from "@/app/ui/components/inputs/incrementalTextInput";
-import { RadioInputSkeleton } from "@/app/ui/components/inputs/radioInput";
-import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
 import TextInput, {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput";
@@ -22,7 +17,7 @@ import {
   faUpload,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { validateFormProduct, validateFormShopping } from "@/lib/validations/validations";
+import { validateFormShopping } from "@/lib/validations/validations";
 import { useEffect, useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
 import {
@@ -45,7 +40,7 @@ import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/Shop
 import { useSearchParams } from "next/navigation";
 import { getCodeAction } from "@/app/model/entities/bargain/Bargain";
 import FileInput from "../../components/inputs/fileInput";
-import { actionCreateOrder, createOrder } from "@/db/order";
+import { actionCreateOrder } from "@/db/order/order";
 
 interface FormProps {
   products: ShoppingProductDTO[];

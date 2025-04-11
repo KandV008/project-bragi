@@ -21,9 +21,9 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { getNoveltyRoute } from "@/app/api/routes";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import Image from "next/image";
-import { actionDeleteNovelty } from "@/db/novelty";
 import { BigImageSkeleton } from "@/app/ui/components/images/bigImage";
 import { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput";
+import { actionDeleteNovelty } from "@/db/novelty/novelty";
 
 /**
  * This component displays the details of a novelty (news item) and provides options for editing or deleting it.

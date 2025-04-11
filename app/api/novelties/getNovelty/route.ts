@@ -1,5 +1,5 @@
 import { noveltyIdName } from '@/app/config/JSONnames';
-import { getNovelty } from '@/db/novelty';
+import { getNovelty } from '@/db/novelty/novelty';
 import { NextResponse } from 'next/server';
 
 /**

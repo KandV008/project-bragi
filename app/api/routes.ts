@@ -8,7 +8,7 @@ export const getProductRoute = "/api/products/getProduct"
 export const getAllProductsRoute = "/api/products/getAllProducts"
 export const getProductsByKeywordRoute = "/api/products/getProductsByKeyword"
 export const getProductsByCategoryRoute = "/api/products/getProductsByCategory"
-export const getLatestNoveltiesRoute = "/api/products/getLatestNovelties"
+export const getLatestProductsRoute = "/api/products/getLatestProducts"
 export const getRelatedProductsRoute = "/api/products/getRelatedProducts"
 export const getFilterInformationRoute = "/api/products/getFilterInformation"
 

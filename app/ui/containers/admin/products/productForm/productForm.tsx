@@ -51,7 +51,6 @@ import {
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton";
-import { actionUpdateProduct, actionCreateProduct } from "@/db/product";
 import {
   adaptationRangeName,
   brandName,
@@ -71,6 +70,7 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import { earphoneAdaptationRangeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import { earphoneDegreeOfLossList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
+import { actionUpdateProduct, actionCreateProduct } from "@/db/product/product";
 
 interface FormProps {
   product?: ProductEntity;

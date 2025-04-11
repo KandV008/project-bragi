@@ -1,5 +1,5 @@
 import { categoryNameParam, filtersNameParam } from '@/app/config/JSONnames';
-import { getFilterInformation } from '@/db/product';
+import { getFilterInformation } from '@/db/product/product';
 import { NextResponse } from 'next/server';
 
 /**

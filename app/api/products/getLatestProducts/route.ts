@@ -1,4 +1,4 @@
-import { getLatestNovelties } from '@/db/product';
+import { getLatestProducts } from '@/db/product/product';
 import { NextResponse } from 'next/server';
 
 /**
@@ -11,7 +11,7 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   try {
-    const product = await getLatestNovelties();
+    const product = await getLatestProducts();
 
     if (!product) {
       return NextResponse.json({ message: 'Products not found' }, { status: 404 });

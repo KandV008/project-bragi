@@ -1,5 +1,5 @@
 import { endNameParam, filtersNameParam, keywordNameParam, startNameParam } from '@/app/config/JSONnames';
-import { searchProducts } from '@/db/product';
+import { searchProducts } from '@/db/product/product';
 import { NextResponse } from 'next/server';
 
 /**
