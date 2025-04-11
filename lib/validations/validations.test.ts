@@ -1,10 +1,10 @@
 import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, colorHexName, colorTextName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, productIdName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
 import { validateAddShoppingCart, validateAppointmentForm, validateBargainInput, validateContactForm, validateFormBargain, validateFormNovelty, validateFormProduct, validateFormShopping } from "./validations"
 import { INVALID_FORM_DATA_TEST_MESSAGE, METHOD_VALIDATE_ADD_SHOPPING_CART_NAME, METHOD_VALIDATE_APPOINTMENT_FORM_NAME, METHOD_VALIDATE_BARGAIN_INPUT_NAME, METHOD_VALIDATE_CONTACT_FORM_NAME, METHOD_VALIDATE_FORM_BARGAIN_NAME, METHOD_VALIDATE_FORM_NOVELTY_NAME, METHOD_VALIDATE_FORM_PRODUCT_NAME, METHOD_VALIDATE_FORM_SHOPPING_NAME, VALID_FORM_DATA_TEST_MESSAGE } from "./validationsMessages";
+import { UNIT_TEST_TAG } from "@/tests/testConstants";
 
-describe("validations", () => {
-
-    it("should validate Add Shopping Cart form when you introduce the correct form data for EARPHONE Product", () => {
+describe(METHOD_VALIDATE_ADD_SHOPPING_CART_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate Add Shopping Cart form when you introduce the correct form data for EARPHONE Product`, () => {
         const exampleShoppingCartFormData = {
             [productIdName]: "1",
             [nameName]: "Example EARPHONE",
@@ -28,7 +28,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_ADD_SHOPPING_CART_NAME)
     });
 
-    it("should not validate Add Shopping Cart form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Add Shopping Cart form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleShoppingCartFormData = {
             [productIdName]: "2",
             [nameName]: "Example EARPHONE",
@@ -48,7 +48,10 @@ describe("validations", () => {
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_ADD_SHOPPING_CART_NAME)
     })
 
-    it("should validate EARPHONE Product form when you introduce the correct form data", () => {
+})
+
+describe(METHOD_VALIDATE_FORM_PRODUCT_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate EARPHONE Product form when you introduce the correct form data`, () => {
         const exampleEarphoneProductFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "EARPHONE",
@@ -72,7 +75,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_PRODUCT_NAME)
     })
 
-    it("should validate ACCESSORY Product form when you introduce the correct form data", () => {
+    it(`[${UNIT_TEST_TAG}] should validate ACCESSORY Product form when you introduce the correct form data`, () => {
         const exampleAccessoryProductFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "ACCESSORY",
@@ -92,7 +95,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_PRODUCT_NAME)
     })
 
-    it("should not validate EARPHONE Product form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate EARPHONE Product form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleEarphoneProductFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "EARPHONE",
@@ -114,7 +117,7 @@ describe("validations", () => {
 
     })
 
-    it("should not validate ACCESSORY Product form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate ACCESSORY Product form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleAccessoryProductFormData = {
             [nameName]: "Example EARPHONE",
             [categoryName]: "ACCESSORY",
@@ -129,8 +132,10 @@ describe("validations", () => {
 
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_PRODUCT_NAME)
     })
+})
 
-    it("should validate Bargain form when you introduce the correct form data", () => {
+describe(METHOD_VALIDATE_FORM_BARGAIN_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate Bargain form when you introduce the correct form data`, () => {
         const exampleBargainFormData = {
             [bargainCodeName]: "Example Code",
             [bargainTitleName]: "Example Title",
@@ -147,7 +152,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_BARGAIN_NAME)
     })
 
-    it("should not validate Bargain form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Bargain form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleBargainFormData = {
             [bargainCodeName]: "Example Code",
         };
@@ -161,8 +166,10 @@ describe("validations", () => {
 
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_BARGAIN_NAME)    
     })
+})
 
-    it("should validate Bargain Input when you introduce the correct form data", () => {
+describe(METHOD_VALIDATE_BARGAIN_INPUT_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate Bargain Input when you introduce the correct form data`, () => {
         const exampleBargainInputFormData = {
             [bargainCodeName]: "CODE",
         };
@@ -177,7 +184,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_BARGAIN_INPUT_NAME)
     })
 
-    it("should not validate Bargain Input and show a message about the error when you introduce a large bargain code", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Bargain Input and show a message about the error when you introduce a large bargain code`, () => {
         const exampleBargainInputFormData = {
             [bargainCodeName]: "EXTRACODE",
         };
@@ -192,7 +199,7 @@ describe("validations", () => {
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_BARGAIN_INPUT_NAME)
     })
 
-    it("should not validate Bargain Input and show a message about the error when you introduce a short bargain code", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Bargain Input and show a message about the error when you introduce a short bargain code`, () => {
         const exampleBargainFormData = {
             [bargainCodeName]: "COD",
         };
@@ -206,8 +213,10 @@ describe("validations", () => {
 
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_BARGAIN_INPUT_NAME)    
     })
+})
 
-    it("should validate Novelty form when you introduce the correct form data", () => {
+describe(METHOD_VALIDATE_FORM_NOVELTY_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate Novelty form when you introduce the correct form data`, () => {
         const exampleNoveltyFormData = {
             [noveltyTitleName]: "Example Title",
             [noveltyDescriptionName]: "Lore ipsum...",
@@ -224,7 +233,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_NOVELTY_NAME)
     })
 
-    it("should not validate Novelty form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Novelty form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleNoveltyFormData = {
             [noveltyTitleName]: "Example Title",
         };
@@ -238,8 +247,10 @@ describe("validations", () => {
 
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_NOVELTY_NAME)
     })
+})
 
-    it("should validate Shopping form when you introduce the correct form data", () => {
+describe(METHOD_VALIDATE_FORM_SHOPPING_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate Shopping form when you introduce the correct form data`, () => {
         const exampleShoppingFormData = {
             [userIdName]: "Example User Id",
             [userNameName]: "Example User Name",
@@ -260,7 +271,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_SHOPPING_NAME)
     })
 
-    it("should not validate Shopping form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Shopping form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleShoppingFormData = {
             [userIdName]: "Example User Id",
         };
@@ -274,8 +285,10 @@ describe("validations", () => {
 
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_FORM_SHOPPING_NAME)
     })
+})
 
-    it("should validate Contact form when you introduce the correct form data", () => {
+describe(METHOD_VALIDATE_CONTACT_FORM_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate Contact form when you introduce the correct form data`, () => {
         const exampleContactFormData = {
             [contactEmailName]: "Example email",
             [contactSubjectName]: "Example subject",
@@ -292,7 +305,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_CONTACT_FORM_NAME)
     })
 
-    it("should not validate Contact form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Contact form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleContactFormData = {
             [contactEmailName]: "Example email",
         };
@@ -306,8 +319,10 @@ describe("validations", () => {
 
         assert.isFalse(result, VALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_CONTACT_FORM_NAME)
     })
+})
 
-    it("should validate Appointment form when you introduce the correct form data", () => {
+describe(METHOD_VALIDATE_APPOINTMENT_FORM_NAME, () => {
+    it(`[${UNIT_TEST_TAG}] should validate Appointment form when you introduce the correct form data`, () => {
         const exampleAppointmentFormData = {
             [userNameName]: "Example user name",
             [contactEmailName]: "Example email",
@@ -324,7 +339,7 @@ describe("validations", () => {
         assert.isTrue(result, INVALID_FORM_DATA_TEST_MESSAGE + METHOD_VALIDATE_APPOINTMENT_FORM_NAME)
     })
 
-    it("should not validate Appointment form and show a message about the error when you introduce the incorect form data", () => {
+    it(`[${UNIT_TEST_TAG}] should not validate Appointment form and show a message about the error when you introduce the incorect form data`, () => {
         const exampleAppointmentFormData = {
             [userNameName]: "Example user name",
         };
