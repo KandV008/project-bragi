@@ -1,3 +1,4 @@
+import { UNIT_TEST_TAG } from "@/tests/testConstants"
 import { mapDocumentToProduct, ProductEntity } from "./Product"
 import { MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE } from "./ProductConfiguration"
 
@@ -28,7 +29,7 @@ describe("Product Entity", () => {
         uses: ["CHAT", "IN_GROUP", "LEISURE", "TELEPHONE", "TV"],
     }
 
-    it("should map correctly a Product with EARPHONE category", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Product with EARPHONE category`, () => {
         const exampleEarphoneProduct = {
             ...exampleProduct,
             category: "EARPHONE",
@@ -42,7 +43,7 @@ describe("Product Entity", () => {
         testEarphoneAttributes(mappedProduct, exampleEarphoneProduct)
     })
 
-    it("should map correctly a Product with EARPHONE category without `relatedProducts`", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Product with EARPHONE category without 'relatedProducts'`, () => {
         const exampleEarphoneProduct = {
             ...exampleProduct,
             category: "EARPHONE",
@@ -55,7 +56,7 @@ describe("Product Entity", () => {
         testEarphoneAttributes(mappedProduct, exampleEarphoneProduct)
     })
 
-    it("should map correctly a Product with ACCESSORY category", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Product with ACCESSORY category`, () => {
         const exampleAccessoryProduct = {
             ...exampleProduct,
             category: "ACCESSORY",
@@ -69,7 +70,7 @@ describe("Product Entity", () => {
         assert.isNull(mappedProduct.earphoneAttributes, "Earphone Attibutes is not null")
     })
 
-    it("should map correctly a Product with ACCESSORY category without `relatedProducts`", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Product with ACCESSORY category without 'relatedProducts'`, () => {
         const exampleAccessoryProduct = {
             ...exampleProduct,
             category: "ACCESSORY",
@@ -82,7 +83,7 @@ describe("Product Entity", () => {
         assert.isNull(mappedProduct.earphoneAttributes, "Earphone Attibutes is not null")
     })
 
-    it("should not map a document that is not a Product", () => {
+    it(`[${UNIT_TEST_TAG}] should not map a document that is not a Product`, () => {
         const exampleNotProduct = {
             name: "Not Product",
             description: "I AM NOT A PRODUCT",
@@ -90,9 +91,13 @@ describe("Product Entity", () => {
     
         assert.throws(() => mapDocumentToProduct(exampleNotProduct), MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE);
     });
-    
 })
 
+/**
+ * Test the EARPHONE attributes of Product
+ * @param mappedProduct The result of the mapped product
+ * @param exampleEarphoneProduct The example of a instance of EARPHONE product in the database
+ */
 function testEarphoneAttributes(mappedProduct: ProductEntity, exampleEarphoneProduct: any) {
     assert.lengthOf(mappedProduct.earphoneAttributes!.colors, exampleEarphoneProduct.colors.length, "Colors are different")
     assert.equal(mappedProduct.earphoneAttributes!.adaptationRange, exampleEarphoneProduct.adaptation_range, "Adaptation Ranges are different")
@@ -102,12 +107,17 @@ function testEarphoneAttributes(mappedProduct: ProductEntity, exampleEarphonePro
     assert.lengthOf(mappedProduct.earphoneAttributes!.uses, exampleEarphoneProduct.uses.length, "Uses are different")
 }
 
-function testProductAttributes(mappedProduct: ProductEntity, exampleEarphoneProduct: any) {
-    assert.deepEqual(mappedProduct.id, exampleEarphoneProduct._id, "Ids are differents")
-    assert.equal(mappedProduct.category, exampleEarphoneProduct.category, "Categories are different")
-    assert.deepEqual(mappedProduct.price, exampleEarphoneProduct.price, "Prices are different")
-    assert.deepEqual(mappedProduct.imageURL, exampleEarphoneProduct.image_URL, "Image URLS are different")
-    assert.deepEqual(mappedProduct.description, exampleEarphoneProduct.description, "Descriptions are different")
-    assert.equal(mappedProduct.brand, exampleEarphoneProduct.brand, "Brands are different")
-    assert.lengthOf(mappedProduct.include, exampleEarphoneProduct.include.length, "Includes are different")
+/**
+ * Test the common attributes of Product
+ * @param mappedProduct The result of the mapped product
+ * @param exampleProduct The example of a instance of product in the database
+ */
+function testProductAttributes(mappedProduct: ProductEntity, exampleProduct: any) {
+    assert.deepEqual(mappedProduct.id, exampleProduct._id, "Ids are differents")
+    assert.equal(mappedProduct.category, exampleProduct.category, "Categories are different")
+    assert.deepEqual(mappedProduct.price, exampleProduct.price, "Prices are different")
+    assert.deepEqual(mappedProduct.imageURL, exampleProduct.image_URL, "Image URLS are different")
+    assert.deepEqual(mappedProduct.description, exampleProduct.description, "Descriptions are different")
+    assert.equal(mappedProduct.brand, exampleProduct.brand, "Brands are different")
+    assert.lengthOf(mappedProduct.include, exampleProduct.include.length, "Includes are different")
 }

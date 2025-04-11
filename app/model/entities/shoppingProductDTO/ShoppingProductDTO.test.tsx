@@ -1,8 +1,9 @@
+import { UNIT_TEST_TAG } from "@/tests/testConstants";
 import { mapDocumentToShoppingProductDTO } from "./ShoppingProductDTO";
 import { MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE } from "./ShoppingProductDTOConfiguration";
 
 describe("Shopping Product DTO", () => {
-    it("should map correctly a Shopping EARPHONE Product DTO", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Shopping EARPHONE Product DTO`, () => {
         const example = {
             product_id: "123",
             name: "Ejemplo",
@@ -31,7 +32,7 @@ describe("Shopping Product DTO", () => {
         assert.deepEqual(result.quantity, example.quantity, "Quantities are different")
     })
 
-    it("should map correctly a Shopping EARPHONE Product DTO", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Shopping EARPHONE Product DTO`, () => {
         const example = {
             product_id: "123",
             name: "Ejemplo",
@@ -52,7 +53,7 @@ describe("Shopping Product DTO", () => {
         assert.deepEqual(result.quantity, example.quantity, "Quantities are different")
     })
 
-    it("should not map a document that is not Shopping Product DTO", () => {
+    it(`[${UNIT_TEST_TAG}] should not map a document that is not Shopping Product DTO`, () => {
         const exampleNotShoppingProductDTO = {
             name: "Not Shopping Product DTO",
             description: "I AM NOT A SHOPPING PRODUCT DTO",

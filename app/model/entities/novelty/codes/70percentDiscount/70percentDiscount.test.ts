@@ -1,3 +1,4 @@
+import { UNIT_TEST_TAG } from "@/tests/testConstants"
 import { discountAction70Percent } from "./70percentDiscount"
 
 describe("70percentDiscount Novelty", () => {
@@ -6,7 +7,7 @@ describe("70percentDiscount Novelty", () => {
         price: 1000,
     }
 
-    it("should apply the novelty to the ProductDTO that is only one side, and have a 30% discount", () => {
+    it(`[${UNIT_TEST_TAG}] should apply the novelty to the ProductDTO that is only one side, and have a 30% discount`, () => {
         const example1 = {
             ...exampleProduct,
             catetegory: "EARPHONE",
@@ -19,7 +20,7 @@ describe("70percentDiscount Novelty", () => {
         assert.equal(product.price, exampleProduct.price * 0.7, "The price is not correct")
     })
 
-    it("should not apply the novelty to the ACCESSORY product", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the novelty to the ACCESSORY product`, () => {
         const example2 = {
             ...exampleProduct,
             catetegory: "EARPHONE",
@@ -31,7 +32,7 @@ describe("70percentDiscount Novelty", () => {
         assert.equal(product.price, exampleProduct.price, "The price is not correct")
     })
 
-    it("should not apply the novelty to the EARPHONE product", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the novelty to the EARPHONE product`, () => {
         const example3 = {
             ...exampleProduct,
             catetegory: "EARPHONE",

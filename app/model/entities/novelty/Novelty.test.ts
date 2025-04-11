@@ -2,6 +2,7 @@ import { NoveltyContext } from "./enums/NoveltyContext";
 import { NoveltyType } from "./enums/NoveltyType";
 import * as NoveltyModule from "@/app/model/entities/novelty/Novelty";
 import { MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE } from "./NoveltyConfiguration"
+import { UNIT_TEST_TAG } from "@/tests/testConstants";
 
 describe("Novelty Entity", async () => {
 
@@ -36,8 +37,7 @@ describe("Novelty Entity", async () => {
         vi.clearAllMocks();
     })
 
-
-    it("should map correctly a Novelty", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Novelty`, () => {
         const exampleNovelty = {
             id: "123",
             title: "Ejemplo",
@@ -61,7 +61,7 @@ describe("Novelty Entity", async () => {
         assert.deepEqual(mappedNovelty.endDate.toISOString(), exampleNovelty.end_date, "End dates are different")
     })
 
-    it("should not map a document that is not a Novelty", () => {
+    it(`[${UNIT_TEST_TAG}] should not map a document that is not a Novelty`, () => {
         const exampleNotNovelty = {
             name: "Not Novelty",
             description: "I AM NOT A NOVELTY",
@@ -70,7 +70,7 @@ describe("Novelty Entity", async () => {
         assert.throws(() => NoveltyModule.mapDocumentToNovelty(exampleNotNovelty), MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE);
     })
 
-    it("should apply a Novelty to a list of product from a SHOPPING-LIST context, all of them should have 50% of discount", async () => {
+    it(`[${UNIT_TEST_TAG}] should apply a Novelty to a list of product from a SHOPPING-LIST context, all of them should have 50% of discount`, async () => {
         const productPrices = [100, 200]
 
         const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")
@@ -98,8 +98,7 @@ describe("Novelty Entity", async () => {
         getValidNoveltiesMock.mockRestore();
     });
 
-
-    it("should apply a Novelty to a list of product from a SEARCH context, all of them should have 50% of discount", async () => {
+    it(`[${UNIT_TEST_TAG}] should apply a Novelty to a list of product from a SEARCH context, all of them should have 50% of discount`, async () => {
         const productPrices = [100, 200]
 
         const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")
@@ -126,7 +125,7 @@ describe("Novelty Entity", async () => {
         getValidNoveltiesMock.mockRestore();
     })
 
-    it("should apply a Novelty to a product from a SEARCH context, with a 50% of discount", async () => {
+    it(`[${UNIT_TEST_TAG}] should apply a Novelty to a product from a SEARCH context, with a 50% of discount`, async () => {
         const productPrices = 100
 
         const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")
@@ -153,7 +152,7 @@ describe("Novelty Entity", async () => {
         getValidNoveltiesMock.mockRestore();
     })
 
-    it("should not apply a Novelty to a product from a SHOPPING-LIST context, with a 50% of discount", async () => {
+    it(`[${UNIT_TEST_TAG}] should not apply a Novelty to a product from a SHOPPING-LIST context, with a 50% of discount`, async () => {
         const productPrices = 100
 
         const getValidNoveltiesMock = vi.spyOn(await import("@/db/novelty/novelty"), "getValidNovelties")

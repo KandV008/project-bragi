@@ -1,8 +1,9 @@
+import { UNIT_TEST_TAG } from "@/tests/testConstants";
 import { mapDocumentToOrder } from "./Order";
 import { MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE } from "./OrderConfiguration";
 
 describe("Order Entity", async () => {
-    it("should map correctly a Order", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Order`, () => {
         const example = {
             _id: "123",
             user_id: "456",
@@ -44,7 +45,7 @@ describe("Order Entity", async () => {
         assert.deepEqual(result.totalPrice, example.total_price, "Total prices are different")
     })
 
-    it("Should not map a document that is not a Order", () => {
+    it(`[${UNIT_TEST_TAG}] Should not map a document that is not a Order`, () => {
         const exampleNotOrder = {
             name: "Not Order",
             description: "I AM NOT A ORDER",

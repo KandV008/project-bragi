@@ -1,3 +1,4 @@
+import { UNIT_TEST_TAG } from "@/tests/testConstants"
 import { BargainEntity, mapDocumentToBargain } from "./Bargain"
 import { MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE } from "./BargainConfiguration"
 
@@ -9,7 +10,7 @@ describe("Bargain Entity", () => {
         description: "IIt does something",
     }
 
-    it("should map correctly a Bargain", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Bargain`, () => {
         const bargainWithRequirements = {
             ...exampleBargain,
             requirements: ["Example 1", "Example 2", "Example 3"]
@@ -21,14 +22,14 @@ describe("Bargain Entity", () => {
         assert.lengthOf(mappedBargain.requirements, bargainWithRequirements.requirements.length)
     })
 
-    it("should map correctly a Bargain without requirements", () => {
+    it(`[${UNIT_TEST_TAG}] should map correctly a Bargain without requirements`, () => {
         const mappedBargain = mapDocumentToBargain(exampleBargain)
         
         testBargainAttributes(mappedBargain, exampleBargain)
         assert.lengthOf(mappedBargain.requirements, 0)
     })
 
-    it("should not map a document that is not a Bargain", () => {
+    it(`[${UNIT_TEST_TAG}] should not map a document that is not a Bargain`, () => {
         const exampleNotBargain = {
             name: "Not Bargain",
             description: "I AM NOT A BARGAIN",
@@ -39,6 +40,11 @@ describe("Bargain Entity", () => {
     })
 })
 
+/**
+ * Test the common attributes of Bargain
+ * @param mappedBargain The result of the mapped bargain
+ * @param exampleBargain The example of a instance of bargain in the database
+ */
 function testBargainAttributes(mappedBargain: BargainEntity, exampleBargain: any) {
     assert.deepEqual(mappedBargain.id, exampleBargain.id)
     assert.deepEqual(mappedBargain.code, exampleBargain.code)

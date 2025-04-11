@@ -1,3 +1,4 @@
+import { UNIT_TEST_TAG } from "@/tests/testConstants"
 import { ShoppingProductDTO } from "../../../shoppingProductDTO/ShoppingProductDTO"
 import { codeAction2PER1 } from "./2per1Code"
 
@@ -38,7 +39,7 @@ describe("2per1Code Bargain", () => {
         exampleProductsDTO[1].earSide = "right"
     }
 
-    it("should apply the bargain at the second element and return the list modified with a status 0",() => {
+    it(`[${UNIT_TEST_TAG}] should apply the bargain at the second element and return the list modified with a status 0`,() => {
         const { shoppingList, status} = codeAction2PER1(exampleProductsDTO)
         
         const modifiedProduct = shoppingList[1]
@@ -48,7 +49,7 @@ describe("2per1Code Bargain", () => {
 
     })
 
-    it("should not apply the bargain because the category is not valid", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the bargain because the category is not valid`, () => {
         exampleProductsDTO[1].category = "ACCESSORY"
 
         const {shoppingList, status} = codeAction2PER1(exampleProductsDTO)
@@ -59,7 +60,7 @@ describe("2per1Code Bargain", () => {
         setDefaultExample()
     })
 
-    it("should not apply the bargain because the products are not from the same brand", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the bargain because the products are not from the same brand`, () => {
         exampleProductsDTO[1].brand = "INTERTON"
 
         const {shoppingList, status} = codeAction2PER1(exampleProductsDTO)
@@ -70,7 +71,7 @@ describe("2per1Code Bargain", () => {
         setDefaultExample()
     })
 
-    it("should not apply the bargain because they are from diferent group", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the bargain because they are from diferent group`, () => {
         exampleProductsDTO[1].name = "Audeo No Ejemplo"
 
         const {shoppingList, status} = codeAction2PER1(exampleProductsDTO)
@@ -81,7 +82,7 @@ describe("2per1Code Bargain", () => {
         setDefaultExample()
     })
 
-    it("should not apply the bargain because the ear side is not compatible", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the bargain because the ear side is not compatible`, () => {
         exampleProductsDTO[1].earSide = "left"
 
         const {shoppingList, status} = codeAction2PER1(exampleProductsDTO)
@@ -92,7 +93,7 @@ describe("2per1Code Bargain", () => {
         setDefaultExample()
     })
 
-    it("should not apply the bargain because the list is empty", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the bargain because the list is empty`, () => {
         const {shoppingList, status} = codeAction2PER1([])
 
         assert.equal(status, 1, "Status is different as expected")
@@ -100,7 +101,7 @@ describe("2per1Code Bargain", () => {
 
     })
 
-    it("should not apply the bargain because there is no earphone", () => {
+    it(`[${UNIT_TEST_TAG}] should not apply the bargain because there is no earphone`, () => {
         exampleProductsDTO[0].category = "ACCESSORY"
         exampleProductsDTO[1].category = "ACCESSORY"
 
@@ -111,7 +112,6 @@ describe("2per1Code Bargain", () => {
 
         setDefaultExample()
     })
-
 })
 
 
