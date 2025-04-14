@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import NotFoundMessage from "../ui/components/messages/notFoundMessage";
+import NotFoundMessage from "../ui/components/messages/notFoundMessage/notFoundMessage";
 
 /**
  * Metadata for the page, defining the title.

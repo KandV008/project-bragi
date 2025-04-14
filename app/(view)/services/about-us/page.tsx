@@ -1,4 +1,4 @@
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import TeamMember from "@/app/ui/containers/services/about-us/teamMember";
 import { componentBackground, componentText } from "@/app/ui/tailwindClasses";
 import { Metadata } from "next";

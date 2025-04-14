@@ -1,4 +1,4 @@
-import { NoveltyContainerSkeleton } from "@/app/ui/components/novelties/novletyContainer";
+import { NoveltyContainerSkeleton } from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
 
 /**
  * Loading component displayed while novelties data is being fetched.

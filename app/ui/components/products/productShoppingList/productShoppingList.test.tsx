@@ -1,17 +1,30 @@
+import { render, screen } from "@testing-library/react";
+import ProductShoppingList from "./productShoppingList";
+import { SMOKE_TEST_TAG } from "@/tests/testConstants";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: vi.fn(),
+  }),
+}));
+
+vi.mock("@clerk/clerk-react", async () => {
+  const actual = await vi.importActual<typeof import("@clerk/clerk-react")>(
+    "@clerk/clerk-react"
+  );
+
+  return {
+    ...actual,
+    useUser: () => ({
+      user: { id: "123", emailAddresses: [] },
+    }),
+  };
+});
+
 describe("<ProductShoppingList />", () => {
-  it.skip("should render ProductShoppingList with name, brand, price, earside, guarantee, color and quantity", () => {
-    // TODO End test
-  });
+  it(`[${SMOKE_TEST_TAG}] should render ProductShoppingList`, () => {
+    render(<ProductShoppingList id={"123"} imageURL={"/no-image.png"} name={"Example"} category={"EARPHONE"} brand={"PHONAK"} price={0} earSide={"left"} earphoneShape={""} colorText={""} colorHex={""} quantity={1} />)
 
-  it.skip("should increse in one the quantity of the product in the shopping list", () => {
-    // TODO End test
-  });
-
-  it.skip("should decrese in one the quantity of the product in the shopping list", () => {
-    // TODO End test
-  });
-
-  it.skip("should remove the product product from the shopping list when the quantity is zero", () => {
-    // TODO End test
+    expect(screen.getByRole("img")).toBeInTheDocument();
   });
 });

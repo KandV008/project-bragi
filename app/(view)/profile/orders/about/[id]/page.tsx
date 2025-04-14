@@ -12,7 +12,7 @@ import {
   getRelatedProductsRoute,
 } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
-import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
+import SomeProductContainer from "@/app/ui/components/products/someProductContainer/someProductContainer";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import DisplayOrder from "@/app/ui/containers/profile/orders/displayOrders/displayOrder";
 import { OrderEntity } from "@/app/model/entities/order/Order";

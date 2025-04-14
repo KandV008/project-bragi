@@ -7,12 +7,12 @@ import {
   faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@clerk/nextjs";
-import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 import {
   componentBorder,
   componentBackground,
   componentText,
 } from "../../tailwindClasses";
+import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 
 /**
  * This component serves as the main dashboard for administrators, providing navigation

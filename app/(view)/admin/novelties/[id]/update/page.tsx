@@ -1,4 +1,4 @@
-import AdminUpdateNovelty from "@/app/ui/containers/admin/novelties/adminUpdateNovelty";
+import AdminUpdateNovelty from "@/app/ui/containers/admin/novelties/adminUpdateNovelty/adminUpdateNovelty";
 import { Metadata } from "next";
 
 /**

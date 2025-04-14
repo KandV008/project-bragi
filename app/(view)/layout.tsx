@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import Header from "../ui/components/common/header";
-import Footer from "../ui/components/common/footer";
+import Header from "../ui/components/common/header/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import NextTopLoader from "nextjs-toploader";
 import { mainBackground } from "../ui/tailwindClasses";
 import { Toaster } from 'react-hot-toast';
 import { customLocalization } from "@/lib/translation";
+import Footer from "../ui/components/common/footer/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

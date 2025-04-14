@@ -1,5 +1,8 @@
 "use client";
 
+import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { componentBorder, componentBackground, componentText } from "@/app/ui/tailwindClasses";
 import {
   faLeftLong,
   faEnvelope,
@@ -8,13 +11,6 @@ import {
   faBagShopping,
   faAward,
 } from "@fortawesome/free-solid-svg-icons";
-import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
-import {
-  componentBorder,
-  componentBackground,
-  componentText,
-} from "@/app/ui/tailwindClasses";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 
 /**
  * Page component that displays a list of available services.

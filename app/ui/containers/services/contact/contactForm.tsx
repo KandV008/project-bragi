@@ -5,11 +5,11 @@ import {
   contactEmailName,
   contactSubjectName,
 } from "@/app/config/JSONnames";
-import SubmitButton from "@/app/ui/components/buttons/submitButton";
-import TextAreaInput from "@/app/ui/components/inputs/textAreaInput";
-import TextInput from "@/app/ui/components/inputs/textInput";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
+import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
+import TextAreaInput from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
+import TextInput from "@/app/ui/components/inputs/textInput/textInput";
+import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import {
   componentText,
   componentBackground,

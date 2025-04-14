@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Filter from "./filter/filter";
 import Loading from "@/app/(view)/search/loading";
-import Spinner from "../../components/common/spinner";
-import EmptyMessage from "../../components/messages/emptyMessage";
 import {
   fillDefaultComponentBackground,
   hoverFillDefaultComponentBackground,
@@ -10,7 +8,9 @@ import {
   componentBorder,
 } from "../../tailwindClasses";
 import { ProductEntity } from "@/app/model/entities/product/Product";
-import ProductContainer from "../../components/products/productContainer";
+import ProductContainer from "../../components/products/productContainer/productContainer";
+import Spinner from "../../components/common/spinner/spinner";
+import EmptyMessage from "../../components/messages/emptyMessage/emptyMessage";
 
 interface ProductsWithFilterProps {
   /** The API endpoint to fetch products from. */

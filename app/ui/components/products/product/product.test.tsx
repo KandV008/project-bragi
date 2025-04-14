@@ -1,15 +1,25 @@
 import { render, screen } from "@testing-library/react";
 import Product from "./product";
-import { ClerkProvider, useUser } from "@clerk/nextjs";
+import { SMOKE_TEST_TAG } from "@/tests/testConstants";
 
-vi.mock("@clerk/nextjs", () => ({ // TODO Fix Mock
-  ClerkProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  useUser: () => ({
-    isLoaded: true,
-    user: { id: "test-user", email: "test@example.com" },
-    isSignedIn: true,
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: vi.fn(),
   }),
 }));
+
+vi.mock("@clerk/clerk-react", async () => {
+  const actual = await vi.importActual<typeof import("@clerk/clerk-react")>(
+    "@clerk/clerk-react"
+  );
+
+  return {
+    ...actual,
+    useUser: () => ({
+      user: { id: "123", emailAddresses: [] },
+    }),
+  };
+});
 
 describe("<Product />", () => {
   const exampleProduct = {
@@ -20,41 +30,9 @@ describe("<Product />", () => {
     price: 1234.5,
   };
 
-  it.skip("should render Product as no preview, with image, name, brand, price and buttons", () => { // TODO End test
-    const isPreview = false;
-    renderProduct(exampleProduct, isPreview);
-
-    const image = screen.getByRole("img");
-    expect(image).toBeInTheDocument(); 
-  });
-
-  it.skip("should render Product as preview, with image, name, brand, price and button", () => { // TODO End test
-    const isPreview = true;
-    renderProduct(exampleProduct, isPreview);
+  it(`[${SMOKE_TEST_TAG}] should render Product as no preview, with image, name, brand, price and buttons`, () => {
+    render(<Product id={exampleProduct.id} image={exampleProduct.image_URL} name={exampleProduct.name} brand={exampleProduct.brand} price={exampleProduct.price.toString()} isFavorite={false} />);
+    
+    expect(screen.getByRole("img")).toBeInTheDocument();
   });
 });
-
-function renderProduct(
-  exampleProduct: {
-    id: string;
-    image_URL: string;
-    name: string;
-    brand: string;
-    price: number;
-  },
-  isPreview: boolean
-) {
-  render(
-    <ClerkProvider>
-      <Product
-        id={exampleProduct.id}
-        image={exampleProduct.image_URL}
-        name={exampleProduct.name}
-        brand={exampleProduct.brand}
-        price={exampleProduct.price.toString()}
-        isFavorite={false}
-        isPreview={isPreview}
-      />
-    </ClerkProvider>
-  );
-}

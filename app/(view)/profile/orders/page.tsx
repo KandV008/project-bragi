@@ -1,12 +1,12 @@
 "use client";
 
-import Spinner from "@/app/ui/components/common/spinner";
-import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { useEffect, useState } from "react";
 import Loading from "./loading";
-import { getBargainsRoute, getOrdersRoute } from "@/app/api/routes";
+import { getOrdersRoute } from "@/app/api/routes";
 import OrderContainer from "@/app/ui/components/orders/orderContainer/orderContainer";
 import { OrderEntity } from "@/app/model/entities/order/Order";
+import Spinner from "@/app/ui/components/common/spinner/spinner";
+import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 
 /**
  * Page component that displays a list of orders.

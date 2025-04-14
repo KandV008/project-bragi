@@ -1,5 +1,5 @@
-import { ShoppingListSkeleton } from "@/app/ui/containers/shoppingList/shoppingList";
-import { SummarySkeleton } from "@/app/ui/containers/shoppingList/summary";
+import { ShoppingListSkeleton } from "@/app/ui/containers/shoppingList/shoppingList/shoppingList";
+import { SummarySkeleton } from "@/app/ui/containers/shoppingList/summary/summary";
 
 /**
  * Displays skeleton loaders for the shopping list and summary components

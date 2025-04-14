@@ -1,8 +1,8 @@
 import { EarphoneAttributes } from "@/app/model/entities/product/EarphoneAttributes";
 import { EarphoneShapeDetails } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
-import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
-import {
+import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article/article";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+ import {
   lightComponentBackground,
   componentBorder,
   componentText,

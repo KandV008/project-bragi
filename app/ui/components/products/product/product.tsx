@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "../../buttons/favoriteToggleButton";
 import {
   componentBackground,
   componentBorder,
   componentText,
   shimmer,
 } from "../../../tailwindClasses";
-import SeeMoreButton from "../../buttons/seeMoreButton";
+import SeeMoreButton from "../../buttons/seeMoreButton/seeMoreButton";
+import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "../../buttons/favoriteToggleButton/favoriteToggleButton";
 
 /**
  * Props for the Product component

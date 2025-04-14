@@ -1,13 +1,17 @@
+import { SMOKE_TEST_TAG } from "@/tests/testConstants"
+import { render, screen } from '@testing-library/react'
+import OrderContainer from "./orderContainer";
+
+vi.mock("next/navigation", () => ({
+    useRouter: () => ({
+      refresh: vi.fn(),
+    }),
+  }));
+
 describe("<OrderContainer />", () => {
-    it.skip('should render 0 orders', () => {
-        //TODO End test
-    })
+    it(`[${SMOKE_TEST_TAG}] should render OrderContainer`, () => {
+        render(<OrderContainer orders={[]} showMoreButton={true} />)
 
-    it.skip('should render 3 orders', () => {
-        //TODO End test
-    })
-
-    it.skip('should render 5 orders when you give 5 o more orders', () => {
-        //TODO End test
+        expect(screen.getByRole("button")).toBeInTheDocument()
     })
 })

@@ -1,10 +1,10 @@
-import SearchBar from "../ui/components/inputs/searchBar";
-import SmallButton from "../ui/components/buttons/smallButton";
-import CarouselWithAction from "../ui/containers/main/carousel";
-import Certifications from "../ui/containers/main/certifications";
-import WorkingFlow from "../ui/containers/main/workingFlow";
+import SmallButton from "../ui/components/buttons/smallButton/smallButton";
+import Certifications from "../ui/containers/main/certifications/certifications";
 import { getLatestProductsRoute } from "../api/routes";
-import SomeProductContainer from "../ui/components/products/someProductContainer";
+import SomeProductContainer from "../ui/components/products/someProductContainer/someProductContainer";
+import SearchBar from "../ui/components/inputs/searchBar/searchBar";
+import CarouselWithAction from "../ui/containers/main/carousel/carousel";
+import WorkingFlow from "../ui/containers/main/workingflow/workingFlow";
 
 /**
  * Home component represents the landing page of the website.

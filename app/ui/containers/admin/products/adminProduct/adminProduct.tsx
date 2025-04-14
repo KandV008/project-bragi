@@ -3,27 +3,15 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
-import ColorButton, {
-  ColorButtonSkeleton,
-} from "@/app/ui/components/buttons/colorButton";
-import SectionHeader, {
-  SectionHeaderSkeleton,
-} from "@/app/ui/components/tags/sectionHeader";
 import UnorderedList, {
   UnorderedListSkeleton,
-} from "@/app/ui/components/tags/unorderedList";
-import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article";
-import {
-  ColorArticle,
-  ColorArticleSkeleton,
-} from "@/app/ui/components/tags/colorArticle";
-import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp";
+} from "@/app/ui/components/tags/unorderedList/unorderedList";
+import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article/article";
+import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp/confirmationPopUp";
 import toast from "react-hot-toast";
 import BigImage, {
   BigImageSkeleton,
-} from "@/app/ui/components/images/bigImage";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton";
-import FloatButton from "@/app/ui/components/buttons/floatButton";
+} from "@/app/ui/components/images/bigImage/bigImage";
 import {
   componentBackground,
   componentBorder,
@@ -34,6 +22,11 @@ import { getProductRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { actionDeleteProduct } from "@/db/product/product";
+import { ColorButtonSkeleton } from "@/app/ui/components/buttons/colorButton/colorButton";
+import FloatButton from "@/app/ui/components/buttons/floatButton/floatButton";
+import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
+import { ColorArticle, ColorArticleSkeleton } from "@/app/ui/components/tags/colorArticle/colorArticle";
+import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 
 /**
  * Admin product management page for viewing and editing a product's details.

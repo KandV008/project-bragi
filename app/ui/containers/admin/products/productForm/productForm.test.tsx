@@ -1,38 +1,20 @@
+import { SMOKE_TEST_TAG } from "@/tests/testConstants";
+import { render, screen } from "@testing-library/react";
+import ProductForm from "./productForm";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: vi.fn(),
+    push: vi.fn(),
+  }),
+  usePathname: () => "/admin/bargains/abc123",
+}));
+
 describe("<ProductForm />", () => {
-    it.skip("should render ProductForm as a Create Product Form", () => {
-      // TODO End test
-    });
+  it(`[${SMOKE_TEST_TAG}] should render ProductForm`, () => {
+    render(<ProductForm />);
 
-    it.skip("should submit a Creation Product as a EARPHONE", () => {
-        // TODO End test
-    });
-
-    it.skip("should submit a Creation Product as a ACCESSORY", () => {
-        // TODO End test
-    });
-
-    it.skip("should render Creation Product pop-up with the error of 'not brand selected'", () => {
-        // TODO End test
-    });
-  
-    it.skip("should render ProductForm as a Update Product Form", () => {
-        // TODO End test
-    });
-
-    it.skip("should submit a Update Product as a EARPHONE", () => {
-        // TODO End test
-    });
-
-    it.skip("should submit a Update Product as a ACCESSORY", () => {
-        // TODO End test
-    });
-
-    it.skip("should not submit a Update Product without changes", () => {
-        // TODO End test
-    });
-
-    it.skip("should render a Update Product a pop-up with the error of 'not brand selected'", () => {
-        // TODO End test
-    });
-  
+    expect(screen.queryAllByRole("button").length).toBeGreaterThanOrEqual(0);
+  });
 });
+

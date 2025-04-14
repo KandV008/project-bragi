@@ -1,4 +1,4 @@
-import { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer";
+import { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer/productContainer";
 import { FilterSkeleton } from "@/app/ui/containers/search/filter/filter";
 
 /** 

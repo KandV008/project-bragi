@@ -1,4 +1,4 @@
-import { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer";
+import { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer/productContainer";
 
 /**
  * Loading component for the product page.

@@ -1,7 +1,7 @@
 import ShoppingFormAdvice from "@/app/ui/components/advices/shoppingFormAdvice";
-import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMessage";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
-import ShoppingForm from "@/app/ui/containers/shoppingList/shoppingForm";
+import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMessage/noShoppingCartMessage";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import ShoppingForm from "@/app/ui/containers/shoppingList/shoppingForm/shoppingForm";
 import { getShoppingList } from "@/db/shoppingList/shoppingList";
 import { Metadata } from "next";
 

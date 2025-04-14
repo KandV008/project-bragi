@@ -4,7 +4,7 @@ import {
   componentText,
   shimmer,
 } from "../../../tailwindClasses";
-import SeeMoreButton from "../../buttons/seeMoreButton";
+import SeeMoreButton from "../../buttons/seeMoreButton/seeMoreButton";
 
 /**
  * Props for the `Bargain` component.

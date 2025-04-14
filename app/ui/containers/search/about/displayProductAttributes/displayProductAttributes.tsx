@@ -3,20 +3,8 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import FavoriteToggleButton, {
-  FavoriteToggleButtonSkeleton,
-} from "@/app/ui/components/buttons/favoriteToggleButton";
-import SubmitButton, {
-  SubmitButtonSkeleton,
-} from "@/app/ui/components/buttons/submitButton";
-import ColorButton, {
-  ColorButtonSkeleton,
-} from "@/app/ui/components/buttons/colorButton";
 import { validateAddShoppingCart } from "@/lib/validations/validations";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
-import ArticleHeader, {
-  ArticleHeaderSkeleton,
-} from "@/app/ui/components/tags/articleHeader";
+import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import {
   pressedButton,
   negativeComponentText,
@@ -31,8 +19,7 @@ import {
 import toast from "react-hot-toast";
 import BigImage, {
   BigImageSkeleton,
-} from "@/app/ui/components/images/bigImage";
-import { SmallImageSkeleton } from "@/app/ui/components/images/smallImage";
+} from "@/app/ui/components/images/bigImage/bigImage";
 import Link from "next/link";
 import { addProductToShoppingList } from "@/db/shoppingList/shoppingList";
 import { checkFavoriteRoute } from "@/app/api/routes";
@@ -50,6 +37,11 @@ import {
   productIdName,
 } from "@/app/config/JSONnames";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
+import ColorButton, { ColorButtonSkeleton } from "@/app/ui/components/buttons/colorButton/colorButton";
+import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "@/app/ui/components/buttons/favoriteToggleButton/favoriteToggleButton";
+import SubmitButton, { SubmitButtonSkeleton } from "@/app/ui/components/buttons/submitButton/submitButton";
+import { SmallImageSkeleton } from "@/app/ui/components/images/smallImage/smallImage";
+import ArticleHeader, { ArticleHeaderSkeleton } from "@/app/ui/components/tags/articleHeader/articleHeader";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.

@@ -1,6 +1,6 @@
 "use client";
 
-import { SomeProductContainerSkeleton } from "@/app/ui/components/products/someProductContainer";
+import { SomeProductContainerSkeleton } from "@/app/ui/components/products/someProductContainer/someProductContainer";
 import { ProductDetailsSkeleton } from "@/app/ui/containers/search/about/displayProductDetails/displayProductDetails";
 import { ProductOptionsSkeleton } from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
 

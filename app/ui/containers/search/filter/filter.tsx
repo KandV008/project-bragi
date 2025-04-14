@@ -1,12 +1,9 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
-import SectionHeader, {
-  SectionHeaderSkeleton,
-} from "../../../components/tags/sectionHeader";
 import RadioInputWithQuantity, {
   RadioInputWithQuantitySkeleton,
-} from "../../../components/inputs/radioInputWithQuantity";
+} from "../../../components/inputs/radioInputWithQuantity/radioInputWithQuantity";
 import {
   valueOfWaterDustResistance,
 } from "@/app/model/entities/product/enums/earphoneAttributes/WaterDustResistance";
@@ -15,11 +12,11 @@ import {
   componentText,
   shimmer,
 } from "../../../tailwindClasses";
-import { ProductEntity } from "@/app/model/entities/product/Product";
 import { getFilterInformationRoute } from "@/app/api/routes";
 import { valueOfEarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { valueOfEarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { adaptationRangeName, brandName, degreeOfLossName, earphoneShapeName, dustWaterResistanceName } from "@/app/config/JSONnames";
+import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 
 /**
  * Props for the Filter component

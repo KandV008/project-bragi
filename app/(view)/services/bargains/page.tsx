@@ -2,11 +2,11 @@
 
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import BargainContainer from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
-import Spinner from "@/app/ui/components/common/spinner";
-import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { useEffect, useState } from "react";
 import Loading from "./loading";
 import { getBargainsRoute } from "@/app/api/routes";
+import Spinner from "@/app/ui/components/common/spinner/spinner";
+import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 
 /**
  * Page component that displays a list of bargains.

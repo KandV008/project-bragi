@@ -1,12 +1,12 @@
 "use client";
 
-import Spinner from "@/app/ui/components/common/spinner";
-import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { useEffect, useState } from "react";
 import { getNoveltiesRoute } from "@/app/api/routes";
 import Loading from "./loading";
-import NoveltyContainer from "@/app/ui/components/novelties/novletyContainer";
+import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
+import Spinner from "@/app/ui/components/common/spinner/spinner";
+import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 
 /**
  * Page component that handles the display of novelties.

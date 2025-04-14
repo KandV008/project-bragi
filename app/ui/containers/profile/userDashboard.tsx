@@ -14,16 +14,16 @@ import {
   useClerk,
   useUser,
 } from "@clerk/nextjs";
-import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 import {
   componentBorder,
   componentBackground,
   componentText,
 } from "../../tailwindClasses";
-import ConfirmationPopUp from "../../components/popUps/confirmationPopUp";
+import ConfirmationPopUp from "../../components/popUps/confirmationPopUp/confirmationPopUp";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 
 /**
  * This component provides a user dashboard where the logged-in user can:

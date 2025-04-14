@@ -8,7 +8,7 @@ import DisplayProductDetails from "@/app/ui/containers/search/about/displayProdu
 import DisplayProductAttributes from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
 import { getProductRoute, getRelatedProductsRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
-import SomeProductContainer from "@/app/ui/components/products/someProductContainer";
+import SomeProductContainer from "@/app/ui/components/products/someProductContainer/someProductContainer";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 
 /**

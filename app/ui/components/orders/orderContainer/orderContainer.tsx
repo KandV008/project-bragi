@@ -1,7 +1,7 @@
 "use client";
 
-import MediumButton from "../../buttons/mediumButton";
 import { shimmer } from "../../../tailwindClasses";
+import MediumButton from "../../buttons/mediumButton/mediumButton";
 import Order, { OrderSkeleton } from "../order/order";
 import { OrderEntity } from "@/app/model/entities/order/Order";
 

@@ -1,4 +1,4 @@
-import BargainForm from "@/app/ui/containers/admin/bargains/bargainForm";
+import BargainForm from "@/app/ui/containers/admin/bargains/bargainForm/bargainForm";
 import { Metadata } from "next";
 
 /**

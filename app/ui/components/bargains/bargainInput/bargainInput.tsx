@@ -11,7 +11,7 @@ import { faTag } from "@fortawesome/free-solid-svg-icons";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { validateBargainInput } from "@/lib/validations/validations";
 import { useState } from "react";
-import FormValidationPopUp from "../../popUps/formValidationPopUp";
+import FormValidationPopUp from "../../popUps/formValidationPopUp/formValidationPopUp";
 import { getBargain } from "@/db/bargain/bargain";
 import { bargainCodeName } from "@/app/config/JSONnames";
 import toast from "react-hot-toast";

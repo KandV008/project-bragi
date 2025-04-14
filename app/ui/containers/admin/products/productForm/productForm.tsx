@@ -9,30 +9,6 @@ import {
   usesList,
   valueOfUses,
 } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import SubmitButton, {
-  SubmitButtonSkeleton,
-} from "@/app/ui/components/buttons/submitButton";
-import SectionHeader, {
-  SectionHeaderSkeleton,
-} from "@/app/ui/components/tags/sectionHeader";
-import CheckBoxInput, {
-  CheckBoxInputSkeleton,
-} from "@/app/ui/components/inputs/checkBoxInput";
-import ColorInput, {
-  ColorInputSkeleton,
-} from "@/app/ui/components/inputs/colorInput";
-import IncrementalTextInput, {
-  IncrementalTextInputSkeleton,
-} from "@/app/ui/components/inputs/incrementalTextInput";
-import RadioInput, {
-  RadioInputSkeleton,
-} from "@/app/ui/components/inputs/radioInput";
-import TextAreaInput, {
-  TextAreaInputSkeleton,
-} from "@/app/ui/components/inputs/textAreaInput";
-import TextInput, {
-  TextInputSkeleton,
-} from "@/app/ui/components/inputs/textInput";
 import {
   faEarListen,
   faImage,
@@ -43,14 +19,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { validateFormProduct } from "@/lib/validations/validations";
 import { useState } from "react";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp";
+import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import {
   componentBackground,
   componentBorder,
   shimmer,
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton";
 import {
   adaptationRangeName,
   brandName,
@@ -71,6 +46,15 @@ import { earphoneAdaptationRangeList } from "@/app/model/entities/product/enums/
 import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import { earphoneDegreeOfLossList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product/product";
+import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
+import SubmitButton, { SubmitButtonSkeleton } from "@/app/ui/components/buttons/submitButton/submitButton";
+import CheckBoxInput, { CheckBoxInputSkeleton } from "@/app/ui/components/inputs/checkBoxInput/checkBoxInput";
+import ColorInput, { ColorInputSkeleton } from "@/app/ui/components/inputs/colorInput/colorInput";
+import IncrementalTextInput, { IncrementalTextInputSkeleton } from "@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput";
+import RadioInput, { RadioInputSkeleton } from "@/app/ui/components/inputs/radioInput/radioInput";
+import TextAreaInput, { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
+import TextInput, { TextInputSkeleton } from "@/app/ui/components/inputs/textInput/textInput";
+import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 
 interface FormProps {
   product?: ProductEntity;

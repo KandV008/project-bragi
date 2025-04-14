@@ -7,14 +7,14 @@ import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
 } from "@/db/shoppingList/shoppingList";
-import AmountButton from "../../buttons/amountButton";
-import ConfirmationPopUp from "../../popUps/confirmationPopUp";
+import ConfirmationPopUp from "../../popUps/confirmationPopUp/confirmationPopUp";
 import {
   componentBackground,
   componentText,
   componentBorder,
   shimmer,
 } from "@/app/ui/tailwindClasses";
+import AmountButton from "../../buttons/amountButton/amountButton";
 
 /**
  * Props for the ProductShoppingList component.

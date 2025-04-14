@@ -1,4 +1,4 @@
-import NoveltyForm from "@/app/ui/containers/admin/novelties/noveltyForm";
+import NoveltyForm from "@/app/ui/containers/admin/novelties/noveltyForm/noveltyForm";
 import { Metadata } from "next";
 
 /**

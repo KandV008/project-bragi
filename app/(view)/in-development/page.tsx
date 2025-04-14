@@ -1,4 +1,4 @@
-import InDevelopmentMessage from "@/app/ui/components/messages/inDevelopmentMessage";
+import InDevelopmentMessage from "@/app/ui/components/messages/inDevelopmentMessage/inDevelopmentMessage";
 import { Metadata } from "next";
 
 /**

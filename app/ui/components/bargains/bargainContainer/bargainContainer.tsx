@@ -2,8 +2,8 @@
 
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import Bargain, { BargainSkeleton } from "../bargain/bargain";
-import MediumButton from "../../buttons/mediumButton";
 import { shimmer } from "../../../tailwindClasses";
+import MediumButton from "../../buttons/mediumButton/mediumButton";
 
 /**
  * Props for the `BargainContainer` component.

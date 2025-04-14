@@ -1,7 +1,7 @@
-import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMessage";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
-import ShoppingList from "@/app/ui/containers/shoppingList/shoppingList";
-import Summary from "@/app/ui/containers/shoppingList/summary";
+import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMessage/noShoppingCartMessage";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import ShoppingList from "@/app/ui/containers/shoppingList/shoppingList/shoppingList";
+import Summary from "@/app/ui/containers/shoppingList/summary/summary";
 import { getShoppingList } from "@/db/shoppingList/shoppingList";
 import { Metadata } from "next";
 
