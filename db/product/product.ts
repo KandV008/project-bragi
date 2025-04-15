@@ -491,21 +491,17 @@ export async function actionDeleteProduct(productId: string | undefined | null):
 
   try {
     const id = parseString(productId, "PRODUCT_ID");
-    let status: number = 1;
 
-    await deleteProduct(id)
-      .then(async () => {
-        await deleteProductInFavorites(id);
-        await deleteProductInShoppingList(id);    
-        Logger.endFunction(PRODUCT_CONTEXT, METHOD_ACTION_DELETE_PRODUCT, "void")
-        status = 0
-      })
-      .catch((error) => {
-        Logger.errorFunction(PRODUCT_CONTEXT, METHOD_ACTION_DELETE_PRODUCT, error)
-        status = 1
-      });
-
-      return status
+    try {
+      await deleteProduct(id);
+      await deleteProductInFavorites(id);
+      await deleteProductInShoppingList(id);
+      Logger.endFunction(PRODUCT_CONTEXT, METHOD_ACTION_DELETE_PRODUCT, "void");
+      return 0;
+    } catch (error) {
+      Logger.errorFunction(PRODUCT_CONTEXT, METHOD_ACTION_DELETE_PRODUCT, error);
+      return 1;
+    }
   } catch (error) {
     Logger.errorFunction(PRODUCT_CONTEXT, METHOD_ACTION_DELETE_PRODUCT, error);
     throw new Error(`[${METHOD_ACTION_DELETE_PRODUCT}] ${error}`)

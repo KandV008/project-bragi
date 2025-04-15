@@ -6,6 +6,8 @@ vi.mock("../shoppingList/shoppingList", () => ({
     deleteProductInShoppingList: vi.fn()
 }));
 
+vi.mock("@vercel/postgres")
+
 import { mockCollection, mockCursor } from "@/__mocks__/mongodb"
 import { METHOD_ACTION_CREATE_PRODUCT, METHOD_ACTION_DELETE_PRODUCT, METHOD_ACTION_UPDATE_PRODUCT, METHOD_GET_ALL_PRODUCTS, METHOD_GET_FILTER_INFORMATION, METHOD_GET_LATEST_PRODUCTS, METHOD_GET_PRODUCT, METHOD_GET_PRODUCT_BY_CATEGORY, METHOD_GET_PRODUCTS_BY_IDS, METHOD_GET_RELATED_PRODUCTS, METHOD_SEARCH_PRODUCTS } from "../dbConfig"
 import { actionCreateProduct, actionDeleteProduct, actionUpdateProduct, getAllProducts, getFilterInformation, getLatestProducts, getProduct, getProductsByCategory, getProductsByIds, getRelatedProducts, searchProducts } from "./product"
@@ -455,40 +457,7 @@ describe(METHOD_ACTION_DELETE_PRODUCT, () => {
     const fakeObjectId = new ObjectId().toString();
 
     it(`[${INTEGRATION_TEST_TAG}] should delete a Product Entity and all it apperances in shopping lists and favorites`, async () => {
-        const mockCursor = {
-            sort: vi.fn().mockReturnThis(),
-            skip: vi.fn().mockReturnThis(),
-            limit: vi.fn().mockReturnThis(),
-            toArray: vi.fn(), 
-            matchedCount: 1,
-            deletedCount: 1,
-        };
-        
-        const mockCollection = {
-            find: vi.fn().mockReturnValue(mockCursor),
-            findOne: vi.fn(),
-            insertOne: vi.fn(),
-            updateOne: vi.fn().mockReturnValue(mockCursor),
-            deleteOne: vi.fn().mockReturnValue(mockCursor),
-            aggregate: vi.fn().mockReturnValue(mockCursor),
-        };
-        
-        const mockDb = {
-            collection: vi.fn().mockReturnValue(mockCollection),
-        };
-        
-        const mockClient = {
-            connect: vi.fn(),
-            db: vi.fn().mockReturnValue(mockDb),
-        };
-        
-        vi.mock("mongodb", async () => {
-            const actual = await vi.importActual<any>("mongodb");
-            return {
-              ...actual,
-              MongoClient: vi.fn(() => mockClient),
-            };
-          });
+        mockCursor.deletedCount = 1
 
         const result = await actionDeleteProduct(fakeObjectId)
 
