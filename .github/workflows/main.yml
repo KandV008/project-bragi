@@ -1,0 +1,36 @@
+name: CI - AudifonosXmenos
+on: 
+  push:
+    branches:
+      - main
+      - develop
+    paths-ignore:
+      - README.md
+  pull_request:
+    branches:
+      - main
+      - develop
+  schedule:
+    - cron: '0 4 * * 1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.9.0
+        with: 
+          node-version: 20.x
+      - run: npm i
+      - run: npm run build
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.9.0
+        with: 
+          node-version: 20.x
+      - run: npm i
+      - run: npm run test
