@@ -454,20 +454,53 @@ describe(METHOD_ACTION_UPDATE_PRODUCT, () => {
 describe(METHOD_ACTION_DELETE_PRODUCT, () => {
     const fakeObjectId = new ObjectId().toString();
 
-    it.sequential(`[${INTEGRATION_TEST_TAG}] should not delete a Product Entity`, async () => {
+    it(`[${INTEGRATION_TEST_TAG}] should delete a Product Entity and all it apperances in shopping lists and favorites`, async () => {
+        const mockCursor = {
+            sort: vi.fn().mockReturnThis(),
+            skip: vi.fn().mockReturnThis(),
+            limit: vi.fn().mockReturnThis(),
+            toArray: vi.fn(), 
+            matchedCount: 1,
+            deletedCount: 1,
+        };
+        
+        const mockCollection = {
+            find: vi.fn().mockReturnValue(mockCursor),
+            findOne: vi.fn(),
+            insertOne: vi.fn(),
+            updateOne: vi.fn().mockReturnValue(mockCursor),
+            deleteOne: vi.fn().mockReturnValue(mockCursor),
+            aggregate: vi.fn().mockReturnValue(mockCursor),
+        };
+        
+        const mockDb = {
+            collection: vi.fn().mockReturnValue(mockCollection),
+        };
+        
+        const mockClient = {
+            connect: vi.fn(),
+            db: vi.fn().mockReturnValue(mockDb),
+        };
+        
+        vi.mock("mongodb", async () => {
+            const actual = await vi.importActual<any>("mongodb");
+            return {
+              ...actual,
+              MongoClient: vi.fn(() => mockClient),
+            };
+          });
+
+        const result = await actionDeleteProduct(fakeObjectId)
+
+        assert.equal(result, 0, "Product have not been deleted")
+    })
+
+    it(`[${INTEGRATION_TEST_TAG}] should not delete a Product Entity`, async () => {
         mockCursor.deletedCount = 0
 
         const result = await actionDeleteProduct(fakeObjectId)
 
         assert.equal(result, 1, "Product have been deleted")
-    })
-
-    it.sequential(`[${INTEGRATION_TEST_TAG}] should delete a Product Entity and all it apperances in shopping lists and favorites`, async () => {
-        mockCursor.deletedCount = 1
-
-        const result = await actionDeleteProduct(fakeObjectId)
-
-        assert.equal(result, 0, "Product have not been deleted")
     })
 
     it(`[${INTEGRATION_TEST_TAG}] should throw an Error when some deletion fail`, async () => {
