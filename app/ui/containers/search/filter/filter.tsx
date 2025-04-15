@@ -57,6 +57,9 @@ export default function Filter({
       .then((data) => {
         setLoading(false);
         setFilterElements(data);
+      })
+      .catch((error) => {
+        console.error(error)
       });
   }, []);
 

@@ -1,10 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { componentText, fillDefaultComponentBackground, hoverFillDefaultComponentBackground, componentBorder } from '@/app/ui/tailwindClasses';
+import {
+  componentText,
+  fillDefaultComponentBackground,
+  hoverFillDefaultComponentBackground,
+  componentBorder,
+} from "@/app/ui/tailwindClasses";
 
 /**
  * Props for the SearchBar component.
@@ -21,7 +26,7 @@ interface SearchBarProps {
  * @returns {JSX.Element} The rendered search bar component.
  */
 export default function SearchBar({ isCompress }: SearchBarProps): JSX.Element {
-  const [keyword, setKeyword] = useState(''); 
+  const [keyword, setKeyword] = useState("");
 
   /** Placeholder text based on the compression mode */
   const placeholder = isCompress ? "Buscar" : "Buscar productos";
@@ -43,13 +48,20 @@ export default function SearchBar({ isCompress }: SearchBarProps): JSX.Element {
    * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
    */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); 
+    event.preventDefault();
     document.getElementById(id)?.click();
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`relative ${componentText}`}>
-      <div className="absolute inset-y-5 flex pointer-events-none left-5">
+    <form
+      onSubmit={handleSubmit}
+      className={`flex flex-row gap-2 items-center justify-center cursor-pointer p-3 
+      h-auto w-full font-semibold mx-2 md:mx-0
+      ${fillDefaultComponentBackground} 
+      ${componentText}
+      ${componentBorder} rounded-2xl`}
+    >
+      <div className="flex items-center align-bottom bg-transparent">
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </div>
       <input
@@ -58,10 +70,7 @@ export default function SearchBar({ isCompress }: SearchBarProps): JSX.Element {
         name="keyword"
         value={keyword}
         onChange={handleInputChange}
-        className={`w-full py-3 text-lg rounded-full 
-              ${fillDefaultComponentBackground} ${hoverFillDefaultComponentBackground}
-              ${componentBorder}
-              dark:placeholder:text-emerald-100 placeholder:text-emerald-900 placeholder:font-bold`}
+        className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1 dark:placeholder:text-emerald-100 placeholder:text-emerald-900"
         placeholder={placeholder}
         maxLength={255}
         required
