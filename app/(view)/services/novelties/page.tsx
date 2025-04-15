@@ -1,14 +1,21 @@
 "use client";
 
-import Spinner from "@/app/ui/components/common/spinner";
-import EmptyMessage from "@/app/ui/components/messages/emptyMessage";
 import { useEffect, useState } from "react";
 import { getNoveltiesRoute } from "@/app/api/routes";
 import Loading from "./loading";
-import NoveltyContainer from "@/app/ui/components/novelties/novletyContainer";
-import { NoveltyEntity } from "@/app/model/entities/Novelty";
+import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
+import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
+import Spinner from "@/app/ui/components/common/spinner/spinner";
+import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 
-export default function Page() {
+/**
+ * Page component that handles the display of novelties.
+ * It fetches novelty data from the API and renders a loading skeleton or the actual novelties content.
+ * If no novelties are available, it shows an empty message.
+ *
+ * @returns {JSX.Element} The component rendering novelties or loading states.
+ */
+export default function Page(): JSX.Element {
   const [novelties, setNovelties] = useState<NoveltyEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [isSpinnerActive, setSpinnerActive] = useState(false);
@@ -33,12 +40,15 @@ export default function Page() {
         setLoading(false);
         setSpinnerActive(false);
       })
-      .catch((error) => console.error("Error fetching product:", error));
+      .catch((error) => console.error("Error fetching novelties:", error));
   }, [endIndex, isLoading, startIndex]);
 
   if (isLoading) return <Loading />; 
   if (novelties.length === 0) return <EmptyMessage />;
 
+  /**
+   * Increments the start and end index values to fetch more novelties.
+   */
   const addMoreNovelties = () => {
     setStartIndex((prevIndex) => prevIndex + increment);
     setEndIndex((prevIndex) => prevIndex + increment);

@@ -1,14 +1,23 @@
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import TeamMember from "@/app/ui/containers/services/about-us/teamMember";
 import { componentBackground, componentText } from "@/app/ui/tailwindClasses";
 import { Metadata } from "next";
 import Link from "next/link";
 
+/**
+ * Metadata for the page, defining the title.
+ */
 export const metadata: Metadata = {
   title: "Sobre nosotros",
 };
 
-export default function Page() {
+/**
+ * Page component that displays information about the team and company.
+ * This component renders a section header, a team member list, and a description of the company's values and services.
+ *
+ * @returns {JSX.Element} The "Sobre nosotros" (About Us) page component.
+ */
+export default function Page(): JSX.Element {
   return (
     <>
       <SectionHeader text={"Sobre Nosotros"} />
@@ -17,13 +26,23 @@ export default function Page() {
         className={`flex flex-row flex-wrap justify-around w-full p-4 md:p-8 rounded-xl ${componentBackground}`}
       >
         <TeamMember
-          name={"Marta González"}
-          imageURL={"/placeholder-team-member-image.jpg"}
+          name={"Irina Osuna"}
+          imageURL={"/team/picture_irina.HEIC"}
           rol={"Encargada"}
         />
         <TeamMember
-          name={"Marta González"}
-          imageURL={"/placeholder-team-member-image.jpg"}
+          name={"Jorge Martínez de Lizarduy"}
+          imageURL={"/team/picture_jorge.HEIC"}
+          rol={"Encargada"}
+        />
+        <TeamMember
+          name={"Liz Torres"}
+          imageURL={"/team/picture_liz.HEIC"}
+          rol={"Encargada"}
+        />
+        <TeamMember
+          name={"Natalia Kostornichenko"}
+          imageURL={"/team/picture_natalia.HEIC"}
           rol={"Encargada"}
         />
       </section>

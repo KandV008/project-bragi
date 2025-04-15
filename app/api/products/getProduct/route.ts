@@ -1,7 +1,15 @@
-import { productIdName } from '@/app/model/JSONnames';
-import { getProduct } from '@/db/product';
+import { productIdName } from '@/app/config/JSONnames';
+import { getProduct } from '@/db/product/product';
 import { NextResponse } from 'next/server';
 
+/**
+ * Handles the GET request to fetch a product by its ID from the database.
+ * If the product is found, it is returned in the response as JSON. 
+ * If no product is found, a 404 response is returned. 
+ * In case of an error during the operation, a 500 Internal Server Error is returned.
+ *
+ * @returns {NextResponse} The HTTP response containing the requested product or an error message.
+ */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get(productIdName);

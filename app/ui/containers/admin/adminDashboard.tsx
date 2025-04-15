@@ -7,14 +7,21 @@ import {
   faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@clerk/nextjs";
-import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
 import {
   componentBorder,
   componentBackground,
   componentText,
 } from "../../tailwindClasses";
+import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 
-export default function AdminDashboard() {
+/**
+ * This component serves as the main dashboard for administrators, providing navigation
+ * options to manage different sections of the application, such as products, offers,
+ * and news. It also allows users to exit back to their profile.
+ * 
+ * @returns {JSX.Element} The rendered Admin Dashboard component.
+ */
+export default function AdminDashboard(): JSX.Element {
   const { user } = useUser();
 
   return (
@@ -28,6 +35,8 @@ export default function AdminDashboard() {
       </h2>
       <div className={`w-full border-t mb-1 ${componentBorder}`}></div>
       <h1 className="text-base sm:text-lg">¿Qué acción desea realizar?</h1>
+      
+      {/* Navigation Buttons */}
       <MediumButtonWithIcon
         icon={faPaintRoller}
         text={"Modificar productos"}

@@ -1,5 +1,8 @@
 "use client";
 
+import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
+import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { componentBorder, componentBackground, componentText } from "@/app/ui/tailwindClasses";
 import {
   faLeftLong,
   faEnvelope,
@@ -8,15 +11,15 @@ import {
   faBagShopping,
   faAward,
 } from "@fortawesome/free-solid-svg-icons";
-import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon";
-import {
-  componentBorder,
-  componentBackground,
-  componentText,
-} from "@/app/ui/tailwindClasses";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader";
 
-export default function Page() {
+/**
+ * Page component that displays a list of available services.
+ * This includes navigation buttons for various services such as appointments, offers, novelties, about us, and contact.
+ * A button for logging out is also included.
+ *
+ * @returns {JSX.Element} The component rendering the list of available services.
+ */
+export default function Page(): JSX.Element {
   return (
     <>
       <SectionHeader text={"Servicios Disponibles"} />
@@ -31,6 +34,7 @@ export default function Page() {
           ¿Qué necesitas?
         </h1>
         <div className={`w-full border-t mb-1 ${componentBorder}`}></div>
+        {/* Buttons for navigating to different service sections */}
         <MediumButtonWithIcon
           icon={faCalendar}
           text={"Pedir Cita"}
