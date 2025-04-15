@@ -455,8 +455,8 @@ describe(METHOD_ACTION_DELETE_PRODUCT, () => {
     const fakeObjectId = new ObjectId().toString();
 
     beforeEach(() => {
-        vi.clearAllMocks(); 
-        mockCursor.deletedCount = 0;
+        vi.resetModules(); 
+        vi.clearAllMocks();   
     });
 
     it(`[${INTEGRATION_TEST_TAG}] should delete a Product Entity and all it apperances in shopping lists and favorites`, async () => {
