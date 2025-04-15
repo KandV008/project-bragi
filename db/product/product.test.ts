@@ -454,18 +454,20 @@ describe(METHOD_ACTION_UPDATE_PRODUCT, () => {
 describe(METHOD_ACTION_DELETE_PRODUCT, () => {
     const fakeObjectId = new ObjectId().toString();
 
-    it.sequential(`[${INTEGRATION_TEST_TAG}] should delete a Product Entity and all it apperances in shopping lists and favorites`, async () => {
-        const result = await actionDeleteProduct(fakeObjectId)
-
-        assert.equal(result, 0, "Product have not been deleted")
-    })
-
     it.sequential(`[${INTEGRATION_TEST_TAG}] should not delete a Product Entity`, async () => {
         mockCursor.deletedCount = 0
 
         const result = await actionDeleteProduct(fakeObjectId)
 
         assert.equal(result, 1, "Product have been deleted")
+    })
+
+    it.sequential(`[${INTEGRATION_TEST_TAG}] should delete a Product Entity and all it apperances in shopping lists and favorites`, async () => {
+        mockCursor.deletedCount = 1
+
+        const result = await actionDeleteProduct(fakeObjectId)
+
+        assert.equal(result, 0, "Product have not been deleted")
     })
 
     it(`[${INTEGRATION_TEST_TAG}] should throw an Error when some deletion fail`, async () => {
