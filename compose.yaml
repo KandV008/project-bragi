@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-    image: nextjs-dev
+    image: kandv/audifonosxmenos:latest
     ports:
       - "3000:3000"
     environment:
@@ -24,12 +22,3 @@ services:
       - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
       - NEXT_PUBLIC_CLERK_SIGN_IN_URL=${NEXT_PUBLIC_CLERK_SIGN_IN_URL}
       - NEXT_PUBLIC_CLERK_SIGN_UP_URL=${NEXT_PUBLIC_CLERK_SIGN_UP_URL}
-    develop:
-      watch:
-        - action: sync
-          path: ./
-          target: /app/
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
