@@ -1,15 +1,8 @@
-name: AudifonosXmenos
+name: AudifonosXmenos - main
 on: 
   push:
     branches:
       - main
-      - develop
-    paths-ignore:
-      - README.md
-  pull_request:
-    branches:
-      - main
-      - develop
     paths-ignore:
       - README.md
   schedule:
