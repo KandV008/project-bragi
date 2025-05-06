@@ -37,11 +37,23 @@ import {
   productIdName,
 } from "@/app/config/JSONnames";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
-import ColorButton, { ColorButtonSkeleton } from "@/app/ui/components/buttons/colorButton/colorButton";
-import FavoriteToggleButton, { FavoriteToggleButtonSkeleton } from "@/app/ui/components/buttons/favoriteToggleButton/favoriteToggleButton";
-import SubmitButton, { SubmitButtonSkeleton } from "@/app/ui/components/buttons/submitButton/submitButton";
+import ColorButton, {
+  ColorButtonSkeleton,
+} from "@/app/ui/components/buttons/colorButton/colorButton";
+import FavoriteToggleButton, {
+  FavoriteToggleButtonSkeleton,
+} from "@/app/ui/components/buttons/favoriteToggleButton/favoriteToggleButton";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton/submitButton";
 import { SmallImageSkeleton } from "@/app/ui/components/images/smallImage/smallImage";
-import ArticleHeader, { ArticleHeaderSkeleton } from "@/app/ui/components/tags/articleHeader/articleHeader";
+import ArticleHeader, {
+  ArticleHeaderSkeleton,
+} from "@/app/ui/components/tags/articleHeader/articleHeader";
+import {
+  DISCOUNT_70_PERCENT,
+  DISCOUNT_PER_UNIT,
+} from "@/app/model/entities/novelty/codes/70percentDiscount/70percentDiscount";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -169,9 +181,14 @@ export default function DisplayProductAttributes({
           {/* Brand */}
           <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
           {/* Price */}
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold w-fit">
-            {price}€
-          </h1>
+          <div className="flex flex-col gap-2 first-letter:text-xl sm:text-2xl lg:text-3xl font-semibold w-fit">
+            <h1>
+              <span className="font-bold first-letter:text-2xl sm:text-3xl lg:text-4xl">{price}€</span> por ambos audífonos
+            </h1>
+            <h1>
+              <span className="font-bold first-letter:text-2xl sm:text-3xl lg:text-4xl">{Number(price) * DISCOUNT_PER_UNIT}€</span> por único audífono
+            </h1>
+          </div>
           <br className="hidden sm:block" />
           {/* Color Buttons */}
           {colors ? (
