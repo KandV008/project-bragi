@@ -2,7 +2,6 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { useRouter } from "next/navigation";
 import {
   colorHexName,
   colorTextName,
@@ -33,6 +32,8 @@ interface AmountButtonProps {
   colorHex: string;
   /** Ear side specification (e.g., left, right, both) */
   earSide: string;
+  /** Update current quanity action*/
+  updateQuantity: () => void;
 }
 
 /**
@@ -49,18 +50,17 @@ export default function AmountButton({
   colorText,
   colorHex,
   earSide,
+  updateQuantity,
 }: AmountButtonProps) {
-  const router = useRouter();
-
   /**
    * Handles form submission, executes the provided action,
    * and refreshes the page.
    *
    * @param formData - The form data to be submitted.
    */
-  const formAction = (formData: FormData) => {
-    action(formData);
-    router.refresh();
+  const formAction = async (formData: FormData) => {
+    await action(formData);
+    updateQuantity();
   };
 
   return (
