@@ -97,7 +97,7 @@ export default function ProductsWithFilter({
   const filterAction = (filter: string) => {
     setFilters((prev) => {
       const index = prev.findIndex((value) =>
-        value.startsWith(filter.split(",")[0])
+        value.startsWith(filter.split(":")[0])
       );
 
       if (index === -1) {
