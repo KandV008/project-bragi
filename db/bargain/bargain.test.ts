@@ -2,7 +2,7 @@ import { sql } from "@/__mocks__/@vercel/postgres";
 import { actionCreateBargain, actionDeleteBargain, actionUpdateBargain, getBargain, getBargains } from "./bargain"
 import { randomUUID } from "crypto";
 import { bargainCodeName, bargainTitleName, bargainDescriptionName, bargainIdName } from "@/app/config/JSONnames";
-import { METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAINS } from "../dbConfig";
+import { METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_GET_BARGAINS } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
 vi.mock("@vercel/postgres");
@@ -83,6 +83,37 @@ describe(METHOD_GET_BARGAIN, () => {
         });
 
         await expect(getBargain(bargainId)).rejects.toThrow(Error);
+    })
+})
+
+describe(METHOD_GET_BARGAIN_BY_CODE, () => {
+    const bargainCode = "EXA1"
+
+    it(`[${INTEGRATION_TEST_TAG}] should get a Bargain with the code EXA1`, async () => {
+
+        vi.mocked(sql.connect).mockResolvedValueOnce({
+            query: vi.fn().mockResolvedValue({
+                rows: [
+                    { id: 1, code: "EXA1", title: "Example Title 1", description: "Example Description 1", requirements: [] },
+                ]
+            }),
+        });
+
+        const result = await getBargain(bargainCode)
+
+        assert.isObject(result, "It don't return an object")
+        assert.equal(result.code, bargainCode, "It is not the correct bargain")
+    })
+
+    it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the bargain doesn't exist`, async () => {
+        vi.mocked(sql.connect).mockResolvedValueOnce({
+            query: vi.fn().mockResolvedValue({
+                rows: [
+                ]
+            }),
+        });
+
+        await expect(getBargain(bargainCode)).rejects.toThrow(Error);
     })
 })
 

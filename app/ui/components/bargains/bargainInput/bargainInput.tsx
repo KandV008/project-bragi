@@ -12,7 +12,7 @@ import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { validateBargainInput } from "@/lib/validations/validations";
 import { useState } from "react";
 import FormValidationPopUp from "../../popUps/formValidationPopUp/formValidationPopUp";
-import { getBargain } from "@/db/bargain/bargain";
+import { getBargain, getBargainByCode } from "@/db/bargain/bargain";
 import { bargainCodeName } from "@/app/config/JSONnames";
 import toast from "react-hot-toast";
 
@@ -60,7 +60,7 @@ export default function BargainInput({
     const isValid = validateBargainInput(formData);
 
     if (isValid) {
-      getBargain(formData.get(bargainCodeName)?.toString())
+      getBargainByCode(formData.get(bargainCodeName)?.toString())
         .then((data) => {
           toast.success("Código aplicado.");
           console.log(data);

@@ -7,6 +7,7 @@ export const PRODUCT_CONTEXT = "PRODUCT"
 
 export const METHOD_GET_BARGAINS = "getBargains"
 export const METHOD_GET_BARGAIN = "getBargain"
+export const METHOD_GET_BARGAIN_BY_CODE = "getBargainByCode"
 export const METHOD_ACTION_CREATE_BARGAIN = "actionCreateBargain"
 export const METHOD_CREATE_BARGAIN = "createBargain"
 export const METHOD_ACTION_UPDATE_BARGAIN = "actionUpdateBargain"
