@@ -51,7 +51,7 @@ export async function getBargain(id: string | null | undefined): Promise<Bargain
     try {
         const client = await sql.connect();
         const result = await client.query(
-            `SELECT * FROM bargain WHERE code = $1`,
+            `SELECT * FROM bargain WHERE id = $1`,
             [id]
         );
 

@@ -1,7 +1,7 @@
 "use client";
 
 import {
-    faCode,
+  faCode,
   faTag,
   faTextHeight,
   faUpload,
@@ -17,12 +17,26 @@ import {
 import toast from "react-hot-toast";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { actionUpdateBargain, actionCreateBargain } from "@/db/bargain/bargain";
-import { bargainCodeName, bargainDescriptionName, bargainIdName, bargainTitleName } from "@/app/config/JSONnames";
+import {
+  bargainCodeName,
+  bargainDescriptionName,
+  bargainIdName,
+  bargainTitleName,
+} from "@/app/config/JSONnames";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
-import SubmitButton, { SubmitButtonSkeleton } from "@/app/ui/components/buttons/submitButton/submitButton";
-import TextAreaInput, { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
-import TextInput, { TextInputSkeleton } from "@/app/ui/components/inputs/textInput/textInput";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton/submitButton";
+import TextAreaInput, {
+  TextAreaInputSkeleton,
+} from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
+import TextInput, {
+  TextInputSkeleton,
+} from "@/app/ui/components/inputs/textInput/textInput";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { useRouter } from "next/navigation";
 
 /**
  * Interface for form properties used in BargainForm
@@ -40,8 +54,13 @@ interface FormProps {
  * @returns {JSX.Element} The rendered bargain form component.
  */
 export default function BargainForm({ bargain }: FormProps) {
+  const router = useRouter();
+
   const actionText = bargain ? "Actualizar oferta" : "Crear nueva oferta";
   const actionForm = bargain ? actionUpdateBargain : actionCreateBargain;
+  const navigateToURL = bargain
+    ? `/admin/products/${bargain.id}`
+    : `/admin/products`;
   const succesToastText = bargain
     ? "Se ha actualizado la oferta."
     : "Se ha creado la oferta";
@@ -63,12 +82,17 @@ export default function BargainForm({ bargain }: FormProps) {
    *
    * @param {FormData} formData - The form data containing bargain details.
    */
-  const handleForm = (formData: FormData) => {
+  const handleForm = async (formData: FormData) => {
     const isValid = validateFormBargain(formData);
     if (isValid) {
-      actionForm(formData)
-        .then((_) => toast.success(succesToastText))
-        .catch((_) => toast.error(errorToastText));
+      const status = await actionForm(formData);
+
+      if (!status) {
+        toast.success(succesToastText);
+        router.push(navigateToURL);
+      } else {
+        toast.error(errorToastText);
+      }
     } else handleShowModal();
   };
 
@@ -83,7 +107,11 @@ export default function BargainForm({ bargain }: FormProps) {
       >
         <SectionHeader text={actionText} />
         {/* Id */}
-        {bargain ? <input type="hidden" name={bargainIdName} value={bargain.id} /> : <></>}
+        {bargain ? (
+          <input type="hidden" name={bargainIdName} value={bargain.id} />
+        ) : (
+          <></>
+        )}
         {/* Code */}
         <TextInput
           name={bargainCodeName}
