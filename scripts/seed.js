@@ -12,5 +12,4 @@ async function run() {
   await initializeSQL();
 }
 
-// Start the NoSQL database initialization process
 run().catch(console.dir);
