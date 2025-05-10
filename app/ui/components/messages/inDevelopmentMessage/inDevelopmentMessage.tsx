@@ -19,11 +19,11 @@ export default function InDevelopmentMessage(): JSX.Element {
       className={`flex flex-col gap-5 w-full ${componentText}`}
     >
       <Image
-        src="/placeholder-in-development.png"
-        alt={"in-development-image"}
+        src="/icon-in-development.png"
+        alt={"in-development-icon"}
         width={1000}
         height={1000}
-        className="w-5/6 lg:size-1/2 self-center"
+        className="w-4/6 sm:size-1/3 lg:size-1/4 self-center"
       />
       <article className="flex flex-col m-auto">
         <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-center">
