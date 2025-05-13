@@ -156,11 +156,16 @@ describe(METHOD_ACTION_CREATE_ORDER, () => {
     ]
 
     it(`[${INTEGRATION_TEST_TAG}] should create a new Order Entity`, async () => {
-        mockCollection.insertOne.mockResolvedValue([])
+        mockCollection.insertOne.mockResolvedValue({
+            insertedId: {
+                toString: () => "asdasdasd"
+            }
+        })
 
         const result = await actionCreateOrder(formData, exampleProducts)
 
-        assert.equal(result, 0, "Order have not been created")
+        assert.equal(result.status, 0, "Order have not been created")
+        assert.isNotNull(result.id, "Invalid id associated to order")
     })
 
     it(`[${INTEGRATION_TEST_TAG}] should not create a new Order Entity`, async () => {
@@ -168,7 +173,8 @@ describe(METHOD_ACTION_CREATE_ORDER, () => {
 
         const result = await actionCreateOrder(formData, exampleProducts)
 
-        assert.equal(result, 1, "Order have been created")
+        assert.equal(result.status, 1, "Order have been created")
+        assert.isNull(result.id, "Valid id associated to order")
     })
 
     it(`[${INTEGRATION_TEST_TAG}] should throw an Error when the formData is invalid`, async () => {
