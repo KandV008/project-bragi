@@ -88,27 +88,29 @@ export async function getOrder(orderIdToParse: string | null): Promise<OrderEnti
 /**
  * Handles the creation of a new order from form data.
  * @param {FormData} formData - The form data containing order details.
- * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @returns {Promise<Object>} - Status code (0 for success, 1 for failure) and the id of the new order.
  * @throws {Error} - If an error occurs while creating an order to the database. 
  */
-export async function actionCreateOrder(formData: FormData, products: ShoppingProductDTO[]): Promise<number> {
+export async function actionCreateOrder(formData: FormData, products: ShoppingProductDTO[]): Promise<any> {
   Logger.startFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER);
 
   try {
     const newShopping = parseShoppingForm(formData);
     let status: number = 1
+    let id: string | null = null
 
     await createOrder(newShopping, products)
-      .then(() => {
+      .then((data) => {
         Logger.endFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER, "void");
         status = 0
+        id = data
       })
       .catch(error => {
         Logger.errorFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER, error)
         status = 1
       });
 
-    return status
+    return { status, id }
   } catch (error) {
     Logger.errorFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER, error);
     throw new Error(`[${METHOD_ACTION_CREATE_ORDER}] ${error}`)
@@ -137,7 +139,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[]) {
       address: shoppingData.address,
       products: products.map((product) => ({
         product_id: product.id,
-        product_name: product.name,
+        name: product.name,
         category: product.category,
         brand: product.brand,
         price: product.price,
@@ -154,6 +156,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[]) {
 
     const result = await ordersCollection.insertOne(newOrder);
     Logger.endFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, result);
+    return result.insertedId.toString()
   } catch (error) {
     Logger.errorFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, error);
     throw new Error(`[${METHOD_CREATE_ORDER}] ${error}`)

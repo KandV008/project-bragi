@@ -28,13 +28,21 @@ import {
 } from "@/app/config/JSONnames";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getCodeAction } from "@/app/model/entities/bargain/Bargain";
 import FileInput from "../../../components/inputs/fileInput/fileInput";
 import { actionCreateOrder } from "@/db/order/order";
-import SubmitButton, { SubmitButtonSkeleton } from "@/app/ui/components/buttons/submitButton/submitButton";
-import TextInput, { TextInputSkeleton } from "@/app/ui/components/inputs/textInput/textInput";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton/submitButton";
+import TextInput, {
+  TextInputSkeleton,
+} from "@/app/ui/components/inputs/textInput/textInput";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import toast from "react-hot-toast";
+import createReceipt from "@/lib/receipt";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -50,6 +58,8 @@ interface FormProps {
  * @returns JSX.Element
  */
 export default function ShoppingForm({ products }: FormProps) {
+  const router = useRouter();
+
   const { user } = useUser();
   const searchParams = useSearchParams();
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
@@ -105,13 +115,30 @@ export default function ShoppingForm({ products }: FormProps) {
    *
    * @param {FormData} formData - The submitted form data.
    */
-  const handleForm = (formData: FormData) => {
+  const handleForm = async (formData: FormData) => {
     console.log(formData);
     const isValid = validateFormShopping(formData);
     if (isValid) {
-      actionCreateOrder(formData, currentProducts)
-        .then((_) => {})
-        .catch((_) => {});
+      const { status, id } = await actionCreateOrder(formData, currentProducts);
+
+      if (!status) {
+        console.warn("ID:", id)
+        const base64Pdf = await createReceipt(id); // 👈 this returns base64
+
+        // Trigger download
+        const link = document.createElement("a");
+        link.href = `data:application/pdf;base64,${base64Pdf}`;
+        link.download = `factura-${id}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Enviar emails de confirmación
+        toast.success("Pedido completado correctamente");
+        //router.push("/");
+      } else {
+        toast.error("Ha habido un problema con el pedido");
+      }
     } else handleShowModal();
   };
 
