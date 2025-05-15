@@ -32,9 +32,10 @@ services:
     container_name: audifonosxmenos
     image: kandv/audifonosxmenos:latest
     expose:
-      - "8080"
+      - "8443"
     env_file: .env.local
     environment:
       NODE_ENV: production
       VIRTUAL_HOST: audifonosxmenos.com
       LETSENCRYPT_HOST: audifonosxmenos.com
+      VIRTUAL_PORT: 8443
