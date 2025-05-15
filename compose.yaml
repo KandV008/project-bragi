@@ -4,38 +4,42 @@ services:
     image: nginxproxy/nginx-proxy
     restart: unless-stopped
     ports:
-        - 80:80
-        - 443:443
+      - 80:80
+      - 443:443
     volumes:
-        - /var/run/docker.sock:/tmp/docker.sock:ro
-        - /var/docker/nginx/html:/usr/share/nginx/html
-        - /var/docker/nginx/certs:/etc/nginx/certs
-        - /var/docker/nginx/vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /var/docker/nginx/html:/usr/share/nginx/html
+      - /var/docker/nginx/certs:/etc/nginx/certs
+      - /var/docker/nginx/vhost:/etc/nginx/vhost.d
     logging:
-        options:
-            max-size: "10m"
-            max-file: "3"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   letsencrypt-companion:
-      container_name: letsencrypt-companion
-      image: jrcs/letsencrypt-nginx-proxy-companion
-      restart: unless-stopped
-      volumes_from:
-          - nginx
-      volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - /var/docker/nginx/acme:/etc/acme.sh
-      environment:
-          DEFAULT_EMAIL: jorge.martinez@intervisionexpert.es
+    container_name: letsencrypt-companion
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: unless-stopped
+    depends_on:
+      - nginx
+    volumes_from:
+      - nginx
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/docker/nginx/acme:/etc/acme.sh
+    environment:
+      DEFAULT_EMAIL: jorge.martinez@intervisionexpert.es
 
   app:
     container_name: audifonosxmenos
     image: kandv/audifonosxmenos:latest
     expose:
       - "8443"
+    depends_on:
+      - nginx
+      - letsencrypt-companion
     env_file: .env.local
     environment:
       NODE_ENV: production
       VIRTUAL_HOST: audifonosxmenos.com
       LETSENCRYPT_HOST: audifonosxmenos.com
-      VIRTUAL_PORT: 8443
