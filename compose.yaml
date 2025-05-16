@@ -4,38 +4,52 @@ services:
     image: nginxproxy/nginx-proxy
     restart: unless-stopped
     ports:
-        - 80:80
-        - 443:443
+      - 80:80
+      - 443:443
     volumes:
-        - /var/run/docker.sock:/tmp/docker.sock:ro
-        - /var/docker/nginx/html:/usr/share/nginx/html
-        - /var/docker/nginx/certs:/etc/nginx/certs
-        - /var/docker/nginx/vhost:/etc/nginx/vhost.d
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     logging:
-        options:
-            max-size: "10m"
-            max-file: "3"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   letsencrypt-companion:
-      container_name: letsencrypt-companion
-      image: jrcs/letsencrypt-nginx-proxy-companion
-      restart: unless-stopped
-      volumes_from:
-          - nginx
-      volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - /var/docker/nginx/acme:/etc/acme.sh
-      environment:
-          DEFAULT_EMAIL: jorge.martinez@intervisionexpert.es
+    container_name: letsencrypt-companion
+    image: nginxproxy/acme-companion
+    depends_on:
+      nginx:
+        condition: service_started
+    restart: unless-stopped
+    volumes_from:
+      - nginx 
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - acme:/etc/acme.sh 
+    environment:
+      DEFAULT_EMAIL: contact@audifonosxmenos.com
 
   app:
     container_name: audifonosxmenos
     image: kandv/audifonosxmenos:latest
-    expose:
-      - "8443"
+    depends_on:
+      nginx:
+        condition: service_started
+      letsencrypt-companion:
+        condition: service_started
+    ports:
+      - "8443:3000"
     env_file: .env.local
     environment:
       NODE_ENV: production
-      VIRTUAL_HOST: audifonosxmenos.com
-      LETSENCRYPT_HOST: audifonosxmenos.com
-      VIRTUAL_PORT: 8443
+      VIRTUAL_HOST: www.audifonosxmenos.com
+      VIRTUAL_PORT: 3000
+      LETSENCRYPT_HOST: www.audifonosxmenos.com
+
+volumes:
+  certs:
+  html:
+  vhost:
+  acme:
