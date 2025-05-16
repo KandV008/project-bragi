@@ -5,6 +5,11 @@ on:
       - main
     paths-ignore:
       - README.md
+      - .gitattributes
+      - .gitignore
+      - compose.yaml
+      - Dockerfile
+      - docs/**
   schedule:
     - cron: '0 4 * * 1'
 
