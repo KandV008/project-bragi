@@ -514,7 +514,7 @@ export function parseNoveltyForm(formData: FormData): object {
  * @param {FormData} formData - The form data containing shopping details.
  * @returns {Object} The parsed shopping form.
  */
-export function parseShoppingForm(formData: FormData): object {
+export function parseShoppingForm(formData: FormData): any {
     const newUserId = parseString(formData.get(userIdName)?.toString(), "USER_ID")
     const newUserName = parseString(formData.get(userNameName)?.toString(), "USER_NAME")
     const newUserFirstName = parseString(formData.get(userFirstName)?.toString(), "USER_FIRST_NAME")

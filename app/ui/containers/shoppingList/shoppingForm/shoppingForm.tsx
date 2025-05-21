@@ -43,6 +43,7 @@ import SectionHeader, {
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import toast from "react-hot-toast";
 import createReceipt from "@/lib/receipt";
+import { sendReceiptEmail } from "@/lib/mail";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -123,17 +124,7 @@ export default function ShoppingForm({ products }: FormProps) {
 
       if (!status) {
         console.warn("ID:", id)
-        const base64Pdf = await createReceipt(id); // 👈 this returns base64
-
-        // Trigger download
-        const link = document.createElement("a");
-        link.href = `data:application/pdf;base64,${base64Pdf}`;
-        link.download = `factura-${id}.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Enviar emails de confirmación
+        await sendReceiptEmail(formData, id)
         toast.success("Pedido completado correctamente");
         //router.push("/");
       } else {
