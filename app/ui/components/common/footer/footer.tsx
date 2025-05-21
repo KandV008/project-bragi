@@ -100,7 +100,7 @@ export default function Footer() {
         {/* Bottom Footer */}
         <section className="flex flex-row text-emerald-400 dark:text-emerald-100 text-sm md:text-base">
           <small>
-            Copyright © 2024, @KandV008. Todos los derechos reservados.
+            Copyright © 2025, @KandV008. Todos los derechos reservados.
           </small>
         </section>
       </section>

@@ -54,7 +54,7 @@ export default function WorkingFlow(): JSX.Element {
         {/* Pick up in store or ship to your home */}
         <div className="flex flex-col gap-2 lg:w-1/3">
           <Image
-            src="/workFLow/icon-ship-home.png"
+            src="/workFlow/icon-ship-home.png"
             alt="Icono de envío a casa o recogida en tienda"
             width={1000}
             height={1000}
