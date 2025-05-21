@@ -13,11 +13,11 @@ export default function EmptyMessage(): JSX.Element {
     <section className={`flex flex-col gap-5 w-full ${componentText}`}>
       {/* Icon */}
       <Image
-        src="/placeholder-parrot.png"
-        alt="not-found-image"
+        src="/icon-not-found.png"
+        alt="not-found-icon"
         width={1000}
         height={1000}
-        className="w-5/6 lg:size-1/2 self-center"
+        className="w-1/2 sm:size-1/3 lg:size-1/3 self-center"
       />
       {/* Message */}
       <article className="flex flex-col m-auto">

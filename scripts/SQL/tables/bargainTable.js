@@ -35,7 +35,7 @@ async function createBargainTable(client) {
 
   console.log(`Created "bargain" table`);
 
-  addBargains(client);
+  await addBargains(client);
 }
 
 /**

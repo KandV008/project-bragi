@@ -31,9 +31,9 @@ async function setMongoDB() {
 
     await createOrdersCollection(db);
 
-
+    console.log("✅ NoSQL Database initialized successfully.");
   } catch (error) {
-    console.log(`ERROR: MongoDB not set. ${error}`);
+    console.error("❌ Error initializing NoSQL database:", error);
   } finally {
     await clientMongoDB.close();
   }
@@ -53,7 +53,7 @@ async function createProductsCollection(db) {
 }
 
 async function createOrdersCollection(db) {
-  const coll = db.collection("orders");
+  db.collection("orders");
 
   console.log("Orders Collection created.");
 }

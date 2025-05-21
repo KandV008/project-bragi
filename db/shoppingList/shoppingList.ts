@@ -112,15 +112,15 @@ export async function incrementProductInShoppingList(formData: FormData) {
     const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
   
-    const client = await sql.connect();
-
-    await client.query(
-      `UPDATE shoppingList
-           SET quantity = quantity + 1
-           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5
-           RETURNING *`,
-      [productId, parsedUserId, colorText, colorHex, earSide]
-    );
+    await sql`
+      UPDATE shoppingList
+      SET quantity = quantity + 1
+      WHERE product_id = ${productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${colorText}
+        AND color_hex = ${colorHex}
+        AND ear_side = ${earSide}
+    `;
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -147,20 +147,26 @@ export async function decrementProductInShoppingList(formData: FormData) {
     const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
   
-    const client = await sql.connect();
+    await sql`
+      UPDATE shoppingList
+      SET quantity = quantity - 1
+      WHERE product_id = ${productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${colorText}
+        AND color_hex = ${colorHex}
+        AND ear_side = ${earSide}
+        AND quantity > 0
+    `;
 
-    await client.query(
-      `UPDATE shoppingList
-           SET quantity = quantity - 1
-           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND quantity > 0`,
-      [productId, parsedUserId, colorText, colorHex, earSide]
-    );
-
-    await client.query(
-      `DELETE FROM shoppingList
-           WHERE product_id = $1 AND user_id = $2 AND color_text = $3 AND color_hex = $4 AND ear_side = $5 AND quantity = 0`,
-      [productId, parsedUserId, colorText, colorHex, earSide]
-    );
+    await sql`
+      DELETE FROM shoppingList
+      WHERE product_id = ${productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${colorText}
+        AND color_hex = ${colorHex}
+        AND ear_side = ${earSide}
+        AND quantity = 0
+    `;
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,

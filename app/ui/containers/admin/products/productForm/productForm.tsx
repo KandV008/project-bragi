@@ -47,14 +47,31 @@ import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAt
 import { earphoneDegreeOfLossList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product/product";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
-import SubmitButton, { SubmitButtonSkeleton } from "@/app/ui/components/buttons/submitButton/submitButton";
-import CheckBoxInput, { CheckBoxInputSkeleton } from "@/app/ui/components/inputs/checkBoxInput/checkBoxInput";
-import ColorInput, { ColorInputSkeleton } from "@/app/ui/components/inputs/colorInput/colorInput";
-import IncrementalTextInput, { IncrementalTextInputSkeleton } from "@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput";
-import RadioInput, { RadioInputSkeleton } from "@/app/ui/components/inputs/radioInput/radioInput";
-import TextAreaInput, { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
-import TextInput, { TextInputSkeleton } from "@/app/ui/components/inputs/textInput/textInput";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton/submitButton";
+import CheckBoxInput, {
+  CheckBoxInputSkeleton,
+} from "@/app/ui/components/inputs/checkBoxInput/checkBoxInput";
+import ColorInput, {
+  ColorInputSkeleton,
+} from "@/app/ui/components/inputs/colorInput/colorInput";
+import IncrementalTextInput, {
+  IncrementalTextInputSkeleton,
+} from "@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput";
+import RadioInput, {
+  RadioInputSkeleton,
+} from "@/app/ui/components/inputs/radioInput/radioInput";
+import TextAreaInput, {
+  TextAreaInputSkeleton,
+} from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
+import TextInput, {
+  TextInputSkeleton,
+} from "@/app/ui/components/inputs/textInput/textInput";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { useRouter } from "next/navigation";
 
 interface FormProps {
   product?: ProductEntity;
@@ -70,8 +87,13 @@ interface FormProps {
  * @returns JSX.Element
  */
 export default function ProductForm({ product }: FormProps) {
+  const router = useRouter();
+
   const actionText = product ? "Actualizar producto" : "Crear nuevo producto";
   const actionForm = product ? actionUpdateProduct : actionCreateProduct;
+  const navigateToURL = product
+    ? `/admin/products/${product.id}`
+    : `/admin/products`;
   const succesToastText = product
     ? "Se ha actualizado el produto."
     : "Se ha creado el producto";
@@ -96,13 +118,19 @@ export default function ProductForm({ product }: FormProps) {
    *
    * @param {FormData} formData - The submitted form data.
    */
-  const handleForm = (formData: FormData) => {
+  const handleForm = async (formData: FormData) => {
     console.log(formData);
     const isValid = validateFormProduct(formData);
+
     if (isValid) {
-      actionForm(formData)
-        .then((_) => toast.success(succesToastText))
-        .catch((_) => toast.error(errorToastText));
+      const status = await actionForm(formData);
+
+      if (!status) {
+        toast.success(succesToastText);
+        router.push(navigateToURL);
+      } else {
+        toast.error(errorToastText);
+      }
     } else handleShowModal();
   };
 

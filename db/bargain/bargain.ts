@@ -5,7 +5,7 @@ import { bargainIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
 import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
-import { BARGAIN_CONTEXT, METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_DELETE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_CREATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAINS, METHOD_UPDATE_BARGAIN } from "../dbConfig";
+import { BARGAIN_CONTEXT, METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_DELETE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_CREATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_GET_BARGAINS, METHOD_UPDATE_BARGAIN } from "../dbConfig";
 
 /**
  * Retrieves a list of bargains from the database.
@@ -51,7 +51,7 @@ export async function getBargain(id: string | null | undefined): Promise<Bargain
     try {
         const client = await sql.connect();
         const result = await client.query(
-            `SELECT * FROM bargain WHERE code = $1`,
+            `SELECT * FROM bargain WHERE id = $1`,
             [id]
         );
 
@@ -61,6 +61,32 @@ export async function getBargain(id: string | null | undefined): Promise<Bargain
     } catch (error) {
         Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN, error)
         throw new Error(`[${METHOD_GET_BARGAIN}] ${error}`)
+    }
+}
+
+/**
+ * Retrieves a single bargain by CODE from the database.
+ *
+ * @param {string | null | undefined} code - The CODE of the bargain to retrieve.
+ * @returns {Promise<BargainEntity>} - The requested bargain entity.
+ * @throws {Error} - If the bargain cannot be retrieved from the database.
+ */
+export async function getBargainByCode(code: string | null | undefined): Promise<BargainEntity> {
+    Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN);
+
+    try {
+        const client = await sql.connect();
+        const result = await client.query(
+            `SELECT * FROM bargain WHERE code = $1`,
+            [code]
+        );
+
+        const bargain = mapDocumentToBargain(result.rows[0]);
+        Logger.endFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN_BY_CODE, bargain);
+        return bargain;
+    } catch (error) {
+        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN_BY_CODE, error)
+        throw new Error(`[${METHOD_GET_BARGAIN_BY_CODE}] ${error}`)
     }
 }
 

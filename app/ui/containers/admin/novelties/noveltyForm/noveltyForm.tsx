@@ -16,13 +16,27 @@ import {
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
-import { noveltyDescriptionName, noveltyIdName, noveltyTitleName, promotionalImageName } from "@/app/config/JSONnames";
+import {
+  noveltyDescriptionName,
+  noveltyIdName,
+  noveltyTitleName,
+  promotionalImageName,
+} from "@/app/config/JSONnames";
 import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty/novelty";
 import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
-import SubmitButton, { SubmitButtonSkeleton } from "@/app/ui/components/buttons/submitButton/submitButton";
-import TextAreaInput, { TextAreaInputSkeleton } from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
-import TextInput, { TextInputSkeleton } from "@/app/ui/components/inputs/textInput/textInput";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import SubmitButton, {
+  SubmitButtonSkeleton,
+} from "@/app/ui/components/buttons/submitButton/submitButton";
+import TextAreaInput, {
+  TextAreaInputSkeleton,
+} from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
+import TextInput, {
+  TextInputSkeleton,
+} from "@/app/ui/components/inputs/textInput/textInput";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { useRouter } from "next/navigation";
 
 interface FormProps {
   novelty?: NoveltyEntity;
@@ -31,13 +45,18 @@ interface FormProps {
 /**
  * A form component for creating or updating a novelty (offer).
  * It supports validation, submission handling, and displays appropriate UI elements.
- * 
+ *
  * @param {FormProps} props - The component props containing an optional novelty entity.
  * @returns {JSX.Element} The rendered novelty form component.
  */
 export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
+  const router = useRouter();
+
   const actionText = novelty ? "Actualizar novedad" : "Crear nueva novedad";
   const actionForm = novelty ? actionUpdateNovelty : actionCreateNovelty;
+  const navigateToURL = novelty
+    ? `/admin/novelties/${novelty.id}`
+    : `/admin/novelties`;
   const succesToastText = novelty
     ? "Se ha actualizado la novedad."
     : "Se ha creado la novedad";
@@ -45,7 +64,7 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
     ? "No se ha podido actualizar la novedad."
     : "No se ha podido crear la novedad";
   const [showModal, setShowModal] = useState(false);
-  
+
   /**
    * Toggles the validation modal visibility.
    */
@@ -55,15 +74,20 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
 
   /**
    * Handles form submission and validates input data.
-   * 
+   *
    * @param {FormData} formData - The form data submitted by the user.
    */
-  const handleForm = (formData: FormData) => {
+  const handleForm = async (formData: FormData) => {
     const isValid = validateFormNovelty(formData);
     if (isValid) {
-      actionForm(formData)
-        .then((_) => toast.success(succesToastText))
-        .catch((_) => toast.error(errorToastText));
+      const status = await actionForm(formData);
+
+      if (!status) {
+        toast.success(succesToastText);
+        router.push(navigateToURL);
+      } else {
+        toast.error(errorToastText);
+      }
     } else handleShowModal();
   };
 
@@ -123,7 +147,7 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
 
 /**
  * Displays a skeleton loader for the novelty form while data is being fetched or processed.
- * 
+ *
  * @returns {JSX.Element} The rendered skeleton loader component.
  */
 export function NoveltyFormSkeleton(): JSX.Element {

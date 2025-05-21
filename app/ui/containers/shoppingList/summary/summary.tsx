@@ -44,7 +44,12 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
    * @param {BargainEntity | null} newBargain - The new bargain entity to apply.
    */
   const updateBargain = (newBargain: BargainEntity | null) => {
-    const bargainAction = getCodeAction(newBargain!.code);
+    if (!newBargain) {
+      setBargain(null)
+      return;
+    }
+
+    const bargainAction = getCodeAction(newBargain.code);
 
     if (!bargainAction) {
       setBargain(null);

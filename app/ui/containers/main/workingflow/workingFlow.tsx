@@ -22,7 +22,7 @@ export default function WorkingFlow(): JSX.Element {
         {/* Choose hearing aid */}
         <div className="flex flex-col gap-2 lg:w-1/3">
           <Image
-            src="/workFlow/search-product.png"
+            src="/workFlow/icon-search-product.png"
             alt="Icono de selección de audífono"
             width={1000}
             height={1000}
@@ -38,7 +38,7 @@ export default function WorkingFlow(): JSX.Element {
         {/* Send hearing test */}
         <div className="flex flex-col gap-2  lg:w-1/3">
           <Image
-            src="/workFlow/documento.png"
+            src="/workFlow/icon-doc.png"
             alt="Icono de documento para audiograma"
             width={1000}
             height={1000}
@@ -54,7 +54,7 @@ export default function WorkingFlow(): JSX.Element {
         {/* Pick up in store or ship to your home */}
         <div className="flex flex-col gap-2 lg:w-1/3">
           <Image
-            src="/workFLow/ship-home.png"
+            src="/workFLow/icon-ship-home.png"
             alt="Icono de envío a casa o recogida en tienda"
             width={1000}
             height={1000}
@@ -72,7 +72,7 @@ export default function WorkingFlow(): JSX.Element {
       {/* Not knowing the hearing aid but having a hearing test */}
       <article className={`flex flex-col gap-4 p-10 rounded ${lightComponentBackground}`}>
         <Image
-          src="/workFlow/no-idea.png"
+          src="/workFlow/icon-no-idea.png"
           alt="Icono de duda sobre audífonos"
           width={1000}
           height={1000}
@@ -95,7 +95,7 @@ export default function WorkingFlow(): JSX.Element {
       {/* Not knowing the hearing aid but not having a hearing test */}
       <article className={`flex flex-col gap-4 p-10 rounded ${lightComponentBackground}`}>
         <Image
-          src="/workFlow/date.png"
+          src="/workFlow/icon-schedule.png"
           alt="Icono de calendario para cita"
           width={1000}
           height={1000}

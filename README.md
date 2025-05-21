@@ -1,10 +1,10 @@
-# Sain, Audífonos X menos
+# Audífonos X menos
 
 <p align="center">
 <strong>This project is now  in progress...</strong>
 </p>
 
-Sain is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accesibility, usability and affordable prices.
+AudifonosXmenos is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accesibility, usability and affordable prices.
 
 This web application is in property of @KandV008 (Temporary Owner).
 

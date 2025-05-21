@@ -46,7 +46,7 @@ async function createNoveltyTable(client) {
 
   console.log(`Created "novelty" table`);
 
-  addNovelties(client);
+  await addNovelties(client);
 }
 
 /**

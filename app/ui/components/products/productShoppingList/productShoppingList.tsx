@@ -68,6 +68,7 @@ export default function ProductShoppingList({
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
+  const [currentQuantity, setCurrentQuantity] = useState<number>(quantity)
 
   /**
    * Toggles the visibility of the modal.
@@ -83,7 +84,7 @@ export default function ProductShoppingList({
    * @param formData - The form data related to the product.
    */
   const checkBeforeDecrement = (formData: FormData) => {
-    if (quantity === 1) {
+    if (currentQuantity === 1) {
       setFormData(formData);
       handleShowModal();
     } else {
@@ -182,9 +183,10 @@ export default function ProductShoppingList({
             colorHex={colorHex}
             earSide={earSide}
             action={checkBeforeDecrement}
+            updateQuantity={() => setCurrentQuantity(prev => prev-1)}
           />
           {/* Amount */}
-          <span className="px-5 py-2 text-2xl font-bold">{quantity}</span>
+          <span className="px-5 py-2 text-2xl font-bold">{currentQuantity}</span>
           {/* Addition Button */}
           <AmountButton
             symbol={faPlus}
@@ -193,6 +195,7 @@ export default function ProductShoppingList({
             colorHex={colorHex}
             earSide={earSide}
             action={incrementProductInShoppingList}
+            updateQuantity={() => setCurrentQuantity(prev => prev+1)}
           />
         </div>
       </article>
