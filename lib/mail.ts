@@ -83,12 +83,16 @@ export async function sendReceiptEmail(formData: FormData, orderId: string) {
     const base64Pdf = await createReceipt(orderId);
     const audiometryFile = orderData.audiometryFile as File;
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
+
+    const originalFileName = `audiometría-${orderData.userName}_${orderData.userFirstName}`;
+    const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_'); 
+
     
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: orderData.email,
         cc: "contact@audifonosxmenos.com",
-        subject: "Pedido: " + orderData.userName,
+        subject: "Audifonos X menos - Pedido Nº " + orderId,
         text: "Gracias por tu compra. Adjuntamos tu recibo en PDF junto al archivo de audiometría.",
         attachments: [
             {
@@ -98,7 +102,7 @@ export async function sendReceiptEmail(formData: FormData, orderId: string) {
                 contentType: 'application/pdf',
             },
             {
-                filename: `audiometría-${orderData.userName}_${orderData.firstName}.pdf`,
+                filename: sanitizedFileName,
                 content: audiometryBuffer,
                 contentType: audiometryFile.type,
             }
