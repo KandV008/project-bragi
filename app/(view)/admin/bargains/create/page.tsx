@@ -1,3 +1,4 @@
+import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
 import BargainForm from "@/app/ui/containers/admin/bargains/bargainForm/bargainForm";
 import { Metadata } from "next";
 
@@ -17,6 +18,14 @@ export const metadata: Metadata = {
 export default function Page(): JSX.Element {
   return (
     <section>
+      <AdminPanel
+        entity={"bargain"}
+        context={"CREATE"}
+        extras={{
+          entityId: undefined,
+          url: undefined,
+        }}
+      />
       <BargainForm />
     </section>
   );

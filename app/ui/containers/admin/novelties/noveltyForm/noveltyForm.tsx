@@ -23,7 +23,6 @@ import {
   promotionalImageName,
 } from "@/app/config/JSONnames";
 import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty/novelty";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
 import SubmitButton, {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton/submitButton";
@@ -93,7 +92,6 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
 
   return (
     <>
-      <GoBackButton />
       <form
         action={handleForm}
         className={`flex flex-col gap-5 p-5 sm:p-10 

@@ -46,7 +46,6 @@ import { earphoneAdaptationRangeList } from "@/app/model/entities/product/enums/
 import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import { earphoneDegreeOfLossList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product/product";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
 import SubmitButton, {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton/submitButton";
@@ -136,7 +135,6 @@ export default function ProductForm({ product }: FormProps) {
 
   return (
     <>
-      <GoBackButton />
       <form
         action={handleForm}
         className={`flex flex-col gap-5 p-5 sm:p-10 

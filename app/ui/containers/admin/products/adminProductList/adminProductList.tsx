@@ -1,13 +1,11 @@
 "use client";
 
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { getAllProductsRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import ProductContainer, { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer/productContainer";
-import FloatButton from "@/app/ui/components/buttons/floatButton/floatButton";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
+import AdminPanel from "../../adminPanel/adminPanel";
 
 /**
  * This component displays a list of products for administrative purposes. It fetches 
@@ -53,15 +51,9 @@ export default function AdminProductList(): JSX.Element {
   return (
     <section className="flex flex-col gap-5 w-full justify-between">
       {/* Actions */}
-      <FloatButton
-        icon={faPlus}
-        text={"Crear Producto"}
-        subtext={"Añadir un nuevo producto"}
-        type={"default"}
-        position="end"
-        navigationURL={"/admin/products/create"}
-      />
-      <GoBackButton link="/admin" />
+      <AdminPanel entity={"product"} context={"ALL"} extras={{
+        url: "/admin"
+      }} />
       
       {/* List */}
       <article className="md:size-fit lg:px-12">
