@@ -3,6 +3,7 @@ export const getBargainsRoute = "/api/bargains/getBargains"
 
 export const getNoveltyRoute = "/api/novelties/getNovelty"
 export const getNoveltiesRoute = "/api/novelties/getNovelties"
+export const getActiveNoveltiesRoute = "/api/novelties/getActiveNovelties"
 
 export const getProductRoute = "/api/products/getProduct"
 export const getAllProductsRoute = "/api/products/getAllProducts"

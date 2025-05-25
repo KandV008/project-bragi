@@ -14,7 +14,7 @@ export interface NoveltyEntity {
     /** Title of the novelty */
     title: string;
     /** Code representing the novelty */
-    code: string;
+    code: string | null;
     /** Description of the novelty */
     description: string;
     /** URL or path to the promotional image */
@@ -40,7 +40,6 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
         const requiredFields = [
             "id",
             "title",
-            "code",
             "description",
             "promotional_image",
             "type",
@@ -107,7 +106,7 @@ export async function applyNoveltyToList(context: string, products: any[]): Prom
  * @param productsApplied - A set to track which products have already had the novelty applied.
  */
 function handleNovelty(novelty: NoveltyEntity, products: any[], productsApplied: Set<string>) {
-    const action = getNoveltyAction(novelty.code);
+    const action = getNoveltyAction(novelty.code!);
 
     if (!action) {
         Logger.infoFunction("NOVELTY", "handleNovelty", `No action found for novelty code: ${novelty.code}`);

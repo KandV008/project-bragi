@@ -38,6 +38,36 @@ export async function getNovelties(start: string | null, end: string | null): Pr
 }
 
 /**
+ * Fetches a paginated list of active novelties.
+ * @param {string | null} start - The start index.
+ * @param {string | null} end - The end index.
+ * @returns {Promise<NoveltyEntity[]>} - List of active novelty entities.
+ * @throws {Error} - Throws an error if there is an exception during the operation.
+ */
+export async function getActiveNovelties(start: string | null, end: string | null): Promise<NoveltyEntity[]> {
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES)
+
+    try {
+        const client = await sql.connect()
+        const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
+        const limit = endIndex - startIndex + 1;
+        const offset = startIndex;
+
+        const result = await client.query(
+            `SELECT * FROM novelty WHERE end_date > NOW() AND code IS NOT NULL LIMIT $1 OFFSET $2`,
+            [limit, offset], 
+        );
+
+        const novelties: NoveltyEntity[] = result.rows.map(mapDocumentToNovelty);
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, novelties)
+        return novelties
+    } catch (error) {
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, error)
+        throw new Error(`[${METHOD_GET_NOVELTIES}] ${error}`)
+    }
+}
+
+/**
  * Retrieves valid novelties where the `end_date` is greater than the current date.
  *
  * This function queries the `novelty` table and filters out expired novelties
@@ -125,21 +155,21 @@ export async function actionCreateNovelty(formData: FormData): Promise<number> {
 
 /**
  * Creates a new novelty entry in the database.
- * @param {any} bargainData - The data for the new novelty.
+ * @param {any} noveltyData - The data for the new novelty.
  * @throws {Error} - Throws an error if there is an exception during the operation.
  */
-async function createNovelty(bargainData: any): Promise<void> {
+async function createNovelty(noveltyData: any): Promise<void> {
     Logger.startFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY)
-    const { title, description, promotionalImage } = bargainData;
+    const { title, description, promotionalImage, type, context, endDate } = noveltyData;
 
     try {
         const client = await sql.connect();
 
         await client.query(
-            'INSERT INTO novelty (title, description, promotional_image) VALUES ($1, $2, $3)',
-            [title, description, promotionalImage]
+            'INSERT INTO novelty (title, description, promotional_image, type, context, end_date) VALUES ($1, $2, $3, $4, $5, $6)',
+            [title, description, promotionalImage, type, context, endDate]
         );
-        Logger.endFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY, bargainData)
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY, noveltyData)
     } catch (error) {
         Logger.errorFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY, error)
         throw new Error(`[${METHOD_CREATE_NOVELTY}] ${error}`)
@@ -180,22 +210,22 @@ export async function actionUpdateNovelty(formData: FormData): Promise<number> {
 
 /**
  * Updates an existing novelty in the database.
- * @param {any} novelty - The updated novelty data.
+ * @param {any} noveltyData - The updated novelty data.
  * @throws {Error} - Throws an error if there is an exception during the operation.
  */
-async function updateNovelty(novelty: any): Promise<void> {
+async function updateNovelty(noveltyData: any): Promise<void> {
     Logger.startFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY);
-    const { id, title, description, promotionalImage } = novelty;
+    const { id, title, description, promotionalImage, type, context, endDate } = noveltyData;
 
     try {
         const client = await sql.connect();
 
         await client.query(
-            'UPDATE novelty SET title = $2, description = $3, promotional_image = $4 WHERE id = $1',
-            [id, title, description, promotionalImage]
+            'UPDATE novelty SET title = $2, description = $3, promotional_image = $4, type = $5, context = $6, end_date = $7 WHERE id = $1',
+            [id, title, description, promotionalImage, type, context, endDate]
         );
 
-        Logger.endFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY, novelty);
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY, noveltyData);
     } catch (error) {
         Logger.errorFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY, error)
         throw new Error(`[${METHOD_UPDATE_NOVELTY}] ${error}`)

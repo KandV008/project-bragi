@@ -1,7 +1,7 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName } from "@/app/config/JSONnames";
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
+import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_DATE, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
 
 /**
  * Logs an error message for an invalid value and throws an error.
@@ -9,11 +9,11 @@ import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT,
  * @param {string} attribute - The name of the attribute associated with the error.
  * @throws {Error} - Always throws an error indicating the invalid attribute and value.
  */
-function handleInvalidValueError(value: any, attribute: string, context: string){
+function handleInvalidValueError(value: any, attribute: string, context: string) {
     console.error(ERROR_TAG, attribute, INVALID_ATTRIBUTE_MESSAGE);
     console.error(attribute, VALUE_TAG, value)
     throw new Error(`[${context}] ${attribute} ${INVALID_ATTRIBUTE_MESSAGE}. ${VALUE_TAG} ${value}`)
-} 
+}
 
 /**
  * Logs an error message when invalid start and end index values are encountered and throws an error.
@@ -22,7 +22,7 @@ function handleInvalidValueError(value: any, attribute: string, context: string)
  * @param {string} context - The context or location where the error occurred.
  * @throws {Error} - Always throws an error indicating the invalid start and end indexes.
  */
-function handleStartAndEndIndexValueError(start: any, end: any, context: string){
+function handleStartAndEndIndexValueError(start: any, end: any, context: string) {
     console.error(ERROR_TAG, INVALID_START_END_INDEXES_MESSAGE);
     console.error(START_PREFIX_TAG, VALUE_TAG, start)
     console.error(END_PREFIX_TAG, VALUE_TAG, end)
@@ -53,7 +53,7 @@ function handleColorCountersValueError(counterText: number, counterHex: number, 
  * @param {string} defaultValue - The default value being used as a fallback.
  * @param {string} context - The context or location where the warning occurred.
  */
-function handleDefaultValueWarning(value: any, attribute: string, defaultValue: string, context:string){
+function handleDefaultValueWarning(value: any, attribute: string, defaultValue: string, context: string) {
     console.warn(WARNING_TAG, attribute, INVALID_ATTRIBUTE_MESSAGE);
     console.warn(attribute, VALUE_TAG, value)
     console.warn(`[${context}] ${USE_DEFAULT_VALUE_MESSAGE} ${defaultValue}`)
@@ -73,6 +73,34 @@ export function parseString(value: string | null | undefined, attribute: string)
     }
 
     return value
+}
+
+/**
+ * Parses a date value and ensures it is valid.
+ * @param {string | null | undefined} value - The value to parse.
+ * @param {string} attribute - The attribute name for logging purposes.
+ * @returns {string} - The validated string value.
+ * @throws {Error} - Throws an error if the value is invalid.
+ */
+export function parseDate(value: string | null | undefined, attribute: string): string {
+    if (!value) {
+        handleInvalidValueError(value, attribute, CONTEXT_PARSE_DATE)
+        return ""
+    }
+
+    console.warn("PRE-DATE:", value)
+
+    try {
+        const splittedDate = value.split("-")
+        const year = Number(splittedDate[0])
+        const month = Number(splittedDate[1])
+        const day = Number(splittedDate[2])
+
+        return new Date(year, month, day).toISOString()
+    } catch (error) {
+        handleInvalidValueError(value, attribute, CONTEXT_PARSE_DATE)
+        return ""
+    }
 }
 
 /**
@@ -496,15 +524,22 @@ export function parseBargainForm(formData: FormData) {
  * @param {FormData} formData - The form data containing novelty details.
  * @returns {Object} The parsed novelty attributes.
  */
-export function parseNoveltyForm(formData: FormData): object {
+export function parseNoveltyForm(formData: FormData): any {
     const newTitle = parseString(formData.get(noveltyTitleName)?.toString(), "TITLE")
     const newDescription = parseString(formData.get(noveltyDescriptionName)?.toString(), "DESCRIPTION")
     const newPromotionalImage = parseString(formData.get(promotionalImageName)?.toString(), "PROMOTIONAL_IMAGE")
+    const newType = parseString(formData.get(noveltyTypeName)?.toString(), "TITLE")
+    const newContext = parseString(formData.get(noveltyContextName)?.toString(), "DESCRIPTION")
+    const newEndDate = parseDate(formData.get(endDateName)?.toString(), "PROMOTIONAL_IMAGE")
+    console.warn("POST-DATE:", newEndDate)
 
     return {
         title: newTitle,
         description: newDescription,
         promotionalImage: newPromotionalImage,
+        type: newType,
+        context: newContext,
+        endDate: newEndDate,
     }
 }
 
@@ -512,7 +547,7 @@ export function parseNoveltyForm(formData: FormData): object {
  * Parses Shopping form data from FormData.
  * 
  * @param {FormData} formData - The form data containing shopping details.
- * @returns {Object} The parsed shopping form.
+ * @returns {any} The parsed shopping form.
  */
 export function parseShoppingForm(formData: FormData): any {
     const newUserId = parseString(formData.get(userIdName)?.toString(), "USER_ID")
@@ -538,9 +573,9 @@ export function parseShoppingForm(formData: FormData): any {
  * Parses Contact form data from FormData.
  * 
  * @param {FormData} formData - The form data containing contact details.
- * @returns {Object} The parsed contact form.
+ * @returns {any} The parsed contact form.
  */
-export function parseContactForm(formData: FormData) {
+export function parseContactForm(formData: FormData): any {
     const newEmail = parseString(formData.get(contactEmailName)?.toString(), "CONTACT_EMAIL")
     const newSubject = parseString(formData.get(contactSubjectName)?.toString(), "CONTACT_SUBJECT")
     const newBody = parseString(formData.get(contactBodyName)?.toString(), "CONTACT_BODY")
@@ -556,9 +591,9 @@ export function parseContactForm(formData: FormData) {
  * Parses Appointment form data from FormData.
  * 
  * @param {FormData} formData - The form data containing appointment details.
- * @returns {Object} The parsed appointment form.
+ * @returns {any} The parsed appointment form.
  */
-export function parseAppointmentForm(formData: FormData) {
+export function parseAppointmentForm(formData: FormData): any {
     const newUserName = parseString(formData.get(userNameName)?.toString(), "APPOINTMENT_USER_NAME")
     const newEmail = parseString(formData.get(contactEmailName)?.toString(), "APPOINTMENT_EMAIL")
     const newPhoneNumber = parseString(formData.get(phoneNumberName)?.toString(), "APPOINTMENT_PHONE_NUMBER")
@@ -568,6 +603,6 @@ export function parseAppointmentForm(formData: FormData) {
         userName: newUserName,
         email: newEmail,
         phoneNumber: newPhoneNumber,
-        body: newBody ?  newBody : "",
+        body: newBody ? newBody : "",
     };
 }

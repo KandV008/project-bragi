@@ -1,4 +1,4 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, earphoneShapeName, colorTextName, colorHexName, earSideName, adaptationRangeName, dustWaterResistanceName, degreeOfLossName, productDescriptionName, usesName, includeName, hasDustWaterResistanceName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName } from "@/app/config/JSONnames"
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, earphoneShapeName, colorTextName, colorHexName, earSideName, adaptationRangeName, dustWaterResistanceName, degreeOfLossName, productDescriptionName, usesName, includeName, hasDustWaterResistanceName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, noveltyTypeName, noveltyContextName, endDateName } from "@/app/config/JSONnames"
 import { parseAppointmentForm, parseBargainForm, parseContactForm, parseFile, parseFilters, parseNewProductToShoppingList, parseNoveltyForm, parseNumber, parsePrice, parseProductForm, parseProductIds, parseShoppingForm, parseStartAndEndIndex, parseString, parseStringList, parseUpdateOfShoppingList } from "./parser"
 import { APPOINTMENT_FORM_PARSER_NAME, BARGAIN_FORM_PARSER_NAME, CONTEXT_PARSE_APPOINTMENT_FORM, CONTEXT_PARSE_BARGAIN_FORM, CONTEXT_PARSE_CONTACT_FORM, CONTEXT_PARSE_FILE, CONTEXT_PARSE_FILTERS, CONTEXT_PARSE_NEW_PRODUCT_TO_SHOPPING_LIST, CONTEXT_PARSE_NOVELTY_FORM, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_FORM, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_SHOPPING_FORM, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_UPDATE_PRODUCT_OF_SHOPPING_LIST, END_INDEX_PARSER_NAME, FILE_PARSER_NAME, FILTERS_PARSER_NAME, NEW_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME, NOVELTY_FORM_PARSER_NAME, NUMBER_PARSER_NAME, ORDER_FORM_PARSER_NAME, PARSER_DOESNT_WORK_MESSAGE, PARSER_DOESNT_WORK_WITH_REASON_MESSAGE, PRICE_PARSER_NAME, PRODUCT_FORM_PARSER_NAME, PRODUCT_IDS_PARSER_NAME, START_INDEX_PARSER_NAME, STRING_LIST_PARSER_NAME, STRING_PARSER_NAME, UPDATE_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME } from "./parserMessages"
 import { UNIT_TEST_TAG } from "@/tests/testConstants"
@@ -452,6 +452,9 @@ describe(CONTEXT_PARSE_NOVELTY_FORM, () => {
             [noveltyTitleName]: "Novelty Title",
             [noveltyDescriptionName]: "Novelty Description",
             [promotionalImageName]: "./no-image",
+            [noveltyTypeName]: "SPECIFIC",
+            [noveltyContextName]: "SHOPPING-LIST",
+            [endDateName]: "2025-10-14",
         }
 
         const formData = new FormData();

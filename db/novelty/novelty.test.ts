@@ -1,7 +1,7 @@
 import { sql } from "@/__mocks__/@vercel/postgres";
 import { randomUUID } from "crypto";
 import { actionCreateNovelty, actionDeleteNovelty, actionUpdateNovelty, getNovelties, getNovelty, getValidNovelties } from "./novelty";
-import { noveltyDescriptionName, noveltyIdName, noveltyTitleName, promotionalImageName } from "@/app/config/JSONnames";
+import { endDateName, noveltyContextName, noveltyDescriptionName, noveltyIdName, noveltyTitleName, noveltyTypeName, promotionalImageName } from "@/app/config/JSONnames";
 import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
@@ -110,7 +110,7 @@ describe(METHOD_GET_NOVELTY, () => {
                         type: "SPECIFIC",
                         context: "SHOPPING-LIST",
                         end_date: new Date().toISOString(),
-                }]
+                    }]
             }),
         });
 
@@ -133,9 +133,12 @@ describe(METHOD_GET_NOVELTY, () => {
 
 describe(METHOD_ACTION_CREATE_NOVELTY, () => {
     const exampleFormData = {
-        [noveltyTitleName]: "Example Title",
-        [noveltyDescriptionName]: "Example Description",
-        [promotionalImageName]: "/no-image.png",
+        [noveltyTitleName]: "Novelty Title",
+        [noveltyDescriptionName]: "Novelty Description",
+        [promotionalImageName]: "./no-image",
+        [noveltyTypeName]: "SPECIFIC",
+        [noveltyContextName]: "SHOPPING-LIST",
+        [endDateName]: "2025-10-14",
     };
 
     const formData = new FormData();
@@ -175,9 +178,12 @@ describe(METHOD_ACTION_CREATE_NOVELTY, () => {
 describe(METHOD_ACTION_UPDATE_NOVELTY, () => {
     const exampleFormData = {
         [noveltyIdName]: "1",
-        [noveltyTitleName]: "Example Title",
-        [noveltyDescriptionName]: "Example Description",
-        [promotionalImageName]: "/no-image.png",
+        [noveltyTitleName]: "Novelty Title",
+        [noveltyDescriptionName]: "Novelty Description",
+        [promotionalImageName]: "./no-image",
+        [noveltyTypeName]: "SPECIFIC",
+        [noveltyContextName]: "SHOPPING-LIST",
+        [endDateName]: "2025-10-14",
     };
 
     const formData = new FormData();

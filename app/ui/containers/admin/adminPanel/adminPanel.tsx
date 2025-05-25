@@ -13,6 +13,8 @@ import { useState } from "react";
 import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp/confirmationPopUp";
 import { actionDeleteProduct } from "@/db/product/product";
 import toast from "react-hot-toast";
+import { actionDeleteNovelty } from "@/db/novelty/novelty";
+import { actionDeleteBargain } from "@/db/bargain/bargain";
 
 interface AdminPanelProps {
   entity: "product" | "novelty" | "bargain";
@@ -38,6 +40,14 @@ export default function AdminPanel({
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
+
+  const deleteActions = {
+    product: actionDeleteProduct,
+    novelty: actionDeleteNovelty,
+    bargain: actionDeleteBargain,
+  }
+
+  const entityDelete = deleteActions[entity]
 
   const entityRoutes = {
   product: "products",
@@ -103,7 +113,7 @@ const entityRoute = entityRoutes[entity];
             handleShowModal={handleShowModal}
             handleAction={() => {
               handleShowModal();
-              actionDeleteProduct(extras.entityId)
+              entityDelete(extras.entityId)
                 .then((_) => {
                   toast.success("Se ha borrado la entidad.");
                   router.push(`/admin/${entityRoute}`);
