@@ -1,7 +1,11 @@
 "use client";
 
 import {
+  faCarOn,
   faCode,
+  faEnvelope,
+  faExclamation,
+  faQuestion,
   faTag,
   faTextHeight,
   faUpload,
@@ -21,6 +25,7 @@ import {
   bargainCodeName,
   bargainDescriptionName,
   bargainIdName,
+  bargainRequirementsName,
   bargainTitleName,
 } from "@/app/config/JSONnames";
 import SubmitButton, {
@@ -36,6 +41,7 @@ import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { useRouter } from "next/navigation";
+import IncrementalTextInput, { IncrementalTextInputSkeleton } from "@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput";
 
 /**
  * Interface for form properties used in BargainForm
@@ -58,8 +64,8 @@ export default function BargainForm({ bargain }: FormProps) {
   const actionText = bargain ? "Actualizar oferta" : "Crear nueva oferta";
   const actionForm = bargain ? actionUpdateBargain : actionCreateBargain;
   const navigateToURL = bargain
-    ? `/admin/products/${bargain.id}`
-    : `/admin/products`;
+    ? `/admin/bargains/${bargain.id}`
+    : `/admin/bargains`;
   const succesToastText = bargain
     ? "Se ha actualizado la oferta."
     : "Se ha creado la oferta";
@@ -136,6 +142,15 @@ export default function BargainForm({ bargain }: FormProps) {
           icon={faTextHeight}
           value={bargain ? bargain.description : ""}
         />
+        {/* Requirements */}
+        <IncrementalTextInput
+          name={bargainRequirementsName}
+          type="text"
+          placeholder={"Requisito"}
+          label={"Requisitos para aplicar la oferta"}
+          icon={faExclamation}
+          values={bargain ? bargain.requirements : undefined}
+        />
         {/* Submit Button */}
         <section className="self-center">
           <SubmitButton text={actionText} icon={faUpload} isDisable={false} />
@@ -167,6 +182,8 @@ export function BargainFormSkeleton() {
         <TextInputSkeleton />
         {/* Description */}
         <TextAreaInputSkeleton />
+        {/* Requirements */}
+        <IncrementalTextInputSkeleton />
         {/* Submit Button */}
         <SubmitButtonSkeleton />
       </div>

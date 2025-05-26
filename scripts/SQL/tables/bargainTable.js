@@ -5,12 +5,13 @@
  */
 async function addBargains(client) { // TODO Check this predefined
   await client.sql`
-    INSERT INTO bargain (code, title, description, requirements)
+    INSERT INTO bargain (code, title, description, requirements, status)
     VALUES (
       '2POR1', 
       '2x1 en audífonos de la misma marca', 
       'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.',
-      ARRAY['Solo audífonos de la misma marca', 'Han de ser el mismo modelo o CROS', 'Han de ser de oídos distintos']      
+      ARRAY['Solo audífonos de la misma marca', 'Han de ser el mismo modelo o CROS', 'Han de ser de oídos distintos'],
+      true      
     );
   `;
 
@@ -29,7 +30,8 @@ async function createBargainTable(client) {
         code VARCHAR(255),
         title VARCHAR(255) NOT NULL,
         description VARCHAR(255) NOT NULL,
-        requirements TEXT[]
+        requirements TEXT[],
+        status BOOLEAN DEFAULT false NOT NULL
       );
     `;
 

@@ -1,5 +1,6 @@
 export const getBargainRoute = "/api/bargains/getBargain"
 export const getBargainsRoute = "/api/bargains/getBargains"
+export const getActiveBargainsRoute = "/api/bargains/getActiveBargains"
 
 export const getNoveltyRoute = "/api/novelties/getNovelty"
 export const getNoveltiesRoute = "/api/novelties/getNovelties"

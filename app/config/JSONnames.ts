@@ -31,6 +31,7 @@ export const bargainIdName = "id"
 export const bargainCodeName = "code"
 export const bargainTitleName = "title"
 export const bargainDescriptionName = "description"
+export const bargainRequirementsName = "REQUIREMENTS"
 
 export const noveltyIdName = "id"
 export const noveltyTitleName = "title"

@@ -1,4 +1,4 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName } from "@/app/config/JSONnames";
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_DATE, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
@@ -395,6 +395,17 @@ function parseInclude(formData: FormData): string[] {
 }
 
 /**
+ * Parses the "requirements" section from FormData.
+ * 
+ * @param {FormData} formData - The form data containing requirements details.
+ * @returns {string[]} A list of requirements items.
+ */
+function parseRequirements(formData: FormData): string[] {
+    const counter = parseNumber(formData.get(bargainRequirementsName)?.toString(), "REQUIREMENTS_COUNTER")
+    return getIncrementalValues(formData, counter, "REQUIREMENTS")
+}
+
+/**
  * Parses the water and dust resistance field from FormData.
  * 
  * @param {FormData} formData - The form data containing the resistance value.
@@ -504,17 +515,19 @@ function parseEarphoneAttributes(formData: FormData): object {
  * Parses bargain form data from FormData.
  * 
  * @param {FormData} formData - The form data containing bargain details.
- * @returns {Object} The parsed bargain attributes.
+ * @returns {any} The parsed bargain attributes.
  */
-export function parseBargainForm(formData: FormData) {
+export function parseBargainForm(formData: FormData): any {
     const newCode = parseString(formData.get(bargainCodeName)?.toString(), "CODE")
     const newTitle = parseString(formData.get(bargainTitleName)?.toString(), "TITLE")
     const newDescription = parseString(formData.get(bargainDescriptionName)?.toString(), "DESCRIPTION")
+    const newRequirements = parseRequirements(formData)
 
     return {
         code: newCode,
         title: newTitle,
         description: newDescription,
+        requirements: newRequirements
     }
 }
 
