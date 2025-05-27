@@ -1,0 +1,6 @@
+projectKey=audifonosXmenos
+serverUrl=http://localhost:9000
+serverVersion=25.5.0.107428
+dashboardUrl=http://localhost:9000/dashboard?id=audifonosXmenos
+ceTaskId=fe17863b-227e-44c6-be32-686044a25e1d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=fe17863b-227e-44c6-be32-686044a25e1d

@@ -5,12 +5,17 @@ on:
       - develop
     paths-ignore:
       - README.md
+      - .gitattributes
+      - .gitignore
+      - .github/**
+      - compose.yaml
+      - Dockerfile
+      - docs/**
+      - sonar-project.properties
   pull_request:
     branches:
       - main
-      - develop
-    paths-ignore:
-      - README.md
+      - develop      
 
 jobs:
   build:

@@ -8,18 +8,28 @@ on:
 
 
 jobs:
-  build:
-    name: Build and analyze
+  sonar:
+    name: SonarQube analysis
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-node-env
+
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          projectBaseDir: .
+          token: ${{ secrets.SONAR_TOKEN }}
+          extras: |
+            sonar.coverage.exclusions=**/__tests__/**/*, **/*.test.js
+            sonar.test.inclusions=__tests__/**/*.test.js
+      #  env:
+      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
       # - uses: SonarSource/sonarqube-quality-gate-action@v1

@@ -5,6 +5,13 @@ on:
       - main
     paths-ignore:
       - README.md
+      - .gitattributes
+      - .gitignore
+      - .github/**
+      - compose.yaml
+      - Dockerfile
+      - docs/**
+      - sonar-project.properties
   schedule:
     - cron: '0 4 * * 1'
 
