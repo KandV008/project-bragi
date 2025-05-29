@@ -36,3 +36,36 @@ test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Bargain`, async ({ pa
 
     await expect(page.getByRole('heading').first()).toBeVisible();
 })
+
+test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to All Services`, async ({ page }) => {
+    const goBack = async () => {
+        await page.goBack();
+        await page.waitForURL('**/services');
+    }
+
+    await page.goto('https://audifonosxmenos.com');
+
+    await page.getByRole('button', { name: 'Servicios' }).first().click();
+    await page.waitForURL('**/services');
+
+    // Online Appointment
+    await page.getByText('Pedir Cita').first().click();
+    await page.waitForURL('**/services/appointment');
+
+    await expect(page.getByRole('heading', { name: "Pedir cita vía online" })).toBeVisible();
+    await goBack();
+
+    // About Us
+    await page.getByText('Sobre Nosotros').first().click();
+    await page.waitForURL('**/services/about-us');
+
+    await expect(page.getByRole('heading', { name: "Sobre Nosotros" })).toBeVisible();
+    await goBack()
+
+    // Contact
+    await page.getByText('Contacto').first().click();
+    await page.waitForURL('**/services/contact');
+
+    await expect(page.getByRole('heading', { name: "Contacta con nosotros" })).toBeVisible();
+
+})
