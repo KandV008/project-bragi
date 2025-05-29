@@ -1,4 +1,4 @@
-import { setupClerkTestingToken, clerk } from '@clerk/testing/playwright'
+import { clerk } from '@clerk/testing/playwright'
 import { test, expect } from '@playwright/test';
 import { SYSTEM_TEST_TAG } from '../testConstants';
 require("dotenv").config({ path: ".env.local" });
@@ -97,4 +97,26 @@ test(`[${SYSTEM_TEST_TAG}] Registered User navigation`, async ({ page }) => {
     await page.waitForURL('**/profile/shoppingList');
 
     await expect(page.getByText('Cesta').first()).toBeVisible();
+})
+
+test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Dashboard`, async ({ page }) => {
+    await page.goto('https://audifonosxmenos.com');
+
+    await clerk.signIn({
+        page,
+        signInParams: {
+            strategy: 'password',
+            identifier: process.env.E2E_CLERK_USER_USERNAME!,
+            password: process.env.E2E_CLERK_USER_PASSWORD!,
+        },
+    })
+
+    await page.getByRole('button', { name: 'Cuenta' }).first().click();
+    await page.waitForURL('**/profile');
+
+    await expect(page.getByRole('heading', { name: "¿Qué desea hacer con su cuenta?" })).toBeVisible();
+    await page.getByText('Admin').first().click();
+    await page.waitForURL('**/admin');
+
+    await expect(page.getByRole('heading', { name: "¿Qué acción desea realizar?" })).toBeVisible();
 })
