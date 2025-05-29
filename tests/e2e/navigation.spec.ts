@@ -24,4 +24,15 @@ test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Novelty`, async ({ pa
 
     await expect(page.getByRole('heading').first()).toBeVisible();
 })
+
+test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Bargain`, async ({ page }) => {
+    await page.goto('https://audifonosxmenos.com');
+
+    await page.getByRole('button', { name: 'Servicios' }).first().click();
+    await page.waitForURL('**/services');
+
+    await page.getByText('Ofertas').first().click();
+    await page.waitForURL('**/services/bargains');
+
+    await expect(page.getByRole('heading').first()).toBeVisible();
 })
