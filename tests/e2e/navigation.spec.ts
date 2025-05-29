@@ -120,3 +120,32 @@ test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Dashboard`, async ({ p
 
     await expect(page.getByRole('heading', { name: "¿Qué acción desea realizar?" })).toBeVisible();
 })
+
+test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Product`, async ({ page }) => {
+    await page.goto('https://audifonosxmenos.com');
+
+    await clerk.signIn({
+        page,
+        signInParams: {
+            strategy: 'password',
+            identifier: process.env.E2E_CLERK_USER_USERNAME!,
+            password: process.env.E2E_CLERK_USER_PASSWORD!,
+        },
+    })
+
+    await page.getByRole('button', { name: 'Cuenta' }).first().click();
+    await page.waitForURL('**/profile');
+    await expect(page.getByRole('heading', { name: "¿Qué desea hacer con su cuenta?" })).toBeVisible();
+    
+    await page.getByText('Admin').first().click();
+    await page.waitForURL('**/admin');
+    await expect(page.getByRole('heading', { name: "¿Qué acción desea realizar?" })).toBeVisible();
+    
+    await page.getByText('Modificar productos').click();
+    await page.waitForURL('**/admin/products');
+
+    await page.getByRole('link', { name: /^(Ver más|Ver Producto)$/ }).first().click();
+    await page.waitForURL('**/admin/products/**');
+
+    await expect(page.getByRole('heading', { name: 'Detalles del Producto' })).toBeVisible();
+})
