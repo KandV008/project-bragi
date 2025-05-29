@@ -6,6 +6,7 @@ export const ORDER_CONTEXT = "ORDER";
 export const PRODUCT_CONTEXT = "PRODUCT"
 
 export const METHOD_GET_BARGAINS = "getBargains"
+export const METHOD_GET_ACTIVE_BARGAINS = "getActiveBargains"
 export const METHOD_GET_BARGAIN = "getBargain"
 export const METHOD_GET_BARGAIN_BY_CODE = "getBargainByCode"
 export const METHOD_ACTION_CREATE_BARGAIN = "actionCreateBargain"

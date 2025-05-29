@@ -1,8 +1,8 @@
 import { sql } from "@/__mocks__/@vercel/postgres";
-import { actionCreateBargain, actionDeleteBargain, actionUpdateBargain, getBargain, getBargains } from "./bargain"
+import { actionCreateBargain, actionDeleteBargain, actionUpdateBargain, getActiveBargains, getBargain, getBargains } from "./bargain"
 import { randomUUID } from "crypto";
 import { bargainCodeName, bargainTitleName, bargainDescriptionName, bargainIdName, bargainRequirementsName } from "@/app/config/JSONnames";
-import { METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_GET_BARGAINS } from "../dbConfig";
+import { METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_ACTIVE_BARGAINS, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_GET_BARGAINS } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
 vi.mock("@vercel/postgres");
@@ -51,6 +51,53 @@ describe(METHOD_GET_BARGAINS, () => {
         });
 
         await expect(getBargains(startIndex, endIndex)).rejects.toThrow(Error);
+    })
+})
+
+describe(METHOD_GET_ACTIVE_BARGAINS, () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 5 Active Bargains when the start index is 0 and end index is 4`, async () => {
+        const startIndex = "0"
+        const endIndex = "4"
+
+        vi.mocked(sql.connect).mockResolvedValueOnce({
+            query: vi.fn().mockResolvedValue({
+                rows: [
+                    { id: randomUUID(), code: "EXA1", title: "Example Title 1", description: "Example Description 1", requirements: [] },
+                    { id: randomUUID(), code: "EXA2", title: "Example Title 2", description: "Example Description 2", requirements: [] },
+                    { id: randomUUID(), code: "EXA3", title: "Example Title 3", description: "Example Description 3", requirements: [] },
+                    { id: randomUUID(), code: "EXA4", title: "Example Title 4", description: "Example Description 4", requirements: [] },
+                    { id: randomUUID(), code: "EXA5", title: "Example Title 5", description: "Example Description 5", requirements: [] },
+                ]
+            }),
+        });
+
+        const result = await getActiveBargains(startIndex, endIndex)
+
+        assert.lengthOf(result, 5, "It is not the correct amount of Bargains")
+    })
+
+    it(`[${INTEGRATION_TEST_TAG}] should get 0 Active Bargains when there is no bargains`, async () => {
+        const startIndex = "0"
+        const endIndex = "4"
+
+        const result = await getActiveBargains(startIndex, endIndex)
+
+        assert.lengthOf(result, 0, "It is not the correct amount of Bargains")
+    })
+
+    it(`[${INTEGRATION_TEST_TAG}] throw an Error when the active bargain are not correct`, async () => {
+        const startIndex = "0"
+        const endIndex = "4"
+
+        vi.mocked(sql.connect).mockResolvedValueOnce({
+            query: vi.fn().mockResolvedValue({
+                rows: [
+                    { id: 1, code: "EXA1" },
+                ]
+            }),
+        });
+
+        await expect(getActiveBargains(startIndex, endIndex)).rejects.toThrow(Error);
     })
 })
 
