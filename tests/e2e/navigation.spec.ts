@@ -1,5 +1,7 @@
+import { setupClerkTestingToken, clerk } from '@clerk/testing/playwright'
 import { test, expect } from '@playwright/test';
 import { SYSTEM_TEST_TAG } from '../testConstants';
+require("dotenv").config({ path: ".env.local" });
 
 test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Product`, async ({ page }) => {
     await page.goto('https://audifonosxmenos.com');
@@ -68,4 +70,31 @@ test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to All Services`, async 
 
     await expect(page.getByRole('heading', { name: "Contacta con nosotros" })).toBeVisible();
 
+})
+
+
+test(`[${SYSTEM_TEST_TAG}] Registered User navigation`, async ({ page }) => {
+    await page.goto('https://audifonosxmenos.com');
+
+    await clerk.signIn({
+        page,
+        signInParams: {
+            strategy: 'password',
+            identifier: process.env.E2E_CLERK_USER_USERNAME!,
+            password: process.env.E2E_CLERK_USER_PASSWORD!,
+        },
+    })
+
+    await page.getByRole('button', { name: 'Cuenta' }).first().click();
+    await page.waitForURL('**/profile');
+
+    await expect(page.getByRole('heading', { name: "¿Qué desea hacer con su cuenta?" })).toBeVisible();
+    await page.getByText('Favoritos').first().click();
+    await page.waitForURL('**/profile/favorites');
+
+    await expect(page.getByText('Favoritos').first()).toBeVisible();
+    await page.getByText('Cesta').first().click();
+    await page.waitForURL('**/profile/shoppingList');
+
+    await expect(page.getByText('Cesta').first()).toBeVisible();
 })
