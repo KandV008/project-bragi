@@ -23,6 +23,7 @@ export const METHOD_TOGGLE_FAVORITES = "toggleFavorites"
 export const METHOD_DELETE_IN_FAVORITES = "deleteProductInFavorites"
 
 export const METHOD_GET_NOVELTIES = "getNovelties"
+export const METHOD_GET_ACTIVE_NOVELTIES = "getActiveNovelties"
 export const METHOD_GET_VALID_NOVELTIES = "getValidNovelties"
 export const METHOD_GET_NOVELTY = "getNovelty"
 export const METHOD_ACTION_CREATE_NOVELTY = "actionCreateNovelty"
