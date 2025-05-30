@@ -53,8 +53,10 @@ export default function DateInput({
           className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           autoComplete="off"
           step="any"
+          required
           defaultValue={value}
           readOnly={false}
+          min={new Date().toISOString().split("T")[0]} 
         />
       </article>
     </section>
