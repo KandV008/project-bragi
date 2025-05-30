@@ -17,7 +17,7 @@ describe("70percentDiscount Novelty", () => {
         const { product, status } = discountAction70Percent(example1)
 
         assert.deepEqual(status, 0, "Novelty not applied")
-        assert.equal(product.price, exampleProduct.price * 0.7, "The price is not correct")
+        assert.equal(product.discountPrice, exampleProduct.price * 0.7, "The price is not correct")
     })
 
     it(`[${UNIT_TEST_TAG}] should not apply the novelty to the ACCESSORY product`, () => {

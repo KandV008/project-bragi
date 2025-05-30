@@ -90,8 +90,8 @@ describe("Novelty Entity", async () => {
 
         const result = await NoveltyModule.applyNoveltyToList("SHOPPING-LIST", exampleProducts);
 
-        assert.equal(productPrices[0] * exampleMultiplier, result[0].price, "Novelties not applied in product 1");
-        assert.equal(productPrices[1] * exampleMultiplier, result[1].price, "Novelties not applied in product 2");
+        assert.equal(productPrices[0] * exampleMultiplier, result[0].discountPrice, "Novelties not applied in product 1");
+        assert.equal(productPrices[1] * exampleMultiplier, result[1].discountPrice, "Novelties not applied in product 2");
 
         expect(getValidNoveltiesMock).toHaveBeenCalledWith("SHOPPING-LIST");
 
@@ -117,8 +117,8 @@ describe("Novelty Entity", async () => {
 
         const result = await NoveltyModule.applyNoveltyToList("SEARCH", exampleProducts);
 
-        assert.equal(productPrices[0] * exampleMultiplier, result[0].price, "Novelties not applied in product 1");
-        assert.equal(productPrices[1] * exampleMultiplier, result[1].price, "Novelties not applied in product 2");
+        assert.equal(productPrices[0] * exampleMultiplier, result[0].discountPrice, "Novelties not applied in product 1");
+        assert.equal(productPrices[1] * exampleMultiplier, result[1].discountPrice, "Novelties not applied in product 2");
 
         expect(getValidNoveltiesMock).toHaveBeenCalledWith("SEARCH");
 
@@ -145,7 +145,7 @@ describe("Novelty Entity", async () => {
 
         const result = await NoveltyModule.applyNoveltyToProduct ("SHOPPING-LIST", exampleProducts[0]);
 
-        assert.equal(productPrices * exampleMultiplier, result.price, "Novelties not applied in product");
+        assert.equal(productPrices * exampleMultiplier, result.discountPrice, "Novelties not applied in product");
 
         expect(getValidNoveltiesMock).toHaveBeenCalledWith("SHOPPING-LIST");
 
@@ -172,7 +172,7 @@ describe("Novelty Entity", async () => {
 
         const result = await NoveltyModule.applyNoveltyToProduct ("SHOPPING-LIST", exampleProducts[0]);
 
-        assert.equal(productPrices * exampleMultiplier, result.price, "Novelties not applied in product");
+        assert.equal(productPrices * exampleMultiplier, result.discountPrice, "Novelties not applied in product");
 
         expect(getValidNoveltiesMock).toHaveBeenCalledWith("SHOPPING-LIST");
 

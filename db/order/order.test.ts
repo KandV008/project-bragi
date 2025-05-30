@@ -1,7 +1,7 @@
 import { mockCollection, mockCursor } from "@/__mocks__/mongodb"
 import { actionCreateOrder, getOrder, getOrders } from "./order"
 import { ObjectId } from "mongodb"
-import { addressName, audiometryFileName, emailName, phoneNumberName, userFirstName, userIdName, userNameName } from "@/app/config/JSONnames"
+import { addressName, audiometryFileName, emailName, phoneNumberName, userDNIName, userFirstName, userIdName, userNameName } from "@/app/config/JSONnames"
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO"
 import { exampleUser } from "@/__mocks__/@clerk/nextjs/server"
 import { METHOD_ACTION_CREATE_ORDER, METHOD_GET_ORDER, METHOD_GET_ORDERS } from "../dbConfig"
@@ -14,6 +14,7 @@ const createFakeOrders = (index: number) =>
             user_id: exampleUser,
             user_name: `User name ${i}`,
             user_first_name: `User name ${i}`,
+            user_dni: "123123123F",
             phone_number: "123123123",
             email: "example@email.com",
             address: "C/ Example Address",
@@ -85,6 +86,7 @@ describe(METHOD_GET_ORDER, () => {
         user_id: "user_xxx",
         user_name: "Test User",
         user_first_name: "Test",
+        user_dni: "123123123F",
         phone_number: "123456789",
         email: "test@example.com",
         address: "123 Test St",
@@ -126,6 +128,7 @@ describe(METHOD_ACTION_CREATE_ORDER, () => {
         [userIdName]: "Example Title",
         [userNameName]: "Example Description",
         [userFirstName]: "/no-image.png",
+        [userDNIName]: "123123123F",
         [phoneNumberName]: "/no-image.png",
         [emailName]: "/no-image.png",
         [addressName]: "/no-image.png",
@@ -146,6 +149,7 @@ describe(METHOD_ACTION_CREATE_ORDER, () => {
             category: "EARPHONE",
             brand: "PHONAK",
             price: 1234,
+            discountPrice: 0,
             earSide: "left",
             earphoneShape: "CIC",
             colorText: "Blanco",
