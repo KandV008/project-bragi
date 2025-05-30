@@ -32,6 +32,8 @@ interface ProductInformationProps {
   brand: string;
   /** Price of a single product */
   price: number;
+  /** Price of a single product with discount */
+  discountPrice: number | null;
   /** Ear side specification (e.g., left, right, both) */
   earSide: string;
   /** Earphone Shape of the product */
@@ -58,6 +60,7 @@ export default function ProductShoppingList({
   category,
   brand,
   price,
+  discountPrice,
   earSide,
   earphoneShape,
   colorText,
@@ -68,7 +71,7 @@ export default function ProductShoppingList({
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
-  const [currentQuantity, setCurrentQuantity] = useState<number>(quantity)
+  const [currentQuantity, setCurrentQuantity] = useState<number>(quantity);
 
   /**
    * Toggles the visibility of the modal.
@@ -130,8 +133,24 @@ export default function ProductShoppingList({
           </div>
           {/* Price */}
           <div className="flex flex-col">
-            <span className="text-2xl font-bold">Precio total</span>
-            <span className="text-2xl font-bold">{price * quantity}€</span>
+            {discountPrice ? (
+              <>
+                <span className="text-2xl font-bold">Precio total</span>
+                <div className="flex flex-row gap-1">
+                  <del className="text-xl font-bold">
+                    {price * quantity}€
+                  </del>
+                  <span className="text-2xl font-bold text-red-500">
+                    {discountPrice * quantity}€
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <span className="text-2xl font-bold">Precio total</span>
+                <span className="text-2xl font-bold">{price * quantity}€</span>
+              </>
+            )}
           </div>
         </div>
         {/* Choices */}
@@ -183,10 +202,12 @@ export default function ProductShoppingList({
             colorHex={colorHex}
             earSide={earSide}
             action={checkBeforeDecrement}
-            updateQuantity={() => setCurrentQuantity(prev => prev-1)}
+            updateQuantity={() => setCurrentQuantity((prev) => prev - 1)}
           />
           {/* Amount */}
-          <span className="px-5 py-2 text-2xl font-bold">{currentQuantity}</span>
+          <span className="px-5 py-2 text-2xl font-bold">
+            {currentQuantity}
+          </span>
           {/* Addition Button */}
           <AmountButton
             symbol={faPlus}
@@ -195,7 +216,7 @@ export default function ProductShoppingList({
             colorHex={colorHex}
             earSide={earSide}
             action={incrementProductInShoppingList}
-            updateQuantity={() => setCurrentQuantity(prev => prev+1)}
+            updateQuantity={() => setCurrentQuantity((prev) => prev + 1)}
           />
         </div>
       </article>

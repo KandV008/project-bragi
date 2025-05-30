@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  faDriversLicense,
   faFile,
   faMailBulk,
   faMap,
@@ -25,6 +26,7 @@ import {
   emailName,
   addressName,
   audiometryFileName,
+  userDNIName,
 } from "@/app/config/JSONnames";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
@@ -123,8 +125,8 @@ export default function ShoppingForm({ products }: FormProps) {
       const { status, id } = await actionCreateOrder(formData, currentProducts);
 
       if (!status) {
-        console.warn("ID:", id)
-        await sendReceiptEmail(formData, id)
+        console.warn("ID:", id);
+        await sendReceiptEmail(formData, id);
         toast.success("Pedido completado correctamente");
         //router.push("/");
       } else {
@@ -170,6 +172,14 @@ export default function ShoppingForm({ products }: FormProps) {
             placeholder={"Tus apellidos"}
             label={"Apellidos del cliente"}
             icon={faUser}
+          />
+          {/* User DNI */}
+          <TextInput
+            name={userDNIName}
+            type={"text"}
+            placeholder={"99999999A"}
+            label={"Documento identificativo"}
+            icon={faDriversLicense}
           />
         </article>
         {/** User Contact Data */}
@@ -225,9 +235,19 @@ export default function ShoppingForm({ products }: FormProps) {
               <span>{product.colorText}</span>
               <span>x{product.quantity}</span>
               {product.price == 0 && checkInvalidEarphoneShape(product) ? (
-                <span>Pedir Cita</span>
+                <span className="text-red-500">Pedir Cita</span>
               ) : (
-                <span>{product.price * product.quantity}€</span>
+                <>
+                  {product.discountPrice ? (
+                    <>
+                      <span className="text-red-500">{product.discountPrice * product.quantity}€</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{product.price * product.quantity}€</span>
+                    </>
+                  )}
+                </>
               )}
             </div>
           ))}

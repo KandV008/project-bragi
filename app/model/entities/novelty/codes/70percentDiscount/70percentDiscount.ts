@@ -17,7 +17,7 @@ export const discountAction70Percent = (product: any): NoveltyActionProps => {
         return { product, status: 1 }
     }
 
-    product.price = product.price * DISCOUNT_PER_UNIT
+    product.discountPrice = product.price * DISCOUNT_PER_UNIT
 
     return { product, status: 0 }
 }

@@ -14,6 +14,8 @@ export interface ShoppingProductDTO {
     brand: string;
     /** Price of the product */
     price: number;
+    /** Price of the product with discount */
+    discountPrice: number | null;
     /** Ear side specification (e.g., left, right, both) */
     earSide: string;
     /** Earphone Shape of the product */
@@ -45,7 +47,7 @@ export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingP
             "quantity",
         ]
 
-        if (!shoppingProduct || isNaN(shoppingProduct["price"]) || requiredFields.some(field => !shoppingProduct[field])) {
+        if (!shoppingProduct || isNaN(shoppingProduct["price"]) || (shoppingProduct["discount_price"] && isNaN(shoppingProduct["discount_price"])) || requiredFields.some(field => !shoppingProduct[field])) {
             throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE);
         }
 
@@ -55,6 +57,7 @@ export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingP
             category: shoppingProduct.category,
             brand: shoppingProduct.brand,
             price: shoppingProduct.price,
+            discountPrice: shoppingProduct.discount_price,
             earSide: shoppingProduct.ear_side ? shoppingProduct.ear_side : "",
             earphoneShape: shoppingProduct.earphone_shape ? shoppingProduct.earphone_shape : "",
             colorText: shoppingProduct.color_text ? shoppingProduct.color_text : "",

@@ -28,32 +28,37 @@ export interface OrderEntity {
     /**
      * First name of the user
      */
-    firstName: string
+    firstName: string;
+
+    /**
+     * DNI of the user
+     */
+    dni: string;
 
     /**
      * Phone number of the user
      */
-    phoneNumber: string
+    phoneNumber: string;
 
     /**
      * E-mail of the user
      */
-    email: string
+    email: string;
 
     /**
      * Address of the user
      */
-    address: string
+    address: string;
 
     /**
      * Products inside the order
      */
-    products: ShoppingProductDTO[],
+    products: ShoppingProductDTO[];
 
     /**
      * Total price of the order
      */
-    totalPrice: number,
+    totalPrice: number;
 }
 
 /**
@@ -70,6 +75,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             "user_id",
             "user_name",
             "user_first_name",
+            "user_dni",
             "phone_number",
             "email",
             "address",
@@ -98,6 +104,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             phoneNumber: order.phone_number,
             email: order.email,
             address: order.address,
+            dni: order.user_dni,
             products: mappedProducts,
             totalPrice: order.total_price
         }

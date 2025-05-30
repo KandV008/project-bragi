@@ -1,4 +1,4 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName } from "@/app/config/JSONnames";
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName, userDNIName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_DATE, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
@@ -566,6 +566,7 @@ export function parseShoppingForm(formData: FormData): any {
     const newUserId = parseString(formData.get(userIdName)?.toString(), "USER_ID")
     const newUserName = parseString(formData.get(userNameName)?.toString(), "USER_NAME")
     const newUserFirstName = parseString(formData.get(userFirstName)?.toString(), "USER_FIRST_NAME")
+    const newUserDNI = parseString(formData.get(userDNIName)?.toString(), "USER_DNI")
     const newPhoneNumber = parseString(formData.get(phoneNumberName)?.toString(), "PHONE_NUMBER")
     const newEmail = parseString(formData.get(emailName)?.toString(), "EMAIL")
     const newAddress = parseString(formData.get(addressName)?.toString(), "ADDRESS")
@@ -575,6 +576,7 @@ export function parseShoppingForm(formData: FormData): any {
         userId: newUserId,
         userName: newUserName,
         userFirstName: newUserFirstName,
+        userDNI: newUserDNI,
         phoneNumber: newPhoneNumber,
         email: newEmail,
         address: newAddress,

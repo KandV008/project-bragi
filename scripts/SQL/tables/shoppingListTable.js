@@ -18,6 +18,7 @@ async function createShoppingListTable(client) {
       category VARCHAR(255) NOT NULL,
       brand VARCHAR(255) NOT NULL,
       price DOUBLE PRECISION NOT NULL,
+      discound_price DOUBLE PRECISION,
       image_url VARCHAR(255) NOT NULL,
       PRIMARY KEY (product_id, user_id, color_text, color_hex, ear_side)
     );

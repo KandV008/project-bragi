@@ -134,6 +134,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[]) {
       user_id: shoppingData.userId,
       user_name: shoppingData.userName,
       user_first_name: shoppingData.userFirstName,
+      user_dni: shoppingData.userDNI,
       phone_number: shoppingData.phoneNumber,
       email: shoppingData.email,
       address: shoppingData.address,

@@ -47,6 +47,7 @@ import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContex
 import DateInput, {
   DateInputSkeleton,
 } from "@/app/ui/components/inputs/dateInput/dateInput";
+import { getDateValue } from "@/lib/utils";
 
 interface FormProps {
   novelty?: NoveltyEntity;
@@ -74,23 +75,6 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
     ? "No se ha podido actualizar la novedad."
     : "No se ha podido crear la novedad";
   const [showModal, setShowModal] = useState(false);
-
-  const getDateValue = (value: any) => {
-    const date = new Date(value); 
-    if (isNaN(date.getTime())) {
-      console.error("Invalid date input:", value);
-      return "";
-    }
-
-    const pad = (n: number) => n.toString().padStart(2, "0");
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-
-    const result = `${year}-${month}-${day}`;
-    console.log("DATE:", result);
-    return result;
-  };
 
   const dateValue = novelty ? getDateValue(novelty.endDate) : "";
 

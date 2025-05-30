@@ -25,7 +25,7 @@ export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
       `SELECT * FROM shoppingList WHERE user_id = $1 ORDER BY product_id`,
       [userId]
     );
-
+    console.warn("HELLO")
     const productDTOs = result.rows.map(row => mapDocumentToShoppingProductDTO(row));
     const shoppingList = await applyNoveltyToList(NoveltyContext["SHOPPING-LIST"], productDTOs)
     Logger.endFunction(SHOPPING_LIST_CONTEXT, METHOD_GET_SHOPPING_LIST, shoppingList);

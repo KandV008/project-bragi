@@ -28,6 +28,7 @@ export default function ShoppingList({ products }: ShoppingListProps) {
           category={product.category}
           brand={product.brand}
           price={product.price}
+          discountPrice={product.discountPrice}
           earSide={product.earSide}
           earphoneShape={product.earphoneShape}
           colorText={product.colorText}
