@@ -88,15 +88,13 @@ export function parseDate(value: string | null | undefined, attribute: string): 
         return ""
     }
 
-    console.warn("PRE-DATE:", value)
-
     try {
         const splittedDate = value.split("-")
         const year = Number(splittedDate[0])
         const month = Number(splittedDate[1])
         const day = Number(splittedDate[2])
 
-        return new Date(year, month, day).toISOString()
+        return new Date(year, month - 1, day).toUTCString();
     } catch (error) {
         handleInvalidValueError(value, attribute, CONTEXT_PARSE_DATE)
         return ""
@@ -544,7 +542,6 @@ export function parseNoveltyForm(formData: FormData): any {
     const newType = parseString(formData.get(noveltyTypeName)?.toString(), "TITLE")
     const newContext = parseString(formData.get(noveltyContextName)?.toString(), "DESCRIPTION")
     const newEndDate = parseDate(formData.get(endDateName)?.toString(), "PROMOTIONAL_IMAGE")
-    console.warn("POST-DATE:", newEndDate)
 
     return {
         title: newTitle,
