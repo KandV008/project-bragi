@@ -4,15 +4,13 @@ import { componentText } from "../../../tailwindClasses";
 import MediumButtonWithIcon from "../../buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 
 /**
- * A component that displays an empty shopping cart message when no products are found.
+ * A component that displays an empty favorites list message when no products are found.
  *
- * @returns {JSX.Element} The rendered empty shopping cart message component.
+ * @returns {JSX.Element} The rendered empty favorites list message component.
  */
-export default function NoShoppingCartMessage(): JSX.Element {
+export default function NoOrdersMessage(): JSX.Element {
   return (
-    <section
-      className={`flex flex-col gap-5 w-full ${componentText}`}
-    >
+    <section className={`flex flex-col gap-5 w-full ${componentText}`}>
       {/* Icon */}
       <Image
         src="/icon-not-found.png"
@@ -24,13 +22,13 @@ export default function NoShoppingCartMessage(): JSX.Element {
       {/* Message */}
       <article className="flex flex-col m-auto">
         <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-center">
-          No hay ningún producto en la cesta de la compra
+          No ha realizado ningún pedido
         </h1>
       </article>
       <article className="flex flex-col m-auto">
         <p className="text-sm sm:text-lg lg:text-xl text-center">
-          Explora nuestra variedad de productos y pulse el botón de añadir a la
-          cesta de la compra.
+          Explora nuestra variedad de productos y llena la cesta de la compra
+          con lo que te interese, para así poder crear un pedido.
         </p>
       </article>
       {/* Button */}
@@ -38,7 +36,7 @@ export default function NoShoppingCartMessage(): JSX.Element {
         <MediumButtonWithIcon
           icon={faMagnifyingGlass}
           text={"Explorar productos"}
-          subtext={"Buscar cesta de la compra"}
+          subtext={"Llenar cesta"}
           type={"default"}
           navigationURL="/search?category=EARPHONE"
         />
