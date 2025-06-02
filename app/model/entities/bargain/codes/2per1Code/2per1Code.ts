@@ -69,23 +69,40 @@ export const codeAction2PER1 = (shoppingList: ShoppingProductDTO[]): BargainActi
         return { shoppingList, status: 1 };
     }
 
-    const product1: ShoppingProductDTO | undefined = shoppingList.find((e) => e.category === Category.EARPHONE);
+    // Filtrar solo los audífonos
+    const validProducts = shoppingList
+        .map((product, index) => ({ product, index })) // Guardamos el índice original
+        .filter(({ product }) => product.category === Category.EARPHONE);
 
-    if (!product1) {
-        return { shoppingList, status: 1 };
+    if (validProducts.length < 2) {
+        return { shoppingList, status: 1 }; // No hay suficientes productos para aplicar la oferta
     }
 
-    const indexProduct = shoppingList.findIndex((product2, index) => {
-        if (validSimilarProduct(product1, product2)) {
-            return index;
+    const usedIndices = new Set<number>();
+
+    for (let i = 0; i < validProducts.length; i++) {
+        const { product: p1, index: idx1 } = validProducts[i];
+
+        if (usedIndices.has(idx1)) continue; // Ya fue usado
+
+        for (let j = i + 1; j < validProducts.length; j++) {
+            const { product: p2, index: idx2 } = validProducts[j];
+
+            if (usedIndices.has(idx2)) continue;
+
+            if (validSimilarProduct(p1, p2)) {
+                // Aplicamos descuento al segundo producto de la pareja
+                shoppingList[idx2].discountPrice = 0;
+
+                // Marcamos ambos como usados
+                usedIndices.add(idx1);
+                usedIndices.add(idx2);
+
+                break; // pasamos al siguiente p1
+            }
         }
-    });
-
-    if (indexProduct === -1) {
-        return { shoppingList, status: 1 };
     }
-
-    shoppingList[indexProduct].price = 0;
 
     return { shoppingList, status: 0 };
 };
+
