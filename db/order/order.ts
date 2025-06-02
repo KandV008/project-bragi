@@ -9,6 +9,7 @@ import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_ORDER, METH
 require("dotenv").config({ path: ".env.local" });
 
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+import { auth } from "@clerk/nextjs/server";
 
 const USERNAME = process.env.USER;
 const PASSWORD = process.env.PASSWORD;
@@ -33,6 +34,12 @@ export async function getOrders(start: string | null, end: string | null): Promi
   Logger.startFunction(ORDER_CONTEXT, METHOD_GET_ORDERS);
 
   try {
+    const { userId } = auth();
+
+    if (!userId){
+      throw new Error(`[auth] Not authenticated user`)
+    }
+
     const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
 
     await client.connect();
@@ -40,7 +47,7 @@ export async function getOrders(start: string | null, end: string | null): Promi
     const db = client.db("Product-DDBB");
     const coll = db.collection("orders");
 
-    const cursor = coll.find()
+    const cursor = coll.find({ user_id: userId })
       .sort({ _id: -1 })
       .skip(startIndex)
       .limit(endIndex - startIndex + 1);
