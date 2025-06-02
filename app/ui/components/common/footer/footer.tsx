@@ -31,7 +31,7 @@ export default function Footer() {
               "/services/about-us",
               "/policies/disclaimer",
               "/policies/cookies",
-              "/in-development",
+              "/policies/privacy",
               "/in-development",
             ]}
           />
@@ -45,10 +45,10 @@ export default function Footer() {
               "Garantías",
             ]}
             links={[
-              "/in-development",
-              "/in-development",
-              "/in-development",
-              "/in-development",
+              "/services",
+              "/services/appointment",
+              "/policies/disclaimer#14-cambios-y-devoluciones",
+              "/policies/disclaimer#15-garant-a-de-los-productos",
             ]}
           />
           {/* Account Links */}
