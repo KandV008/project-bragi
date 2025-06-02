@@ -32,7 +32,7 @@ export default function Footer() {
               "/policies/disclaimer",
               "/policies/cookies",
               "/policies/privacy",
-              "/in-development",
+              "/policies/terms-and-conditions",
             ]}
           />
           {/* Customer Service Links */}
