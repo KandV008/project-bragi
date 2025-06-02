@@ -30,7 +30,7 @@ export default function Footer() {
             links={[
               "/services/about-us",
               "/policies/disclaimer",
-              "/in-development",
+              "/policies/cookies",
               "/in-development",
               "/in-development",
             ]}
