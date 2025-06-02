@@ -108,7 +108,7 @@ export default function WorkingFlow(): JSX.Element {
           Pide cita en línea y nos encargaremos de hacerte tu audiograma.
         </p>
         <div className="self-center">
-          <SmallButton text="Pedir cita" href="/in-development" />
+          <SmallButton text="Pedir cita" href="/services/appointment" />
         </div>
       </article>
     </section>

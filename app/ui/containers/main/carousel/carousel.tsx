@@ -38,7 +38,7 @@ export default function CarouselWithAction(): JSX.Element {
 
             {/* Call-to-Action Button */}
             <div className="flex justify-center gap-2">
-              <SmallButton text="Pida ya su cita" href="/in-development"/>
+              <SmallButton text="Pida ya su cita" href="/services/appointment"/>
             </div>
           </div>
         </div>
