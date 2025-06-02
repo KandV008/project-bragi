@@ -28,8 +28,8 @@ export default function Footer() {
               "Términos y condiciones",
             ]}
             links={[
-              "/in-development",
-              "/in-development",
+              "/services/about-us",
+              "/policies/disclaimer",
               "/in-development",
               "/in-development",
               "/in-development",
