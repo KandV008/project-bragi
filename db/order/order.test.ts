@@ -38,6 +38,7 @@ const createFakeOrders = (index: number) =>
         }
     ))
 
+vi.mock("@clerk/nextjs/server",);
 vi.mock("mongodb")
 
 describe(METHOD_GET_ORDERS, () => {
@@ -46,6 +47,14 @@ describe(METHOD_GET_ORDERS, () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
+    });
+
+    vi.mock("@clerk/nextjs/server", async () => {
+        const actual = await vi.importActual<any>("@clerk/nextjs/server");
+        return {
+            ...actual,
+            auth: () => ({ userId: exampleUser }),
+        };
     });
 
     it(`[${INTEGRATION_TEST_TAG}] should get 10 Orders when the start index is 0 and end index is 9`, async () => {
