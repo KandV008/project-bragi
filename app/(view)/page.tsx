@@ -12,7 +12,7 @@ import WorkingFlow from "../ui/containers/main/workingflow/workingFlow";
  *
  * @returns {JSX.Element} The homepage layout with interactive elements and product sections.
  */
-export default function Home(): JSX.Element {
+export default async function Home(): Promise<JSX.Element> {
   return (
     <>
       <CarouselWithAction />
@@ -26,7 +26,10 @@ export default function Home(): JSX.Element {
         </div>
       </section>
       {/* Container displaying the latest novelties */}
-      <SomeProductContainer fetchUrl={`${getLatestProductsRoute}`} title={"Últimas novedades"} />
+      <SomeProductContainer
+        fetchUrl={`${getLatestProductsRoute}`}
+        title={"Últimas novedades"}
+      />
       {/* Working flow section */}
       <WorkingFlow />
       {/* Certifications section */}
