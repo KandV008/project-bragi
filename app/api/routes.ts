@@ -22,3 +22,4 @@ export const getOrdersRoute = "/api/orders/getOrders"
 export const getOrderRoute = "/api/orders/getOrder"
 
 export const checkCookiesStatusRoute = "/api/cookies/checkCookiesStatus"
+export const checkTermsAndConditionsRoute = "/api/cookies/checkTermsAndConditions"

@@ -53,7 +53,7 @@ export default function CookiesPopUp({
   return (
     <section
       className="flex justify-center items-center w-full h-full fixed 
-        backdrop-filter backdrop-brightness-75 backdrop-blur-md top-0 right-0 z-50"
+        backdrop-filter backdrop-brightness-75 backdrop-blur-md top-0 right-0 z-40"
     >
       <article
         className={`relative 

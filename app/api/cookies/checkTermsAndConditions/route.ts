@@ -1,8 +1,8 @@
-import { checkCookiesStatus } from "@/lib/cookies";
+import { checkCookiesStatus, checkTermsAndConditions } from "@/lib/cookies";
 import { NextResponse } from "next/server";
 
 /**
- * Handles the GET request to check if the user have configured the cookies.
+ * Handles the GET request to check if the user has accepted the terms and conditions.
  * Returns a JSON response with the result.
  * If an error occurs, it returns a 500 Internal Server Error response.
  *
@@ -10,7 +10,7 @@ import { NextResponse } from "next/server";
  */
 export async function GET() {
     try {
-      const showPopUp = await checkCookiesStatus();
+      const showPopUp = await checkTermsAndConditions();
   
       return NextResponse.json(showPopUp);
     } catch (error) {

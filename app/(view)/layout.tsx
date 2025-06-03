@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { customLocalization } from "@/lib/translation";
 import Footer from "../ui/components/common/footer/footer";
 import CookiesPopUp from "../ui/components/popUps/cookiesPopUp/cookiesPopUp";
+import TermsAndConditionsPopUp from "../ui/components/popUps/termsAndConditionsPopUp/termsAndConditionsPopUp";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -56,6 +57,7 @@ export default async function RootLayout({
             showSpinner={false}
             speed={500}
           />
+          <TermsAndConditionsPopUp />
           <CookiesPopUp />
 
           {/* Header section */}
