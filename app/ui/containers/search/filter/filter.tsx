@@ -4,9 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import RadioInputWithQuantity, {
   RadioInputWithQuantitySkeleton,
 } from "../../../components/inputs/radioInputWithQuantity/radioInputWithQuantity";
-import {
-  valueOfWaterDustResistance,
-} from "@/app/model/entities/product/enums/earphoneAttributes/WaterDustResistance";
+import { valueOfWaterDustResistance } from "@/app/model/entities/product/enums/earphoneAttributes/WaterDustResistance";
 import {
   componentBackground,
   componentText,
@@ -15,8 +13,16 @@ import {
 import { getFilterInformationRoute } from "@/app/api/routes";
 import { valueOfEarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { valueOfEarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
-import { adaptationRangeName, brandName, degreeOfLossName, earphoneShapeName, dustWaterResistanceName } from "@/app/config/JSONnames";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import {
+  adaptationRangeName,
+  brandName,
+  degreeOfLossName,
+  earphoneShapeName,
+  dustWaterResistanceName,
+} from "@/app/config/JSONnames";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 
 /**
  * Props for the Filter component
@@ -41,9 +47,7 @@ const elementsToFilter = [
  * @param {FilterProps} props - Component properties
  * @returns {JSX.Element} The Filter component
  */
-export default function Filter({
-  onChange,
-}: FilterProps): JSX.Element {
+export default function Filter({ onChange }: FilterProps): JSX.Element {
   const [isLoading, setLoading] = useState(true);
   const [filterElements, setFilterElements] = useState<any>();
 
@@ -59,7 +63,7 @@ export default function Filter({
         setFilterElements(data);
       })
       .catch((error) => {
-        console.error(error)
+        console.error(error);
       });
   }, []);
 
@@ -72,7 +76,8 @@ export default function Filter({
    * @returns {(event: ChangeEvent<HTMLInputElement>) => void} - Event handler for filter selection.
    */
   const filterSelected =
-    (type: string): (event: ChangeEvent<HTMLInputElement>) => void => (event: ChangeEvent<HTMLInputElement>) => {
+    (type: string): ((event: ChangeEvent<HTMLInputElement>) => void) =>
+    (event: ChangeEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement).value;
       const filter = `${type}:${value}`;
       console.log("SELECTED FILTER:", filter);
@@ -131,6 +136,7 @@ export default function Filter({
             valueOf={(x) => x}
             type={earphoneShapeName}
             onChange={filterSelected}
+            dismiss={["COFOSIS"]}
           />
         </article>
         {/* Degree Of Loss */}
