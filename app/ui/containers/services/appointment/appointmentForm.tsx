@@ -77,11 +77,25 @@ export default function AppointmentForm(): JSX.Element {
             cita. Recuerda que la cita será presencial en nuestra tienda.
           </div>
           {/* Map */}
-          <div>
+          <div className="size-full flex flex-col justify-center">
             <iframe
-              className={`${componentBorder}`}
+              className={`${componentBorder} m-auto hidden 2xl:block`}
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3120.8837945620553!2d-0.13322481110708237!3d38.536446795229544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd62051ca5c7aa21%3A0xc15fdd419587e0b0!2sINTERVISI%C3%93N%20EXPERT%20%C3%93ptica%20y%20Audiolog%C3%ADa%20Benidorm!5e0!3m2!1ses!2ses!4v1743010501228!5m2!1ses!2ses"
-              width="600"
+              width="450"
+              height="450"
+              loading="lazy"
+            ></iframe>{" "}
+            <iframe
+              className={`${componentBorder} m-auto hidden xl:block 2xl:hidden`}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3120.8837945620553!2d-0.13322481110708237!3d38.536446795229544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd62051ca5c7aa21%3A0xc15fdd419587e0b0!2sINTERVISI%C3%93N%20EXPERT%20%C3%93ptica%20y%20Audiolog%C3%ADa%20Benidorm!5e0!3m2!1ses!2ses!4v1743010501228!5m2!1ses!2ses"
+              width="350"
+              height="350"
+              loading="lazy"
+            ></iframe>{" "}
+            <iframe
+              className={`${componentBorder} m-auto hidden lg:block xl:hidden`}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3120.8837945620553!2d-0.13322481110708237!3d38.536446795229544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd62051ca5c7aa21%3A0xc15fdd419587e0b0!2sINTERVISI%C3%93N%20EXPERT%20%C3%93ptica%20y%20Audiolog%C3%ADa%20Benidorm!5e0!3m2!1ses!2ses!4v1743010501228!5m2!1ses!2ses"
+              width="425"
               height="450"
               loading="lazy"
             ></iframe>{" "}
