@@ -600,6 +600,24 @@ export function parseContactForm(formData: FormData): any {
 }
 
 /**
+ * Parses Send Audiometry File form data from FormData.
+ * 
+ * @param {FormData} formData - The form data containing audiometry form details.
+ * @returns {any} The parsed contact form.
+ */
+export function parseSendAudiometryFileForm(formData: FormData): any {
+    const newEmail = parseString(formData.get(contactEmailName)?.toString(), "CONTACT_EMAIL")
+    const newBody = parseString(formData.get(contactBodyName)?.toString(), "CONTACT_BODY")
+    const newAudiometryFile = parseFile(formData.get(audiometryFileName), "AUDIOMETRY_FILE")
+
+    return {
+        email: newEmail,
+        body: newBody,
+        audiometryFile: newAudiometryFile,
+    };
+}
+
+/**
  * Parses Appointment form data from FormData.
  * 
  * @param {FormData} formData - The form data containing appointment details.

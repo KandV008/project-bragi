@@ -168,6 +168,22 @@ export function validateContactForm(formData: FormData): boolean{
 }
 
 /**
+ * Validates the send audiometry file form by checking if required fields are not empty.
+ * Displays error messages for missing fields.
+ *
+ * @param {FormData} formData - The form data containing input values.
+ * @returns {boolean} - Returns true if the form is valid, otherwise false.
+ */
+export function validateSendAudiometryFileForm(formData: FormData): boolean{
+    clearErrorMessagesList()
+
+    checkIfNotEmpty(formData, contactEmailName, EMPTY_EMAIL_INPUT_MESSAGE)
+    checkIfNotEmpty(formData, contactBodyName, EMPTY_BODY_INPUT_MESSAGE)
+
+    return checkErrorMessagesList()
+}
+
+/**
  * Validates the appointment form by ensuring required fields are not empty.
  * Displays error messages for missing fields.
  *

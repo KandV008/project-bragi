@@ -1,7 +1,7 @@
 'use server';
 
 import nodemailer from "nodemailer";
-import { parseAppointmentForm, parseContactForm, parseShoppingForm } from "./parser/parser";
+import { parseAppointmentForm, parseContactForm, parseSendAudiometryFileForm, parseShoppingForm } from "./parser/parser";
 import { Logger } from "@/app/config/Logger";
 import createReceipt from "./receipt";
 
@@ -44,6 +44,39 @@ export async function sendContactEmail(formData: FormData): Promise<void> {
     });
 
     Logger.endFunction(CONTEXT, "sendContactEmail", info.messageId)
+}
+
+/**
+ * Sends a contact email with the provided form data.
+ *
+ * @param {FormData} formData - The form data containing email, subject, and body.
+ * @returns {Promise<void>} A promise that resolves when the email is sent.
+ */
+export async function sendAudiometryFileEmail(formData: FormData): Promise<void> {
+    Logger.startFunction(CONTEXT, "sendAudiometryFileEmail")
+
+    const { email, body, audiometryFile  } = parseSendAudiometryFileForm(formData)
+
+    const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
+
+    const originalFileName = `audiometría-${email}`;
+    const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_'); 
+
+    const info = await transporter.sendMail({
+        from: "contact@audifonosxmenos.com",
+        to: "contact@audifonosxmenos.com",
+        subject: "Archivo de Audiometría. Se requiere una recomendación.",
+        text: "Correo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
+        attachments: [
+            {
+                filename: sanitizedFileName,
+                content: audiometryBuffer,
+                contentType: audiometryFile.type,
+            }
+        ],
+    });
+
+    Logger.endFunction(CONTEXT, "sendAudiometryFileEmail", info.messageId)
 }
 
 /**
