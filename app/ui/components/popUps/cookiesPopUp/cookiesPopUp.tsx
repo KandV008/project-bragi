@@ -90,10 +90,10 @@ export default function CookiesPopUp({
         )}
 
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl font-bold">Política de Cookies</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-center">Política de Cookies</h1>
 
         {/* Message */}
-        <div className="flex flex-col gap-3 text-lg sm:text-xl text-center overflow-y-auto h-5/6">
+        <div className="flex flex-col gap-3 text-lg sm:text-xl text-center overflow-y-auto h-96 w-5/6">
           <p>
             <strong>Audífonos X menos</strong> y sus socios utilizan cookies
             para ofrecerte un servicio mejor, más seguro y más rápido y para

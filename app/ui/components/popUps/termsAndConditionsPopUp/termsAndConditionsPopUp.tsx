@@ -9,7 +9,7 @@ import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 import MediumButtonWithIcon from "../../buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 import { acceptTermsAndConditions } from "@/lib/cookies";
 import { useEffect, useState } from "react";
-import { checkCookiesStatusRoute, checkTermsAndConditionsRoute } from "@/app/api/routes";
+import { checkTermsAndConditionsRoute } from "@/app/api/routes";
 import TermsAndConditions from "@/app/ui/containers/policies/termsAndConditions/termsAndConditions";
 
 /**
@@ -49,7 +49,7 @@ export default function TermsAndConditionsPopUp(): JSX.Element {
             ${componentBackground} ${componentText} ${componentBorder}`}
       >
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl font-bold">Términos y Condiciones</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-center">Términos y Condiciones</h1>
 
         {/* Message */}
         <div className="flex flex-col gap-3 text-lg sm:text-xl text-center overflow-y-auto h-96 w-5/6">
