@@ -18,9 +18,9 @@ const inter = Inter({ subsets: ["latin"] });
  * Metadata for the page, defining the title and description.
  */
 export const metadata: Metadata = {
-  title: "Sain, Audífonos X Menos",
+  title: "Audífonos X menos",
   description:
-    "Sain is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accessibility, usability, and affordable prices.",
+    "Audífonos X menos is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accessibility, usability, and affordable prices.",
 };
 
 /**
