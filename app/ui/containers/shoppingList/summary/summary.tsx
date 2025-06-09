@@ -67,7 +67,13 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
   };
 
   const totalPrice = currentProducts.reduce(
-    (total, product) => total + product.price * product.quantity,
+    (total, product) => {
+      if (product.discountPrice == null){
+        return total + product.price * product.quantity
+      }
+
+      return total + product.discountPrice * product.quantity
+    },
     0
   );
 
@@ -88,7 +94,7 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
             <span>{product.name}</span>
             <span>{product.colorText}</span>
             <span>x{product.quantity}</span>
-            {product.discountPrice ? (
+            {product.discountPrice != null ? (
               <>
                 <span className="text-red-500">
                   {product.discountPrice * product.quantity}€

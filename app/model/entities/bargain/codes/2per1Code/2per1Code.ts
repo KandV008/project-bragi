@@ -69,40 +69,55 @@ export const codeAction2PER1 = (shoppingList: ShoppingProductDTO[]): BargainActi
         return { shoppingList, status: 1 };
     }
 
-    // Filtrar solo los audífonos
-    const validProducts = shoppingList
-        .map((product, index) => ({ product, index })) // Guardamos el índice original
-        .filter(({ product }) => product.category === Category.EARPHONE);
+    const invalidEarphones = shoppingList
+        .filter((product) => product.category === Category.ACCESSORY || product.earSide === "both");
 
-    if (validProducts.length < 2) {
-        return { shoppingList, status: 1 }; // No hay suficientes productos para aplicar la oferta
+
+    const validEarphones = shoppingList
+        .filter((product) => product.category === Category.EARPHONE && product.earSide !== "both");
+
+    console.warn("VALID-EARPHONES:", validEarphones)
+
+    if (validEarphones.length < 2) {
+        return { shoppingList, status: 1 };
     }
 
-    const usedIndices = new Set<number>();
+    const orderedEarphones = validEarphones.toSorted((a, b) => a.price - b.price)
 
-    for (let i = 0; i < validProducts.length; i++) {
-        const { product: p1, index: idx1 } = validProducts[i];
+    console.warn("ORDERED-EARPHONES:", orderedEarphones)
 
-        if (usedIndices.has(idx1)) continue; // Ya fue usado
+    let isDone = false;
 
-        for (let j = i + 1; j < validProducts.length; j++) {
-            const { product: p2, index: idx2 } = validProducts[j];
+    for (let indexA = 0; indexA < orderedEarphones.length; indexA++) {
+        let elementA = orderedEarphones[indexA]
 
-            if (usedIndices.has(idx2)) continue;
+        for (let indexB = indexA + 1; indexB < orderedEarphones.length; indexB++) {
+            let elementB = orderedEarphones[indexB]
 
-            if (validSimilarProduct(p1, p2)) {
-                // Aplicamos descuento al segundo producto de la pareja
-                shoppingList[idx2].discountPrice = 0;
+            if (validSimilarProduct(elementA, elementB)){
 
-                // Marcamos ambos como usados
-                usedIndices.add(idx1);
-                usedIndices.add(idx2);
+                if (elementA.quantity === 1){
+                    elementA.discountPrice = 0;
+                } else {
+                    const newElementA = JSON.parse(JSON.stringify(elementA));
+                    newElementA.discountPrice = 0;
+                    newElementA.quantity = 1;
+                    orderedEarphones.push(newElementA)
+                    elementA.quantity -= 1
+                }
 
-                break; // pasamos al siguiente p1
+                isDone = true;
+                break;
             }
         }
+
+        if (isDone){
+            break;
+        }        
     }
 
-    return { shoppingList, status: 0 };
+    console.warn("RESULT:", orderedEarphones)
+
+    return { shoppingList: [...invalidEarphones, ...orderedEarphones], status: isDone ? 0 : 1 };
 };
 
