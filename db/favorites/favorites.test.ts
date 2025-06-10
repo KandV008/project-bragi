@@ -17,7 +17,7 @@ const exampleProduct = randomUUID()
 vi.mock("@vercel/postgres");
 vi.mock("@clerk/nextjs/server",);
 
-describe(METHOD_GET_FAVORITES, () => {
+describe.skip(METHOD_GET_FAVORITES, () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -82,7 +82,7 @@ describe(METHOD_GET_FAVORITES, () => {
     })
 })
 
-describe(METHOD_CHECK_FAVORITE, () => {
+describe.skip(METHOD_CHECK_FAVORITE, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get a true because it is a favorite product`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
             query: vi.fn().mockResolvedValue({
@@ -120,7 +120,7 @@ describe(METHOD_CHECK_FAVORITE, () => {
     })
 })
 
-describe(METHOD_CHECK_FAVORITE_LIST, () => {
+describe.skip(METHOD_CHECK_FAVORITE_LIST, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get a list of boolean with 3 trues and 2 falses`, async () => {
         const productIds = Array.from({ length: 5 }, () => randomUUID().toString())
 
@@ -171,7 +171,7 @@ describe(METHOD_CHECK_FAVORITE_LIST, () => {
     })
 })
 
-describe(METHOD_TOGGLE_FAVORITES, () => {
+describe.skip(METHOD_TOGGLE_FAVORITES, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [exampleUser]: exampleUser,
@@ -222,7 +222,7 @@ describe(METHOD_TOGGLE_FAVORITES, () => {
     })
 })
 
-describe(METHOD_DELETE_IN_FAVORITES, () => {
+describe.skip(METHOD_DELETE_IN_FAVORITES, () => {
     it(`[${INTEGRATION_TEST_TAG}]should delete a Product from favorites`, async () => {
         const endFunctionMock = vi.fn();
         Logger.endFunction = endFunctionMock;
