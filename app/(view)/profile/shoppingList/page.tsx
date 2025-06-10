@@ -32,7 +32,7 @@ export default async function Page() {
           {/* Page header */}
           <SectionHeader text="Cesta de la compra" />
           {/* Shopping list and summary section */}
-          <section className="flex flex-col-reverse lg:flex-row gap-3">
+          <section className="flex flex-col-reverse lg:flex-row gap-3 justify-center">
             {/* Shopping list container */}
             <ShoppingList products={shoppingList} />
             <div className="shrink-0 z-10">

@@ -118,25 +118,25 @@ export default function ProductShoppingList({
           width={150}
           height={150}
           alt={"img-" + name}
-          className="size-64 sm:size-full 2xl:size-48 bg-white rounded self-center"
+          className="size-64 md:size-56 2xl:size-48 bg-white rounded self-center justify-self-center"
         />
       </>
       {/* Information */}
-      <article className="flex flex-col self-center 2xl:flex-row gap-5 rounded-md p-3">
+      <article className="flex flex-col self-center 2xl:flex-col gap-2 rounded-md p-3">
         {/* Product */}
-        <div className="flex flex-col sm:flex-row 2xl:flex-col sm:gap-10">
+        <div className="flex flex-col gap-1 2xl:flex-row text-center">
           {/* Name */}
-          <div className="flex flex-col">
-            <span className="text-xl font-bold">{name}</span>
+          <div className="flex flex-col ">
+            <span className="text-lg md:text-xl font-bold text-center">{name}</span>
             {/* Brand */}
             <span className="text-lg font-bold">{brand}</span>
           </div>
           {/* Price */}
-          <div className="flex flex-col">
+          <div className="flex flex-col text-center">
             {discountPrice ? (
               <>
                 <span className="text-2xl font-bold">Precio total</span>
-                <div className="flex flex-row gap-1">
+                <div className="flex flex-row gap-1 justify-center">
                   <del className="text-xl font-bold">
                     {price * quantity}€
                   </del>
@@ -154,10 +154,10 @@ export default function ProductShoppingList({
           </div>
         </div>
         {/* Choices */}
-        <div className="flex flex-col self-center">
+        <div className="flex flex-col self-center 2xl:flex-row">
           {/* EarSide */}
           {category === "EARPHONE" ? (
-            <div className="flex flex-col sm:flex-row 2xl:flex-col">
+            <div className="flex flex-col sm:flex-row 2xl:flex-col justify-between">
               <span className="font-bold">Lado del audífono</span>
               <span className="mx-2">{showEarSide}</span>
             </div>
@@ -166,7 +166,7 @@ export default function ProductShoppingList({
           )}
           {/* Earphone Shape */}
           {category === "EARPHONE" ? (
-            <div className="flex flex-col sm:flex-row 2xl:flex-col">
+            <div className="flex flex-col sm:flex-row 2xl:flex-col justify-between">
               <span className="font-bold">Forma del Audífono</span>
               <span className="mx-2">{earphoneShape}</span>
             </div>
@@ -176,8 +176,8 @@ export default function ProductShoppingList({
 
           {/* Color */}
           {category === "EARPHONE" ? (
-            <div className="flex flex-col sm:flex-row 2xl:flex-col">
-              <span className="font-bold">Color del producto</span>
+            <div className="flex flex-col sm:flex-row 2xl:flex-col justify-between">
+              <span className="font-bold">Color</span>
               <span className="mx-2">{colorText}</span>
             </div>
           ) : (
