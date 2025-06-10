@@ -97,12 +97,12 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
             {product.discountPrice != null ? (
               <>
                 <span className="text-red-500">
-                  {product.discountPrice * product.quantity}€
+                  {(product.discountPrice * product.quantity).toFixed(2)}€
                 </span>
               </>
             ) : (
               <>
-                <span>{product.price * product.quantity}€</span>
+                <span>{(product.price * product.quantity).toFixed(2)}€</span>
               </>
             )}
           </div>
@@ -118,7 +118,7 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
-          <span className="text-2xl font-bold text-red-1">{totalPrice}€</span>
+          <span className="text-2xl font-bold text-red-1">{totalPrice.toFixed(2)}€</span>
         </div>
         <div className="place-self-center">
           <MediumButtonWithIcon

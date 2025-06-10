@@ -69,3 +69,20 @@ export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingP
         throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE)
     }
 }
+
+export function mapShoppingProductToDocument(product: ShoppingProductDTO): { product_id: string; name: string; category: string; brand: string; price: number; discount_price: number | null; ear_side: string; earphone_shape: string; color_text: string; color_hex: string; image_url: string; quantity: number; } {
+  return {
+    product_id: product.id,
+    name: product.name,
+    category: product.category,
+    brand: product.brand,
+    price: product.price,
+    discount_price: product.discountPrice,
+    ear_side: product.earSide,
+    earphone_shape: product.earphoneShape,
+    color_text: product.colorText,
+    color_hex: product.colorHex,
+    image_url: product.imageURL,
+    quantity: product.quantity,
+  };
+}

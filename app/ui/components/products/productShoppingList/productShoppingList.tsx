@@ -136,12 +136,12 @@ export default function ProductShoppingList({
             {discountPrice ? (
               <>
                 <span className="text-2xl font-bold">Precio total</span>
-                <div className="flex flex-row gap-1 justify-center">
+                <div className="flex flex-col gap-1 justify-center">
                   <del className="text-xl font-bold">
-                    {price * quantity}€
+                    {(price * quantity).toFixed(2)}€
                   </del>
                   <span className="text-2xl font-bold text-red-500">
-                    {discountPrice * quantity}€
+                    {(discountPrice * quantity).toFixed(2)}€
                   </span>
                 </div>
               </>

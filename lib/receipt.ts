@@ -5,6 +5,7 @@ import { IVA_ACCESSORY_PRODUCT, IVA_EARPHONE_PRODUCT } from "@/app/model/entitie
 import { getOrder } from "@/db/order/order";
 import puppeteer from 'puppeteer';
 import { getDateValue, getSpanishHourValue } from "./utils";
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 
 /**
  * Generates a base64-encoded PDF receipt from an order ID.
@@ -92,22 +93,29 @@ function generateHeader(order: OrderEntity): string {
  * @returns {string} - HTML string for the body section.
  */
 function generateBody(order: OrderEntity): string {
+    const invalidProducts = order.invalidProducts
+
+    const checkIfIsInvalidProduct = (currentProduct: ShoppingProductDTO) => {
+        return invalidProducts.find((productToCompare) => {
+            return currentProduct.name === productToCompare.name
+        })
+    }
 
     const formattedDate = getDateValue(order.creationDate) + " " + getSpanishHourValue(order.creationDate);
     const productRows = order.products.map(product => (
         `
             <tr>
                 <td>${product.id}</td>
-                <td>${product.name}</td>
+                <td>${product.name} ${checkIfIsInvalidProduct(product) ? "*" : ""}</td>
                 <td>${product.quantity}</td>
                 <td>${product.price.toFixed(2)} €</td>
                 <td>${(product.price * product.quantity).toFixed(2)} €</td>
-                <td>${product.discountPrice ? ((product.price / product.discountPrice) * 100).toFixed(0) : '0.00'}%</td>
+                <td>${product.discountPrice != null ? (((product.price - product.discountPrice) /  product.price) * 100).toFixed(0) : '0.00'}%</td>
                 <td>${((product.category === "EARPHONE" ? IVA_EARPHONE_PRODUCT : IVA_ACCESSORY_PRODUCT) * 100)}%</td>
-                <td>${product.discountPrice
-                    ? (product.discountPrice * product.quantity).toFixed(2)
-                    : (product.price * product.quantity).toFixed(2)
-                } €</td>
+                <td>${product.discountPrice != null
+            ? (product.discountPrice * product.quantity).toFixed(2)
+            : (product.price * product.quantity).toFixed(2)
+        } € ${checkIfIsInvalidProduct(product) ? "**" : ""}</td>
             </tr>
     `
     )).join('');
@@ -117,6 +125,8 @@ function generateBody(order: OrderEntity): string {
             <p><strong>Nº Factura:</strong> ${order.id}</p>
             <p><strong>Fecha:</strong> ${formattedDate}</p>
             <p><strong>Código Cliente:</strong> ${order.userId}</p>
+            <p><strong>Codigo de Oferta aplicado:</strong> ${order.bargainApplied ? order.bargainApplied : "Ninguno"}</p>
+
         </div>
 
         <table class="invoice-table">
@@ -136,6 +146,8 @@ function generateBody(order: OrderEntity): string {
                 ${productRows}
             </tbody>
         </table>
+        <p><small><strong>*</strong> Este producto no será cobrado a priori al tener una forma CIC y/o BTE, ya que es necesario realizar un molde personalizado para el cliente. Contactaremos contigo para acordar una cita.</small></p>
+        <p><small><strong>**</strong> Al tratarse de un audífono con forma CIC y/o BTE, el precio que se muestra es el del audífono únicamente. No incluye el coste del molde personalizado. El precio presente no será aplicado a la suma total.</small></p>
     `;
 }
 
@@ -178,6 +190,11 @@ function generateFooter(order: OrderEntity): string {
                 <tr>
                 <td>Tarjeta de Crédito</td>
                 </tr>
+                ${
+                    order.invalidProducts && order.invalidProducts.length !== 0 
+                    ? `<tr><td>Los productos marcados con '*' serán cobrados cuando se realicen los correspondientes moldes, siendo posible cambiar la forma de pago.</td></tr>` 
+                    : ""
+                }
             </tbody>
             </table>
         </div>

@@ -1,7 +1,7 @@
 'use server';
 
 import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Order";
-import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
+import { mapShoppingProductToDocument, ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/config/Logger";
 import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_ORDER, METHOD_GET_ORDERS, ORDER_CONTEXT } from "../dbConfig";
@@ -98,7 +98,7 @@ export async function getOrder(orderIdToParse: string | null): Promise<OrderEnti
  * @returns {Promise<Object>} - Status code (0 for success, 1 for failure) and the id of the new order.
  * @throws {Error} - If an error occurs while creating an order to the database. 
  */
-export async function actionCreateOrder(formData: FormData, products: ShoppingProductDTO[]): Promise<any> {
+export async function actionCreateOrder(formData: FormData, products: ShoppingProductDTO[], bargainCode: string | undefined): Promise<any> {
   Logger.startFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER);
 
   try {
@@ -106,7 +106,7 @@ export async function actionCreateOrder(formData: FormData, products: ShoppingPr
     let status: number = 1
     let id: string | null = null
 
-    await createOrder(newShopping, products)
+    await createOrder(newShopping, products, bargainCode)
       .then((data) => {
         Logger.endFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER, "void");
         status = 0
@@ -130,8 +130,10 @@ export async function actionCreateOrder(formData: FormData, products: ShoppingPr
  * @param {Array} products - List of products associated with the order.
  * @throws {Error} - If an error occurs while creating an order to the database. 
  */
-async function createOrder(shoppingData: any, products: ShoppingProductDTO[]) {
+async function createOrder(shoppingData: any, products: ShoppingProductDTO[], bargainCode: string | undefined) {
   Logger.startFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER);
+
+  const invalidProducts = getInvalidProducts(products);
 
   try {
     const database = client.db("Product-DDBB");
@@ -145,19 +147,9 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[]) {
       phone_number: shoppingData.phoneNumber,
       email: shoppingData.email,
       address: shoppingData.address,
-      products: products.map((product) => ({
-        product_id: product.id,
-        name: product.name,
-        category: product.category,
-        brand: product.brand,
-        price: product.price,
-        ear_side: product.earSide,
-        earphone_shape: product.earphoneShape,
-        color_text: product.colorText,
-        color_hex: product.colorHex,
-        image_url: product.imageURL,
-        quantity: product.quantity,
-      })),
+      products: products.map((product) => (mapShoppingProductToDocument(product))),
+      bargain_applied: bargainCode ? bargainCode : null,
+      invalid_products: invalidProducts.map((product) => (mapShoppingProductToDocument(product))),
       total_price: products.reduce((sum, product) => sum + product.price * product.quantity, 0),
       creation_date: new Date(),
     };
@@ -169,4 +161,10 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[]) {
     Logger.errorFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, error);
     throw new Error(`[${METHOD_CREATE_ORDER}] ${error}`)
   }
+}
+
+function getInvalidProducts(products: ShoppingProductDTO[]){
+  return products.filter((product: ShoppingProductDTO) => {
+      return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
+  })
 }

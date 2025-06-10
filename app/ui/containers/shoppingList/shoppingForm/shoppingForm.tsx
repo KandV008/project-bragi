@@ -27,6 +27,7 @@ import {
   addressName,
   audiometryFileName,
   userDNIName,
+  bargainCodeName,
 } from "@/app/config/JSONnames";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
@@ -66,7 +67,8 @@ export default function ShoppingForm({ products }: FormProps) {
   const { user } = useUser();
   const searchParams = useSearchParams();
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
-  const [currentProducts, setCurrentProducts] = useState<ShoppingProductDTO[]>(products);
+  const [currentProducts, setCurrentProducts] =
+    useState<ShoppingProductDTO[]>(products);
 
   useEffect(() => {
     const bargain = searchParams.get("bargain");
@@ -104,7 +106,7 @@ export default function ShoppingForm({ products }: FormProps) {
     console.log(formData);
     const isValid = validateFormShopping(formData);
     if (isValid) {
-      const { status, id } = await actionCreateOrder(formData, currentProducts);
+      const { status, id } = await actionCreateOrder(formData, currentProducts, bargainCode);
 
       if (!status) {
         console.warn("ID:", id);
@@ -139,6 +141,12 @@ export default function ShoppingForm({ products }: FormProps) {
         <article>
           {/* User Id */}
           <input type="hidden" name={userIdName} value={user?.id} />
+          {/* Bargain Code */}
+          {bargainCode ? (
+            <input type="hidden" name={bargainCodeName} value={bargainCode} />
+          ) : (
+            <></>
+          )}
           {/* User Name */}
           <TextInput
             name={userNameName}
@@ -217,16 +225,24 @@ export default function ShoppingForm({ products }: FormProps) {
               <span>{product.colorText}</span>
               <span>x{product.quantity}</span>
               {checkInvalidEarphoneShape(product) ? (
-                <span className="text-red-500">Pedir Cita - {product.discountPrice == null ? product.price : product.discountPrice}€</span>
+                <span className="text-red-500">
+                  Pedir Cita -{" "}
+                  {product.discountPrice == null
+                    ? (product.price * product.quantity).toFixed(2)
+                    : (product.discountPrice * product.quantity).toFixed(2)}
+                  €
+                </span>
               ) : (
                 <>
                   {product.discountPrice ? (
                     <>
-                      <span className="text-red-500">{product.discountPrice * product.quantity}€</span>
+                      <span className="text-red-500">
+                        {(product.discountPrice * product.quantity).toFixed(2)}€
+                      </span>
                     </>
                   ) : (
                     <>
-                      <span>{product.price * product.quantity}€</span>
+                      <span>{(product.price * product.quantity).toFixed(2)}€</span>
                     </>
                   )}
                 </>
@@ -244,7 +260,7 @@ export default function ShoppingForm({ products }: FormProps) {
           <div className={`w-full border-t my-3 ${componentBorder}`}></div>
           <div className="flex flex-row justify-between gap-10">
             <h2 className="text-2xl font-bold">Total</h2>
-            <span className="text-2xl font-bold text-red-1">{totalPrice}€</span>
+            <span className="text-2xl font-bold text-red-1">{totalPrice.toFixed(2)}€</span>
           </div>
           <div className="place-self-center">
             {/* Submit Button */}

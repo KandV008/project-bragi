@@ -56,6 +56,16 @@ export interface OrderEntity {
     products: ShoppingProductDTO[];
 
     /**
+ * Bargain code applied to the order
+ */
+    bargainApplied: String | undefined;
+
+    /**
+ * Products inside the order
+ */
+    invalidProducts: ShoppingProductDTO[];
+
+    /**
      * Total price of the order
      */
     totalPrice: number;
@@ -83,9 +93,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             "creation_date",
         ];
 
-        if (!order || isNaN(order["total_price"]) || requiredFields.some(field => !order[field])) {
-            throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE);
-        }
+        checkDocument(order, requiredFields);
 
         const creationDate = new Date(order.creation_date);
 
@@ -94,6 +102,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
         }
 
         const mappedProducts = order.products.map(mapDocumentToShoppingProductDTO)
+        const mappedSpecialsProducts = order.invalid_products.map(mapDocumentToShoppingProductDTO)
 
         return {
             id: order._id,
@@ -106,9 +115,30 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             address: order.address,
             dni: order.user_dni,
             products: mappedProducts,
+            bargainApplied: order.bargain_applied,
+            invalidProducts: mappedSpecialsProducts,
             totalPrice: order.total_price
         }
     } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE)
     }
+}
+
+function checkDocument(order: any, requiredFields: string[]) {
+    if (!order) {
+        throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE + " -> The document is null.");
+    }
+
+    if (isNaN(order["total_price"])) {
+        throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE + " -> Total price is not a number.");
+    }
+
+    requiredFields.forEach(
+        (field) => {
+            if (!order[field]) {
+                throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE + ` -> The field ${field} is null.`
+                );
+            }
+        }
+    )
 }
