@@ -46,6 +46,7 @@ import SectionHeader, {
 import toast from "react-hot-toast";
 import createReceipt from "@/lib/receipt";
 import { sendReceiptEmail } from "@/lib/mail";
+import { checkInvalidEarphoneShape } from "@/app/ui/components/advices/shoppingFormAdvice";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -62,29 +63,10 @@ interface FormProps {
  */
 export default function ShoppingForm({ products }: FormProps) {
   const router = useRouter();
-
   const { user } = useUser();
   const searchParams = useSearchParams();
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
-  const [currentProducts, setCurrentProducts] = useState<ShoppingProductDTO[]>(
-    products.map((product: ShoppingProductDTO) => {
-      if (checkInvalidEarphoneShape(product)) {
-        product.price = -0;
-      }
-
-      return product;
-    })
-  );
-
-  /**
-   * Checks if the product's earphone shape requires special handling.
-   *
-   * @param {ShoppingProductDTO} product - The product to check.
-   * @returns {boolean} True if the earphone shape requires an appointment.
-   */
-  function checkInvalidEarphoneShape(product: ShoppingProductDTO) {
-    return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
-  }
+  const [currentProducts, setCurrentProducts] = useState<ShoppingProductDTO[]>(products);
 
   useEffect(() => {
     const bargain = searchParams.get("bargain");
@@ -147,7 +129,7 @@ export default function ShoppingForm({ products }: FormProps) {
     >
       {/* Shopping Form */}
       <section
-        className={`flex flex-col gap-5 p-5 sm:p-10 
+        className={`flex flex-col gap-5 p-5 sm:p-10  w-1/2
                    ${componentBackground}
                    ${componentBorder} rounded-xl`}
       >
@@ -188,7 +170,7 @@ export default function ShoppingForm({ products }: FormProps) {
           <TextInput // TODO add prefix
             name={phoneNumberName}
             type={"number"}
-            placeholder={"XXX XXX XXX"}
+            placeholder={"+YY XXX XXX XXX"}
             label={"Número de teléfono"}
             icon={faPhone}
           />
@@ -204,7 +186,7 @@ export default function ShoppingForm({ products }: FormProps) {
           <TextInput // TODO Add more information
             name={addressName}
             type={"text"}
-            placeholder={"C/ Ejemplo 1 2C"}
+            placeholder={"C/ Dirección Nº, Piso, Puerta, CP, Localidad"}
             label={"Dirección"}
             icon={faMap}
           />
@@ -218,7 +200,7 @@ export default function ShoppingForm({ products }: FormProps) {
       </section>
       {/* Summary */}
       <section
-        className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+        className={`sticky top-32 z-0 flex flex-col w-1/2 rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
       >
         <SectionHeader text={"Resumen"} />
         {/* Product List */}
@@ -234,8 +216,8 @@ export default function ShoppingForm({ products }: FormProps) {
               <span>{product.name}</span>
               <span>{product.colorText}</span>
               <span>x{product.quantity}</span>
-              {product.price == 0 && checkInvalidEarphoneShape(product) ? (
-                <span className="text-red-500">Pedir Cita</span>
+              {checkInvalidEarphoneShape(product) ? (
+                <span className="text-red-500">Pedir Cita - {product.discountPrice == null ? product.price : product.discountPrice}€</span>
               ) : (
                 <>
                   {product.discountPrice ? (
@@ -255,7 +237,7 @@ export default function ShoppingForm({ products }: FormProps) {
         {/* Bargain Applyed */}
         <article className="flex flex-row gap-3">
           <p>Código de oferta aplicado:</p>
-          {bargainCode ? <p>{bargainCode}</p> : <p>Ninguno</p>}
+          {bargainCode != undefined ? <p>{bargainCode}</p> : <p>Ninguno</p>}
         </article>
         {/* Total */}
         <article className="flex flex-col gap-2">
