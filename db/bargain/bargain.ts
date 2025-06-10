@@ -19,55 +19,55 @@ export async function getBargains(start: string | null, end: string | null): Pro
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS);
 
     try {
-        const client = await sql.connect();
         const { startIndex, endIndex } = parseStartAndEndIndex(start, end);
         const limit = endIndex - startIndex + 1;
         const offset = startIndex;
 
-        const result = await client.query(
-            `SELECT * FROM bargain LIMIT $1 OFFSET $2`,
-            [limit, offset]
-        );
+        const result = await sql`
+            SELECT * FROM bargain
+            LIMIT ${limit} OFFSET ${offset}
+        `;
 
         const bargains: BargainEntity[] = result.rows.map(mapDocumentToBargain);
         Logger.endFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS, bargains);
         return bargains;
     } catch (error) {
-        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS, error)
-        throw new Error(`[${METHOD_GET_BARGAINS}] ${error}`)
+        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS, error);
+        throw new Error(`[${METHOD_GET_BARGAINS}] ${error}`);
     }
 }
 
 /**
- * Retrieves a list of bargains from the database.
+ * Retrieves a list of active bargains from the database.
  *
  * @param {string | null} start - The start index for pagination.
  * @param {string | null} end - The end index for pagination.
- * @returns {Promise<BargainEntity[]>} - A list of bargains.
+ * @returns {Promise<BargainEntity[]>} - A list of active bargains.
  * @throws {Error} - If an error occurs while retrieving bargains from the database.
  */
 export async function getActiveBargains(start: string | null, end: string | null): Promise<BargainEntity[]> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS);
 
     try {
-        const client = await sql.connect();
         const { startIndex, endIndex } = parseStartAndEndIndex(start, end);
         const limit = endIndex - startIndex + 1;
         const offset = startIndex;
 
-        const result = await client.query(
-            `SELECT * FROM bargain WHERE status LIMIT $1 OFFSET $2`,
-            [limit, offset]
-        );
+        const result = await sql`
+            SELECT * FROM bargain
+            WHERE status 
+            LIMIT ${limit} OFFSET ${offset}
+        `;
 
         const bargains: BargainEntity[] = result.rows.map(mapDocumentToBargain);
         Logger.endFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS, bargains);
         return bargains;
     } catch (error) {
-        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS, error)
-        throw new Error(`[${METHOD_GET_BARGAINS}] ${error}`)
+        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAINS, error);
+        throw new Error(`[${METHOD_GET_BARGAINS}] ${error}`);
     }
 }
+
 
 /**
  * Retrieves a single bargain by ID from the database.
@@ -80,18 +80,19 @@ export async function getBargain(id: string | null | undefined): Promise<Bargain
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN);
 
     try {
-        const client = await sql.connect();
-        const result = await client.query(
-            `SELECT * FROM bargain WHERE id = $1`,
-            [id]
-        );
+        const bargainId = parseString(id, "BARGAIN_ID");
+
+        const result = await sql`
+            SELECT * FROM bargain
+            WHERE id = ${bargainId}
+        `;
 
         const bargain = mapDocumentToBargain(result.rows[0]);
         Logger.endFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN, bargain);
         return bargain;
     } catch (error) {
-        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN, error)
-        throw new Error(`[${METHOD_GET_BARGAIN}] ${error}`)
+        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN, error);
+        throw new Error(`[${METHOD_GET_BARGAIN}] ${error}`);
     }
 }
 
@@ -103,23 +104,25 @@ export async function getBargain(id: string | null | undefined): Promise<Bargain
  * @throws {Error} - If the bargain cannot be retrieved from the database.
  */
 export async function getBargainByCode(code: string | null | undefined): Promise<BargainEntity> {
-    Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN);
+    Logger.startFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN_BY_CODE);
 
     try {
-        const client = await sql.connect();
-        const result = await client.query(
-            `SELECT * FROM bargain WHERE code = $1`,
-            [code]
-        );
+        const bargainCode = parseString(code, "BARGAIN_CODE");
+
+        const result = await sql`
+            SELECT * FROM bargain
+            WHERE code = ${bargainCode}
+        `;
 
         const bargain = mapDocumentToBargain(result.rows[0]);
         Logger.endFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN_BY_CODE, bargain);
         return bargain;
     } catch (error) {
-        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN_BY_CODE, error)
-        throw new Error(`[${METHOD_GET_BARGAIN_BY_CODE}] ${error}`)
+        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN_BY_CODE, error);
+        throw new Error(`[${METHOD_GET_BARGAIN_BY_CODE}] ${error}`);
     }
 }
+
 
 /**
  * Creates a bargain record with the provided form data.
@@ -156,7 +159,7 @@ export async function actionCreateBargain(formData: FormData): Promise<number> {
  * Creates a bargain entry.
  *
  * @param {FormData} bargainData - Form data containing creation bargain details.
- * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @returns {Promise<void>} - Resolves when the bargain is successfully created.
  * @throws {Error} - If the bargain creation process fails.
  */
 async function createBargain(bargainData: any): Promise<void> {
@@ -164,11 +167,11 @@ async function createBargain(bargainData: any): Promise<void> {
     const { code, title, description, requirements } = bargainData;
 
     try {
-        const client = await sql.connect();
-        await client.query(
-            'INSERT INTO bargain (code, title, description, requirements, status) VALUES ($1, $2, $3, $4, false)',
-            [code, title, description, requirements]
-        );
+        await sql`
+            INSERT INTO bargain (code, title, description, requirements, status)
+            VALUES (${code}, ${title}, ${description}, ${requirements}, false)
+        `;
+
         Logger.endFunction(BARGAIN_CONTEXT, METHOD_CREATE_BARGAIN, bargainData);
     } catch (error) {
         Logger.errorFunction(BARGAIN_CONTEXT, METHOD_CREATE_BARGAIN, error);
@@ -213,7 +216,7 @@ export async function actionUpdateBargain(formData: FormData): Promise<number> {
  * Updates a bargain entry.
  *
  * @param {FormData} bargainData - Form data containing update bargain details.
- * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @returns {Promise<void>} - Resolves when the bargain is successfully updated.
  * @throws {Error} - If the bargain update process fails.
  */
 async function updateBargain(bargainData: any): Promise<void> {
@@ -221,17 +224,23 @@ async function updateBargain(bargainData: any): Promise<void> {
     const { id, code, title, description, requirements } = bargainData;
 
     try {
-        const client = await sql.connect();
-        await client.query(
-            'UPDATE bargain SET code = $1, title = $2, description = $3, requirements = $5, status = false WHERE id = $4',
-            [code, title, description, id, requirements]
-        );
+        await sql`
+            UPDATE bargain
+            SET code = ${code},
+                title = ${title},
+                description = ${description},
+                requirements = ${requirements},
+                status = false
+            WHERE id = ${id}
+        `;
+
         Logger.endFunction(BARGAIN_CONTEXT, METHOD_UPDATE_BARGAIN, bargainData);
     } catch (error) {
         Logger.errorFunction(BARGAIN_CONTEXT, METHOD_UPDATE_BARGAIN, error);
         throw new Error(`[${METHOD_UPDATE_BARGAIN}] ${error}`);
     }
 }
+
 
 /**
  * Deletes a bargain record with the provided bargain id.
@@ -267,22 +276,21 @@ export async function actionDeleteBargain(bargainId: string | undefined | null):
 /**
  * Deletes a bargain entry.
  *
- * @param {FormData} id - Id of the bargain to delete.
- * @returns {Promise<number>} - Status code (0 for success, 1 for failure).
+ * @param {string} id - Id of the bargain to delete.
+ * @returns {Promise<void>} - Resolves when the bargain is successfully deleted.
  * @throws {Error} - If the bargain deletion process fails.
  */
 async function deleteBargain(id: string): Promise<void> {
     Logger.startFunction(BARGAIN_CONTEXT, METHOD_DELETE_BARGAIN);
 
     try {
-        const client = await sql.connect();
-        const result = await client.query(
-            'DELETE FROM bargain WHERE id = $1',
-            [id]
-        );
+        const result = await sql`
+            DELETE FROM bargain
+            WHERE id = ${id}
+        `;
 
         if (result.rowCount === 0) {
-            throw new Error(`Failed to remove bargain with ID: ${id}. Bargain not found.`);        
+            throw new Error(`Failed to remove bargain with ID: ${id}. Bargain not found.`);
         }
 
         Logger.endFunction(

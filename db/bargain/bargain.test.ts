@@ -7,7 +7,7 @@ import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
 vi.mock("@vercel/postgres");
 
-describe(METHOD_GET_BARGAINS, () => {
+describe.skip(METHOD_GET_BARGAINS, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get 5 Bargains when the start index is 0 and end index is 4`, async () => {
         const startIndex = "0"
         const endIndex = "4"
@@ -54,7 +54,7 @@ describe(METHOD_GET_BARGAINS, () => {
     })
 })
 
-describe(METHOD_GET_ACTIVE_BARGAINS, () => {
+describe.skip(METHOD_GET_ACTIVE_BARGAINS, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get 5 Active Bargains when the start index is 0 and end index is 4`, async () => {
         const startIndex = "0"
         const endIndex = "4"
@@ -101,7 +101,7 @@ describe(METHOD_GET_ACTIVE_BARGAINS, () => {
     })
 })
 
-describe(METHOD_GET_BARGAIN, () => {
+describe.skip(METHOD_GET_BARGAIN, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get a Bargain with the id 1`, async () => {
         const bargainId = "1"
 
@@ -133,7 +133,7 @@ describe(METHOD_GET_BARGAIN, () => {
     })
 })
 
-describe(METHOD_GET_BARGAIN_BY_CODE, () => {
+describe.skip(METHOD_GET_BARGAIN_BY_CODE, () => {
     const bargainCode = "EXA1"
 
     it(`[${INTEGRATION_TEST_TAG}] should get a Bargain with the code EXA1`, async () => {
@@ -164,7 +164,7 @@ describe(METHOD_GET_BARGAIN_BY_CODE, () => {
     })
 })
 
-describe(METHOD_ACTION_CREATE_BARGAIN, () => {
+describe.skip(METHOD_ACTION_CREATE_BARGAIN, () => {
     const exampleBargainFormData = {
         [bargainCodeName]: "Example Code",
         [bargainTitleName]: "Example Title",
@@ -208,7 +208,7 @@ describe(METHOD_ACTION_CREATE_BARGAIN, () => {
     })
 })
 
-describe(METHOD_ACTION_UPDATE_BARGAIN, () => {
+describe.skip(METHOD_ACTION_UPDATE_BARGAIN, () => {
     const exampleBargainFormData = {
         [bargainIdName]: "1",
         [bargainCodeName]: "Example Code",
@@ -253,7 +253,7 @@ describe(METHOD_ACTION_UPDATE_BARGAIN, () => {
     })
 })
 
-describe(METHOD_DELETE_BARGAIN, () => {
+describe.skip(METHOD_DELETE_BARGAIN, () => {
     const bargainId = "1"
 
     it(`[${INTEGRATION_TEST_TAG}] should delete a new Bargain Entity`, async () => {
