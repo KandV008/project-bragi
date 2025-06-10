@@ -98,7 +98,7 @@ export async function getOrder(orderIdToParse: string | null): Promise<OrderEnti
  * @returns {Promise<Object>} - Status code (0 for success, 1 for failure) and the id of the new order.
  * @throws {Error} - If an error occurs while creating an order to the database. 
  */
-export async function actionCreateOrder(formData: FormData, products: ShoppingProductDTO[], bargainCode: string | undefined): Promise<any> {
+export async function actionCreateOrder(formData: FormData, products: ShoppingProductDTO[], bargainCode: string | undefined = undefined): Promise<any> {
   Logger.startFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER);
 
   try {

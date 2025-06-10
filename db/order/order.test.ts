@@ -33,6 +33,8 @@ const createFakeOrders = (index: number) =>
                     quantity: 1
                 }
             ],
+            bargain_applied: undefined,
+            invalid_products: [],
             total_price: 0,
             creation_date: new Date().toISOString()
         }
@@ -112,6 +114,8 @@ describe(METHOD_GET_ORDER, () => {
             image_url: "./no-image.png",
             quantity: 1
         }],
+        bargain_applied: undefined,
+        invalid_products: [],
         total_price: 0,
         creation_date: new Date().toISOString(),
     };

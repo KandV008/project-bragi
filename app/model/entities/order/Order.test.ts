@@ -28,6 +28,8 @@ describe("Order Entity", async () => {
                     quantity: 1
                 }
             ],
+            bargain_applied: undefined,
+            invalid_products: [],
             total_price: 0,
             creation_date: new Date().toISOString()
         }
