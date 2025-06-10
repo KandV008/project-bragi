@@ -47,9 +47,7 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
             "end_date"
         ];
 
-        if (!novelty || requiredFields.some(field => !novelty[field])) {
-            throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE);
-        }
+        checkDocument(novelty, requiredFields);
 
         const endDate = new Date(novelty.end_date);
 
@@ -71,6 +69,27 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
         throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE);
     }
 }
+
+/**
+ * Check if the document is correct to map
+ * @param novelty Document of the entity
+ * @param requiredFields List of fields that are required to have the entity
+ */
+function checkDocument(novelty: any, requiredFields: string[]) {
+    if (!novelty) {
+        throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE + " -> The document is null.");
+    }
+
+    requiredFields.forEach(
+        (field) => {
+            if (!novelty[field]) {
+                throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE + ` -> The field ${field} is null.`
+                );
+            }
+        }
+    )
+}
+
 
 /**
  * Applies valid novelties to a list of products, by checking if the novelty's end date is still valid and if an action can be applied.

@@ -67,14 +67,20 @@ export interface ProductEntity {
  */
 export function mapDocumentToProduct(product: any): ProductEntity {
     try {
-        if (!product || !product._id || !product.name || !product.category || !product.price || !product.brand) {
-            throw new Error(MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE);
-        }
+        const requiredFields = [
+            "_id",
+            "name",
+            "category",
+            "price",
+            "brand",
+        ];
+
+        checkDocument(product, requiredFields);
 
         const newProduct: Omit<ProductEntity, "earphoneAttributes"> = {
             id: product._id.toString(),
             name: product.name,
-            category: Category[product.category as keyof typeof Category], 
+            category: Category[product.category as keyof typeof Category],
             price: product.price,
             imageURL: product.image_URL,
             description: product.description,
@@ -93,4 +99,23 @@ export function mapDocumentToProduct(product: any): ProductEntity {
     } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE);
     }
+}
+/**
+ * Check if the document is correct to map
+ * @param product Document of the entity
+ * @param requiredFields List of fields that are required to have the entity
+ */
+function checkDocument(product: any, requiredFields: string[]) {
+    if (!product) {
+        throw new Error(MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE + " -> The document is null.");
+    }
+
+    requiredFields.forEach(
+        (field) => {
+            if (!product[field]) {
+                throw new Error(MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE + ` -> The field ${field} is null.`
+                );
+            }
+        }
+    )
 }

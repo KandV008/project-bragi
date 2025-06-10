@@ -124,6 +124,11 @@ export function mapDocumentToOrder(order: any): OrderEntity {
     }
 }
 
+/**
+ * Check if the document is correct to map
+ * @param order Document of the entity
+ * @param requiredFields List of fields that are required to have the entity
+ */
 function checkDocument(order: any, requiredFields: string[]) {
     if (!order) {
         throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE + " -> The document is null.");

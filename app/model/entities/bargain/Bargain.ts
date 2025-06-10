@@ -28,13 +28,15 @@ export interface BargainEntity {
  */
 export function mapDocumentToBargain(bargain: any): BargainEntity {
     try {
-        const requiredFields = ["id", "code", "title", "description"];
+        const requiredFields = [
+            "id",
+            "code",
+            "title",
+            "description"
+        ];
 
+        checkDocument(bargain, requiredFields);
 
-        if (!bargain || requiredFields.some(field => !bargain[field])) {
-            throw new Error(MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE);
-        }
-        
         return {
             id: bargain.id,
             code: bargain.code,
@@ -48,6 +50,25 @@ export function mapDocumentToBargain(bargain: any): BargainEntity {
     }
 }
 
+/**
+ * Check if the document is correct to map
+ * @param bargain Document of the entity
+ * @param requiredFields List of fields that are required to have the entity
+ */
+function checkDocument(bargain: any, requiredFields: string[]) {
+    if (!bargain) {
+        throw new Error(MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE + " -> The document is null.");
+    }
+
+    requiredFields.forEach(
+        (field) => {
+            if (!bargain[field]) {
+                throw new Error(MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE + ` -> The field ${field} is null.`
+                );
+            }
+        }
+    )
+}
 
 /**
  * Retrieves the corresponding action function for a given bargain code.

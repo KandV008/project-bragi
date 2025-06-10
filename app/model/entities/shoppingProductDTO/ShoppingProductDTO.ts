@@ -39,17 +39,15 @@ export interface ShoppingProductDTO {
 export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingProductDTO {
     try {
         const requiredFields = [
-            "product_id", 
-            "name", 
-            "category", 
-            "brand", 
+            "product_id",
+            "name",
+            "category",
+            "brand",
             "image_url",
             "quantity",
         ]
 
-        if (!shoppingProduct || isNaN(shoppingProduct["price"]) || (shoppingProduct["discount_price"] && isNaN(shoppingProduct["discount_price"])) || requiredFields.some(field => !shoppingProduct[field])) {
-            throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE);
-        }
+        checkDocument(shoppingProduct, requiredFields);
 
         return {
             id: shoppingProduct.product_id,
@@ -65,24 +63,58 @@ export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingP
             imageURL: shoppingProduct.image_url,
             quantity: shoppingProduct.quantity,
         };
-    } catch(error) {
+    } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE)
     }
 }
 
-export function mapShoppingProductToDocument(product: ShoppingProductDTO): { product_id: string; name: string; category: string; brand: string; price: number; discount_price: number | null; ear_side: string; earphone_shape: string; color_text: string; color_hex: string; image_url: string; quantity: number; } {
-  return {
-    product_id: product.id,
-    name: product.name,
-    category: product.category,
-    brand: product.brand,
-    price: product.price,
-    discount_price: product.discountPrice,
-    ear_side: product.earSide,
-    earphone_shape: product.earphoneShape,
-    color_text: product.colorText,
-    color_hex: product.colorHex,
-    image_url: product.imageURL,
-    quantity: product.quantity,
-  };
+/**
+ * Check if the document is correct to map
+ * @param order Document of the entity
+ * @param requiredFields List of fields that are required to have the entity
+ */
+function checkDocument(shoppingProduct: any, requiredFields: string[]) {
+    if (!shoppingProduct) {
+        throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE + " -> The document is null.");
+    }
+
+    if (isNaN(shoppingProduct["price"])) {
+        throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE + " -> Price is not a number.");
+    }
+
+    if (shoppingProduct["discount_price"] && isNaN(shoppingProduct["discount_price"])) {
+        throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE + " -> Discount price is not a number.");
+    }
+
+    requiredFields.forEach(
+        (field) => {
+            if (!shoppingProduct[field]) {
+                throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE + ` -> The field ${field} is null.`
+                );
+            }
+        }
+    )
+}
+
+/**
+ * Maps a `ShoppingProductDTO` object to a raw product document.
+ * 
+ * @param shoppingProduct - The `ShoppingProductDTO` object from the client.
+ * @returns The mapped raw product object.
+ */
+export function mapShoppingProductToDocument(shoppingProduct: ShoppingProductDTO): { product_id: string; name: string; category: string; brand: string; price: number; discount_price: number | null; ear_side: string; earphone_shape: string; color_text: string; color_hex: string; image_url: string; quantity: number; } {
+    return {
+        product_id: shoppingProduct.id,
+        name: shoppingProduct.name,
+        category: shoppingProduct.category,
+        brand: shoppingProduct.brand,
+        price: shoppingProduct.price,
+        discount_price: shoppingProduct.discountPrice,
+        ear_side: shoppingProduct.earSide,
+        earphone_shape: shoppingProduct.earphoneShape,
+        color_text: shoppingProduct.colorText,
+        color_hex: shoppingProduct.colorHex,
+        image_url: shoppingProduct.imageURL,
+        quantity: shoppingProduct.quantity,
+    };
 }
