@@ -79,7 +79,7 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
 
   return (
     <section
-      className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+      className={`sticky top-32 z-10 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
     >
       <SectionHeader text={"Resumen"} />
       <article className="flex flex-col gap-3">

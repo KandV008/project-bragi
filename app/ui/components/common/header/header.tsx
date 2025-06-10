@@ -35,7 +35,7 @@ export default function Header() {
     <header
       className={`flex flex-col justify-center items-center place-self-center space-y-2 w-full xl:w-4/6 pt-2
             ${mainBackground}
-            top-0 z-10 fixed`}
+            top-0 z-30 fixed`}
     >
       {/* Top Header Section */}
       <section className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
