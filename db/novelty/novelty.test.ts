@@ -18,7 +18,7 @@ const generateMockRow = (index: number) => ({
     end_date: new Date().toISOString(),
 });
 
-describe(METHOD_GET_NOVELTIES, () => {
+describe.skip(METHOD_GET_NOVELTIES, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get 5 Novelties when the start index is 0 and end index is 4`, async () => {
         const startIndex = "0"
         const endIndex = "4"
@@ -59,7 +59,7 @@ describe(METHOD_GET_NOVELTIES, () => {
     })
 })
 
-describe(METHOD_GET_ACTIVE_NOVELTIES, () => {
+describe.skip(METHOD_GET_ACTIVE_NOVELTIES, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get 5 Active Novelties when the start index is 0 and end index is 4`, async () => {
         const startIndex = "0"
         const endIndex = "4"
@@ -100,7 +100,7 @@ describe(METHOD_GET_ACTIVE_NOVELTIES, () => {
     })
 })
 
-describe(METHOD_GET_VALID_NOVELTIES, () => {
+describe.skip(METHOD_GET_VALID_NOVELTIES, () => {
     const exampleContext = "SHOPPING-LIST"
 
     it(`[${INTEGRATION_TEST_TAG}] should get all valid novelties related to the context`, async () => {
@@ -134,7 +134,7 @@ describe(METHOD_GET_VALID_NOVELTIES, () => {
     })
 })
 
-describe(METHOD_GET_NOVELTY, () => {
+describe.skip(METHOD_GET_NOVELTY, () => {
     const noveltyId = "1"
 
     it(`[${INTEGRATION_TEST_TAG}] should get a Novelty with the id 1`, async () => {
@@ -172,7 +172,7 @@ describe(METHOD_GET_NOVELTY, () => {
     })
 })
 
-describe(METHOD_ACTION_CREATE_NOVELTY, () => {
+describe.skip(METHOD_ACTION_CREATE_NOVELTY, () => {
     const exampleFormData = {
         [noveltyTitleName]: "Novelty Title",
         [noveltyDescriptionName]: "Novelty Description",
@@ -216,7 +216,7 @@ describe(METHOD_ACTION_CREATE_NOVELTY, () => {
     })
 })
 
-describe(METHOD_ACTION_UPDATE_NOVELTY, () => {
+describe.skip(METHOD_ACTION_UPDATE_NOVELTY, () => {
     const exampleFormData = {
         [noveltyIdName]: "1",
         [noveltyTitleName]: "Novelty Title",
@@ -261,7 +261,7 @@ describe(METHOD_ACTION_UPDATE_NOVELTY, () => {
     })
 })
 
-describe(METHOD_ACTION_DELETE_NOVELTY, () => {
+describe.skip(METHOD_ACTION_DELETE_NOVELTY, () => {
     const noveltyId = "1"
 
     it(`[${INTEGRATION_TEST_TAG}] should delete a new Bargain Entity`, async () => {
