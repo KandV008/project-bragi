@@ -39,22 +39,22 @@ export default function AdminDashboard(): JSX.Element {
       {/* Navigation Buttons */}
       <MediumButtonWithIcon
         icon={faPaintRoller}
-        text={"Modificar productos"}
-        subtext={"Ver todos los productos"}
+        text={"Entidad Producto"}
+        subtext={"Gestionar productos"}
         type={"default"}
         navigationURL="/admin/products"
       />
       <MediumButtonWithIcon
         icon={faTag}
-        text={"Modificar ofertas"}
-        subtext={"Ver todas las ofertas"}
+        text={"Entidad Oferta"}
+        subtext={"Gestionar ofertas"}
         type={"default"}
         navigationURL="/admin/bargains"
       />
       <MediumButtonWithIcon
         icon={faAward}
-        text={"Modificar novedades"}
-        subtext={"Ver todas las novedades"}
+        text={"Entidad Novedad"}
+        subtext={"Gestionar novedades"}
         type={"default"}
         navigationURL="/admin/novelties"
       />
