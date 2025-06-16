@@ -9,6 +9,7 @@ describe("Order Entity", async () => {
             user_id: "456",
             user_name: "Pepo",
             user_first_name: "Pepez",
+            user_dni: "123123123F",
             phone_number: "123 456 789",
             email: "example@email.com",
             address: "C/ Example 1",
@@ -27,6 +28,8 @@ describe("Order Entity", async () => {
                     quantity: 1
                 }
             ],
+            bargain_applied: undefined,
+            invalid_products: [],
             total_price: 0,
             creation_date: new Date().toISOString()
         }

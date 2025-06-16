@@ -11,10 +11,11 @@ on:
       - compose.yaml
       - Dockerfile
       - docs/**
+      - sonar-project.properties
   pull_request:
     branches:
       - main
-      - develop
+      - develop      
 
 jobs:
   build:

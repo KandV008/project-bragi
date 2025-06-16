@@ -16,6 +16,7 @@ interface RadioInputListProps {
   valueOf: (type: string) => string;
   type: string;
   onChange?: (type: string) => (event: ChangeEvent<HTMLInputElement>) => void;
+  dismiss?: string[];
 }
 
 /**
@@ -32,6 +33,7 @@ export default function RadioInputWithQuantity({
   valueOf,
   type,
   onChange,
+  dismiss = [],
 }: RadioInputListProps): JSX.Element {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [currentEvent, setCurrentEvent] =
@@ -62,22 +64,27 @@ export default function RadioInputWithQuantity({
 
   return (
     <form className="flex flex-col px-3">
-      {Object.entries(list).map(([key, value], index) => (
-        <div key={`radio-input-${key}-${index}`}>
-          <input
-            type="radio"
-            id={name + "-" + index}
-            name={name}
-            value={key}
-            checked={selectedValue === key}
-            onChange={handleRadioChange}
-          />
-          <label htmlFor={name + "-" + index}>{" "}
-            {valueOf(key)} ({value})
-          </label>
-          <br />
-        </div>
-      ))}
+      {Object.entries(list).map(([key, value], index) => {
+        if (dismiss.includes(key)) return <></>;
+        
+        return (
+          <div key={`radio-input-${key}-${index}`}>
+            <input
+              type="radio"
+              id={name + "-" + index}
+              name={name}
+              value={key}
+              checked={selectedValue === key}
+              onChange={handleRadioChange}
+            />
+            <label htmlFor={name + "-" + index}>
+              {" "}
+              {valueOf(key)} ({value})
+            </label>
+            <br />
+          </div>
+        );
+      })}
       <div className="self-center">
         <button
           type="button"
@@ -90,7 +97,6 @@ export default function RadioInputWithQuantity({
     </form>
   );
 }
-
 
 /**
  * Skeleton version of the RadioInputWithQuantity component for loading states.

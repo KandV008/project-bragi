@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  faDriversLicense,
   faFile,
   faMailBulk,
   faMap,
@@ -25,6 +26,8 @@ import {
   emailName,
   addressName,
   audiometryFileName,
+  userDNIName,
+  bargainCodeName,
 } from "@/app/config/JSONnames";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
@@ -43,6 +46,8 @@ import SectionHeader, {
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import toast from "react-hot-toast";
 import createReceipt from "@/lib/receipt";
+import { sendReceiptEmail } from "@/lib/mail";
+import { checkInvalidEarphoneShape } from "@/app/ui/components/advices/shoppingFormAdvice";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -59,29 +64,11 @@ interface FormProps {
  */
 export default function ShoppingForm({ products }: FormProps) {
   const router = useRouter();
-
   const { user } = useUser();
   const searchParams = useSearchParams();
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
-  const [currentProducts, setCurrentProducts] = useState<ShoppingProductDTO[]>(
-    products.map((product: ShoppingProductDTO) => {
-      if (checkInvalidEarphoneShape(product)) {
-        product.price = -0;
-      }
-
-      return product;
-    })
-  );
-
-  /**
-   * Checks if the product's earphone shape requires special handling.
-   *
-   * @param {ShoppingProductDTO} product - The product to check.
-   * @returns {boolean} True if the earphone shape requires an appointment.
-   */
-  function checkInvalidEarphoneShape(product: ShoppingProductDTO) {
-    return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
-  }
+  const [currentProducts, setCurrentProducts] =
+    useState<ShoppingProductDTO[]>(products);
 
   useEffect(() => {
     const bargain = searchParams.get("bargain");
@@ -119,21 +106,11 @@ export default function ShoppingForm({ products }: FormProps) {
     console.log(formData);
     const isValid = validateFormShopping(formData);
     if (isValid) {
-      const { status, id } = await actionCreateOrder(formData, currentProducts);
+      const { status, id } = await actionCreateOrder(formData, currentProducts, bargainCode);
 
       if (!status) {
-        console.warn("ID:", id)
-        const base64Pdf = await createReceipt(id); // 👈 this returns base64
-
-        // Trigger download
-        const link = document.createElement("a");
-        link.href = `data:application/pdf;base64,${base64Pdf}`;
-        link.download = `factura-${id}.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Enviar emails de confirmación
+        console.warn("ID:", id);
+        await sendReceiptEmail(formData, id);
         toast.success("Pedido completado correctamente");
         //router.push("/");
       } else {
@@ -154,7 +131,7 @@ export default function ShoppingForm({ products }: FormProps) {
     >
       {/* Shopping Form */}
       <section
-        className={`flex flex-col gap-5 p-5 sm:p-10 
+        className={`flex flex-col gap-5 p-5 sm:p-10  w-1/2
                    ${componentBackground}
                    ${componentBorder} rounded-xl`}
       >
@@ -164,6 +141,12 @@ export default function ShoppingForm({ products }: FormProps) {
         <article>
           {/* User Id */}
           <input type="hidden" name={userIdName} value={user?.id} />
+          {/* Bargain Code */}
+          {bargainCode ? (
+            <input type="hidden" name={bargainCodeName} value={bargainCode} />
+          ) : (
+            <></>
+          )}
           {/* User Name */}
           <TextInput
             name={userNameName}
@@ -180,6 +163,14 @@ export default function ShoppingForm({ products }: FormProps) {
             label={"Apellidos del cliente"}
             icon={faUser}
           />
+          {/* User DNI */}
+          <TextInput
+            name={userDNIName}
+            type={"text"}
+            placeholder={"99999999A"}
+            label={"Documento identificativo"}
+            icon={faDriversLicense}
+          />
         </article>
         {/** User Contact Data */}
         <section>
@@ -187,7 +178,7 @@ export default function ShoppingForm({ products }: FormProps) {
           <TextInput // TODO add prefix
             name={phoneNumberName}
             type={"number"}
-            placeholder={"XXX XXX XXX"}
+            placeholder={"+YY XXX XXX XXX"}
             label={"Número de teléfono"}
             icon={faPhone}
           />
@@ -203,7 +194,7 @@ export default function ShoppingForm({ products }: FormProps) {
           <TextInput // TODO Add more information
             name={addressName}
             type={"text"}
-            placeholder={"C/ Ejemplo 1 2C"}
+            placeholder={"C/ Dirección Nº, Piso, Puerta, CP, Localidad"}
             label={"Dirección"}
             icon={faMap}
           />
@@ -217,7 +208,7 @@ export default function ShoppingForm({ products }: FormProps) {
       </section>
       {/* Summary */}
       <section
-        className={`sticky top-32 z-0 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+        className={`sticky top-32 z-0 flex flex-col w-1/2 rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
       >
         <SectionHeader text={"Resumen"} />
         {/* Product List */}
@@ -233,10 +224,28 @@ export default function ShoppingForm({ products }: FormProps) {
               <span>{product.name}</span>
               <span>{product.colorText}</span>
               <span>x{product.quantity}</span>
-              {product.price == 0 && checkInvalidEarphoneShape(product) ? (
-                <span>Pedir Cita</span>
+              {checkInvalidEarphoneShape(product) ? (
+                <span className="text-red-500">
+                  Pedir Cita -{" "}
+                  {product.discountPrice == null
+                    ? (product.price * product.quantity).toFixed(2)
+                    : (product.discountPrice * product.quantity).toFixed(2)}
+                  €
+                </span>
               ) : (
-                <span>{product.price * product.quantity}€</span>
+                <>
+                  {product.discountPrice ? (
+                    <>
+                      <span className="text-red-500">
+                        {(product.discountPrice * product.quantity).toFixed(2)}€
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{(product.price * product.quantity).toFixed(2)}€</span>
+                    </>
+                  )}
+                </>
               )}
             </div>
           ))}
@@ -244,14 +253,14 @@ export default function ShoppingForm({ products }: FormProps) {
         {/* Bargain Applyed */}
         <article className="flex flex-row gap-3">
           <p>Código de oferta aplicado:</p>
-          {bargainCode ? <p>{bargainCode}</p> : <p>Ninguno</p>}
+          {bargainCode != undefined ? <p>{bargainCode}</p> : <p>Ninguno</p>}
         </article>
         {/* Total */}
         <article className="flex flex-col gap-2">
           <div className={`w-full border-t my-3 ${componentBorder}`}></div>
           <div className="flex flex-row justify-between gap-10">
             <h2 className="text-2xl font-bold">Total</h2>
-            <span className="text-2xl font-bold text-red-1">{totalPrice}€</span>
+            <span className="text-2xl font-bold text-red-1">{totalPrice.toFixed(2)}€</span>
           </div>
           <div className="place-self-center">
             {/* Submit Button */}

@@ -19,20 +19,21 @@ export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
 
   try {
     const { userId } = auth();
-    const client = await sql.connect();
 
-    const result = await client.query(
-      `SELECT * FROM shoppingList WHERE user_id = $1 ORDER BY product_id`,
-      [userId]
-    );
+    const result = await sql`
+      SELECT * FROM shoppingList
+      WHERE user_id = ${userId}
+      ORDER BY product_id
+    `;
 
     const productDTOs = result.rows.map(row => mapDocumentToShoppingProductDTO(row));
-    const shoppingList = await applyNoveltyToList(NoveltyContext["SHOPPING-LIST"], productDTOs)
+    const shoppingList = await applyNoveltyToList(NoveltyContext["SHOPPING-LIST"], productDTOs);
+
     Logger.endFunction(SHOPPING_LIST_CONTEXT, METHOD_GET_SHOPPING_LIST, shoppingList);
     return shoppingList;
   } catch (error) {
-    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_GET_SHOPPING_LIST, error)
-    throw new Error(`[${METHOD_GET_SHOPPING_LIST}] ${error}`)
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_GET_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_GET_SHOPPING_LIST}] ${error}`);
   }
 }
 
@@ -47,12 +48,11 @@ export async function deleteProductInShoppingList(productId: string | null | und
   try {
     const id = parseString(productId, "PRODUCT_ID");
     const { userId } = auth();
-    const client = await sql.connect();
 
-    const result = await client.query(
-      `DELETE FROM shoppingList WHERE user_id = $1 AND product_id = $2`,
-      [userId, id]
-    );
+    const result = await sql`
+      DELETE FROM shoppingList
+      WHERE user_id = ${userId} AND product_id = ${id}
+    `;
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -60,8 +60,8 @@ export async function deleteProductInShoppingList(productId: string | null | und
       `Product with ID: ${id} has been removed from ${result.rowCount ?? 0} shopping lists.`
     );
   } catch (error) {
-    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error)
-    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`)
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
   }
 }
 
@@ -76,17 +76,51 @@ export async function addProductToShoppingList(formData: FormData) {
   try {
     const { userId } = auth();
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
-    const { productId, colorText, colorHex, earSide, earphoneShape, name, category, brand, price, imageURL } = parseNewProductToShoppingList(formData);
-  
-    const client = await sql.connect();
+    const {
+      productId,
+      colorText,
+      colorHex,
+      earSide,
+      earphoneShape,
+      name,
+      category,
+      brand,
+      price,
+      imageURL
+    } = parseNewProductToShoppingList(formData);
 
-    await client.query(
-      `INSERT INTO shoppingList (product_id, user_id, color_text, color_hex, ear_side, earphone_shape, quantity, name, category, brand, price, image_url)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-           ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side)
-           DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity`,
-      [productId, parsedUserId, colorText, colorHex, earSide, earphoneShape, 1, name, category, brand, price, imageURL]
-    );
+    await sql`
+      INSERT INTO shoppingList (
+        product_id,
+        user_id,
+        color_text,
+        color_hex,
+        ear_side,
+        earphone_shape,
+        quantity,
+        name,
+        category,
+        brand,
+        price,
+        image_url
+      )
+      VALUES (
+        ${productId},
+        ${parsedUserId},
+        ${colorText},
+        ${colorHex},
+        ${earSide},
+        ${earphoneShape},
+        1,
+        ${name},
+        ${category},
+        ${brand},
+        ${price},
+        ${imageURL}
+      )
+      ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side)
+      DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity
+    `;
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -94,10 +128,11 @@ export async function addProductToShoppingList(formData: FormData) {
       `Added product ${productId} to shoppingList for user ${parsedUserId}`
     );
   } catch (error) {
-    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error)
-    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`)
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
   }
 }
+
 
 /**
  * Increments the quantity of a product in the user's shopping list.
@@ -111,7 +146,7 @@ export async function incrementProductInShoppingList(formData: FormData) {
     const { userId } = auth();
     const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
-  
+
     await sql`
       UPDATE shoppingList
       SET quantity = quantity + 1
@@ -129,9 +164,10 @@ export async function incrementProductInShoppingList(formData: FormData) {
     );
   } catch (error) {
     Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, error);
-    throw new Error(`[${METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST}] ${error}`)
+    throw new Error(`[${METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
   }
 }
+
 
 /**
  * Decrements the quantity of a product in the user's shopping list.
@@ -146,7 +182,7 @@ export async function decrementProductInShoppingList(formData: FormData) {
     const { userId } = auth();
     const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
-  
+
     await sql`
       UPDATE shoppingList
       SET quantity = quantity - 1
@@ -175,6 +211,7 @@ export async function decrementProductInShoppingList(formData: FormData) {
     );
   } catch (error) {
     Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, error);
-    throw new Error(`[${METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST}] ${error}`)
+    throw new Error(`[${METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
   }
 }
+

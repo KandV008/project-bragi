@@ -17,13 +17,15 @@ import {
 import toast from "react-hot-toast";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import {
+  endDateName,
+  noveltyContextName,
   noveltyDescriptionName,
   noveltyIdName,
   noveltyTitleName,
+  noveltyTypeName,
   promotionalImageName,
 } from "@/app/config/JSONnames";
 import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty/novelty";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
 import SubmitButton, {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton/submitButton";
@@ -37,6 +39,15 @@ import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { useRouter } from "next/navigation";
+import RadioInput, {
+  RadioInputSkeleton,
+} from "@/app/ui/components/inputs/radioInput/radioInput";
+import { NoveltyType } from "@/app/model/entities/novelty/enums/NoveltyType";
+import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
+import DateInput, {
+  DateInputSkeleton,
+} from "@/app/ui/components/inputs/dateInput/dateInput";
+import { getDateValue } from "@/lib/utils";
 
 interface FormProps {
   novelty?: NoveltyEntity;
@@ -64,6 +75,8 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
     ? "No se ha podido actualizar la novedad."
     : "No se ha podido crear la novedad";
   const [showModal, setShowModal] = useState(false);
+
+  const dateValue = novelty ? getDateValue(novelty.endDate) : "";
 
   /**
    * Toggles the validation modal visibility.
@@ -93,7 +106,6 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
 
   return (
     <>
-      <GoBackButton />
       <form
         action={handleForm}
         className={`flex flex-col gap-5 p-5 sm:p-10 
@@ -133,6 +145,28 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
           icon={faImage}
           value={novelty ? novelty.promotionalImage : ""}
         />
+        {/* TYPE */}
+        <RadioInput
+          name={noveltyTypeName}
+          label={"Tipo de Novedad"}
+          list={Object.values(NoveltyType)}
+          valueOf={(x) => x}
+          value={novelty ? novelty.type : ""}
+        />
+        {/* CONTEXT */}
+        <RadioInput
+          name={noveltyContextName}
+          label={"Contexto de la Novedad"}
+          list={Object.values(NoveltyContext)}
+          valueOf={(x) => x}
+          value={novelty ? novelty.context : ""}
+        />
+        {/* END DATE */}
+        <DateInput
+          name={endDateName}
+          label={"Fecha de finalización (no incluye el día)"}
+          value={novelty ? dateValue : ""}
+        />
         {/* Submit Button */}
         <section className="self-center">
           <SubmitButton text={actionText} icon={faUpload} isDisable={false} />
@@ -163,6 +197,12 @@ export function NoveltyFormSkeleton(): JSX.Element {
         <TextAreaInputSkeleton />
         {/* Promotional Image */}
         <TextInputSkeleton />
+        {/* Type */}
+        <RadioInputSkeleton />
+        {/* Context */}
+        <RadioInputSkeleton />
+        {/* End Date */}
+        <DateInputSkeleton />
         {/* Submit Button */}
         <SubmitButtonSkeleton />
       </div>

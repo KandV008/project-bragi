@@ -4,7 +4,7 @@ import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import BargainContainer from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
 import { useEffect, useState } from "react";
 import Loading from "./loading";
-import { getBargainsRoute } from "@/app/api/routes";
+import { getActiveBargainsRoute, getBargainsRoute } from "@/app/api/routes";
 import Spinner from "@/app/ui/components/common/spinner/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 
@@ -28,7 +28,7 @@ export default function Page(): JSX.Element {
     if (!isLoading) setSpinnerActive(true);
 
     fetch(
-      `${getBargainsRoute}?start=${startIndex}&end=${endIndex}`
+      `${getActiveBargainsRoute}?start=${startIndex}&end=${endIndex}`
     )
       .then((response) => response.json())
       .then((data) => {

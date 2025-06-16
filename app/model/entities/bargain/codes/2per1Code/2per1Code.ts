@@ -69,23 +69,55 @@ export const codeAction2PER1 = (shoppingList: ShoppingProductDTO[]): BargainActi
         return { shoppingList, status: 1 };
     }
 
-    const product1: ShoppingProductDTO | undefined = shoppingList.find((e) => e.category === Category.EARPHONE);
+    const invalidEarphones = shoppingList
+        .filter((product) => product.category === Category.ACCESSORY || product.earSide === "both");
 
-    if (!product1) {
+
+    const validEarphones = shoppingList
+        .filter((product) => product.category === Category.EARPHONE && product.earSide !== "both");
+
+    console.warn("VALID-EARPHONES:", validEarphones)
+
+    if (validEarphones.length < 2) {
         return { shoppingList, status: 1 };
     }
 
-    const indexProduct = shoppingList.findIndex((product2, index) => {
-        if (validSimilarProduct(product1, product2)) {
-            return index;
+    const orderedEarphones = validEarphones.toSorted((a, b) => a.price - b.price)
+
+    console.warn("ORDERED-EARPHONES:", orderedEarphones)
+
+    let isDone = false;
+
+    for (let indexA = 0; indexA < orderedEarphones.length; indexA++) {
+        let elementA = orderedEarphones[indexA]
+
+        for (let indexB = indexA + 1; indexB < orderedEarphones.length; indexB++) {
+            let elementB = orderedEarphones[indexB]
+
+            if (validSimilarProduct(elementA, elementB)){
+
+                if (elementA.quantity === 1){
+                    elementA.discountPrice = 0;
+                } else {
+                    const newElementA = JSON.parse(JSON.stringify(elementA));
+                    newElementA.discountPrice = 0;
+                    newElementA.quantity = 1;
+                    orderedEarphones.push(newElementA)
+                    elementA.quantity -= 1
+                }
+
+                isDone = true;
+                break;
+            }
         }
-    });
 
-    if (indexProduct === -1) {
-        return { shoppingList, status: 1 };
+        if (isDone){
+            break;
+        }        
     }
 
-    shoppingList[indexProduct].price = 0;
+    console.warn("RESULT:", orderedEarphones)
 
-    return { shoppingList, status: 0 };
+    return { shoppingList: [...invalidEarphones, ...orderedEarphones], status: isDone ? 0 : 1 };
 };
+

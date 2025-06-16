@@ -7,6 +7,7 @@ import { componentBorder } from "@/app/ui/tailwindClasses";
  */
 interface HeaderProps {
   text: string;
+  id?: string;
 }
 
 /**
@@ -15,9 +16,9 @@ interface HeaderProps {
  * @param {HeaderProps} props - The properties for the ArticleHeader component.
  * @returns {JSX.Element} The rendered ArticleHeader component.
  */
-export default function ArticleHeader({ text }: HeaderProps): JSX.Element {
+export default function ArticleHeader({ text, id }: HeaderProps): JSX.Element {
   return (
-    <h3 className="text-base sm:text-lg lg:text-xl font-bold w-fit">
+    <h3 id={id} className="text-base sm:text-lg lg:text-xl font-bold w-fit">
       {/* Header Text */}
       {text}
       {/* Underline */}

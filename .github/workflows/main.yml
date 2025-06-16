@@ -11,6 +11,7 @@ on:
       - compose.yaml
       - Dockerfile
       - docs/**
+      - sonar-project.properties
   schedule:
     - cron: '0 4 * * 1'
 

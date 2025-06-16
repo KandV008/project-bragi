@@ -4,13 +4,16 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getNoveltyRoute } from "@/app/api/routes";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
-import NoveltyForm, { NoveltyFormSkeleton } from "@/app/ui/containers/admin/novelties/noveltyForm/noveltyForm";
+import NoveltyForm, {
+  NoveltyFormSkeleton,
+} from "@/app/ui/containers/admin/novelties/noveltyForm/noveltyForm";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
+import AdminPanel from "../../adminPanel/adminPanel";
 
 /**
  * This component fetches a specific novelty (offer) based on its ID from the URL
  * and displays a form to update it. If the data is still loading, a skeleton loader is shown.
- * 
+ *
  * @returns {JSX.Element} The rendered admin update novelty component.
  */
 export default function AdminUpdateNovelty() {
@@ -37,10 +40,18 @@ export default function AdminUpdateNovelty() {
   }, [id]);
 
   if (isLoading) return <AdminUpdateNoveltySkeleton />;
-  if (!novelty) return <EmptyMessage />; 
+  if (!novelty) return <EmptyMessage />;
 
   return (
     <section>
+      <AdminPanel
+        entity={"novelty"}
+        context={"UPDATE"}
+        extras={{
+          entityId: undefined,
+          url: undefined,
+        }}
+      />
       <NoveltyForm novelty={novelty} />
     </section>
   );
@@ -48,13 +59,13 @@ export default function AdminUpdateNovelty() {
 
 /**
  * Displays a skeleton loader for the update novelty page while data is being fetched.
- * 
+ *
  * @returns {JSX.Element} The rendered skeleton loader component.
  */
 export function AdminUpdateNoveltySkeleton(): JSX.Element {
-    return (
-      <div className="flex flex-col">
-          <NoveltyFormSkeleton />
-      </div>
-    );
+  return (
+    <div className="flex flex-col">
+      <NoveltyFormSkeleton />
+    </div>
+  );
 }

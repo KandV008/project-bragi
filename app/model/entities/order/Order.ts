@@ -28,32 +28,47 @@ export interface OrderEntity {
     /**
      * First name of the user
      */
-    firstName: string
+    firstName: string;
+
+    /**
+     * DNI of the user
+     */
+    dni: string;
 
     /**
      * Phone number of the user
      */
-    phoneNumber: string
+    phoneNumber: string;
 
     /**
      * E-mail of the user
      */
-    email: string
+    email: string;
 
     /**
      * Address of the user
      */
-    address: string
+    address: string;
 
     /**
      * Products inside the order
      */
-    products: ShoppingProductDTO[],
+    products: ShoppingProductDTO[];
+
+    /**
+ * Bargain code applied to the order
+ */
+    bargainApplied: String | undefined;
+
+    /**
+ * Products inside the order
+ */
+    invalidProducts: ShoppingProductDTO[];
 
     /**
      * Total price of the order
      */
-    totalPrice: number,
+    totalPrice: number;
 }
 
 /**
@@ -70,6 +85,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             "user_id",
             "user_name",
             "user_first_name",
+            "user_dni",
             "phone_number",
             "email",
             "address",
@@ -77,9 +93,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             "creation_date",
         ];
 
-        if (!order || isNaN(order["total_price"]) || requiredFields.some(field => !order[field])) {
-            throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE);
-        }
+        checkDocument(order, requiredFields);
 
         const creationDate = new Date(order.creation_date);
 
@@ -88,6 +102,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
         }
 
         const mappedProducts = order.products.map(mapDocumentToShoppingProductDTO)
+        const mappedSpecialsProducts = order.invalid_products.map(mapDocumentToShoppingProductDTO)
 
         return {
             id: order._id,
@@ -98,10 +113,37 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             phoneNumber: order.phone_number,
             email: order.email,
             address: order.address,
+            dni: order.user_dni,
             products: mappedProducts,
+            bargainApplied: order.bargain_applied,
+            invalidProducts: mappedSpecialsProducts,
             totalPrice: order.total_price
         }
     } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE)
     }
+}
+
+/**
+ * Check if the document is correct to map
+ * @param order Document of the entity
+ * @param requiredFields List of fields that are required to have the entity
+ */
+function checkDocument(order: any, requiredFields: string[]) {
+    if (!order) {
+        throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE + " -> The document is null.");
+    }
+
+    if (isNaN(order["total_price"])) {
+        throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE + " -> Total price is not a number.");
+    }
+
+    requiredFields.forEach(
+        (field) => {
+            if (!order[field]) {
+                throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE + ` -> The field ${field} is null.`
+                );
+            }
+        }
+    )
 }

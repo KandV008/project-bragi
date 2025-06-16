@@ -35,7 +35,7 @@ async function createNoveltyTable(client) {
       CREATE TABLE IF NOT EXISTS novelty (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         title VARCHAR(255) NOT NULL,
-        code VARCHAR(255) NOT NULL,
+        code VARCHAR(255),
         description VARCHAR(255) NOT NULL,
         promotional_image VARCHAR(255) NOT NULL,
         type VARCHAR(255) NOT NULL,

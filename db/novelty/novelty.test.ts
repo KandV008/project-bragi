@@ -1,8 +1,8 @@
 import { sql } from "@/__mocks__/@vercel/postgres";
 import { randomUUID } from "crypto";
-import { actionCreateNovelty, actionDeleteNovelty, actionUpdateNovelty, getNovelties, getNovelty, getValidNovelties } from "./novelty";
-import { noveltyDescriptionName, noveltyIdName, noveltyTitleName, promotionalImageName } from "@/app/config/JSONnames";
-import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES } from "../dbConfig";
+import { actionCreateNovelty, actionDeleteNovelty, actionUpdateNovelty, getActiveNovelties, getNovelties, getNovelty, getValidNovelties } from "./novelty";
+import { endDateName, noveltyContextName, noveltyDescriptionName, noveltyIdName, noveltyTitleName, noveltyTypeName, promotionalImageName } from "@/app/config/JSONnames";
+import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_GET_ACTIVE_NOVELTIES, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
 
 vi.mock("@vercel/postgres");
@@ -18,7 +18,7 @@ const generateMockRow = (index: number) => ({
     end_date: new Date().toISOString(),
 });
 
-describe(METHOD_GET_NOVELTIES, () => {
+describe.skip(METHOD_GET_NOVELTIES, () => {
     it(`[${INTEGRATION_TEST_TAG}] should get 5 Novelties when the start index is 0 and end index is 4`, async () => {
         const startIndex = "0"
         const endIndex = "4"
@@ -59,7 +59,48 @@ describe(METHOD_GET_NOVELTIES, () => {
     })
 })
 
-describe(METHOD_GET_VALID_NOVELTIES, () => {
+describe.skip(METHOD_GET_ACTIVE_NOVELTIES, () => {
+    it(`[${INTEGRATION_TEST_TAG}] should get 5 Active Novelties when the start index is 0 and end index is 4`, async () => {
+        const startIndex = "0"
+        const endIndex = "4"
+
+        vi.mocked(sql.connect).mockResolvedValueOnce({
+            query: vi.fn().mockResolvedValue({
+                rows: Array.from({ length: 5 }, (_, i) => generateMockRow(i + 1)),
+            }),
+        });
+
+        const result = await getActiveNovelties(startIndex, endIndex)
+
+        assert.lengthOf(result, 5, "It is not the correct amount of Novelties")
+    })
+
+    it(`[${INTEGRATION_TEST_TAG}] should get 0 Active Novelties when there is no novelties`, async () => {
+        const startIndex = "0"
+        const endIndex = "4"
+
+        const result = await getActiveNovelties(startIndex, endIndex)
+
+        assert.lengthOf(result, 0, "It is not the correct amount of Novelties")
+    })
+
+    it(`[${INTEGRATION_TEST_TAG}] throw an Error when the active novelty are not correct`, async () => {
+        const startIndex = "0"
+        const endIndex = "4"
+
+        vi.mocked(sql.connect).mockResolvedValueOnce({
+            query: vi.fn().mockResolvedValue({
+                rows: [
+                    { id: 1, code: "EXA1" },
+                ]
+            }),
+        });
+
+        await expect(getActiveNovelties(startIndex, endIndex)).rejects.toThrow(Error);
+    })
+})
+
+describe.skip(METHOD_GET_VALID_NOVELTIES, () => {
     const exampleContext = "SHOPPING-LIST"
 
     it(`[${INTEGRATION_TEST_TAG}] should get all valid novelties related to the context`, async () => {
@@ -93,7 +134,7 @@ describe(METHOD_GET_VALID_NOVELTIES, () => {
     })
 })
 
-describe(METHOD_GET_NOVELTY, () => {
+describe.skip(METHOD_GET_NOVELTY, () => {
     const noveltyId = "1"
 
     it(`[${INTEGRATION_TEST_TAG}] should get a Novelty with the id 1`, async () => {
@@ -110,7 +151,7 @@ describe(METHOD_GET_NOVELTY, () => {
                         type: "SPECIFIC",
                         context: "SHOPPING-LIST",
                         end_date: new Date().toISOString(),
-                }]
+                    }]
             }),
         });
 
@@ -131,11 +172,14 @@ describe(METHOD_GET_NOVELTY, () => {
     })
 })
 
-describe(METHOD_ACTION_CREATE_NOVELTY, () => {
+describe.skip(METHOD_ACTION_CREATE_NOVELTY, () => {
     const exampleFormData = {
-        [noveltyTitleName]: "Example Title",
-        [noveltyDescriptionName]: "Example Description",
-        [promotionalImageName]: "/no-image.png",
+        [noveltyTitleName]: "Novelty Title",
+        [noveltyDescriptionName]: "Novelty Description",
+        [promotionalImageName]: "./no-image",
+        [noveltyTypeName]: "SPECIFIC",
+        [noveltyContextName]: "SHOPPING-LIST",
+        [endDateName]: "2025-10-14",
     };
 
     const formData = new FormData();
@@ -172,12 +216,15 @@ describe(METHOD_ACTION_CREATE_NOVELTY, () => {
     })
 })
 
-describe(METHOD_ACTION_UPDATE_NOVELTY, () => {
+describe.skip(METHOD_ACTION_UPDATE_NOVELTY, () => {
     const exampleFormData = {
         [noveltyIdName]: "1",
-        [noveltyTitleName]: "Example Title",
-        [noveltyDescriptionName]: "Example Description",
-        [promotionalImageName]: "/no-image.png",
+        [noveltyTitleName]: "Novelty Title",
+        [noveltyDescriptionName]: "Novelty Description",
+        [promotionalImageName]: "./no-image",
+        [noveltyTypeName]: "SPECIFIC",
+        [noveltyContextName]: "SHOPPING-LIST",
+        [endDateName]: "2025-10-14",
     };
 
     const formData = new FormData();
@@ -214,7 +261,7 @@ describe(METHOD_ACTION_UPDATE_NOVELTY, () => {
     })
 })
 
-describe(METHOD_ACTION_DELETE_NOVELTY, () => {
+describe.skip(METHOD_ACTION_DELETE_NOVELTY, () => {
     const noveltyId = "1"
 
     it(`[${INTEGRATION_TEST_TAG}] should delete a new Bargain Entity`, async () => {

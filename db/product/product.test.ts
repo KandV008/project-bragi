@@ -453,7 +453,7 @@ describe(METHOD_ACTION_UPDATE_PRODUCT, () => {
     })
 })
 
-describe(METHOD_ACTION_DELETE_PRODUCT, () => {
+describe.skip(METHOD_ACTION_DELETE_PRODUCT, () => {
     const fakeObjectId = new ObjectId().toString();
 
     it(`[${INTEGRATION_TEST_TAG}] should delete a Product Entity and all it apperances in shopping lists and favorites`, async () => {

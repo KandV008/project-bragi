@@ -70,15 +70,12 @@ export default function FloatButton({
   subtext,
   type,
   navigationURL,
-  position,
   onClick,
 }: FloatButtonProps) {
   const bgColor = checkTypeButton(type);
-  const top = position === "center" ? "top-60 sm:top-48" : "top-48";
 
   return (
-    <article className={`flex flex-center shrink-0 justify-${position}`}>
-      <div className={`fixed ${top}`}>
+    <article className={`flex flex-center`}>
         {/* Medium button visible on larger screens */}
         <div className="hidden md:block">
           <MediumButtonWithIcon
@@ -103,7 +100,6 @@ export default function FloatButton({
             onClick={onClick}
           />
         </div>
-      </div>
     </article>
   );
 }

@@ -1,3 +1,4 @@
+import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
 import NoveltyForm from "@/app/ui/containers/admin/novelties/noveltyForm/noveltyForm";
 import { Metadata } from "next";
 
@@ -17,6 +18,14 @@ export const metadata: Metadata = {
 export default function Page(): JSX.Element {
   return (
     <section>
+      <AdminPanel
+        entity={"novelty"}
+        context={"UPDATE"}
+        extras={{
+          entityId: undefined,
+          url: undefined,
+        }}
+      />
       <NoveltyForm />
     </section>
   );

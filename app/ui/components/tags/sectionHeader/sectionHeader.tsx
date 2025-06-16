@@ -7,6 +7,7 @@ import { componentBorder, componentText } from "@/app/ui/tailwindClasses";
  */
 interface SectionHeaderProps {
   text: string;
+  id?: string;
 }
 
 /**
@@ -15,9 +16,13 @@ interface SectionHeaderProps {
  * @param {SectionHeaderProps} props - The properties for the SectionHeader component.
  * @returns {JSX.Element} The rendered SectionHeader component.
  */
-export default function SectionHeader({ text }: SectionHeaderProps): JSX.Element {
+export default function SectionHeader({
+  text,
+  id,
+}: SectionHeaderProps): JSX.Element {
   return (
     <h1
+      id={id}
       className={`${componentText}
             text-xl md:text-2xl lg:text-3xl font-bold w-fit`}
     >

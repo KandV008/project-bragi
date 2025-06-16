@@ -14,7 +14,7 @@ export interface NoveltyEntity {
     /** Title of the novelty */
     title: string;
     /** Code representing the novelty */
-    code: string;
+    code: string | null;
     /** Description of the novelty */
     description: string;
     /** URL or path to the promotional image */
@@ -40,7 +40,6 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
         const requiredFields = [
             "id",
             "title",
-            "code",
             "description",
             "promotional_image",
             "type",
@@ -48,9 +47,7 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
             "end_date"
         ];
 
-        if (!novelty || requiredFields.some(field => !novelty[field])) {
-            throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE);
-        }
+        checkDocument(novelty, requiredFields);
 
         const endDate = new Date(novelty.end_date);
 
@@ -72,6 +69,27 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
         throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE);
     }
 }
+
+/**
+ * Check if the document is correct to map
+ * @param novelty Document of the entity
+ * @param requiredFields List of fields that are required to have the entity
+ */
+function checkDocument(novelty: any, requiredFields: string[]) {
+    if (!novelty) {
+        throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE + " -> The document is null.");
+    }
+
+    requiredFields.forEach(
+        (field) => {
+            if (!novelty[field]) {
+                throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE + ` -> The field ${field} is null.`
+                );
+            }
+        }
+    )
+}
+
 
 /**
  * Applies valid novelties to a list of products, by checking if the novelty's end date is still valid and if an action can be applied.
@@ -107,7 +125,7 @@ export async function applyNoveltyToList(context: string, products: any[]): Prom
  * @param productsApplied - A set to track which products have already had the novelty applied.
  */
 function handleNovelty(novelty: NoveltyEntity, products: any[], productsApplied: Set<string>) {
-    const action = getNoveltyAction(novelty.code);
+    const action = getNoveltyAction(novelty.code!);
 
     if (!action) {
         Logger.infoFunction("NOVELTY", "handleNovelty", `No action found for novelty code: ${novelty.code}`);

@@ -7,6 +7,7 @@ import OrderContainer from "@/app/ui/components/orders/orderContainer/orderConta
 import { OrderEntity } from "@/app/model/entities/order/Order";
 import Spinner from "@/app/ui/components/common/spinner/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
+import NoOrdersMessage from "@/app/ui/components/messages/noOrdersMessage/noOrdersMessage";
 
 /**
  * Page component that displays a list of orders.
@@ -42,7 +43,7 @@ export default function Page(): JSX.Element {
   }, [endIndex, isLoading, startIndex]);
 
   if (isLoading) return <Loading />;
-  if (orders.length === 0) return <EmptyMessage />;
+  if (orders.length === 0) return <NoOrdersMessage />;
 
   /**
    * Function to load more orders by updating the start and end index.

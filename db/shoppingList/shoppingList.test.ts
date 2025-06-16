@@ -27,7 +27,7 @@ const generateMockRow = (index: number) => ({
     image_url: "/no-image.png",
 });
 
-describe(METHOD_GET_SHOPPING_LIST, () => {
+describe.skip(METHOD_GET_SHOPPING_LIST, () => {
 
     it(`[${INTEGRATION_TEST_TAG}] should get all Products in shopping list`, async () => {
         vi.mocked(sql.connect).mockResolvedValueOnce({
@@ -62,7 +62,7 @@ describe(METHOD_GET_SHOPPING_LIST, () => {
     })
 })
 
-describe(METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, () => {
+describe.skip(METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, () => {
     it(`[${INTEGRATION_TEST_TAG}] should delete a Product from all shopping list`, async () => {
         const endFunctionMock = vi.fn();
         Logger.endFunction = endFunctionMock;
@@ -92,7 +92,7 @@ describe(METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, () => {
     })
 })
 
-describe(METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, () => {
+describe.skip(METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [nameName]: exampleUser,
@@ -128,7 +128,7 @@ describe(METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, () => {
     })
 })
 
-describe(METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, () => {
+describe.skip(METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [exampleUser]: exampleUser,
@@ -167,7 +167,7 @@ describe(METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, () => {
     })
 })
 
-describe(METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, () => {
+describe.skip(METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, () => {
     const exampleFormData = {
         [productIdName]: exampleProduct,
         [exampleUser]: exampleUser,

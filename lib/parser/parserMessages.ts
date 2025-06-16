@@ -34,6 +34,7 @@ export const CONTACT_FORM_PARSER_NAME = "Contact Form"
 export const APPOINTMENT_FORM_PARSER_NAME = "Appointment Form"
 
 export const CONTEXT_PARSE_STRING = "parseString"
+export const CONTEXT_PARSE_DATE = "parseDate"
 export const CONTEXT_PARSE_STRING_OR_EMPTY = "parseStringOrEmpty"
 export const CONTEXT_PARSE_STRING_LIST = "parseStringList"
 export const CONTEXT_PARSE_NUMBER = "parseNumber"

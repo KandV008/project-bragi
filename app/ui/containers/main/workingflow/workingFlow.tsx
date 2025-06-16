@@ -85,10 +85,10 @@ export default function WorkingFlow(): JSX.Element {
           Envíanos tu audiograma y te haremos una lista de recomendaciones.
         </p>
         <div className="self-center hidden lg:block">
-          <SmallButton text="Enviar audiograma" href="/in-development"/>
+          <SmallButton text="Enviar audiograma" href="/services/send-audiometry-file"/>
         </div>
         <div className="self-center block lg:hidden">
-          <SmallButton text="Enviar" href="/in-development"/>
+          <SmallButton text="Enviar" href="/services/send-audiometry-file"/>
         </div> 
       </article>
 
@@ -108,7 +108,7 @@ export default function WorkingFlow(): JSX.Element {
           Pide cita en línea y nos encargaremos de hacerte tu audiograma.
         </p>
         <div className="self-center">
-          <SmallButton text="Pedir cita" href="/in-development" />
+          <SmallButton text="Pedir cita" href="/services/appointment" />
         </div>
       </article>
     </section>

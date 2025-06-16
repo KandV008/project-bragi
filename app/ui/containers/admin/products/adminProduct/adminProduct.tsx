@@ -1,14 +1,14 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { faEraser, faPencil } from "@fortawesome/free-solid-svg-icons";
 import UnorderedList, {
   UnorderedListSkeleton,
 } from "@/app/ui/components/tags/unorderedList/unorderedList";
-import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article/article";
-import ConfirmationPopUp from "@/app/ui/components/popUps/confirmationPopUp/confirmationPopUp";
-import toast from "react-hot-toast";
+import {
+  Article,
+  ArticleSkeleton,
+} from "@/app/ui/components/tags/article/article";
 import BigImage, {
   BigImageSkeleton,
 } from "@/app/ui/components/images/bigImage/bigImage";
@@ -21,12 +21,15 @@ import {
 import { getProductRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
-import { actionDeleteProduct } from "@/db/product/product";
 import { ColorButtonSkeleton } from "@/app/ui/components/buttons/colorButton/colorButton";
-import FloatButton from "@/app/ui/components/buttons/floatButton/floatButton";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
-import { ColorArticle, ColorArticleSkeleton } from "@/app/ui/components/tags/colorArticle/colorArticle";
-import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import {
+  ColorArticle,
+  ColorArticleSkeleton,
+} from "@/app/ui/components/tags/colorArticle/colorArticle";
+import SectionHeader, {
+  SectionHeaderSkeleton,
+} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import AdminPanel from "../../adminPanel/adminPanel";
 
 /**
  * Admin product management page for viewing and editing a product's details.
@@ -35,13 +38,8 @@ import SectionHeader, { SectionHeaderSkeleton } from "@/app/ui/components/tags/s
  * @returns {JSX.Element} Admin product details page.
  */
 export default function AdminProduct(): JSX.Element {
-  const router = useRouter();
   const pathname = usePathname();
   const productId = pathname.split("/").pop();
-  const [showModal, setShowModal] = useState(false);
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
 
   const [product, setProduct] = useState<ProductEntity | null>(null);
   const [isLoading, setLoading] = useState(true);
@@ -67,23 +65,14 @@ export default function AdminProduct(): JSX.Element {
       ${componentText}`}
     >
       {/* Actions */}
-      <FloatButton
-        icon={faPencil}
-        text={"Editar Producto"}
-        subtext={"Actualizar las atributos"}
-        type={"warning"}
-        position="center"
-        navigationURL={`/admin/products/${productId}/update`}
+      <AdminPanel
+        entity={"product"}
+        context={"READ"}
+        extras={{
+          entityId: productId,
+          url: "/admin/products",
+        }}
       />
-      <FloatButton
-        icon={faEraser}
-        text={"Borrar Producto"}
-        subtext={"Eliminar para siempre"}
-        type={"danger"}
-        position="end"
-        onClick={handleShowModal}
-      />
-      <GoBackButton link="/admin/products" />
       {/* Display */}
       <section
         className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10
@@ -164,26 +153,6 @@ export default function AdminProduct(): JSX.Element {
         <SectionHeader text={"Imagen del producto"} />
         <BigImage src={product.imageURL} alt={"img-" + product.name} />
       </section>
-      {/* Pop Up */}
-      <article className="flex flex-center shrink-0 justify-center h-full w-full">
-        {showModal && (
-          <ConfirmationPopUp
-            handleShowModal={handleShowModal}
-            handleAction={() => {
-              handleShowModal();
-              actionDeleteProduct(productId)
-                .then((_) => {
-                  toast.success("Se ha borrado el producto.");
-                  router.push("/admin/products");
-                })
-                .catch((_) =>
-                  toast.error("No se ha podido borrar el producto.")
-                );
-            }}
-            message={"Borrar un producto es una acción irreversible."}
-          />
-        )}
-      </article>
     </div>
   );
 }

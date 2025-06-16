@@ -1,13 +1,11 @@
 "use client";
 
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import BargainContainer, { BargainContainerSkeleton } from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { getBargainsRoute } from "@/app/api/routes";
-import FloatButton from "@/app/ui/components/buttons/floatButton/floatButton";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
+import AdminPanel from "../../adminPanel/adminPanel";
 
 /**
  * AdminBargainList component for displaying and managing a list of bargains.
@@ -49,15 +47,14 @@ export default function AdminBargainList(): JSX.Element {
   return (
     <section className="flex flex-col gap-5 w-full justify-between">
       {/* Actions */}
-      <FloatButton
-        icon={faPlus}
-        text="Crear Oferta"
-        subtext="Añadir una nueva oferta"
-        type="default"
-        position="end"
-        navigationURL="/admin/bargains/create"
+      <AdminPanel
+        entity={"bargain"}
+        context={"ALL"}
+        extras={{
+          entityId: undefined,
+          url: "/admin",
+        }}
       />
-      <GoBackButton link="/admin" />
 
       {/* List */}
       <article className="md:size-fit lg:px-12">

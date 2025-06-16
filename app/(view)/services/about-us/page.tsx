@@ -23,7 +23,7 @@ export default function Page(): JSX.Element {
       <SectionHeader text={"Sobre Nosotros"} />
       {/* Team Members */}
       <section
-        className={`flex flex-row flex-wrap justify-around w-full p-4 md:p-8 rounded-xl ${componentBackground}`}
+        className={`grid grid-cols-2 gap-4 sm:gap-0 md:gap-8 sm:flex sm:flex-row sm:justify-around w-full p-4 md:p-8 rounded-xl ${componentBackground}`}
       >
         <TeamMember
           name={"Irina Osuna"}

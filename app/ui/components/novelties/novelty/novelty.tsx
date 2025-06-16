@@ -50,7 +50,7 @@ export default function Novelty({
       <div className="flex flex-col items-center sm:items-start p-3 sm:p-5 gap-1 sm:gap-3">
         {/* Promotional Image */}
         <article className="font-bold text-xl sm:text-2xl self-center text-center ">
-          <Image className="rounded" src={promotionalImage} alt={"promotional_image"} width={1500} height={1500}/>
+          <Image className="rounded" src={promotionalImage} alt={"promotional_image"} width={1000} height={500}/>
         </article>
         <article className="text-center sm:text-justify">
           {/* Title */}

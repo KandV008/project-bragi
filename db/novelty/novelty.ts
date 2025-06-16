@@ -15,25 +15,54 @@ import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTI
  * @throws {Error} - Throws an error if there is an exception during the operation.
  */
 export async function getNovelties(start: string | null, end: string | null): Promise<NoveltyEntity[]> {
-    Logger.startFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES)
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES);
 
     try {
-        const client = await sql.connect()
-        const { startIndex, endIndex } = parseStartAndEndIndex(start, end)
+        const { startIndex, endIndex } = parseStartAndEndIndex(start, end);
         const limit = endIndex - startIndex + 1;
         const offset = startIndex;
 
-        const result = await client.query(
-            `SELECT * FROM novelty LIMIT $1 OFFSET $2`,
-            [limit, offset]
-        );
+        const result = await sql`
+            SELECT * FROM novelty
+            LIMIT ${limit} OFFSET ${offset}
+        `;
 
         const novelties: NoveltyEntity[] = result.rows.map(mapDocumentToNovelty);
-        Logger.endFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, novelties)
-        return novelties
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, novelties);
+        return novelties;
     } catch (error) {
-        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, error)
-        throw new Error(`[${METHOD_GET_NOVELTIES}] ${error}`)
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, error);
+        throw new Error(`[${METHOD_GET_NOVELTIES}] ${error}`);
+    }
+}
+
+/**
+ * Fetches a paginated list of active novelties.
+ * @param {string | null} start - The start index.
+ * @param {string | null} end - The end index.
+ * @returns {Promise<NoveltyEntity[]>} - List of active novelty entities.
+ * @throws {Error} - Throws an error if there is an exception during the operation.
+ */
+export async function getActiveNovelties(start: string | null, end: string | null): Promise<NoveltyEntity[]> {
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES);
+
+    try {
+        const { startIndex, endIndex } = parseStartAndEndIndex(start, end);
+        const limit = endIndex - startIndex + 1;
+        const offset = startIndex;
+
+        const result = await sql`
+            SELECT * FROM novelty
+            WHERE end_date > NOW() AND code IS NOT NULL
+            LIMIT ${limit} OFFSET ${offset}
+        `;
+
+        const novelties: NoveltyEntity[] = result.rows.map(mapDocumentToNovelty);
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, novelties);
+        return novelties;
+    } catch (error) {
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTIES, error);
+        throw new Error(`[${METHOD_GET_NOVELTIES}] ${error}`);
     }
 }
 
@@ -50,21 +79,21 @@ export async function getValidNovelties(context: string): Promise<NoveltyEntity[
     Logger.startFunction(NOVELTY_CONTEXT, METHOD_GET_VALID_NOVELTIES);
 
     try {
-        const client = await sql.connect();
-
-        const result = await client.query(
-            `SELECT * FROM novelty WHERE end_date > NOW() AND context = $1 AND type != 'INFO'`, [context]
-        );
+        const result = await sql`
+            SELECT * FROM novelty
+            WHERE end_date > NOW()
+              AND context = ${context}
+              AND type != 'INFO'
+        `;
 
         const novelties: NoveltyEntity[] = result.rows.map(mapDocumentToNovelty);
         Logger.endFunction(NOVELTY_CONTEXT, METHOD_GET_VALID_NOVELTIES, novelties);
         return novelties;
     } catch (error) {
-        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_VALID_NOVELTIES, error)
-        throw new Error(`[${METHOD_GET_VALID_NOVELTIES}] ${error}`)
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_VALID_NOVELTIES, error);
+        throw new Error(`[${METHOD_GET_VALID_NOVELTIES}] ${error}`);
     }
 }
-
 
 /**
  * Retrieves a single novelty by ID.
@@ -73,25 +102,23 @@ export async function getValidNovelties(context: string): Promise<NoveltyEntity[
  * @throws {Error} - Throws an error if there is an exception during the operation.
  */
 export async function getNovelty(id: string | null): Promise<NoveltyEntity> {
-    Logger.startFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTY)
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTY);
 
     try {
+        const result = await sql`
+            SELECT * FROM novelty
+            WHERE id = ${id}
+        `;
 
-        const client = await sql.connect()
-
-        const result = await client.query(
-            `SELECT * FROM novelty WHERE id = $1`,
-            [id]
-        )
-
-        const novelty = mapDocumentToNovelty(result.rows[0])
-        Logger.endFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTY, novelty)
-        return novelty
+        const novelty = mapDocumentToNovelty(result.rows[0]);
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTY, novelty);
+        return novelty;
     } catch (error) {
-        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTY, error)
-        throw new Error(`[${METHOD_GET_NOVELTY}] ${error}`)
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_GET_NOVELTY, error);
+        throw new Error(`[${METHOD_GET_NOVELTY}] ${error}`);
     }
 }
+
 
 /**
  * Handles the creation of a new novelty from form data.
@@ -125,24 +152,23 @@ export async function actionCreateNovelty(formData: FormData): Promise<number> {
 
 /**
  * Creates a new novelty entry in the database.
- * @param {any} bargainData - The data for the new novelty.
+ * @param {any} noveltyData - The data for the new novelty.
  * @throws {Error} - Throws an error if there is an exception during the operation.
  */
-async function createNovelty(bargainData: any): Promise<void> {
-    Logger.startFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY)
-    const { title, description, promotionalImage } = bargainData;
+async function createNovelty(noveltyData: any): Promise<void> {
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY);
+    const { title, description, promotionalImage, type, context, endDate } = noveltyData;
 
     try {
-        const client = await sql.connect();
+        await sql`
+            INSERT INTO novelty (title, description, promotional_image, type, context, end_date)
+            VALUES (${title}, ${description}, ${promotionalImage}, ${type}, ${context}, ${endDate})
+        `;
 
-        await client.query(
-            'INSERT INTO novelty (title, description, promotional_image) VALUES ($1, $2, $3)',
-            [title, description, promotionalImage]
-        );
-        Logger.endFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY, bargainData)
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY, noveltyData);
     } catch (error) {
-        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY, error)
-        throw new Error(`[${METHOD_CREATE_NOVELTY}] ${error}`)
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_CREATE_NOVELTY, error);
+        throw new Error(`[${METHOD_CREATE_NOVELTY}] ${error}`);
     }
 }
 
@@ -180,25 +206,29 @@ export async function actionUpdateNovelty(formData: FormData): Promise<number> {
 
 /**
  * Updates an existing novelty in the database.
- * @param {any} novelty - The updated novelty data.
+ * @param {any} noveltyData - The updated novelty data.
  * @throws {Error} - Throws an error if there is an exception during the operation.
  */
-async function updateNovelty(novelty: any): Promise<void> {
+async function updateNovelty(noveltyData: any): Promise<void> {
     Logger.startFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY);
-    const { id, title, description, promotionalImage } = novelty;
+    const { id, title, description, promotionalImage, type, context, endDate } = noveltyData;
 
     try {
-        const client = await sql.connect();
+        await sql`
+            UPDATE novelty
+            SET title = ${title},
+                description = ${description},
+                promotional_image = ${promotionalImage},
+                type = ${type},
+                context = ${context},
+                end_date = ${endDate}
+            WHERE id = ${id}
+        `;
 
-        await client.query(
-            'UPDATE novelty SET title = $2, description = $3, promotional_image = $4 WHERE id = $1',
-            [id, title, description, promotionalImage]
-        );
-
-        Logger.endFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY, novelty);
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY, noveltyData);
     } catch (error) {
-        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY, error)
-        throw new Error(`[${METHOD_UPDATE_NOVELTY}] ${error}`)
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_UPDATE_NOVELTY, error);
+        throw new Error(`[${METHOD_UPDATE_NOVELTY}] ${error}`);
     }
 }
 
@@ -238,15 +268,13 @@ export async function actionDeleteNovelty(noveltyId: string | undefined | null):
  * @throws {Error} - Throws an error if there is an exception during the operation.
  */
 async function deleteNovelty(noveltyId: any): Promise<void> {
-    Logger.startFunction(NOVELTY_CONTEXT, METHOD_DELETE_NOVELTY)
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_DELETE_NOVELTY);
 
     try {
-        const client = await sql.connect();
-
-        const result = await client.query(
-            'DELETE FROM novelty WHERE id = $1',
-            [noveltyId]
-        );
+        const result = await sql`
+            DELETE FROM novelty
+            WHERE id = ${noveltyId}
+        `;
 
         if (result.rowCount === 0) {
             throw new Error(`Failed to remove novelty with id: ${noveltyId} from the novelty. Novelty not found.`);
@@ -256,9 +284,10 @@ async function deleteNovelty(noveltyId: any): Promise<void> {
             NOVELTY_CONTEXT,
             METHOD_DELETE_NOVELTY,
             `Novelty with id: ${noveltyId} has been removed from the novelty.`
-        )
+        );
     } catch (error) {
-        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_DELETE_NOVELTY, error)
-        throw new Error(`[${METHOD_DELETE_NOVELTY}] ${error}`)
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_DELETE_NOVELTY, error);
+        throw new Error(`[${METHOD_DELETE_NOVELTY}] ${error}`);
     }
 }
+

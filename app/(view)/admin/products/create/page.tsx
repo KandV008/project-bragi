@@ -1,3 +1,4 @@
+import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
 import ProductForm from "@/app/ui/containers/admin/products/productForm/productForm";
 import { Metadata } from "next";
 
@@ -17,6 +18,14 @@ export const metadata: Metadata = {
 export default function Page(): JSX.Element {
   return (
     <section>
+      <AdminPanel
+        entity={"product"}
+        context={"CREATE"}
+        extras={{
+          entityId: undefined,
+          url: undefined,
+        }}
+      />
       <ProductForm />
     </section>
   );

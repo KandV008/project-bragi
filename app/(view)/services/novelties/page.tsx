@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getNoveltiesRoute } from "@/app/api/routes";
+import { getActiveNoveltiesRoute } from "@/app/api/routes";
 import Loading from "./loading";
 import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
@@ -28,7 +28,7 @@ export default function Page(): JSX.Element {
     if (!isLoading) setSpinnerActive(true);
 
     fetch(
-      `${getNoveltiesRoute}?start=${startIndex}&end=${endIndex}`
+      `${getActiveNoveltiesRoute}?start=${startIndex}&end=${endIndex}`
     )
       .then((response) => response.json())
       .then((data) => {

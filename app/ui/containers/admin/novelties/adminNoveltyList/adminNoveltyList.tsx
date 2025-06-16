@@ -1,19 +1,17 @@
 "use client";
 
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { getNoveltiesRoute } from "@/app/api/routes";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
 import { NoveltyContainerSkeleton } from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
-import FloatButton from "@/app/ui/components/buttons/floatButton/floatButton";
-import GoBackButton from "@/app/ui/components/buttons/goBackButton/goBackButton";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
+import AdminPanel from "../../adminPanel/adminPanel";
 
 /**
  * This component fetches and displays a paginated list of novelties (offers).
  * It includes a floating button for creating new novelties, a back button, and a novelty container.
- * 
+ *
  * @returns {JSX.Element} The rendered admin novelty list component.
  */
 export default function AdminNoveltyList(): JSX.Element {
@@ -54,15 +52,14 @@ export default function AdminNoveltyList(): JSX.Element {
   return (
     <section className="flex flex-col gap-5 w-full justify-between">
       {/* Actions */}
-      <FloatButton
-        icon={faPlus}
-        text={"Crear Oferta"}
-        subtext={"Añadir una nueva oferta"}
-        type={"default"}
-        position="end"
-        navigationURL={"/admin/novelties/create"}
+      <AdminPanel
+        entity={"novelty"}
+        context={"ALL"}
+        extras={{
+          entityId: undefined,
+          url: "/admin",
+        }}
       />
-      <GoBackButton link="/admin" />
       {/* List */}
       <article className="md:size-fit lg:px-12">
         <NoveltyContainer
@@ -78,7 +75,7 @@ export default function AdminNoveltyList(): JSX.Element {
 
 /**
  * Displays a skeleton loader for the admin novelty list while data is being fetched.
- * 
+ *
  * @returns {JSX.Element} The rendered skeleton loader component.
  */
 export function AdminNoveltyListSkeleton(): JSX.Element {

@@ -29,8 +29,7 @@ export default function GoBackButton({ link }: GoBackButtonInterface) {
   const router = useRouter();
 
   return (
-    <article className="flex flex-center shrink-0 justify-start">
-      <div className="fixed top-48">
+    <article className="flex flex-center ">
         {/* Render the medium button for larger screens */}
         <div className="hidden md:block">
           {link ? (
@@ -72,7 +71,6 @@ export default function GoBackButton({ link }: GoBackButtonInterface) {
             />
           )}
         </div>
-      </div>
     </article>
   );
 }

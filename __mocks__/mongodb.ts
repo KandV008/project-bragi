@@ -8,7 +8,7 @@ export const mockCursor = {
 };
 
 export const mockCollection = {
-    find: vi.fn().mockReturnValue(mockCursor),
+    find: vi.fn((query) => mockCursor), 
     findOne: vi.fn(),
     insertOne: vi.fn(),
     updateOne: vi.fn().mockReturnValue(mockCursor),

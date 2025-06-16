@@ -1,8 +1,11 @@
 'use server';
 
 import { OrderEntity } from "@/app/model/entities/order/Order";
+import { IVA_ACCESSORY_PRODUCT, IVA_EARPHONE_PRODUCT } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTOConfiguration";
 import { getOrder } from "@/db/order/order";
 import puppeteer from 'puppeteer';
+import { getDateValue, getSpanishHourValue } from "./utils";
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 
 /**
  * Generates a base64-encoded PDF receipt from an order ID.
@@ -10,9 +13,9 @@ import puppeteer from 'puppeteer';
  * @param {string} id - The ID of the order to generate the receipt for.
  * @returns {Promise<string>} - A base64-encoded PDF string.
  */
-export default async function createReceipt(id: string){
+export default async function createReceipt(id: string): Promise<string> {
     const order: OrderEntity = await getOrder(id);
-    
+
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
@@ -38,7 +41,7 @@ export default async function createReceipt(id: string){
  * @param {OrderEntity} order - The order data used to populate the receipt.
  * @returns {Promise<string>} - The full HTML content for the PDF.
  */
-export async function generateContent(order: OrderEntity) {
+export async function generateContent(order: OrderEntity): Promise<string> {
     const headerContent = generateHeader(order);
     const bodyContent = generateBody(order);
     const footerContent = generateFooter(order);
@@ -76,7 +79,7 @@ function generateHeader(order: OrderEntity): string {
             <div class="column" style="text-align: right;">
                 <p><strong>${order.firstName}, ${order.userName}</strong></p>
                 <p>${order.address}</p>
-                <p>${'¿¿¿DNI???'}</p>
+                <p>${order.dni}</p>
                 <p>${order.phoneNumber}</p>
             </div>
         </div>
@@ -90,28 +93,40 @@ function generateHeader(order: OrderEntity): string {
  * @returns {string} - HTML string for the body section.
  */
 function generateBody(order: OrderEntity): string {
+    const invalidProducts = order.invalidProducts
+
+    const checkIfIsInvalidProduct = (currentProduct: ShoppingProductDTO) => {
+        return invalidProducts.find((productToCompare) => {
+            return currentProduct.name === productToCompare.name
+        })
+    }
+
+    const formattedDate = getDateValue(order.creationDate) + " " + getSpanishHourValue(order.creationDate);
     const productRows = order.products.map(product => (
         `
-        <tr>
-            <td>${product.id}</td>
-            <td>${product.name}</td>
-            <td>${product.quantity}</td>
-            <td>${product.price} €</td>
-            <td>${product.price} €</td>
-            <td>${'???'}%</td>
-            <td>${product.price} €</td>
-            <td>${'???'}%</td>
-            <td>${product.price} €</td>
-        </tr>
-        `
+            <tr>
+                <td>${product.id}</td>
+                <td>${product.name} ${checkIfIsInvalidProduct(product) ? "*" : ""}</td>
+                <td>${product.quantity}</td>
+                <td>${product.price.toFixed(2)} €</td>
+                <td>${(product.price * product.quantity).toFixed(2)} €</td>
+                <td>${product.discountPrice != null ? (((product.price - product.discountPrice) /  product.price) * 100).toFixed(0) : '0.00'}%</td>
+                <td>${((product.category === "EARPHONE" ? IVA_EARPHONE_PRODUCT : IVA_ACCESSORY_PRODUCT) * 100)}%</td>
+                <td>${product.discountPrice != null
+            ? (product.discountPrice * product.quantity).toFixed(2)
+            : (product.price * product.quantity).toFixed(2)
+        } € ${checkIfIsInvalidProduct(product) ? "**" : ""}</td>
+            </tr>
+    `
     )).join('');
 
     return `
         <div class="info-block">
-            <p><strong>Venta:</strong> ${'¿¿¿XYZ???'}</p>
             <p><strong>Nº Factura:</strong> ${order.id}</p>
-            <p><strong>Fecha:</strong> ${order.creationDate.toISOString()}</p>
+            <p><strong>Fecha:</strong> ${formattedDate}</p>
             <p><strong>Código Cliente:</strong> ${order.userId}</p>
+            <p><strong>Codigo de Oferta aplicado:</strong> ${order.bargainApplied ? order.bargainApplied : "Ninguno"}</p>
+
         </div>
 
         <table class="invoice-table">
@@ -123,7 +138,6 @@ function generateBody(order: OrderEntity): string {
                     <th>PRECIO TARIFA UND.</th>
                     <th>IMPORTE TARIFA</th>
                     <th>DTO. %</th>
-                    <th>DTO. LINEAS €</th>
                     <th>IVA</th>
                     <th>IMPORTE TOTAL</th>
                 </tr>
@@ -132,6 +146,8 @@ function generateBody(order: OrderEntity): string {
                 ${productRows}
             </tbody>
         </table>
+        <p><small><strong>*</strong> Este producto no será cobrado a priori al tener una forma CIC y/o BTE, ya que es necesario realizar un molde personalizado para el cliente. Contactaremos contigo para acordar una cita.</small></p>
+        <p><small><strong>**</strong> Al tratarse de un audífono con forma CIC y/o BTE, el precio que se muestra es el del audífono únicamente. No incluye el coste del molde personalizado. El precio presente no será aplicado a la suma total.</small></p>
     `;
 }
 
@@ -174,6 +190,11 @@ function generateFooter(order: OrderEntity): string {
                 <tr>
                 <td>Tarjeta de Crédito</td>
                 </tr>
+                ${
+                    order.invalidProducts && order.invalidProducts.length !== 0 
+                    ? `<tr><td>Los productos marcados con '*' serán cobrados cuando se realicen los correspondientes moldes, siendo posible cambiar la forma de pago.</td></tr>` 
+                    : ""
+                }
             </tbody>
             </table>
         </div>
