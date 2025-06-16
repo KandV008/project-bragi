@@ -17,7 +17,7 @@ export default function Logo() {
       {/* Light Mode */}
       <>
         <Image
-          src="/brand/logo_medium_sain_dark_emerald.png"
+          src="/brand/logo_large_sain_dark_emerald.png"
           width={1000}
           height={1000}
           alt="light_medium_logo"
@@ -41,7 +41,7 @@ export default function Logo() {
       {/* Dark Mode */}
       <>
         <Image
-          src="/brand/logo_medium_sain_light_emerald.png"
+          src="/brand/logo_large_sain_light_emerald.png"
           width={1000}
           height={1000}
           alt="dark_medium_logo"
