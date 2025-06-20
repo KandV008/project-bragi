@@ -1,6 +1,6 @@
+import { mapDocumentToProduct, ProductEntity } from "@/app/model/entities/product/Product"
+import { MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE } from "@/app/model/entities/product/ProductConfiguration"
 import { UNIT_TEST_TAG } from "@/tests/testConstants"
-import { mapDocumentToProduct, ProductEntity } from "./Product"
-import { MAP_DOCUMENT_TO_PRODUCT_ERROR_MESSAGE } from "./ProductConfiguration"
 
 describe("Product Entity", () => {
     const exampleProduct = { 

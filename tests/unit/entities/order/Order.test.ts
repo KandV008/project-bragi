@@ -1,6 +1,6 @@
+import { mapDocumentToOrder } from "@/app/model/entities/order/Order";
+import { MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE } from "@/app/model/entities/order/OrderConfiguration";
 import { UNIT_TEST_TAG } from "@/tests/testConstants";
-import { mapDocumentToOrder } from "./Order";
-import { MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE } from "./OrderConfiguration";
 
 describe("Order Entity", async () => {
     it(`[${UNIT_TEST_TAG}] should map correctly a Order`, () => {

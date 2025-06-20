@@ -1,5 +1,5 @@
+import { discountAction70Percent } from "@/app/model/entities/novelty/codes/70percentDiscount/70percentDiscount"
 import { UNIT_TEST_TAG } from "@/tests/testConstants"
-import { discountAction70Percent } from "./70percentDiscount"
 
 describe("70percentDiscount Novelty", () => {
     const exampleProduct = {

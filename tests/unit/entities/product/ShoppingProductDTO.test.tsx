@@ -1,6 +1,6 @@
 import { UNIT_TEST_TAG } from "@/tests/testConstants";
-import { mapDocumentToShoppingProductDTO } from "./ShoppingProductDTO";
-import { MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE } from "./ShoppingProductDTOConfiguration";
+import { mapDocumentToShoppingProductDTO } from "../../../../app/model/entities/shoppingProductDTO/ShoppingProductDTO";
+import { MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE } from "../../../../app/model/entities/shoppingProductDTO/ShoppingProductDTOConfiguration";
 
 describe("Shopping Product DTO", () => {
     it(`[${UNIT_TEST_TAG}] should map correctly a Shopping EARPHONE Product DTO`, () => {

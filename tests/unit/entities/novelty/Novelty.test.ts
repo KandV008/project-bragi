@@ -1,7 +1,7 @@
-import { NoveltyContext } from "./enums/NoveltyContext";
-import { NoveltyType } from "./enums/NoveltyType";
+import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
+import { NoveltyType } from "@/app/model/entities/novelty/enums/NoveltyType";
 import * as NoveltyModule from "@/app/model/entities/novelty/Novelty";
-import { MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE } from "./NoveltyConfiguration"
+import { MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE } from "@/app/model/entities/novelty/NoveltyConfiguration";
 import { UNIT_TEST_TAG } from "@/tests/testConstants";
 
 describe("Novelty Entity", async () => {

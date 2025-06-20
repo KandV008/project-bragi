@@ -1,6 +1,6 @@
+import { codeAction2PER1 } from "@/app/model/entities/bargain/codes/2per1Code/2per1Code"
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO"
 import { UNIT_TEST_TAG } from "@/tests/testConstants"
-import { ShoppingProductDTO } from "../../../shoppingProductDTO/ShoppingProductDTO"
-import { codeAction2PER1 } from "./2per1Code"
 import { beforeEach } from 'vitest'
 
 describe("2per1Code Bargain", () => {

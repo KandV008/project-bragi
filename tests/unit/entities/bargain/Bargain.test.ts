@@ -1,6 +1,6 @@
 import { UNIT_TEST_TAG } from "@/tests/testConstants"
-import { BargainEntity, mapDocumentToBargain } from "./Bargain"
-import { MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE } from "./BargainConfiguration"
+import { BargainEntity, mapDocumentToBargain } from "../../../../app/model/entities/bargain/Bargain"
+import { MAP_DOCUMENT_TO_BARGAIN_ERROR_MESSAGE } from "../../../../app/model/entities/bargain/BargainConfiguration"
 
 describe("Bargain Entity", () => {
     const exampleBargain = {
