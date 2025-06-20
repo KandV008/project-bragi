@@ -343,7 +343,9 @@ export async function getFilterInformation(category: string | null, elementsToFi
       const counts = await coll.aggregate(aggregationPipeline).toArray();
 
       result[attribute] = counts.reduce((acc: { [x: string]: any; }, { _id, count }: any) => {
-        acc[_id] = count;
+        if (_id !== null && _id !== "") {
+          acc[_id] = count;
+        }
         return acc;
       }, {} as Record<string, number>);
     }

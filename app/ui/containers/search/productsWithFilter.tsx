@@ -15,6 +15,8 @@ import EmptyMessage from "../../components/messages/emptyMessage/emptyMessage";
 interface ProductsWithFilterProps {
   /** The API endpoint to fetch products from. */
   fetchURL: string;
+  /** Current Category */
+  category: string;
 }
 
 /**
@@ -27,6 +29,7 @@ interface ProductsWithFilterProps {
  */
 export default function ProductsWithFilter({
   fetchURL,
+  category
 }: ProductsWithFilterProps): JSX.Element {
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
@@ -129,7 +132,7 @@ export default function ProductsWithFilter({
       <div className="flex flex-col md:flex-row w-full justify-between gap-2">
         {/* Big Screen Filter */}
         <div className="shrink-0 hidden md:flex">
-          <Filter onChange={filterAction} />
+          <Filter onChange={filterAction} category={category} />
         </div>
         {/* Small Screen Filter */}
         <div className="block md:hidden shrink-0">
@@ -149,7 +152,7 @@ export default function ProductsWithFilter({
                 className={`flex flex-col gap-1 w-fit fixed top-64
             ${componentBorder} rounded overflow-y-scroll max-h-96`}
               >
-                <Filter onChange={filterAction} />
+                <Filter onChange={filterAction} category={category} />
               </div>
             ) : (
               <></>

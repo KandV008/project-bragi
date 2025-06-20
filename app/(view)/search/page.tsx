@@ -29,6 +29,6 @@ export default function Page(): JSX.Element {
   }, [searchParams]);
 
   return (
-      <ProductsWithFilter fetchURL={`${getProductsByCategoryRoute}?category=${productCategory}`} />
+      <ProductsWithFilter fetchURL={`${getProductsByCategoryRoute}?category=${productCategory}`} category={productCategory!} />
   );
 }
