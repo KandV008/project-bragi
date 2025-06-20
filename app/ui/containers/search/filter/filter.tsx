@@ -31,6 +31,7 @@ import SectionHeader, {
  */
 interface FilterProps {
   onChange: (filter: string) => void;
+  category: string;
 }
 
 const elementsToFilter = [
@@ -47,7 +48,10 @@ const elementsToFilter = [
  * @param {FilterProps} props - Component properties
  * @returns {JSX.Element} The Filter component
  */
-export default function Filter({ onChange }: FilterProps): JSX.Element {
+export default function Filter({
+  onChange,
+  category,
+}: FilterProps): JSX.Element {
   const [isLoading, setLoading] = useState(true);
   const [filterElements, setFilterElements] = useState<any>();
 
@@ -55,7 +59,7 @@ export default function Filter({ onChange }: FilterProps): JSX.Element {
     const joinFilters = elementsToFilter.join(",");
     console.info(getFilterInformationRoute);
     fetch(
-      `${getFilterInformationRoute}?category=${"EARPHONE"}&filters=${joinFilters}`
+      `${getFilterInformationRoute}?category=${category}&filters=${joinFilters}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -65,7 +69,7 @@ export default function Filter({ onChange }: FilterProps): JSX.Element {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [category]);
 
   if (isLoading) return <FilterSkeleton />;
   if (!filterElements) return <></>;
@@ -94,28 +98,6 @@ export default function Filter({ onChange }: FilterProps): JSX.Element {
       <SectionHeader text="Filtrar por:" />
       {/* Filters */}
       <div className="max-h-[40rem] overflow-y-auto space-y-3">
-        {/* Adaptation Range */}
-        <article className="text-lg">
-          <h1 className="text-xl font-bold">Rango de Adaptación</h1>
-          <RadioInputWithQuantity
-            name={adaptationRangeName}
-            list={filterElements.adaptation_range}
-            valueOf={valueOfEarphoneAdaptationRange}
-            type={adaptationRangeName}
-            onChange={filterSelected}
-          />
-        </article>
-        {/* Water Dust Resistance */}
-        <article className="text-lg">
-          <h1 className="text-xl font-bold">Resistente al Polvo y al Agua</h1>
-          <RadioInputWithQuantity
-            name={dustWaterResistanceName}
-            list={filterElements.dust_water_resistance}
-            valueOf={valueOfWaterDustResistance}
-            type={dustWaterResistanceName}
-            onChange={filterSelected}
-          />
-        </article>
         {/* Brand */}
         <article className="text-lg">
           <h1 className="text-xl font-bold">Marca</h1>
@@ -127,29 +109,59 @@ export default function Filter({ onChange }: FilterProps): JSX.Element {
             onChange={filterSelected}
           />
         </article>
-        {/* Earphone Shape */}
-        <article className="text-lg">
-          <h1 className="text-xl font-bold">Forma del Audífono</h1>
-          <RadioInputWithQuantity
-            name={earphoneShapeName}
-            list={filterElements.earphone_shape}
-            valueOf={(x) => x}
-            type={earphoneShapeName}
-            onChange={filterSelected}
-            dismiss={["COFOSIS"]}
-          />
-        </article>
-        {/* Degree Of Loss */}
-        <article className="text-lg">
-          <h1 className="text-xl font-bold">Grado de perdida</h1>
-          <RadioInputWithQuantity
-            name={degreeOfLossName}
-            list={filterElements.degree_of_loss}
-            valueOf={valueOfEarphoneDegreeOfLoss}
-            type={degreeOfLossName}
-            onChange={filterSelected}
-          />
-        </article>
+        {category === "EARPHONE" ? (
+          <>
+            {/* Adaptation Range */}
+            <article className="text-lg">
+              <h1 className="text-xl font-bold">Rango de Adaptación</h1>
+              <RadioInputWithQuantity
+                name={adaptationRangeName}
+                list={filterElements.adaptation_range}
+                valueOf={valueOfEarphoneAdaptationRange}
+                type={adaptationRangeName}
+                onChange={filterSelected}
+              />
+            </article>
+            {/* Water Dust Resistance */}
+            <article className="text-lg">
+              <h1 className="text-xl font-bold">
+                Resistente al Polvo y al Agua
+              </h1>
+              <RadioInputWithQuantity
+                name={dustWaterResistanceName}
+                list={filterElements.dust_water_resistance}
+                valueOf={valueOfWaterDustResistance}
+                type={dustWaterResistanceName}
+                onChange={filterSelected}
+              />
+            </article>
+            {/* Earphone Shape */}
+            <article className="text-lg">
+              <h1 className="text-xl font-bold">Forma del Audífono</h1>
+              <RadioInputWithQuantity
+                name={earphoneShapeName}
+                list={filterElements.earphone_shape}
+                valueOf={(x) => x}
+                type={earphoneShapeName}
+                onChange={filterSelected}
+                dismiss={["COFOSIS"]}
+              />
+            </article>
+            {/* Degree Of Loss */}
+            <article className="text-lg">
+              <h1 className="text-xl font-bold">Grado de perdida</h1>
+              <RadioInputWithQuantity
+                name={degreeOfLossName}
+                list={filterElements.degree_of_loss}
+                valueOf={valueOfEarphoneDegreeOfLoss}
+                type={degreeOfLossName}
+                onChange={filterSelected}
+              />
+            </article>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </section>
   );

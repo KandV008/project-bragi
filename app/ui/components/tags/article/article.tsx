@@ -17,7 +17,7 @@ interface ArticleProps {
  */
 export function Article({ label, value }: ArticleProps): JSX.Element {
   return (
-    <article className="flex flex-col items-center sm:items-start gap-2">
+    <article className="flex flex-col items-center sm:items-start gap-2 whitespace-pre-wrap">
       {/* Label */}
       <h1 className="font-bold text-2xl sm:text-xl">{label}</h1>
       {/* Value */}
