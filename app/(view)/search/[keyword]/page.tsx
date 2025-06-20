@@ -15,6 +15,6 @@ export default function Page(): JSX.Element {
   const keyword = pathname.split("/").pop();
 
   return (
-    <ProductsWithFilter fetchURL={`${getProductsByKeywordRoute}?keyword=${keyword}`} />
+    <ProductsWithFilter fetchURL={`${getProductsByKeywordRoute}?keyword=${keyword}`} category={"EARPHONE"} />
   );
 }
