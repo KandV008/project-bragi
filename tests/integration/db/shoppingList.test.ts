@@ -2,10 +2,10 @@ import { sql } from "@/__mocks__/@vercel/postgres";
 import { exampleUser } from "@/__mocks__/@clerk/nextjs/server";
 import { randomUUID } from "crypto";
 import { Logger } from "@/app/config/Logger";
-import { addProductToShoppingList, decrementProductInShoppingList, deleteProductInShoppingList, getShoppingList, incrementProductInShoppingList } from "./shoppingList";
 import { brandName, categoryName, imageURLName, nameName, priceName, productIdName } from "@/app/config/JSONnames";
-import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
+import { METHOD_GET_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST } from "@/db/dbConfig";
+import { getShoppingList, deleteProductInShoppingList, addProductToShoppingList, incrementProductInShoppingList, decrementProductInShoppingList } from "@/db/shoppingList/shoppingList";
 
 const exampleProduct = randomUUID()
 

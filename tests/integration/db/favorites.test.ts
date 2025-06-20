@@ -4,13 +4,13 @@ vi.mock("../product/product", () => ({
 
 import { sql } from "@/__mocks__/@vercel/postgres";
 import { exampleUser } from "@/__mocks__/@clerk/nextjs/server";
-import { checkFavorite, checkFavoriteList, deleteProductInFavorites, getFavorites, toggleFavorites } from "./favorites";
 import { randomUUID } from "crypto";
 import { productIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
-import { getProductsByIds } from "../product/product";
-import { METHOD_CHECK_FAVORITE, METHOD_CHECK_FAVORITE_LIST, METHOD_DELETE_IN_FAVORITES, METHOD_GET_FAVORITES, METHOD_TOGGLE_FAVORITES } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
+import { METHOD_GET_FAVORITES, METHOD_CHECK_FAVORITE, METHOD_CHECK_FAVORITE_LIST, METHOD_TOGGLE_FAVORITES, METHOD_DELETE_IN_FAVORITES } from "@/db/dbConfig";
+import { getFavorites, checkFavorite, checkFavoriteList, toggleFavorites, deleteProductInFavorites } from "@/db/favorites/favorites";
+import { getProductsByIds } from "@/db/product/product";
 
 const exampleProduct = randomUUID()
 

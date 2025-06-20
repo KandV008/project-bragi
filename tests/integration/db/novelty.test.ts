@@ -1,9 +1,9 @@
 import { sql } from "@/__mocks__/@vercel/postgres";
 import { randomUUID } from "crypto";
-import { actionCreateNovelty, actionDeleteNovelty, actionUpdateNovelty, getActiveNovelties, getNovelties, getNovelty, getValidNovelties } from "./novelty";
 import { endDateName, noveltyContextName, noveltyDescriptionName, noveltyIdName, noveltyTitleName, noveltyTypeName, promotionalImageName } from "@/app/config/JSONnames";
-import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_GET_ACTIVE_NOVELTIES, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
+import { getNovelties, getActiveNovelties, getValidNovelties, getNovelty, actionCreateNovelty, actionUpdateNovelty, actionDeleteNovelty } from "@/db/novelty/novelty";
+import { METHOD_GET_NOVELTIES, METHOD_GET_ACTIVE_NOVELTIES, METHOD_GET_VALID_NOVELTIES, METHOD_GET_NOVELTY, METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY } from "@/db/dbConfig";
 
 vi.mock("@vercel/postgres");
 

@@ -1,11 +1,11 @@
 import { mockCollection, mockCursor } from "@/__mocks__/mongodb"
-import { actionCreateOrder, getOrder, getOrders } from "./order"
 import { ObjectId } from "mongodb"
 import { addressName, audiometryFileName, emailName, phoneNumberName, userDNIName, userFirstName, userIdName, userNameName } from "@/app/config/JSONnames"
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO"
 import { exampleUser } from "@/__mocks__/@clerk/nextjs/server"
-import { METHOD_ACTION_CREATE_ORDER, METHOD_GET_ORDER, METHOD_GET_ORDERS } from "../dbConfig"
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants"
+import { METHOD_GET_ORDERS, METHOD_GET_ORDER, METHOD_ACTION_CREATE_ORDER } from "@/db/dbConfig"
+import { getOrders, getOrder, actionCreateOrder } from "@/db/order/order"
 
 const createFakeOrders = (index: number) =>
     Array.from({ length: index }, (_, i) => (

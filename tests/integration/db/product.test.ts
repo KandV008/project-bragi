@@ -9,11 +9,11 @@ vi.mock("../shoppingList/shoppingList", () => ({
 vi.mock("@vercel/postgres")
 
 import { mockCollection, mockCursor } from "@/__mocks__/mongodb"
-import { METHOD_ACTION_CREATE_PRODUCT, METHOD_ACTION_DELETE_PRODUCT, METHOD_ACTION_UPDATE_PRODUCT, METHOD_GET_ALL_PRODUCTS, METHOD_GET_FILTER_INFORMATION, METHOD_GET_LATEST_PRODUCTS, METHOD_GET_PRODUCT, METHOD_GET_PRODUCT_BY_CATEGORY, METHOD_GET_PRODUCTS_BY_IDS, METHOD_GET_RELATED_PRODUCTS, METHOD_SEARCH_PRODUCTS } from "../dbConfig"
-import { actionCreateProduct, actionDeleteProduct, actionUpdateProduct, getAllProducts, getFilterInformation, getLatestProducts, getProduct, getProductsByCategory, getProductsByIds, getRelatedProducts, searchProducts } from "./product"
 import { ObjectId } from "mongodb"
 import { brandName, categoryName, imageURLName, includeName, nameName, priceName, productDescriptionName } from "@/app/config/JSONnames"
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
+import { METHOD_GET_ALL_PRODUCTS, METHOD_GET_PRODUCT_BY_CATEGORY, METHOD_GET_LATEST_PRODUCTS, METHOD_GET_RELATED_PRODUCTS, METHOD_GET_PRODUCTS_BY_IDS, METHOD_SEARCH_PRODUCTS, METHOD_GET_PRODUCT, METHOD_GET_FILTER_INFORMATION, METHOD_ACTION_CREATE_PRODUCT, METHOD_ACTION_UPDATE_PRODUCT, METHOD_ACTION_DELETE_PRODUCT } from "@/db/dbConfig";
+import { getAllProducts, getProductsByCategory, getLatestProducts, getRelatedProducts, getProductsByIds, searchProducts, getProduct, getFilterInformation, actionCreateProduct, actionUpdateProduct, actionDeleteProduct } from "@/db/product/product";
 
 const createFakeProducts = (index: number, category: string) =>
     Array.from({ length: index }, (_, i) => (

@@ -1,9 +1,9 @@
 import { sql } from "@/__mocks__/@vercel/postgres";
-import { actionCreateBargain, actionDeleteBargain, actionUpdateBargain, getActiveBargains, getBargain, getBargains } from "./bargain"
 import { randomUUID } from "crypto";
 import { bargainCodeName, bargainTitleName, bargainDescriptionName, bargainIdName, bargainRequirementsName } from "@/app/config/JSONnames";
-import { METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_ACTIVE_BARGAINS, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_GET_BARGAINS } from "../dbConfig";
 import { INTEGRATION_TEST_TAG } from "@/tests/testConstants";
+import { getBargains, getActiveBargains, getBargain, actionCreateBargain, actionUpdateBargain, actionDeleteBargain } from "@/db/bargain/bargain";
+import { METHOD_GET_BARGAINS, METHOD_GET_ACTIVE_BARGAINS, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_DELETE_BARGAIN } from "@/db/dbConfig";
 
 vi.mock("@vercel/postgres");
 
