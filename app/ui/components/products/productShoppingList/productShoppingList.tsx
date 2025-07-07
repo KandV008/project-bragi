@@ -67,7 +67,7 @@ export default function ProductShoppingList({
   colorHex,
   quantity,
 }: ProductInformationProps) {
-  let showEarSide: string = getEarSideLabel(earSide);
+  let showEarSide: string = getEarSideLabel(earSide);  
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
@@ -148,7 +148,7 @@ export default function ProductShoppingList({
             ) : (
               <>
                 <span className="text-2xl font-bold">Precio total</span>
-                <span className="text-2xl font-bold">{price * quantity}€</span>
+                <span className="text-2xl font-bold">{(price * quantity).toFixed(2)}€</span>
               </>
             )}
           </div>

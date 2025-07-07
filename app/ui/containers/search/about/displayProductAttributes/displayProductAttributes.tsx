@@ -106,6 +106,8 @@ export default function DisplayProductAttributes({
   include,
 }: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
+  const priceFormatted = Number(price).toFixed(2)
+  const discountFormatted = (Number(price) * DISCOUNT_PER_UNIT).toFixed(2)
 
   const LEFT_SIDE = "left";
   const RIGHT_SIDE = "right";
@@ -183,20 +185,20 @@ export default function DisplayProductAttributes({
               <h1>
                 Precio: {" "}
                   <span className="font-bold">
-                    {price}€
+                    {priceFormatted}€
                   </span>
                 </h1>
             ) : (
               <>
                 <h1>
                   <span className="font-bold first-letter:text-2xl sm:text-3xl lg:text-4xl">
-                    {price}€
+                    {priceFormatted}€
                   </span>{" "}
                   por ambos audífonos
                 </h1>
                 <h1>
                   <span className="font-bold first-letter:text-2xl sm:text-3xl lg:text-4xl">
-                    {Number(price) * DISCOUNT_PER_UNIT}€
+                    {discountFormatted}€
                   </span>{" "}
                   por único audífono
                 </h1>
