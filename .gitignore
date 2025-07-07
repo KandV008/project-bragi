@@ -6,11 +6,11 @@
 
 # testing
 /coverage
+/.scannerwork/
 
 # next.js
 /.next/
 /out/
-/public/products/
 
 # production
 /build

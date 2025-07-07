@@ -6,7 +6,6 @@ import { getOrdersRoute } from "@/app/api/routes";
 import OrderContainer from "@/app/ui/components/orders/orderContainer/orderContainer";
 import { OrderEntity } from "@/app/model/entities/order/Order";
 import Spinner from "@/app/ui/components/common/spinner/spinner";
-import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 import NoOrdersMessage from "@/app/ui/components/messages/noOrdersMessage/noOrdersMessage";
 
 /**

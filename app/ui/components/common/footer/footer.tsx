@@ -3,9 +3,9 @@ import Link from "next/link";
 import UnorderedListWithLink from "../../tags/unorderedListWithLink/unorderedListWithLink";
 
 /**
- * Footer component for the website. It contains links to information pages, customer service, account management, 
+ * Footer component for the website. It contains links to information pages, customer service, account management,
  * a logo, and powered by logos. It is split into a top and bottom section.
- * 
+ *
  * @returns The Footer JSX element.
  */
 export default function Footer() {
@@ -71,14 +71,14 @@ export default function Footer() {
             <div className="flex flex-col gap-2">
               <h3 className="text-base font-bold">Impulsado por</h3>
               <div className="flex flex-row lg:flex-col xl:flex-row gap-3 items-center">
-                {/* Vercel Logo */}
-                <Link href={"https://vercel.com"}>
+                {/* Hostinger Logo */}
+                <Link href={"https://www.hostinger.com/"}>
                   <Image
-                    src="/vercel.svg"
+                    src="/hostinger.svg"
                     width={150}
                     height={150}
-                    alt="vercel_logo"
-                    className="w-24"
+                    alt="hostinger_logo"
+                    className="w-24 filter invert brightness-0"
                   />
                 </Link>
                 {/* Next.js Logo */}
@@ -88,7 +88,7 @@ export default function Footer() {
                     width={150}
                     height={150}
                     alt="next_logo"
-                    className="w-20"
+                    className="w-20 "
                   />
                 </Link>
               </div>

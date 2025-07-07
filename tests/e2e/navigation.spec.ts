@@ -1,9 +1,26 @@
 import { clerk } from '@clerk/testing/playwright'
-import { test, expect } from '@playwright/test';
+import { test, expect, BrowserContext } from '@playwright/test';
 import { SYSTEM_TEST_TAG } from '../testConstants';
 require("dotenv").config({ path: ".env.local" });
 
-test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Product`, async ({ page }) => {
+async function handleCookies(context: BrowserContext) {
+    await context.clearCookies();
+    await context.addCookies([
+        {
+            name: "accept_all_cookies",
+            value: "true",
+            url: "https://audifonosxmenos.com"
+        },
+        {
+            name: "terms_and_conditions",
+            value: "accepted",
+            url: "https://audifonosxmenos.com"
+        }
+    ]);
+}
+
+test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Product`, async ({ page, context }) => {
+    handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await page.getByRole('button', { name: 'Audífonos' }).first().click();
@@ -15,7 +32,8 @@ test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Product`, async ({ pa
     await expect(page.getByRole('heading', { name: 'Descripción' })).toBeVisible();
 })
 
-test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Novelty`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Novelty`, async ({ page, context }) => {
+    handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await page.getByRole('button', { name: 'Servicios' }).first().click();
@@ -27,7 +45,8 @@ test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Novelty`, async ({ pa
     await expect(page.getByRole('heading').first()).toBeVisible();
 })
 
-test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Bargain`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Bargain`, async ({ page, context }) => {
+    handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await page.getByRole('button', { name: 'Servicios' }).first().click();
@@ -39,12 +58,13 @@ test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to Bargain`, async ({ pa
     await expect(page.getByRole('heading').first()).toBeVisible();
 })
 
-test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to All Services`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to All Services`, async ({ page, context }) => {
     const goBack = async () => {
         await page.goBack();
         await page.waitForURL('**/services');
     }
 
+    handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await page.getByRole('button', { name: 'Servicios' }).first().click();
@@ -73,7 +93,8 @@ test(`[${SYSTEM_TEST_TAG}] Unregistered User navigation to All Services`, async 
 })
 
 
-test(`[${SYSTEM_TEST_TAG}] Registered User navigation`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Registered User navigation`, async ({ page, context }) => {
+    handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await clerk.signIn({
@@ -99,7 +120,8 @@ test(`[${SYSTEM_TEST_TAG}] Registered User navigation`, async ({ page }) => {
     await expect(page.getByText('Cesta').first()).toBeVisible();
 })
 
-test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Dashboard`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Dashboard`, async ({ page, context }) => {
+    await handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await clerk.signIn({
@@ -121,7 +143,8 @@ test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Dashboard`, async ({ p
     await expect(page.getByRole('heading', { name: "¿Qué acción desea realizar?" })).toBeVisible();
 })
 
-test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Product`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Product`, async ({ page, context }) => {
+    await handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await clerk.signIn({
@@ -136,12 +159,12 @@ test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Product`, async ({ pag
     await page.getByRole('button', { name: 'Cuenta' }).first().click();
     await page.waitForURL('**/profile');
     await expect(page.getByRole('heading', { name: "¿Qué desea hacer con su cuenta?" })).toBeVisible();
-    
+
     await page.getByText('Admin').first().click();
     await page.waitForURL('**/admin');
     await expect(page.getByRole('heading', { name: "¿Qué acción desea realizar?" })).toBeVisible();
-    
-    await page.getByText('Modificar productos').click();
+
+    await page.getByText('Entidad Producto').click();
     await page.waitForURL('**/admin/products');
 
     await page.getByRole('link', { name: /^(Ver más|Ver Producto)$/ }).first().click();
@@ -150,7 +173,8 @@ test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Product`, async ({ pag
     await expect(page.getByRole('heading', { name: 'Detalles del Producto' })).toBeVisible();
 })
 
-test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Novelty`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Novelty`, async ({ page, context }) => {
+    await handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await clerk.signIn({
@@ -165,12 +189,12 @@ test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Novelty`, async ({ pag
     await page.getByRole('button', { name: 'Cuenta' }).first().click();
     await page.waitForURL('**/profile');
     await expect(page.getByRole('heading', { name: "¿Qué desea hacer con su cuenta?" })).toBeVisible();
-    
+
     await page.getByText('Admin').first().click();
     await page.waitForURL('**/admin');
     await expect(page.getByRole('heading', { name: "¿Qué acción desea realizar?" })).toBeVisible();
-    
-    await page.getByText('Modificar novedades').click();
+
+    await page.getByText('Entidad Novedad').click();
     await page.waitForURL('**/admin/novelties');
 
     await page.getByRole('link', { name: /^(Ver más|Ver Novedad)$/ }).first().click();
@@ -179,7 +203,8 @@ test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Novelty`, async ({ pag
     await expect(page.getByRole('heading', { name: 'Detalles de la Novedad' })).toBeVisible();
 })
 
-test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Bargain`, async ({ page }) => {
+test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Bargain`, async ({ page, context }) => {
+    await handleCookies(context);
     await page.goto('https://audifonosxmenos.com');
 
     await clerk.signIn({
@@ -194,12 +219,12 @@ test(`[${SYSTEM_TEST_TAG}] Admin User navigation to Admin Bargain`, async ({ pag
     await page.getByRole('button', { name: 'Cuenta' }).first().click();
     await page.waitForURL('**/profile');
     await expect(page.getByRole('heading', { name: "¿Qué desea hacer con su cuenta?" })).toBeVisible();
-    
+
     await page.getByText('Admin').first().click();
     await page.waitForURL('**/admin');
     await expect(page.getByRole('heading', { name: "¿Qué acción desea realizar?" })).toBeVisible();
-    
-    await page.getByText('Modificar ofertas').click();
+
+    await page.getByText('Entidad Oferta').click();
     await page.waitForURL('**/admin/bargains');
 
     await page.getByRole('link', { name: /^(Ver más|Ver Oferta)$/ }).first().click();

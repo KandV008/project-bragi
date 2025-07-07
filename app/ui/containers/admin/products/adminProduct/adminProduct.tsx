@@ -89,7 +89,7 @@ export default function AdminProduct(): JSX.Element {
           {/* Brand */}
           <Article label="Marca" value={product.brand} />
           {/* Price */}
-          <Article label="Precio" value={`${product.price}€`} />
+          <Article label="Precio" value={`${product.price.toFixed(2)}€`} />
         </div>
         {/* Description */}
         <Article label="Descripción" value={product.description} />
@@ -102,7 +102,7 @@ export default function AdminProduct(): JSX.Element {
               colors={product.earphoneAttributes!.colors}
             />
             {/* Technical Data */}
-            <div className="flex flex-col items-center sm:grid sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col gap-2 items-center sm:grid sm:grid-cols-2 lg:grid-cols-3">
               {/* Adaptation Range */}
               <Article
                 label="Rango de Adaptación"

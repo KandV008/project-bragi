@@ -44,6 +44,7 @@ export default function Product({
   isPreview,
 }: ProductProps) {
   const linkURL = isPreview ? `/admin/products/${id}` : `/search/about/${id}`;
+  const priceFormatted = Number(price).toFixed(2)
 
   return (
     <article
@@ -71,7 +72,7 @@ export default function Product({
             {brand}
           </span>
           <span className="text-sm md:self-end md:text-base xl:text-xl font-bold w-full text-center md:text-end">
-            {price}€
+            {priceFormatted}€
           </span>
         </div>
       </section>
