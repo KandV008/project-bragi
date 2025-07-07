@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
-import Guarantee from "@/app/ui/containers/search/about/guarantee";
 import DisplayProductDetails from "@/app/ui/containers/search/about/displayProductDetails/displayProductDetails";
 import DisplayProductAttributes from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
 import { getProductRoute, getRelatedProductsRoute } from "@/app/api/routes";
@@ -60,7 +59,6 @@ export default function Page(): JSX.Element {
         description={product.description}
         earphoneAttributes={product.earphoneAttributes}
       />
-      <Guarantee />
       <SomeProductContainer
         fetchUrl={`${getRelatedProductsRoute}?id=${product.id}&brand=${
           product.brand
