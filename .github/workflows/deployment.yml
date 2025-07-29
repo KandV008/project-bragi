@@ -50,14 +50,14 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
-script: |
-  echo "🚀 Iniciando despliegue..."
-  cd /web-application
+          script: |
+            echo "🚀 Iniciando despliegue..."
+            cd web-application
 
-  echo "➡️  Haciendo pull de imagen..."
-  docker-compose pull audifonosxmenos
+            echo "➡️  Haciendo pull de imagen..."
+            docker compose pull audifonosxmenos
 
-  echo "➡️  Levantando contenedor actualizado..."
-  docker-compose up -d --force-recreate audifonosxmenos
+            echo "➡️  Levantando contenedor actualizado..."
+            docker compose up -d --force-recreate audifonosxmenos
 
-  echo "✅ Despliegue completado"
+            echo "✅ Despliegue completado"
