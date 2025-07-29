@@ -65,6 +65,6 @@ jobs:
             docker compose pull audifonosxmenos
 
             echo "🚀 Levantando contenedor actualizado..."
-            docker compose up -d --force-recreate audifonosxmenos
+            docker compose up -d 
 
             echo "✅ Despliegue completado"
