@@ -1,0 +1,19 @@
+name: Schedule
+on: 
+  schedule:
+    - cron: '0 4 * * 1' # This workflow runs every Monday at 4:00 AM UTC.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node-env
+      - run: npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node-env
+      - run: npm run test
