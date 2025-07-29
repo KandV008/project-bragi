@@ -51,13 +51,20 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
           script: |
+            set -e
             echo "🚀 Iniciando despliegue..."
             cd web-application
 
-            echo "➡️  Haciendo pull de imagen..."
+            echo "🛑 Deteniendo y eliminando contenedor antiguo..."
+            docker compose down --remove-orphans
+
+            echo "🧼 Eliminando imagen antigua (incluso con etiqueta)..."
+            docker image rm -f $(docker images "kandv/audifonosxmenos" --format "{{.ID}}")
+
+            echo "⬇️ Haciendo pull de nueva imagen..."
             docker compose pull audifonosxmenos
 
-            echo "➡️  Levantando contenedor actualizado..."
+            echo "🚀 Levantando contenedor actualizado..."
             docker compose up -d --force-recreate audifonosxmenos
 
             echo "✅ Despliegue completado"
