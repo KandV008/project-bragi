@@ -53,7 +53,7 @@ jobs:
           script: |
             echo "🚀 Iniciando despliegue..."
 
-            cd /web-application
+            cd web-application
 
             docker-compose pull audifonosxmenos
             docker-compose up -d --force-recreate audifonosxmenos
