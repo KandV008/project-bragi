@@ -29,7 +29,7 @@ interface ProductsWithFilterProps {
  */
 export default function ProductsWithFilter({
   fetchURL,
-  category
+  category,
 }: ProductsWithFilterProps): JSX.Element {
   const [products, setProduct] = useState<ProductEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
@@ -115,7 +115,7 @@ export default function ProductsWithFilter({
         return newFilters;
       }
     });
-    
+
     setStartIndex(0);
     setEndIndex(9);
   };
@@ -135,27 +135,26 @@ export default function ProductsWithFilter({
           <Filter onChange={filterAction} category={category} />
         </div>
         {/* Small Screen Filter */}
-        <div className="block md:hidden shrink-0">
+        <div className="block md:hidden shrink-0 relative z-50">
           <button
             onClick={toggleExpandMenu}
             id="expand-toggle"
-            className={`w-fit rounded-2xl border-2 border-transparent p-3 fixed
+            className={`w-fit rounded-2xl border-2 border-transparent p-3 fixed z-50
       ${fillDefaultComponentBackground} ${hoverFillDefaultComponentBackground}
       ${componentText} font-bold`}
           >
             {isExpanded ? "Cerrar Filtros" : "Abrir Filtros"}
           </button>
+
           {/* Filter */}
-          <div className="flex justify-center z-20 w-full origin-top-right bg-transparent focus:outline-none ">
-            {isExpanded ? (
+          <div className="flex justify-center w-full origin-top-right bg-transparent focus:outline-none z-50">
+            {isExpanded && (
               <div
-                className={`flex flex-col gap-1 w-fit fixed top-64
-            ${componentBorder} rounded overflow-y-scroll max-h-96`}
+                className={`flex flex-col gap-1 w-fit fixed top-64 z-50
+          ${componentBorder} rounded overflow-y-scroll max-h-96`}
               >
                 <Filter onChange={filterAction} category={category} />
               </div>
-            ) : (
-              <></>
             )}
           </div>
         </div>
