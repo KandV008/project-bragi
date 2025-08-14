@@ -22,7 +22,6 @@ export const metadata: Metadata = {
  */
 export default async function Page() {
   const shoppingList = await getShoppingList();
-  // TODO Apply bargains
 
   return (
     <>

@@ -106,7 +106,11 @@ export default function ShoppingForm({ products }: FormProps) {
     console.log(formData);
     const isValid = validateFormShopping(formData);
     if (isValid) {
-      const { status, id } = await actionCreateOrder(formData, currentProducts, bargainCode);
+      const { status, id } = await actionCreateOrder(
+        formData,
+        currentProducts,
+        bargainCode
+      );
 
       if (!status) {
         console.warn("ID:", id);
@@ -124,11 +128,42 @@ export default function ShoppingForm({ products }: FormProps) {
     0
   );
 
+  const pagar = async () => {
+    const res = await fetch("/api/redsys", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: 10.5, // en euros, NO en céntimos
+        order: String(Date.now()).slice(-8), // 8 últimos dígitos de timestamp
+      }),
+    });
+
+    const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature } =
+      await res.json();
+
+    // Crear formulario y enviarlo automáticamente a Redsys
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://sis-t.redsys.es:25443/sis/realizarPago";
+
+    const addInput = (name: string, value: string) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    };
+
+    addInput("Ds_SignatureVersion", Ds_SignatureVersion);
+    addInput("Ds_MerchantParameters", Ds_MerchantParameters);
+    addInput("Ds_Signature", Ds_Signature);
+
+    document.body.appendChild(form);
+    form.submit();
+  };
+
   return (
-    <form
-      action={handleForm}
-      className="flex flex-col-reverse lg:flex-row gap-3"
-    >
+    <form action={pagar} className="flex flex-col-reverse lg:flex-row gap-3">
       {/* Shopping Form */}
       <section
         className={`flex flex-col gap-5 p-5 sm:p-10  w-1/2
@@ -242,7 +277,9 @@ export default function ShoppingForm({ products }: FormProps) {
                     </>
                   ) : (
                     <>
-                      <span>{(product.price * product.quantity).toFixed(2)}€</span>
+                      <span>
+                        {(product.price * product.quantity).toFixed(2)}€
+                      </span>
                     </>
                   )}
                 </>
@@ -260,7 +297,9 @@ export default function ShoppingForm({ products }: FormProps) {
           <div className={`w-full border-t my-3 ${componentBorder}`}></div>
           <div className="flex flex-row justify-between gap-10">
             <h2 className="text-2xl font-bold">Total</h2>
-            <span className="text-2xl font-bold text-red-1">{totalPrice.toFixed(2)}€</span>
+            <span className="text-2xl font-bold text-red-1">
+              {totalPrice.toFixed(2)}€
+            </span>
           </div>
           <div className="place-self-center">
             {/* Submit Button */}
