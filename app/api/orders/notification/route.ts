@@ -13,7 +13,7 @@ function generaClaveOperacion(claveComercio: string, merchantOrder: string) {
   return claveOperacion;
 }
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   const formData = await req.formData();
 
   const Ds_SignatureVersion = formData.get("Ds_SignatureVersion");
