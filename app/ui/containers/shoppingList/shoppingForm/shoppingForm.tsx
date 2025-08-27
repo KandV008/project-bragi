@@ -97,44 +97,49 @@ export default function ShoppingForm({ products }: FormProps) {
     setShowModal(!showModal);
   };
 
-  /**
-   * Handles form submission, validates input, and performs the respective action.
-   *
-   * @param {FormData} formData - The submitted form data.
-   */
-  const handleForm = async (formData: FormData) => {
-    console.log(formData);
-    const isValid = validateFormShopping(formData);
-    if (isValid) {
-      const { status, id } = await actionCreateOrder(
-        formData,
-        currentProducts,
-        bargainCode
-      );
-
-      if (!status) {
-        console.warn("ID:", id);
-        await sendReceiptEmail(formData, id);
-        toast.success("Pedido completado correctamente");
-        //router.push("/");
-      } else {
-        toast.error("Ha habido un problema con el pedido");
-      }
-    } else handleShowModal();
-  };
-
   const totalPrice = currentProducts.reduce(
     (total, product) => total + product.price * product.quantity,
     0
   );
 
-  const pagar = async () => {
+  /**
+   * Handles form submission, validates input, and performs the respective action.
+   *
+   * @param {FormData} formData - The submitted form data.
+   */
+  const handlePayment = async (formData: FormData) => {
+    console.log(formData);
+    const isValid = validateFormShopping(formData);
+    if (!isValid) {handleShowModal(); return};
+
+    const { status, id, orderNumber } = await actionCreateOrder(
+      formData,
+      currentProducts,
+      bargainCode
+    );
+
+    if (status) {toast.error("Ha habido un problema con el pedido"); return}
+
+    await redirectTPV(totalPrice, orderNumber);
+
+    //console.warn("ID:", id);
+    //await sendReceiptEmail(formData, id);
+    //toast.success("Pedido completado correctamente");
+    //router.push("/");
+  };
+
+  /**
+   * Redirect to the TPV to do the payment of the order
+   * @param orderAmount Amount to pay
+   * @param orderNumber Number of the order to identify
+   */
+  const redirectTPV = async (orderAmount: number, orderNumber: number) => {
     const res = await fetch("/api/redsys", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        amount: 10.5, // en euros, NO en céntimos
-        order: String(Date.now()).slice(-8), // 8 últimos dígitos de timestamp
+        amount: orderAmount,
+        order: orderNumber,
       }),
     });
 
@@ -163,7 +168,10 @@ export default function ShoppingForm({ products }: FormProps) {
   };
 
   return (
-    <form action={pagar} className="flex flex-col-reverse lg:flex-row gap-3">
+    <form
+      action={handlePayment}
+      className="flex flex-col-reverse lg:flex-row gap-3"
+    >
       {/* Shopping Form */}
       <section
         className={`flex flex-col gap-5 p-5 sm:p-10  w-1/2

@@ -4,7 +4,7 @@ import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Orde
 import { mapShoppingProductToDocument, ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/config/Logger";
 import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
-import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_ORDER, METHOD_GET_ORDERS, ORDER_CONTEXT } from "../dbConfig";
+import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_NEXT_SEQUENCE_VALUE, METHOD_GET_ORDER, METHOD_GET_ORDERS, ORDER_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -36,7 +36,7 @@ export async function getOrders(start: string | null, end: string | null): Promi
   try {
     const { userId } = auth();
 
-    if (!userId){
+    if (!userId) {
       throw new Error(`[auth] Not authenticated user`)
     }
 
@@ -105,19 +105,21 @@ export async function actionCreateOrder(formData: FormData, products: ShoppingPr
     const newShopping = parseShoppingForm(formData);
     let status: number = 1
     let id: string | null = null
+    let orderNumber: number = 1
 
     await createOrder(newShopping, products, bargainCode)
       .then((data) => {
         Logger.endFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER, "void");
         status = 0
-        id = data
+        id = data.orderId
+        orderNumber = data.orderNum
       })
       .catch(error => {
         Logger.errorFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER, error)
         status = 1
       });
 
-    return { status, id }
+    return { status, id, orderNumber }
   } catch (error) {
     Logger.errorFunction(ORDER_CONTEXT, METHOD_ACTION_CREATE_ORDER, error);
     throw new Error(`[${METHOD_ACTION_CREATE_ORDER}] ${error}`)
@@ -138,8 +140,11 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
   try {
     const database = client.db("Product-DDBB");
     const ordersCollection = database.collection("orders");
+    const orderNumber = await getNextSequenceValue("orderId");
 
     const newOrder = {
+      order_number: orderNumber,
+      status: "IN-PROCESS",
       user_id: shoppingData.userId,
       user_name: shoppingData.userName,
       user_first_name: shoppingData.userFirstName,
@@ -156,15 +161,42 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
 
     const result = await ordersCollection.insertOne(newOrder);
     Logger.endFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, result);
-    return result.insertedId.toString()
+    return {orderId: result.insertedId.toString(), orderNum: orderNumber}
   } catch (error) {
     Logger.errorFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, error);
     throw new Error(`[${METHOD_CREATE_ORDER}] ${error}`)
   }
 }
 
-function getInvalidProducts(products: ShoppingProductDTO[]){
+/**
+ * Get the invalid products from a list of product 
+ * @param products List of products to check
+ * @returns All the invalids productos in the list
+ */
+function getInvalidProducts(products: ShoppingProductDTO[]) {
   return products.filter((product: ShoppingProductDTO) => {
-      return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
+    return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
   })
+}
+
+/**
+ * Get the next sequence value for the elemene
+ * @param sequenceName Sequence to use for the counter
+ * @returns The next number in the sequence
+ */
+async function getNextSequenceValue(sequenceName: string) {
+  Logger.startFunction(ORDER_CONTEXT, METHOD_GET_NEXT_SEQUENCE_VALUE);
+  const database = client.db("Product-DDBB");
+  const countersCollection = database.collection("counters");
+
+  const sequenceDocument = await countersCollection.findOneAndUpdate(
+    { _id: sequenceName  } as any,
+    { $inc: { sequence_value: 1 } },
+    { returnDocument: "after", upsert: true }
+  );
+
+  const counter = sequenceDocument?.value?.sequence_value
+
+  Logger.endFunction(ORDER_CONTEXT, METHOD_GET_NEXT_SEQUENCE_VALUE, counter);
+  return counter || 1;
 }
