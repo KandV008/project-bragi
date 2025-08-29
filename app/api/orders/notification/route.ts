@@ -13,14 +13,29 @@ function generaClaveOperacion(claveComercio: string, merchantOrder: string) {
   return claveOperacion;
 }
 
-export async function GET(req: Request) {
-  const formData = await req.formData();
+export async function POST(req: Request) {
+  try {
+    const formData = await req.formData();
 
-  const Ds_SignatureVersion = formData.get("Ds_SignatureVersion");
-  const Ds_MerchantParameters = formData.get("Ds_MerchantParameters");
-  const Ds_Signature = formData.get("Ds_Signature");
+    const Ds_SignatureVersion = formData.get("Ds_SignatureVersion");
+    const Ds_MerchantParameters = formData.get("Ds_MerchantParameters");
+    const Ds_Signature = formData.get("Ds_Signature");
 
-  console.warn("ASDF:", "Se ha llegado")
+    console.warn("📥 Formulario recibido:");
+    console.log("Ds_SignatureVersion:", Ds_SignatureVersion);
+    console.log("Ds_MerchantParameters:", Ds_MerchantParameters);
+    console.log("Ds_Signature:", Ds_Signature);
+
+    return new Response("✅ Datos recibidos correctamente", {
+      status: 200,
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error al procesar el formulario:", error);
+    return new Response("Error interno del servidor", { status: 500 });
+  }
 
   //// 1️⃣ Decodificar clave del comercio
   //const claveComercio = Buffer.from(process.env.REDSYS_SECRET_KEY, "base64");

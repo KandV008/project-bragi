@@ -108,17 +108,19 @@ export default function ShoppingForm({ products }: FormProps) {
    * @param {FormData} formData - The submitted form data.
    */
   const handlePayment = async (formData: FormData) => {
-    console.log(formData);
-    const isValid = validateFormShopping(formData);
-    if (!isValid) {handleShowModal(); return};
+    //console.log(formData);
+    //const isValid = validateFormShopping(formData);
+    //if (!isValid) {handleShowModal(); return};
 
-    const { status, id, orderNumber } = await actionCreateOrder(
-      formData,
-      currentProducts,
-      bargainCode
-    );
+    //const { status, id, orderNumber } = await actionCreateOrder(
+    //  formData,
+    //  currentProducts,
+    //  bargainCode
+    //);
 
-    if (status) {toast.error("Ha habido un problema con el pedido"); return}
+    //if (status) {toast.error("Ha habido un problema con el pedido"); return}
+
+    const orderNumber = Number(String(Date.now()).slice(-8))
 
     await redirectTPV(totalPrice, orderNumber);
 
