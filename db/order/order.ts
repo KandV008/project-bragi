@@ -221,11 +221,11 @@ export async function updateOrderStatus(orderNumber: number, status: string) {
       { returnDocument: "after" }
     );
 
-    if (!result || !result.value) {
+    if (!result) {
       throw new Error(`Order with number ${orderNumber} not found.`);
     }
 
-    const orderId = result.value._id.toString();
+    const orderId = result._id.toString();
 
     Logger.endFunction(ORDER_CONTEXT, METHOD_UPDATE_ORDER_STATUS, { orderId, status });
     return orderId;

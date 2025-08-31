@@ -19,7 +19,11 @@ export default clerkMiddleware((auth, req) => {
     auth().protect({ permission: "org:product:managment" }); 
   }
 });
- 
+
 export const config = {
-  matcher: ["/((?!_next/image|_next/static|favicon.ico).*)", "/"],
+  matcher: [
+    "/((?!_next/image|_next/static|favicon.ico|api/orders/notification).*)",
+    "/",
+  ],
 };
+

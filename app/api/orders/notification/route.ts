@@ -10,15 +10,13 @@ export async function POST(req: Request) {
     const Ds_MerchantParameters = formData.get("Ds_MerchantParameters")?.toString();
     const Ds_Signature = formData.get("Ds_Signature")?.toString();
 
-    console.warn("📥 Formulario recibido:");
     console.log("Ds_SignatureVersion:", Ds_SignatureVersion);
-    console.log("Ds_MerchantParameters:", Ds_MerchantParameters);
-    console.log("Ds_Signature:", Ds_Signature);
 
     const secretKey = process.env.REDSYS_SECRET_KEY!;
 
     const paramsJSON = decodeMerchantParameters(Ds_MerchantParameters!);
     const order = paramsJSON.Ds_Order
+    const formattedOrder = Number(order)
 
     const resultadoBase64 = getCipherKey(secretKey, order);
 
@@ -33,11 +31,11 @@ export async function POST(req: Request) {
     let status = ""
 
     if (pagoOK) {
-      const id = await updateOrderStatus(order, "PAID");
-      await sendReceiptEmail(formData, id);
+      const id = await updateOrderStatus(formattedOrder, "PAID");
+      //await sendReceiptEmail(formData, id);
       status = "OK"
     } else {
-      await updateOrderStatus(order, "FAILED");
+      await updateOrderStatus(formattedOrder, "FAILED");
       status = "KO"
     };
 
