@@ -4,7 +4,7 @@ import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Orde
 import { mapShoppingProductToDocument, ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/config/Logger";
 import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
-import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_NEXT_SEQUENCE_VALUE, METHOD_GET_ORDER, METHOD_GET_ORDERS, ORDER_CONTEXT } from "../dbConfig";
+import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_NEXT_SEQUENCE_VALUE, METHOD_GET_ORDER, METHOD_GET_ORDERS, METHOD_UPDATE_ORDER_STATUS, ORDER_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -161,7 +161,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
 
     const result = await ordersCollection.insertOne(newOrder);
     Logger.endFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, result);
-    return {orderId: result.insertedId.toString(), orderNum: orderNumber}
+    return { orderId: result.insertedId.toString(), orderNum: orderNumber }
   } catch (error) {
     Logger.errorFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, error);
     throw new Error(`[${METHOD_CREATE_ORDER}] ${error}`)
@@ -190,13 +190,47 @@ async function getNextSequenceValue(sequenceName: string) {
   const countersCollection = database.collection("counters");
 
   const sequenceDocument = await countersCollection.findOneAndUpdate(
-    { _id: sequenceName  } as any,
+    { _id: sequenceName } as any,
     { $inc: { sequence_value: 1 } },
-    { returnDocument: "after", upsert: true }
+    { upsert: true, returnDocument: "after" }
   );
 
-  const counter = sequenceDocument?.value?.sequence_value
+  const counter = sequenceDocument?.sequence_value
 
   Logger.endFunction(ORDER_CONTEXT, METHOD_GET_NEXT_SEQUENCE_VALUE, counter);
   return counter || 1;
+}
+
+/**
+ * Update the status of an order in the database and return its ID.
+ * @param {number} orderNumber - Number of the order to identify.
+ * @param {string} status - New status of the order.
+ * @returns {Promise<string>} The ID of the updated order.
+ * @throws {Error} If the order is not found or an error occurs.
+ */
+export async function updateOrderStatus(orderNumber: number, status: string) {
+  Logger.startFunction(ORDER_CONTEXT, METHOD_UPDATE_ORDER_STATUS);
+
+  try {
+    const database = client.db("Product-DDBB");
+    const ordersCollection = database.collection("orders");
+
+    const result = await ordersCollection.findOneAndUpdate(
+      { order_number: orderNumber },
+      { $set: { status } },
+      { returnDocument: "after" }
+    );
+
+    if (!result || !result.value) {
+      throw new Error(`Order with number ${orderNumber} not found.`);
+    }
+
+    const orderId = result.value._id.toString();
+
+    Logger.endFunction(ORDER_CONTEXT, METHOD_UPDATE_ORDER_STATUS, { orderId, status });
+    return orderId;
+  } catch (error) {
+    Logger.errorFunction(ORDER_CONTEXT, METHOD_UPDATE_ORDER_STATUS, error);
+    throw new Error(`[${METHOD_UPDATE_ORDER_STATUS}] ${error}`);
+  }
 }

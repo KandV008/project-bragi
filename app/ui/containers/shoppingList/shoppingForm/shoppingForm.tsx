@@ -108,26 +108,21 @@ export default function ShoppingForm({ products }: FormProps) {
    * @param {FormData} formData - The submitted form data.
    */
   const handlePayment = async (formData: FormData) => {
-    //console.log(formData);
-    //const isValid = validateFormShopping(formData);
-    //if (!isValid) {handleShowModal(); return};
+    console.log(formData);
+    const isValid = validateFormShopping(formData);
+    if (!isValid) {handleShowModal(); return};
 
-    //const { status, id, orderNumber } = await actionCreateOrder(
-    //  formData,
-    //  currentProducts,
-    //  bargainCode
-    //);
+    const { status, id, orderNumber } = await actionCreateOrder(
+      formData,
+      currentProducts,
+      bargainCode
+    );
 
-    //if (status) {toast.error("Ha habido un problema con el pedido"); return}
+    if (status) {toast.error("Ha habido un problema con el pedido"); return}
 
-    const orderNumber = Number(String(Date.now()).slice(-8))
+    //const orderNumber = Number(String(Date.now()).slice(-8))
 
     await redirectTPV(totalPrice, orderNumber);
-
-    //console.warn("ID:", id);
-    //await sendReceiptEmail(formData, id);
-    //toast.success("Pedido completado correctamente");
-    //router.push("/");
   };
 
   /**
@@ -148,7 +143,6 @@ export default function ShoppingForm({ products }: FormProps) {
     const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature } =
       await res.json();
 
-    // Crear formulario y enviarlo automáticamente a Redsys
     const form = document.createElement("form");
     form.method = "POST";
     form.action = "https://sis-t.redsys.es:25443/sis/realizarPago";

@@ -19,14 +19,14 @@ const nextConfig = {
           { 
             key: "Access-Control-Allow-Credentials", 
             value: "true" 
-          },
+          }, 
           {
             key: "Access-Control-Allow-Origin",
-            value: "http://127.0.0.1:5500", //process.env.REDSYS_ORIGIN || "https://sis.redsys.es",
+            value: "https://sis-t.redsys.es:25443", //process.env.REDSYS_ORIGIN || "https://sis.redsys.es",
           }, 
           {
             key: "Access-Control-Allow-Methods",
-            value: "GET,DELETE,PATCH,POST,PUT",
+            value: "GET,DELETE,PATCH,POST,PUT,OPTIONS",
           },
           {
             key: "Access-Control-Allow-Headers",
