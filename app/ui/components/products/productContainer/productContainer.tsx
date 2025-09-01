@@ -63,6 +63,7 @@ export default function ProductContainer({
             id={product.id}
             image={product.imageURL}
             name={product.name}
+            category={product.category}
             brand={product.brand}
             price={product.price.toString()}
             isFavorite={favoritesProducts[index]}

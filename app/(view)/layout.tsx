@@ -73,10 +73,10 @@ export default async function RootLayout({
           {/* Main content section */}
           <div className="mt-20"></div>
           <main
-            className="flex flex-col flex-grow justify-center 
+            className="flex flex-col flex-grow justify-center place-self-center
             space-y-5 md:space-y-10 
             py-16 md:py-12 lg:py-10 2xl:py-5 
-            w-11/12 xl:w-4/6 place-self-center"
+            w-11/12 xl:w-4/6 "
           >
             {/* Toast notifications */}
             <Toaster position="bottom-right" />
