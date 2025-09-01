@@ -18,9 +18,15 @@ const inter = Inter({ subsets: ["latin"] });
  * Metadata for the page, defining the title and description.
  */
 export const metadata: Metadata = {
-  title: "Audífonos X menos",
+  title: {
+    default: "Audífonos X menos",
+    template: "%s - Audífonos X menos",
+  },
   description:
-    "Audífonos X menos is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accessibility, usability, and affordable prices.",
+    "Professional e-commerce for hearing aids and accessories, with the option to request appointments.",
+  twitter: {
+    card: "summary_large_image"
+  }
 };
 
 /**
