@@ -74,7 +74,7 @@ export default async function RootLayout({
           <div className="mt-20"></div>
           <main
             className="flex flex-col flex-grow justify-center place-self-center
-            space-y-5 md:space-y-10 
+            space-y-5 md:space-y-2 
             py-16 md:py-12 lg:py-10 2xl:py-5 
             w-11/12 xl:w-4/6 "
           >

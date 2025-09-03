@@ -21,6 +21,7 @@ import MediumButtonWithIcon, {
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 
 /**
  * Props for the Summary component.
@@ -77,39 +78,13 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
     0
   );
 
+  // COnvertir resumen en FORM para ir a shopping
+
   return (
     <section
-      className={`sticky top-32 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+      className={`sticky top-32 flex flex-col w-96 rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
     >
-      <SectionHeader text={"Resumen"} />
-      <article className="flex flex-col gap-3">
-        <div className="flex flex-row gap-1 justify-between">
-          <span>Nombre</span>
-          <span>Color</span>
-          <span>Cantidad</span>
-          <span>Coste</span>
-        </div>
-        {products.map((product, index) => (
-          <div className="flex flex-row gap-1 justify-between" key={index}>
-            <span>{product.name}</span>
-            <span>{product.colorText}</span>
-            <span>x{product.quantity}</span>
-            {product.discountPrice != null ? (
-              <>
-                <span className="text-red-500">
-                  {(product.discountPrice * product.quantity).toFixed(2)}€
-                </span>
-              </>
-            ) : (
-              <>
-                <span>{(product.price * product.quantity).toFixed(2)}€</span>
-              </>
-            )}
-          </div>
-        ))}
-      </article>
-      <article className="flex flex-col gap-2">
-        <div className={`w-full border-t my-3 ${componentBorder}`}></div>
+      <article className="flex flex-col gap-2 justify-center">
         <BargainInput
           bargain={bargain}
           setBargain={updateBargain}
@@ -120,17 +95,15 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
           <h2 className="text-2xl font-bold">Total</h2>
           <span className="text-2xl font-bold text-red-1">{totalPrice.toFixed(2)}€</span>
         </div>
-        <div className="place-self-center">
-          <MediumButtonWithIcon
-            icon={faCartShopping}
-            text={"Comprar"}
-            subtext={"Empezar compra"}
-            type={"default"}
-            onClick={() =>
+        <div className="place-self-center" onClick={() =>
               router.push(
                 `/profile/shoppingList/shopping?bargain=${bargain?.code}`
               )
-            }
+            }>
+          <SubmitButton
+            icon={faCartShopping}
+            text={"Comprar"} 
+            isDisable={false}            
           />
         </div>
       </article>

@@ -66,15 +66,20 @@ export default function AppointmentForm(): JSX.Element {
       <section className="flex flex-col lg:flex-row w-full gap-3">
         {/* Display Shop Location */}
         <article
-          className={`flex flex-col lg:w-1/2 gap-4 lg:gap-8 m-2 md:mt-0 lg:mx-5 px-2 lg:px-5 justify-around
-                              ${componentText} text-lg sm:text-xl lg:text-2xl font-medium  align-middle text-justify `}
+          className={`flex flex-col lg:w-1/2 gap-4 lg:gap-6 xl:gap-2 m-2 md:mt-0 lg:mx-5  justify-around
+                              ${componentText} text-lg sm:text-xl lg:text-2xl font-medium  align-middle  `}
         >
           {/* Text */}
-          <div>
-            En esta página puedes{" "}
-            <span className="font-bold">solicitar una cita vía online</span> y
-            nosotros contactaremos contigo vía telefónica para concretar la
-            cita. Recuerda que la cita será presencial en nuestra tienda.
+          <div className="text-center sm:text-justify px-2 lg:px-2 flex flex-col gap-2">
+            <p>
+              En esta página puedes{" "}
+              <span className="font-bold">solicitar una cita vía online.</span> 
+            </p>
+            <p>
+              Nosotros contactaremos contigo vía telefónica para concretar la
+              cita.
+            </p>
+            <p>Recuerda que la cita será <span className="font-bold">presencial</span> en nuestra tienda.</p>
           </div>
           {/* Map */}
           <div className="size-full flex flex-col justify-center">

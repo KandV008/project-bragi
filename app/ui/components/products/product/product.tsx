@@ -63,14 +63,6 @@ export default function Product({
       {/* Display */}
       <section className="flex flex-col items-center justify-between gap-3">
         <div className="relative size-28 md:size-40 xl:size-56 bg-white rounded z-0">
-          {/* Etiqueta encima de la imagen */}
-          {!isPreview && isEarphone ? (
-            <div className="absolute top-2 right-2 bg-red-400 rounded-full flex items-center justify-center size-10 lg:size-12 text-white font-bold py-2 md:text-base lg:text-lg">
-              2x1
-            </div>
-          ) : (
-            <></>
-          )}
           {/* Imagen */}
           <Image
             src={image}

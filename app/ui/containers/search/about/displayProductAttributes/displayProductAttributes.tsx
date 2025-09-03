@@ -106,8 +106,8 @@ export default function DisplayProductAttributes({
   include,
 }: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
-  const priceFormatted = Number(price).toFixed(2)
-  const discountFormatted = (Number(price) * DISCOUNT_PER_UNIT).toFixed(2)
+  const priceFormatted = Number(price).toFixed(2);
+  const discountFormatted = (Number(price) * DISCOUNT_PER_UNIT).toFixed(2);
 
   const LEFT_SIDE = "left";
   const RIGHT_SIDE = "right";
@@ -153,6 +153,9 @@ export default function DisplayProductAttributes({
     } else handleShowModal();
   };
 
+  // Cambiar lógica de ambos
+  // Añadir a la cesta el cargador cuando pillas 2 audífonos
+
   return (
     <>
       <div
@@ -160,107 +163,95 @@ export default function DisplayProductAttributes({
             ${componentBorder} ${componentBackground} ${componentText}`}
       >
         {/* Product Image */}
-        <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2">
+        <article className="flex flex-col md:w-1/2 gap-3 lg:gap-2  my-auto">
           {/* Main Image */}
-          <div className="place-self-center">
+          <div className="place-self-center ">
             <BigImage src={imageURL} alt={"img-" + id} />
           </div>
         </article>
         {/* Product Options */}
-        <article className="flex flex-col  md:w-1/2 md:justify-around">
-          {/* Name */}
+        <article className="flex flex-col md:w-1/2 md:justify-around">
+          {/* Header */}
           <div className="flex flex-row justify-between">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
-              {name}
-            </h1>
-            <div className=" block xl:hidden">
-              <FavoriteToggleButton productId={id} isActive={isFavorite} />
+            <div>
+              {/* Name */}
+              <div className="flex flex-row justify-between">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
+                  {name}
+                </h1>
+                <div className=" block xl:hidden">
+                  <FavoriteToggleButton productId={id} isActive={isFavorite} />
+                </div>
+              </div>
+              {/* Brand */}
+              <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
             </div>
-          </div>
-          {/* Brand */}
-          <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
-          {/* Price */}
-          <div className="flex flex-col gap-2 first-letter:text-xl sm:text-2xl lg:text-3xl font-semibold w-fit">
-            {category === "ACCESSORY" ? (
+            {/* Price */}
+            <div className="flex flex-col gap-2 first-letter:text-xl sm:text-2xl lg:text-3xl font-semibold w-fit">
               <h1>
-                Precio: {" "}
-                  <span className="font-bold">
-                    {priceFormatted}€
-                  </span>
-                </h1>
-            ) : (
-              <>
-                <h1>
-                  <span className="font-bold first-letter:text-2xl sm:text-3xl lg:text-4xl">
-                    {priceFormatted}€
-                  </span>{" "}
-                  por ambos audífonos
-                </h1>
-                <h1>
-                  <span className="font-bold first-letter:text-2xl sm:text-3xl lg:text-4xl">
-                    {discountFormatted}€
-                  </span>{" "}
-                  por único audífono
-                </h1>
-              </>
-            )}
+                <span className="font-bold">{priceFormatted}€</span>
+              </h1>
+            </div>
           </div>
           <br className="hidden sm:block" />
-          {/* Color Buttons */}
-          {colors ? (
-            <div className="w-fit">
-              <ArticleHeader text={"Colores disponibles"} />
-              <ColorButton
-                colors={colors}
-                action={(index: number) => setColorIndex(index)}
-              />
-            </div>
-          ) : (
-            <></>
-          )}
-          {/* Hearing Aid Side Buttons */}
-          {colors ? (
-            <div className="w-fit">
-              <ArticleHeader text={"Lado del Audífono"} />
-              <div className="flex flex-row flex-wrap gap-3">
-                {/* RIGHT SIDE */}
-                <button
-                  className={getEarSideButtonClasses(RIGHT_SIDE)}
-                  onClick={() => handleEarSideButtonClick(RIGHT_SIDE)}
-                >
-                  Derecho
-                </button>
-                {/* LEFT SIDE */}
-                <button
-                  className={getEarSideButtonClasses(LEFT_SIDE)}
-                  onClick={() => handleEarSideButtonClick(LEFT_SIDE)}
-                >
-                  Izquierdo
-                </button>
-                {/* BOTH SIDE */}
-                {!isCofosis ? (
-                  <button
-                    className={getEarSideButtonClasses(BOTH_SIDE)}
-                    onClick={() => handleEarSideButtonClick(BOTH_SIDE)}
-                  >
-                    Ambos
-                  </button>
-                ) : (
-                  <></>
-                )}
+          {/* Options */}
+          <div className="flex flex-col gap-3">
+            {/* Color Buttons */}
+            {colors ? (
+              <div className="w-fit">
+                <ArticleHeader text={"Colores disponibles"} />
+                <ColorButton
+                  colors={colors}
+                  action={(index: number) => setColorIndex(index)}
+                />
               </div>
+            ) : (
+              <></>
+            )}
+            {/* Hearing Aid Side Buttons */}
+            {colors ? (
+              <div className="w-fit">
+                <ArticleHeader text={"Lado del Audífono"} />
+                <div className="flex flex-row flex-wrap gap-3">
+                  {/* RIGHT SIDE */}
+                  <button
+                    className={getEarSideButtonClasses(RIGHT_SIDE)}
+                    onClick={() => handleEarSideButtonClick(RIGHT_SIDE)}
+                  >
+                    Derecho
+                  </button>
+                  {/* LEFT SIDE */}
+                  <button
+                    className={getEarSideButtonClasses(LEFT_SIDE)}
+                    onClick={() => handleEarSideButtonClick(LEFT_SIDE)}
+                  >
+                    Izquierdo
+                  </button>
+                  {/* BOTH SIDE */}
+                  {!isCofosis ? (
+                    <button
+                      className={getEarSideButtonClasses(BOTH_SIDE)}
+                      onClick={() => handleEarSideButtonClick(BOTH_SIDE)}
+                    >
+                      Ambos
+                    </button>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+            {/* Include list */}
+            <div className="mb-3 md:mb-1 lg:mb-3 w-fit">
+              <ArticleHeader text={"Incluye"} />
+              <ul className="px-2 text-sm lg:text-base">
+                {include.map((text, index) => (
+                  <li key={"include-" + index}>{text}</li>
+                ))}
+              </ul>
             </div>
-          ) : (
-            <></>
-          )}
-          {/* Include list */}
-          <div className="mb-3 md:mb-1 lg:mb-3 w-fit">
-            <ArticleHeader text={"Incluye"} />
-            <ul className="px-2 text-sm lg:text-base">
-              {include.map((text, index) => (
-                <li key={"include-" + index}>{text}</li>
-              ))}
-            </ul>
           </div>
           {/* Shopping Button */}
           <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">

@@ -18,7 +18,7 @@ interface ShoppingListProps {
  */
 export default function ShoppingList({ products }: ShoppingListProps) {
   return (
-    <section className="flex flex-col gap-5">
+    <section className="flex flex-col gap-5 w-full">
       {products.map((product, index) => (
         <ProductShoppingList 
           key={index}
