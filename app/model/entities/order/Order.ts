@@ -1,14 +1,24 @@
 import { mapDocumentToShoppingProductDTO, ShoppingProductDTO } from "../shoppingProductDTO/ShoppingProductDTO";
-import { MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE } from "./OrderConfiguration";
+import { audiometryFileProps, MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE } from "./OrderConfiguration";
 
 /**
  * Interface representing an order entity.
  */
 export interface OrderEntity {
     /**
-     * Unique identifier and number of the order
+     * Unique identifier of the order
      */
     id: string;
+
+    /**
+     * Number of the order
+     */
+    orderNumber: number;
+
+    /**
+     * Current status of the order
+     */
+    status: string;
 
     /**
      * Date of creation of the order
@@ -51,6 +61,11 @@ export interface OrderEntity {
     address: string;
 
     /**
+     * Audiometry file associated with the order
+     */
+    audiometryFile: audiometryFileProps;
+
+    /**
      * Products inside the order
      */
     products: ShoppingProductDTO[];
@@ -82,6 +97,8 @@ export function mapDocumentToOrder(order: any): OrderEntity {
     try {
         const requiredFields = [
             "_id",
+            "order_number",
+            "status",
             "user_id",
             "user_name",
             "user_first_name",
@@ -89,6 +106,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             "phone_number",
             "email",
             "address",
+            "audiometry_file",
             "products",
             "creation_date",
         ];
@@ -103,9 +121,16 @@ export function mapDocumentToOrder(order: any): OrderEntity {
 
         const mappedProducts = order.products.map(mapDocumentToShoppingProductDTO)
         const mappedSpecialsProducts = order.invalid_products.map(mapDocumentToShoppingProductDTO)
+        const mappedAudiometryFile: audiometryFileProps = {
+            buffer: order.audiometry_file.buffer,
+            type: order.audiometry_file.type,
+            name: order.audiometry_file.name,
+        }
 
         return {
             id: order._id,
+            orderNumber: order.order_number,
+            status: order.status,
             creationDate: creationDate,
             userId: order.user_id,
             userName: order.user_name,
@@ -113,6 +138,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             phoneNumber: order.phone_number,
             email: order.email,
             address: order.address,
+            audiometryFile: mappedAudiometryFile,
             dni: order.user_dni,
             products: mappedProducts,
             bargainApplied: order.bargain_applied,

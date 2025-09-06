@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import { parseAppointmentForm, parseContactForm, parseSendAudiometryFileForm, parseShoppingForm } from "./parser/parser";
 import { Logger } from "@/app/config/Logger";
 import createReceipt from "./receipt";
+import { getOrder } from "@/db/order/order";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -55,12 +56,12 @@ export async function sendContactEmail(formData: FormData): Promise<void> {
 export async function sendAudiometryFileEmail(formData: FormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendAudiometryFileEmail")
 
-    const { email, body, audiometryFile  } = parseSendAudiometryFileForm(formData)
+    const { email, body, audiometryFile } = parseSendAudiometryFileForm(formData)
 
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
 
     const originalFileName = `audiometría-${email}`;
-    const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_'); 
+    const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_');
 
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
@@ -109,18 +110,14 @@ export async function sendAppointmentEmail(formData: FormData): Promise<void> {
  *
  * @throws If the email cannot be sent or if the file reading fails.
  */
-export async function sendReceiptEmail(formData: FormData, orderId: string) {
+export async function sendReceiptEmail(orderId: string) {
     Logger.startFunction(CONTEXT, "sendReceiptEmail")
-    
-    const orderData = parseShoppingForm(formData);
-    const base64Pdf = await createReceipt(orderId);
-    const audiometryFile = orderData.audiometryFile as File;
-    const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
 
-    const originalFileName = `audiometría-${orderData.userName}_${orderData.userFirstName}`;
-    const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_'); 
+    const orderData = await getOrder(orderId)
 
-    
+    const receiptBase64Pdf = await createReceipt(orderId);
+    const audiometryFile = orderData.audiometryFile
+
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: orderData.email,
@@ -130,13 +127,13 @@ export async function sendReceiptEmail(formData: FormData, orderId: string) {
         attachments: [
             {
                 filename: `recibo-${orderId}.pdf`,
-                content: base64Pdf,
+                content: receiptBase64Pdf,
                 encoding: 'base64',
                 contentType: 'application/pdf',
             },
             {
-                filename: sanitizedFileName,
-                content: audiometryBuffer,
+                filename: audiometryFile.name,
+                content: audiometryFile.buffer,
                 contentType: audiometryFile.type,
             }
         ],

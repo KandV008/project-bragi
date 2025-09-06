@@ -142,6 +142,11 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
     const ordersCollection = database.collection("orders");
     const orderNumber = await getNextSequenceValue("orderId");
 
+    const audiometryFile = shoppingData.audiometryFile as File;
+    const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
+    const originalFileName = `audiometria-${shoppingData.userName}_${shoppingData.userFirstName}`;
+    const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_');
+
     const newOrder = {
       order_number: orderNumber,
       status: "IN-PROCESS",
@@ -152,6 +157,11 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
       phone_number: shoppingData.phoneNumber,
       email: shoppingData.email,
       address: shoppingData.address,
+      audiometry_file: {
+        buffer: audiometryBuffer,
+        type: audiometryFile.type,
+        name: sanitizedFileName,
+      },
       products: products.map((product) => (mapShoppingProductToDocument(product))),
       bargain_applied: bargainCode ? bargainCode : null,
       invalid_products: invalidProducts.map((product) => (mapShoppingProductToDocument(product))),
