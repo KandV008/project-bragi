@@ -1,4 +1,8 @@
 import { EarphoneAttributes } from "@/app/model/entities/product/EarphoneAttributes";
+import { valueOfEarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
+import { valueOfEarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
+import { valueOfEarphoneLevelOfDiscretionf } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneLevelOfDiscretion";
+import { valueOfEarphoneLocation } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneLocation";
 import { EarphoneShapeDetails } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import { Article, ArticleSkeleton } from "@/app/ui/components/tags/article/article";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
@@ -37,6 +41,11 @@ export default function DisplayProductDetails({
   description,
   earphoneAttributes,
 }: ProductDetailsProps): JSX.Element {
+  const locationValue = earphoneAttributes ? valueOfEarphoneLocation(EarphoneShapeDetails[earphoneAttributes?.earphoneShape].location) : ""
+  const discretionValue = earphoneAttributes ? valueOfEarphoneLevelOfDiscretionf(EarphoneShapeDetails[earphoneAttributes?.earphoneShape].level_of_discretion) : ""
+  const adaptationValue = earphoneAttributes ? valueOfEarphoneAdaptationRange(earphoneAttributes.adaptationRange) : ""
+  const lossValue = earphoneAttributes ? valueOfEarphoneDegreeOfLoss(earphoneAttributes.degreeOfLoss) : ""
+
   return (
     <div
       className={`flex flex-col-reverse md:flex-row rounded gap-5 p-5
@@ -52,13 +61,13 @@ export default function DisplayProductDetails({
         <article className="flex flex-col md:w-1/2 gap-2">
           <SectionHeader text={"Características"} />
           {/* Ear Location */}
-          <Article label={"Ubicación"} value={EarphoneShapeDetails[earphoneAttributes?.earphoneShape].location} />
+          <Article label={"Ubicación"} value={locationValue} />
           {/* Level of Discretion */}
-          <Article label={"Nivel de Discreción"} value={EarphoneShapeDetails[earphoneAttributes?.earphoneShape].level_of_discretion} />
+          <Article label={"Nivel de Discreción"} value={discretionValue} />
           {/* Adaptation Range */}
-          <Article label={"Rango de Adaptación"} value={earphoneAttributes.adaptationRange} />
+          <Article label={"Rango de Adaptación"} value={adaptationValue} />
           {/* Degree of Loss */}
-          <Article label={"Grado de pérdida"} value={earphoneAttributes.degreeOfLoss} />
+          <Article label={"Grado de pérdida"} value={lossValue} />
           {/* Dust and Water Resistance */}
           <Article
             label={"Resistente al Polvo y al Agua"}
