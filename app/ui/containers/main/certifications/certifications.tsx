@@ -6,7 +6,7 @@ import Image from "next/image";
  * It is divided into two sections:
  * - Certifications: Displays accreditation logos.
  * - Brands: Displays logos of partner brands.
- * 
+ *
  * @returns {JSX.Element} The rendered Certifications component.
  */
 export default function Certifications() {
@@ -46,12 +46,21 @@ export default function Certifications() {
             height={1000}
             className="w-2/5 h-1/3 sm:w-1/3 sm:h-1/4 md:w-1/5 md:h-1/6"
           />
+          {/* TODO Hidden until the Database has productos of the brand */}
           <Image
             src={"/logo-starkey.png"}
             alt={"Logo_of_STARKEY"}
             width={1000}
             height={1000}
-            className="w-2/5 h-1/3 sm:w-1/3 sm:h-1/4 md:w-1/5 md:h-1/6"
+            className="hidden w-2/5 h-1/3 sm:w-1/3 sm:h-1/4 md:w-1/5 md:h-1/6"
+          />
+          {/* TODO Hidden until the Database has productos of the brand */}
+          <Image
+            src={"/logo-interton.png"}
+            alt={"Logo_of_INTERTON"}
+            width={1000}
+            height={1000}
+            className="hidden w-2/5 h-1/3 sm:w-1/3 sm:h-1/4 md:w-1/5 md:h-1/6"
           />
         </div>
       </article>
