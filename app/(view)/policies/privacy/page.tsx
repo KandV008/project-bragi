@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function Page(): JSX.Element {
   return (
-    <>
+    <div className="text-justify flex flex-col gap-2">
       <SectionHeader
         text={"Política de Privacidad"}
         id="pol-tica-de-privacidad"
@@ -48,10 +48,6 @@ export default function Page(): JSX.Element {
           }
           id="-cu-les-son-las-finalidades-y-legitimaci-n-del-tratamiento-de-sus-datos-"
         />
-        <h2 id="-cu-les-son-las-finalidades-y-legitimaci-n-del-tratamiento-de-sus-datos-">
-          ¿Cuáles son las finalidades y legitimación del tratamiento de sus
-          datos?
-        </h2>
         <p>
           Respecto a los usuarios que visiten nuestro Website (
           <strong>“visitas Website”</strong>):
@@ -276,6 +272,6 @@ export default function Page(): JSX.Element {
       <p>
         <strong>Última actualización</strong>: Mayo 2025
       </p>
-    </>
+    </div>
   );
 }

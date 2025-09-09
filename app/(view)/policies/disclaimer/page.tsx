@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function Page(): JSX.Element {
   return (
-    <>
+    <div className="text-justify flex flex-col gap-2">
       <SectionHeader
         text={"Condiciones generales"}
         id="condiciones-generales"
@@ -1036,6 +1036,6 @@ export default function Page(): JSX.Element {
           del usuario.
         </p>
       </>
-    </>
+    </ div>
   );
 }

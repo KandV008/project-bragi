@@ -3,7 +3,7 @@ import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader"
 
 export default function TermsAndConditions(): JSX.Element {
   return (
-    <>
+    <div className="text-justify flex flex-col gap-2">
       <SectionHeader
         text={"Términos y Condiciones de Uso"}
         id="t-rminos-y-condiciones-de-uso"
@@ -162,6 +162,6 @@ export default function TermsAndConditions(): JSX.Element {
           estos términos sin previo aviso.
         </p>
       </>
-    </>
+    </ div>
   );
 }

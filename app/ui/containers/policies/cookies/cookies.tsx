@@ -15,7 +15,7 @@ export default function Cookies(): JSX.Element {
   }
 
   return (
-    <>
+    <div className="text-justify flex flex-col gap-2">
     <CookiesPopUp isConfiguration={configureCookies} setConfiguration={() => {hasConfigureCookies(false)}}/>
       <div className="flex flex-row justify-between">
         <SectionHeader text={"Política de cookies"} id="pol-tica-de-cookies" />
@@ -98,15 +98,15 @@ export default function Cookies(): JSX.Element {
           existentes en el mercado según la entidad que los gestione, el tiempo
           que permanecen activadas y su finalidad:
         </p>
-        <p>(i) Tipología de cookies según la entidad que las gestione:</p>
+        <p>(i) <strong>Tipología de cookies según la entidad que las gestione:</strong> </p>
         <ul className="px-5">
           <li>
-            * Cookies propias: Son aquéllas que se envían al equipo terminal del
+            * <strong>Cookies propias:</strong> Son aquéllas que se envían al equipo terminal del
             usuario desde un equipo o dominio gestionado por nosotros y desde el
             que se presta el servicio solicitado por el usuario.{" "}
           </li>
           <li>
-            * Cookies de tercero: Son aquéllas que se envían al equipo terminal
+            * <strong>Cookies de tercero:</strong> Son aquéllas que se envían al equipo terminal
             del usuario desde un equipo o dominio que no es gestionado por
             nosotros, sino por otra entidad que trata los datos obtenidos a
             través de las cookies (ej. las cookies usadas por los complementos
@@ -114,11 +114,11 @@ export default function Cookies(): JSX.Element {
           </li>
         </ul>
         <p>
-          (ii) Tipología de cookies según el plazo que permanecen activadas:
+          (ii) <strong>Tipología de cookies según el plazo que permanecen activadas:</strong>
         </p>
         <ul className="px-5">
           <li>
-            * Cookies de sesión: Son aquellas diseñadas para recabar y almacenar
+            * <strong>Cookies de sesión:</strong> Son aquellas diseñadas para recabar y almacenar
             datos mientras el usuario accede a una página web. Se suelen
             emplease para almacenar información que sólo interesa conservar para
             la prestación del servicio solicitado por el usuario en una sola
@@ -126,14 +126,14 @@ export default function Cookies(): JSX.Element {
             desaparecen al terminar la sesión.
           </li>
           <li>
-            * Cookies persistentes: Son aquellas en las que los datos siguen
+            * <strong>Cookies persistentes:</strong> Son aquellas en las que los datos siguen
             almacenados en el terminal y pueden ser accedidos y tratados durante
             un periodo definido por el responsable de la cookie, y que puede ir
             de unos minutos a varios años. (iii) Tipología de cookies según su
             finalidad:
           </li>
           <li>
-            * Cookies técnicas: Son aquéllas que permiten al usuario la
+            * <strong>Cookies técnicas:</strong> Son aquéllas que permiten al usuario la
             navegación a través de una página web, plataforma o aplicación y la
             utilización de las diferentes opciones o servicios que en ella
             existan, incluyendo aquellas que el editor utiliza para permitir la
@@ -156,7 +156,7 @@ export default function Cookies(): JSX.Element {
             siguiente apartado de la presente política.
           </li>
           <li>
-            * Cookie de funcionalidad o personalización: Son aquéllas que
+            * <strong>Cookie de funcionalidad o personalización:</strong> Son aquéllas que
             permiten al usuario acceder al servicio con algunas características
             de carácter general predefinidas en función de una serie de
             criterios en el terminal del usuario como, por ejemplo, el idioma
@@ -166,7 +166,7 @@ export default function Cookies(): JSX.Element {
             servicio o de la región desde la que accede al servicio, etc.{" "}
           </li>
           <li>
-            * Cookies de análisis y medición: son aquellas que permiten al
+            * <strong>Cookies de análisis y medición:</strong> son aquellas que permiten al
             responsable de las mismas el seguimiento y análisis del
             comportamiento de los usuarios de los sitios web a los que están
             vinculadas, incluida la cuantificación de los impactos de los
@@ -176,7 +176,7 @@ export default function Cookies(): JSX.Element {
             análisis de los datos de uso que hacen los usuarios del servicio.
           </li>
           <li>
-            * Cookies de publicidad comportamental: son aquellas que almacenan
+            * <strong>Cookies de publicidad comportamental:</strong> son aquellas que almacenan
             información del comportamiento de los usuarios obtenida a través de
             la observación continuada de sus hábitos de navegación, lo que
             permite desarrollar un perfil específico para mostrar publicidad en
@@ -292,6 +292,6 @@ export default function Cookies(): JSX.Element {
           <strong>Fecha de actualización</strong>: Mayo de 2025
         </p>
       </>
-    </>
+    </ div>
   );
 }
