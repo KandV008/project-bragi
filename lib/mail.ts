@@ -35,13 +35,13 @@ const transporter = nodemailer.createTransport({
 export async function sendContactEmail(formData: FormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendContactEmail")
 
-    const { email, subject, body } = parseContactForm(formData)
+    const { name, email, subject, body } = parseContactForm(formData)
 
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
         subject: "Contacto: " + subject,
-        text: "Correo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
+        text: "Nombre: " + name + "\nCorreo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
     });
 
     Logger.endFunction(CONTEXT, "sendContactEmail", info.messageId)
@@ -56,7 +56,7 @@ export async function sendContactEmail(formData: FormData): Promise<void> {
 export async function sendAudiometryFileEmail(formData: FormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendAudiometryFileEmail")
 
-    const { email, body, audiometryFile } = parseSendAudiometryFileForm(formData)
+    const { name, email, body, audiometryFile } = parseSendAudiometryFileForm(formData)
 
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
 
@@ -67,7 +67,7 @@ export async function sendAudiometryFileEmail(formData: FormData): Promise<void>
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
         subject: "Archivo de Audiometría. Se requiere una recomendación.",
-        text: "Correo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
+        text: "Nombre: " + name + "\nCorreo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
         attachments: [
             {
                 filename: sanitizedFileName,

@@ -4,6 +4,7 @@ import {
   audiometryFileName,
   contactBodyName,
   contactEmailName,
+  userNameName,
 } from "@/app/config/JSONnames";
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 import FileInput from "@/app/ui/components/inputs/fileInput/fileInput";
@@ -23,6 +24,7 @@ import {
   faComment,
   faUpload,
   faFile,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -82,8 +84,9 @@ export function SendAudiometryFileForm(): JSX.Element {
             <li>* ¿Necesitas que tengamos algún detalle en cuenta?</li>
             <li>* ¿Buscar algo en específico?</li>
           </ul>
-          <p>Sea lo que necesites, no dudes en escribirnos.
-            Y en <span className="font-bold">menos de 24 horas</span> serás
+          <p>
+            Sea lo que necesites, no dudes en escribirnos. Y en{" "}
+            <span className="font-bold">menos de 24 horas</span> serás
             contestado con una serie de sugerencias.
           </p>
         </article>
@@ -95,6 +98,13 @@ export function SendAudiometryFileForm(): JSX.Element {
                      ${componentBorder} rounded-xl`}
         >
           <SectionHeader text={"Envíanos tu audiometría"} />
+          <TextInput
+            name={userNameName}
+            type={"text"}
+            placeholder={"Me llamo..."}
+            label={"Nombre"}
+            icon={faUser}
+          />
           <TextInput
             name={contactEmailName}
             type={"text"}

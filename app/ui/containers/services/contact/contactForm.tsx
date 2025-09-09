@@ -4,6 +4,7 @@ import {
   contactBodyName,
   contactEmailName,
   contactSubjectName,
+  userNameName,
 } from "@/app/config/JSONnames";
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 import TextAreaInput from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
@@ -22,6 +23,7 @@ import {
   faPenNib,
   faComment,
   faUpload,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -29,7 +31,7 @@ import toast from "react-hot-toast";
 /**
  * ContactForm component provides a form for users to send messages.
  * It includes validation, form submission, and a modal for error handling.
- * 
+ *
  * @component
  * @returns {JSX.Element} The ContactForm component.
  */
@@ -46,7 +48,7 @@ export function ContactForm(): JSX.Element {
   /**
    * Handles form submission, validates input, and performs the respective action.
    * If the form is valid, it sends an email; otherwise, it shows a validation popup.
-   * 
+   *
    * @function
    * @param {FormData} formData - The submitted form data.
    */
@@ -97,6 +99,13 @@ export function ContactForm(): JSX.Element {
                      ${componentBorder} rounded-xl`}
         >
           <SectionHeader text={"¿En qué te podemos ayudar?"} />
+          <TextInput
+            name={userNameName}
+            type={"text"}
+            placeholder={"Me llamo..."}
+            label={"Nombre"}
+            icon={faUser}
+          />
           <TextInput
             name={contactEmailName}
             type={"text"}
