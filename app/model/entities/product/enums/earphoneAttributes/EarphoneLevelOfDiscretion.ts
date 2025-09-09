@@ -5,7 +5,7 @@ const DISCREET_VALUE = "Discreto"
 const IMPERCEPTIBLE_NAME = "IMPERCEPTIBLE"
 const IMPERCEPTIBLE_VALUE = "Imperceptible"
 const COFOSIS_NAME = "COFOSIS"
-const COFOSIS_VALUE = "Cofosis*" //TODO Put the real value
+const COFOSIS_VALUE = "Discreto"
 
 /**
  * Type representing the level of discretion of an earphone.
