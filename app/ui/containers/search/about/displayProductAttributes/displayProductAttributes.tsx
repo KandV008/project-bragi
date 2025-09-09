@@ -153,9 +153,6 @@ export default function DisplayProductAttributes({
     } else handleShowModal();
   };
 
-  // Cambiar lógica de ambos
-  // Añadir a la cesta el cargador cuando pillas 2 audífonos
-
   return (
     <>
       <div

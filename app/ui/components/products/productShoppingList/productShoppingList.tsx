@@ -248,7 +248,7 @@ function getEarSideLabel(earSide: String) {
   }
 
   if (earSide === "left") {
-    return "Izquierda";
+    return "Izquierdo";
   }
 
   return "Ambos";
