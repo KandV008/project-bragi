@@ -146,7 +146,7 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             totalPrice: order.total_price
         }
     } catch (error) {
-        throw new Error(MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE)
+        throw new Error(`${error}`)
     }
 }
 

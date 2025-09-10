@@ -290,6 +290,7 @@ describe(METHOD_VALIDATE_FORM_SHOPPING_NAME, () => {
 describe(METHOD_VALIDATE_CONTACT_FORM_NAME, () => {
     it(`[${UNIT_TEST_TAG}] should validate Contact form when you introduce the correct form data`, () => {
         const exampleContactFormData = {
+            [userNameName]: "Example name",
             [contactEmailName]: "Example email",
             [contactSubjectName]: "Example subject",
             [contactBodyName]: "Example body",

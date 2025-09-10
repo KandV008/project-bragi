@@ -11,6 +11,8 @@ const createFakeOrders = (index: number) =>
     Array.from({ length: index }, (_, i) => (
         {
             _id: `${i}`,
+            order_number: `${i}`,
+            status: "IN-PROCESS",
             user_id: exampleUser,
             user_name: `User name ${i}`,
             user_first_name: `User name ${i}`,
@@ -18,6 +20,11 @@ const createFakeOrders = (index: number) =>
             phone_number: "123123123",
             email: "example@email.com",
             address: "C/ Example Address",
+            audiometry_file: {
+                buffer: Buffer.from([]),
+                type: "image/png",
+                name: `example-name-${i}`
+            },
             products: [
                 {
                     product_id: "123",
@@ -94,6 +101,8 @@ describe(METHOD_GET_ORDER, () => {
     const fakeObjectId = new ObjectId().toString();
     const fakeOrder = {
         _id: fakeObjectId,
+        order_number: "12345",
+        status: "IN-PROCESS",
         user_id: "user_xxx",
         user_name: "Test User",
         user_first_name: "Test",
@@ -101,6 +110,11 @@ describe(METHOD_GET_ORDER, () => {
         phone_number: "123456789",
         email: "test@example.com",
         address: "123 Test St",
+        audiometry_file: {
+            buffer: Buffer.from([]),
+            type: "image/png",
+            name: "example-name"
+        },
         products: [{
             product_id: "123",
             name: "Ejemplo",

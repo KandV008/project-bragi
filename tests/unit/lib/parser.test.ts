@@ -531,6 +531,7 @@ describe(CONTEXT_PARSE_SHOPPING_FORM, () => {
 describe(CONTEXT_PARSE_CONTACT_FORM, () => {
     it(`[${UNIT_TEST_TAG}] should parse a form data into a contact object`, () => {
         const exampleFormData = {
+            [userNameName]: "Example name",
             [contactEmailName]: "example@email.com",
             [contactSubjectName]: "Example Subject",
             [contactBodyName]: "Lore ipsum...",
