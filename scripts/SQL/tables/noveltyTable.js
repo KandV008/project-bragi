@@ -4,22 +4,8 @@
  * @param {object} client - The PostgreSQL client instance.
  */
 async function addNovelties(client) {
-  const novelty1 = {
-    title: "30% de descuento por la compra de un audífono",
-    code: "70PERC",
-    description: "Si compra una unidad de audífono de un modelo, se te cobrará solo el 70% de su valor.",
-    promotionalImage: "/placeholder-carousel.avif",
-    type: "SPECIFIC",
-    context: "SHOPPING-LIST",
-    endDate: new Date(2026, 9, 14).toISOString()
-  };
 
-  await client.sql`
-    INSERT INTO novelty (title, code, description, promotional_image, type, context, end_date)
-    VALUES (${novelty1.title}, ${novelty1.code}, ${novelty1.description}, 
-            ${novelty1.promotionalImage}, ${novelty1.type}, ${novelty1.context}, 
-            ${novelty1.endDate});
-  `;
+  console.warn("0 novelties");
 
   console.log("Inserted novelty into 'novelty' table");
 }

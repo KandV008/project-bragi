@@ -50,7 +50,6 @@ import { SmallImageSkeleton } from "@/app/ui/components/images/smallImage/smallI
 import ArticleHeader, {
   ArticleHeaderSkeleton,
 } from "@/app/ui/components/tags/articleHeader/articleHeader";
-import { DISCOUNT_PER_UNIT } from "@/app/model/entities/novelty/codes/70percentDiscount/70percentDiscount";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -107,7 +106,6 @@ export default function DisplayProductAttributes({
 }: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
   const priceFormatted = Number(price).toFixed(2);
-  const discountFormatted = (Number(price) * DISCOUNT_PER_UNIT).toFixed(2);
 
   const LEFT_SIDE = "left";
   const RIGHT_SIDE = "right";
