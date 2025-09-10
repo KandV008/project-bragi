@@ -7,10 +7,10 @@ async function addBargains(client) { // TODO Check this predefined
   await client.sql`
     INSERT INTO bargain (code, title, description, requirements, status)
     VALUES (
-      '2POR1', 
-      '2x1 en audífonos de la misma marca', 
-      'Por la compra de dos audífonos de la misma marca, solo te cobraremos uno de ellos.',
-      ARRAY['Solo audífonos de la misma marca', 'Han de ser el mismo modelo o CROS', 'Han de ser de oídos distintos'],
+      '70PERC', 
+      '30% de descuento por la compra de un audífono', 
+      'Si compra mínimo de una unidad de audífono de un modelo, se te cobrará solo el 70% de su valor.',
+      ARRAY['Solo audífonos', 'Solo se aplica a uno (el más barato)'],
       true      
     );
   `;
