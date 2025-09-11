@@ -1,8 +1,4 @@
-import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMessage/noShoppingCartMessage";
-import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import ShoppingList from "@/app/ui/containers/shoppingList/shoppingList/shoppingList";
-import Summary from "@/app/ui/containers/shoppingList/summary/summary";
-import { getShoppingList } from "@/db/shoppingList/shoppingList";
+import ShoppingListInformation from "@/app/ui/containers/shoppingList/shoppingInformation/shoppingInformation";
 import { Metadata } from "next";
 
 /**
@@ -21,27 +17,5 @@ export const metadata: Metadata = {
  * @returns {JSX.Element} The shopping cart page content.
  */
 export default async function Page() {
-  const shoppingList = await getShoppingList();
-
-  return (
-    <>
-      {shoppingList.length === 0 ? (
-        <NoShoppingCartMessage />
-      ) : (
-        <>
-          {/* Page header */}
-          <SectionHeader text="Cesta de la compra" />
-          {/* Shopping list and summary section */}
-          <section className="flex flex-col-reverse lg:flex-row gap-3 justify-center">
-            {/* Shopping list container */}
-            <ShoppingList products={shoppingList} />
-            <div className="shrink-0 z-10">
-              {/* Order summary section */}
-              <Summary products={shoppingList} />
-            </div>
-          </section>
-        </>
-      )}
-    </>
-  );
+  return <ShoppingListInformation />;
 }

@@ -27,7 +27,9 @@ import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton"
  * Props for the Summary component.
  */
 interface SummaryProps {
-  products: ShoppingProductDTO[];
+  originalProducts: ShoppingProductDTO[];
+  changeableProducts: ShoppingProductDTO[];
+  updateProducts: (newShoppingList: ShoppingProductDTO[]) => void;
 }
 
 /**
@@ -37,11 +39,13 @@ interface SummaryProps {
  * @param {SummaryProps} props - Component properties containing the list of products.
  * @returns {JSX.Element} The summary component.
  */
-export default function Summary({ products }: SummaryProps): JSX.Element {
+export default function Summary({
+  originalProducts,
+  changeableProducts,
+  updateProducts,
+}: SummaryProps): JSX.Element {
   const router = useRouter();
   const [bargain, setBargain] = useState<BargainEntity | null>(null);
-  const [currentProducts, setCurrentProducts] =
-    useState<ShoppingProductDTO[]>(products);
   const [status, setStatus] = useState<0 | 1>(0);
 
   /**
@@ -51,6 +55,7 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
   const updateBargain = (newBargain: BargainEntity | null) => {
     if (!newBargain) {
       setBargain(null);
+      updateProducts(originalProducts);
       return;
     }
 
@@ -62,23 +67,18 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
     }
 
     setBargain(newBargain);
-    const { shoppingList, status } = bargainAction(products);
-    setCurrentProducts(shoppingList);
+    const { shoppingList, status } = bargainAction(changeableProducts);
+    updateProducts(shoppingList);
     setStatus(status);
   };
 
-  const totalPrice = currentProducts.reduce(
-    (total, product) => {
-      if (product.discountPrice == null){
-        return total + product.price * product.quantity
-      }
+  const totalPrice = changeableProducts.reduce((total, product) => {
+    if (product.discountPrice == null) {
+      return total + product.price * product.quantity;
+    }
 
-      return total + product.discountPrice * product.quantity
-    },
-    0
-  );
-
-  // COnvertir resumen en FORM para ir a shopping
+    return total + product.discountPrice * product.quantity;
+  }, 0);
 
   return (
     <section
@@ -93,17 +93,22 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
-          <span className="text-2xl font-bold text-red-1">{totalPrice.toFixed(2)}€</span>
+          <span className="text-2xl font-bold text-red-1">
+            {totalPrice.toFixed(2)}€
+          </span>
         </div>
-        <div className="place-self-center" onClick={() =>
-              router.push(
-                `/profile/shoppingList/shopping?bargain=${bargain?.code}`
-              )
-            }>
+        <div
+          className="place-self-center"
+          onClick={() =>
+            router.push(
+              `/profile/shoppingList/shopping?bargain=${bargain?.code}`
+            )
+          }
+        >
           <SubmitButton
             icon={faCartShopping}
-            text={"Comprar"} 
-            isDisable={false}            
+            text={"Comprar"}
+            isDisable={false}
           />
         </div>
       </article>

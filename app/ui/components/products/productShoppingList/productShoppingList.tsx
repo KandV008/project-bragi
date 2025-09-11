@@ -167,7 +167,7 @@ export default function ProductShoppingList({
           </div>
         </article>
       </div>
-      {/* Quantity */}
+      {/* Amount & Price */}
       <div className="flex flex-row justify-between">
         {/* Amount Button */}
         <article
