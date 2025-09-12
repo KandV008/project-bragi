@@ -69,8 +69,10 @@ export default function ShoppingForm({ products }: FormProps) {
 
   useEffect(() => {
     const bargain = searchParams.get("bargain");
+    console.log("BARGAIN", bargain);
 
-    if (!bargain) {
+    if (!bargain || bargain === "undefined") {
+      setBargainCode(undefined);
       return;
     }
 
@@ -94,20 +96,17 @@ export default function ShoppingForm({ products }: FormProps) {
     setShowModal(!showModal);
   };
 
-  const totalPrice = currentProducts.reduce(
-    (total, product) => {
-    if (checkInvalidEarphoneShape(product)){
-      return total
+  const totalPrice = currentProducts.reduce((total, product) => {
+    if (checkInvalidEarphoneShape(product)) {
+      return total;
     }
 
     if (product.discountPrice || product.discountPrice === 0) {
-      return total + product.discountPrice * product.quantity
+      return total + product.discountPrice * product.quantity;
     }
 
-    return total + product.price * product.quantity
-    },
-    0
-  );
+    return total + product.price * product.quantity;
+  }, 0);
 
   /**
    * Handles form submission, validates input, and performs the respective action.
@@ -117,7 +116,10 @@ export default function ShoppingForm({ products }: FormProps) {
   const handlePayment = async (formData: FormData) => {
     console.log(formData);
     const isValid = validateFormShopping(formData);
-    if (!isValid) {handleShowModal(); return};
+    if (!isValid) {
+      handleShowModal();
+      return;
+    }
 
     const { status, id, orderNumber } = await actionCreateOrder(
       formData,
@@ -125,7 +127,10 @@ export default function ShoppingForm({ products }: FormProps) {
       bargainCode
     );
 
-    if (status) {toast.error("Ha habido un problema con el pedido"); return}
+    if (status) {
+      toast.error("Ha habido un problema con el pedido");
+      return;
+    }
 
     //const orderNumber = Number(String(Date.now()).slice(-8))
 
@@ -177,7 +182,7 @@ export default function ShoppingForm({ products }: FormProps) {
     >
       {/* Shopping Form */}
       <section
-        className={`flex flex-col gap-5 p-5 sm:p-10  w-1/2
+        className={`flex flex-col gap-5 p-5 sm:p-10  w-full
                    ${componentBackground}
                    ${componentBorder} rounded-xl`}
       >
@@ -185,57 +190,72 @@ export default function ShoppingForm({ products }: FormProps) {
 
         {/* User Identification Data */}
         <article>
-          {/* User Id */}
-          <input type="hidden" name={userIdName} value={user?.id} />
-          {/* Bargain Code */}
-          {bargainCode ? (
-            <input type="hidden" name={bargainCodeName} value={bargainCode} />
-          ) : (
-            <></>
-          )}
-          {/* User Name */}
-          <TextInput
-            name={userNameName}
-            type={"text"}
-            placeholder={"Tu nombre"}
-            label={"Nombre del cliente"}
-            icon={faUser}
-          />
-          {/* User Firstname */}
-          <TextInput
-            name={userFirstName}
-            type={"text"}
-            placeholder={"Tus apellidos"}
-            label={"Apellidos del cliente"}
-            icon={faUser}
-          />
+          {/* Hidden data */}
+          <div>
+            {/* User Id */}
+            <input type="hidden" name={userIdName} value={user?.id} />
+            {/* Bargain Code */}
+            {bargainCode ? (
+              <input type="hidden" name={bargainCodeName} value={bargainCode} />
+            ) : (
+              <></>
+            )}
+          </div>
+          {/* User Information */}
+          <div className=" flex flex-col md:flex-row md:gap-2">
+            {/* User Name */}
+            <div className="md:w-96">
+              <TextInput
+                name={userNameName}
+                type={"text"}
+                placeholder={"Tu nombre"}
+                label={"Nombre del cliente"}
+                icon={faUser}
+              />
+            </div>
+            {/* User Firstname */}
+            <TextInput
+              name={userFirstName}
+              type={"text"}
+              placeholder={"Tus apellidos"}
+              label={"Apellidos del cliente"}
+              icon={faUser}
+            />
+          </div>
           {/* User DNI */}
-          <TextInput
-            name={userDNIName}
-            type={"text"}
-            placeholder={"99999999A"}
-            label={"Documento identificativo"}
-            icon={faDriversLicense}
-          />
+          <div className="w-80">
+            <TextInput
+              name={userDNIName}
+              type={"text"}
+              placeholder={"99999999A"}
+              label={"Documento identificativo"}
+              icon={faDriversLicense}
+            />
+          </div>
         </article>
         {/** User Contact Data */}
-        <section>
-          {/* Phone Number */}
-          <TextInput // TODO add prefix
-            name={phoneNumberName}
-            type={"number"}
-            placeholder={"+YY XXX XXX XXX"}
-            label={"Número de teléfono"}
-            icon={faPhone}
-          />
-          {/* E-mail */}
-          <TextInput
-            name={emailName}
-            type={"text"}
-            placeholder={"email@example.com"}
-            label={"Correo electrónico"}
-            icon={faMailBulk}
-          />
+        <section >
+          {/* Contact */}
+          <div className="flex flex-col md:flex-row md:gap-2">
+            {/* Phone Number */}
+            <div className="md:w-96">
+              <TextInput // TODO add prefix
+              name={phoneNumberName}
+              type={"number"}
+              placeholder={"+YY XXX XXX XXX"}
+              label={"Número de teléfono"}
+              icon={faPhone}
+            />
+            </div>
+            {/* E-mail */}
+            <TextInput
+              name={emailName}
+              type={"text"}
+              placeholder={"email@example.com"}
+              label={"Correo electrónico"}
+              icon={faMailBulk}
+            />
+          </div>
           {/* Address */}
           <TextInput // TODO Add more information
             name={addressName}
@@ -254,75 +274,87 @@ export default function ShoppingForm({ products }: FormProps) {
       </section>
       {/* Summary */}
       <section
-        className={`sticky top-32 z-0 flex flex-col w-1/2 rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+        className={`sticky top-32 z-0 flex flex-col h-fit w-max-1/3 rounded justify-start gap-4 p-6 ${componentBorder} ${componentBackground} ${componentText}`}
       >
-        <SectionHeader text={"Resumen"} />
-        {/* Product List */}
-        <article className="flex flex-col gap-3">
-          <div className="flex flex-row gap-1 justify-between">
-            <span>Nombre</span>
-            <span>Color</span>
-            <span>Cantidad</span>
-            <span>Coste</span>
-          </div>
-          {products.map((product, index) => (
-            <div className="flex flex-row gap-1 justify-between" key={index}>
-              <span>{product.name}</span>
-              <span>{product.colorText}</span>
-              <span>x{product.quantity}</span>
-              {checkInvalidEarphoneShape(product) ? (
-                <span className="text-red-500">
-                  Pedir Cita -{" "}
-                  {product.discountPrice == null
-                    ? (product.price * product.quantity).toFixed(2)
-                    : (product.discountPrice * product.quantity).toFixed(2)}
-                  €
-                </span>
-              ) : (
-                <>
-                  {product.discountPrice ? (
-                    <>
-                      <span className="text-red-500">
-                        {(product.discountPrice * product.quantity).toFixed(2)}€
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span>
-                        {(product.price * product.quantity).toFixed(2)}€
-                      </span>
-                    </>
-                  )}
-                </>
-              )}
+        <div className="h-max-96">
+          <SectionHeader text={"Resumen"} />
+          {/* Bargain Applyed */}
+          <article className="flex flex-row gap-3">
+            <p>Código de oferta aplicado:</p>
+            {bargainCode ? (
+              <strong>{bargainCode}</strong>
+            ) : (
+              <strong>Ninguno</strong>
+            )}
+          </article>
+          {/* Total */}
+          <article className="flex flex-col gap-2">
+            <div className={`w-full border-t my-3 ${componentBorder}`}></div>
+            <div className="flex flex-row justify-between gap-10">
+              <h2 className="text-2xl font-bold">Total</h2>
+              <span className="text-2xl font-bold text-red-1">
+                {totalPrice.toFixed(2)}€
+              </span>
             </div>
-          ))}
-        </article>
-        {/* Bargain Applyed */}
-        <article className="flex flex-row gap-3">
-          <p>Código de oferta aplicado:</p>
-          {bargainCode != undefined ? <p>{bargainCode}</p> : <p>Ninguno</p>}
-        </article>
-        {/* Total */}
-        <article className="flex flex-col gap-2">
-          <div className={`w-full border-t my-3 ${componentBorder}`}></div>
-          <div className="flex flex-row justify-between gap-10">
-            <h2 className="text-2xl font-bold">Total</h2>
-            <span className="text-2xl font-bold text-red-1">
-              {totalPrice.toFixed(2)}€
-            </span>
-          </div>
-          <div className="place-self-center">
-            {/* Submit Button */}
-            <section className="self-center">
-              <SubmitButton
-                text={"Finalizar pedido"}
-                icon={faUpload}
-                isDisable={false}
-              />
-            </section>
-          </div>
-        </article>
+            <div className="place-self-center">
+              {/* Submit Button */}
+              <section className="self-center">
+                <SubmitButton
+                  text={"Finalizar pedido"}
+                  icon={faUpload}
+                  isDisable={false}
+                />
+              </section>
+            </div>
+          </article>
+        </div>
+        {/* Product List */}
+        <div className=" ">
+          <SectionHeader text={"Lista de productos"} />
+          <article className="flex flex-col gap-3">
+            <div className="flex flex-row gap-1 justify-between">
+              <span>Nombre</span>
+              <span>Color</span>
+              <span>Cantidad</span>
+              <span>Coste</span>
+            </div>
+            {products.map((product, index) => (
+              <div className="flex flex-row gap-1 justify-between text-center" key={index}>
+                <span className="w-14">{product.name}</span>
+                <span className="w-14">{product.colorText}</span>
+                <span className="w-14">x{product.quantity}</span>
+                {checkInvalidEarphoneShape(product) ? (
+                  <span className="text-red-500 w-14">
+                    Pedir Cita -{" "}
+                    {product.discountPrice == null
+                      ? (product.price * product.quantity).toFixed(2)
+                      : (product.discountPrice * product.quantity).toFixed(2)}
+                    €
+                  </span>
+                ) : (
+                  <>
+                    {product.discountPrice ? (
+                      <>
+                        <span className="text-red-500 w-14">
+                          {(product.discountPrice * product.quantity).toFixed(
+                            2
+                          )}
+                          €
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="w-14">
+                          {(product.price * product.quantity).toFixed(2)}€
+                        </span>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
+          </article>
+        </div>
       </section>
       {/* Validation Pop-Up */}
       <article className="flex flex-center shrink-0 justify-center h-full">
