@@ -31,7 +31,7 @@ import {
 } from "@/app/config/JSONnames";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { getCodeAction } from "@/app/model/entities/bargain/Bargain";
 import FileInput from "../../../components/inputs/fileInput/fileInput";
 import { actionCreateOrder } from "@/db/order/order";
@@ -45,8 +45,6 @@ import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import toast from "react-hot-toast";
-import createReceipt from "@/lib/receipt";
-import { sendReceiptEmail } from "@/lib/mail";
 import { checkInvalidEarphoneShape } from "@/app/ui/components/advices/shoppingFormAdvice";
 
 interface FormProps {
@@ -63,7 +61,6 @@ interface FormProps {
  * @returns JSX.Element
  */
 export default function ShoppingForm({ products }: FormProps) {
-  const router = useRouter();
   const { user } = useUser();
   const searchParams = useSearchParams();
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
@@ -84,7 +81,7 @@ export default function ShoppingForm({ products }: FormProps) {
       return;
     }
 
-    const { shoppingList, status } = bargainAction(products);
+    const { shoppingList, status: _ } = bargainAction(products);
     setCurrentProducts(shoppingList);
   }, [products, searchParams]);
 
@@ -98,7 +95,17 @@ export default function ShoppingForm({ products }: FormProps) {
   };
 
   const totalPrice = currentProducts.reduce(
-    (total, product) => total + product.price * product.quantity,
+    (total, product) => {
+    if (checkInvalidEarphoneShape(product)){
+      return total
+    }
+
+    if (product.discountPrice || product.discountPrice === 0) {
+      return total + product.discountPrice * product.quantity
+    }
+
+    return total + product.price * product.quantity
+    },
     0
   );
 

@@ -15,10 +15,10 @@ import {
   BargainEntity,
   getCodeAction,
 } from "@/app/model/entities/bargain/Bargain";
-import MediumButtonWithIcon, {
+import {
   MediumButtonWithIconSkeleton,
 } from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
-import SectionHeader, {
+import {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
