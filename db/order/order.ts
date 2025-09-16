@@ -146,7 +146,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
     const originalFileName = `audiometria-${shoppingData.userName}_${shoppingData.userFirstName}`;
     const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_');
-
+    
     const newOrder = {
       order_number: orderNumber,
       status: "IN-PROCESS",

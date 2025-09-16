@@ -1,3 +1,4 @@
+import { Binary } from "mongodb";
 import { mapDocumentToShoppingProductDTO, ShoppingProductDTO } from "../shoppingProductDTO/ShoppingProductDTO";
 import { audiometryFileProps, MAP_DOCUMENT_TO_ORDER_ERROR_MESSAGE } from "./OrderConfiguration";
 
@@ -119,10 +120,13 @@ export function mapDocumentToOrder(order: any): OrderEntity {
             throw new Error('Invalid creationDate format');
         }
 
+        const mongoBinary = order.audiometry_file.buffer as Binary;
+        const mapBuffer: Buffer = Buffer.from(mongoBinary.buffer) ;
+
         const mappedProducts = order.products.map(mapDocumentToShoppingProductDTO)
         const mappedSpecialsProducts = order.invalid_products.map(mapDocumentToShoppingProductDTO)
         const mappedAudiometryFile: audiometryFileProps = {
-            buffer: order.audiometry_file.buffer,
+            buffer: mapBuffer,
             type: order.audiometry_file.type,
             name: order.audiometry_file.name,
         }

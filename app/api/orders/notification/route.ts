@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
     if (pagoOK) {
       const id = await updateOrderStatus(formattedOrder, "PAID");
-      //await sendReceiptEmail(formData, id);
+      await sendReceiptEmail(id);
       status = "OK"
     } else {
       await updateOrderStatus(formattedOrder, "FAILED");
