@@ -10,9 +10,7 @@ This web application is in property of [@KandV008](https://github.com/KandV008).
 
 ## :clapper: Preview
 
-<p align="center">
-<strong>Currently, there is no preview...</strong>
-</p>
+[![AudifonosXmenos - Preview](public/thumbnail.png)](https://youtu.be/XUCJO0HRNKE)
 
 <p align="center">
 <strong>From here, all project documentation will be described.</strong>
