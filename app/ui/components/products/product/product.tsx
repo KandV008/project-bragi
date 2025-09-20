@@ -26,6 +26,7 @@ interface ProductProps {
   id: string;
   image: string;
   name: string;
+  category: string;
   brand: string;
   price: string;
   isFavorite: boolean;
@@ -40,6 +41,7 @@ export default function Product({
   id,
   image,
   name,
+  category,
   brand,
   price,
   isFavorite,
@@ -47,6 +49,7 @@ export default function Product({
 }: ProductProps) {
   const linkURL = isPreview ? `/admin/products/${id}` : `/search/about/${id}`;
   const priceFormatted = Number(price).toFixed(2);
+  const isEarphone = category == "EARPHONE"
 
   return (
     <article
@@ -60,10 +63,6 @@ export default function Product({
       {/* Display */}
       <section className="flex flex-col items-center justify-between gap-3">
         <div className="relative size-28 md:size-40 xl:size-56 bg-white rounded z-0">
-          {/* Etiqueta encima de la imagen */}
-          <div className="absolute top-2 right-2 bg-red-400 rounded-full size-10 lg:size-12 text-white font-bold py-2 text-center md:text-base lg:text-lg">
-            2x1
-          </div>
           {/* Imagen */}
           <Image
             src={image}

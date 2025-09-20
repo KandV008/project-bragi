@@ -43,6 +43,8 @@ export const METHOD_GET_ORDERS = "getOrders"
 export const METHOD_GET_ORDER = "getOrder"
 export const METHOD_ACTION_CREATE_ORDER = "actionCreateOrder"
 export const METHOD_CREATE_ORDER = "createOrder"
+export const METHOD_GET_NEXT_SEQUENCE_VALUE = "getNextSequenceValue"
+export const METHOD_UPDATE_ORDER_STATUS = "updateOrderStatus"
 
 export const METHOD_GET_ALL_PRODUCTS = "getAllProducts"
 export const METHOD_GET_PRODUCT_BY_CATEGORY = "getProductsByCategory"

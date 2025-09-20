@@ -10,7 +10,7 @@ export let errorMessagesList: string[] = []
 /**
  * Clears the error messages list.
  */
-function clearErrorMessagesList(){
+function clearErrorMessagesList() {
     errorMessagesList = []
 }
 
@@ -18,7 +18,7 @@ function clearErrorMessagesList(){
  * Checks if there are any error messages.
  * @returns {boolean} - Returns true if no errors exist, false otherwise.
  */
-function checkErrorMessagesList(): boolean{
+function checkErrorMessagesList(): boolean {
     return errorMessagesList.length === 0
 }
 
@@ -28,10 +28,10 @@ function checkErrorMessagesList(): boolean{
  * @param {string} field - The field name.
  * @param {string} message - The error message if the field is empty.
  */
-function checkIfNotEmpty(formData: FormData, field: string, message: string){
+function checkIfNotEmpty(formData: FormData, field: string, message: string) {
     const value = formData.get(field)?.toString()
 
-    if (!value){
+    if (!value) {
         errorMessagesList.push(message)
     }
 }
@@ -40,13 +40,13 @@ function checkIfNotEmpty(formData: FormData, field: string, message: string){
  * Validates if the bargain code meets the required length constraints.
  * @param {FormData} formData - The form data.
  */
-function checkIfValidBargainCode(formData: FormData){
+function checkIfValidBargainCode(formData: FormData) {
     const code = formData.get(bargainCodeName)?.toString()
 
     const MIN_SIZE = 4
     const MAX_SIZE = 6
 
-    if (!code || code.length < MIN_SIZE || MAX_SIZE < code.length){
+    if (!code || code.length < MIN_SIZE || MAX_SIZE < code.length) {
         errorMessagesList.push(INVALID_BARGAIN_CODE_MESSAGE)
     }
 }
@@ -56,7 +56,7 @@ function checkIfValidBargainCode(formData: FormData){
  * @param {FormData} formData - The form data.
  * @returns {boolean} - Returns true if the form is valid.
  */
-export function validateAddShoppingCart(formData: FormData): boolean{
+export function validateAddShoppingCart(formData: FormData): boolean {
     clearErrorMessagesList()
     checkIfNotEmpty(formData, earSideName, NOT_SELECTED_EAR_SIDE_MESSAGE)
     return checkErrorMessagesList()
@@ -67,9 +67,9 @@ export function validateAddShoppingCart(formData: FormData): boolean{
  * @param {FormData} formData - The form data.
  * @returns {boolean} - Returns true if the form is valid.
  */
-export function validateFormProduct(formData: FormData): boolean{
+export function validateFormProduct(formData: FormData): boolean {
     clearErrorMessagesList()
-    
+
     checkIfNotEmpty(formData, nameName, EMPTY_NAME_INPUT_MESSAGE)
     checkIfNotEmpty(formData, categoryName, EMPTY_CATEGORY_INPUT_MESSAGE)
     checkIfNotEmpty(formData, brandName, EMPTY_BRAND_INPUT_MESSAGE)
@@ -77,13 +77,13 @@ export function validateFormProduct(formData: FormData): boolean{
     checkIfNotEmpty(formData, imageURLName, EMPTY_IMAGE_URL_INPUT_MESSAGE)
     checkIfNotEmpty(formData, productDescriptionName, EMPTY_DESCRIPTION_INPUT_MESSAGE)
 
-    if (formData.get(categoryName) === EARPHONE_VALUE){
+    if (formData.get(categoryName) === EARPHONE_VALUE) {
         checkIfNotEmpty(formData, adaptationRangeName, EMPTY_ADAPTATION_RANGE_INPUT_MESSAGE)
         checkIfNotEmpty(formData, earphoneShapeName, EMPTY_EARPHONE_SHAPE_INPUT_MESSAGE)
         checkIfNotEmpty(formData, degreeOfLossName, EMPTY_DEGREE_OF_LOSS_INPUT_MESSAGE)
-        checkIfNotEmpty(formData, usesName, EMPTY_USES_INPUT_MESSAGE)    
+        checkIfNotEmpty(formData, usesName, EMPTY_USES_INPUT_MESSAGE)
     }
-    
+
     return checkErrorMessagesList()
 }
 
@@ -92,9 +92,9 @@ export function validateFormProduct(formData: FormData): boolean{
  * @param {FormData} formData - The form data.
  * @returns {boolean} - Returns true if the form is valid.
  */
-export function validateFormBargain(formData: FormData): boolean{
+export function validateFormBargain(formData: FormData): boolean {
     clearErrorMessagesList()
-    
+
     checkIfNotEmpty(formData, bargainCodeName, EMPTY_BARGAIN_CODE_INPUT_MESSAGE)
     checkIfNotEmpty(formData, bargainTitleName, EMPTY_TITLE_INPUT_MESSAGE)
     checkIfNotEmpty(formData, bargainDescriptionName, EMPTY_DESCRIPTION_INPUT_MESSAGE)
@@ -107,7 +107,7 @@ export function validateFormBargain(formData: FormData): boolean{
  * @param {FormData} formData - The form data.
  * @returns {boolean} - Returns true if the input is valid.
  */
-export function validateBargainInput(formData: FormData): boolean{
+export function validateBargainInput(formData: FormData): boolean {
     clearErrorMessagesList()
 
     checkIfNotEmpty(formData, bargainCodeName, EMPTY_BARGAIN_CODE_INPUT_MESSAGE)
@@ -121,9 +121,9 @@ export function validateBargainInput(formData: FormData): boolean{
  * @param {FormData} formData - The form data.
  * @returns {boolean} - Returns true if the form is valid.
  */
-export function validateFormNovelty(formData: FormData): boolean{
+export function validateFormNovelty(formData: FormData): boolean {
     clearErrorMessagesList()
-    
+
     checkIfNotEmpty(formData, noveltyTitleName, EMPTY_TITLE_INPUT_MESSAGE)
     checkIfNotEmpty(formData, noveltyDescriptionName, EMPTY_DESCRIPTION_INPUT_MESSAGE)
     checkIfNotEmpty(formData, promotionalImageName, EMPTY_IMAGE_URL_INPUT_MESSAGE)
@@ -136,9 +136,9 @@ export function validateFormNovelty(formData: FormData): boolean{
  * @param {FormData} formData - The form data.
  * @returns {boolean} - Returns true if the form is valid.
  */
-export function validateFormShopping(formData: FormData): boolean{
+export function validateFormShopping(formData: FormData): boolean {
     clearErrorMessagesList()
-    
+
     checkIfNotEmpty(formData, userIdName, EMPTY_USER_ID_INPUT_MESSAGE)
     checkIfNotEmpty(formData, userNameName, EMPTY_USER_NAME_INPUT_MESSAGE)
     checkIfNotEmpty(formData, userFirstName, EMPTY_USER_FIRST_NAME_INPUT_MESSAGE)
@@ -157,9 +157,10 @@ export function validateFormShopping(formData: FormData): boolean{
  * @param {FormData} formData - The form data containing input values.
  * @returns {boolean} - Returns true if the form is valid, otherwise false.
  */
-export function validateContactForm(formData: FormData): boolean{
+export function validateContactForm(formData: FormData): boolean {
     clearErrorMessagesList()
 
+    checkIfNotEmpty(formData, userNameName, EMPTY_USER_NAME_INPUT_MESSAGE)
     checkIfNotEmpty(formData, contactEmailName, EMPTY_EMAIL_INPUT_MESSAGE)
     checkIfNotEmpty(formData, contactSubjectName, EMPTY_SUBJECT_INPUT_MESSAGE)
     checkIfNotEmpty(formData, contactBodyName, EMPTY_BODY_INPUT_MESSAGE)
@@ -174,9 +175,10 @@ export function validateContactForm(formData: FormData): boolean{
  * @param {FormData} formData - The form data containing input values.
  * @returns {boolean} - Returns true if the form is valid, otherwise false.
  */
-export function validateSendAudiometryFileForm(formData: FormData): boolean{
+export function validateSendAudiometryFileForm(formData: FormData): boolean {
     clearErrorMessagesList()
 
+    checkIfNotEmpty(formData, userNameName, EMPTY_USER_NAME_INPUT_MESSAGE)
     checkIfNotEmpty(formData, contactEmailName, EMPTY_EMAIL_INPUT_MESSAGE)
     checkIfNotEmpty(formData, contactBodyName, EMPTY_BODY_INPUT_MESSAGE)
 
@@ -190,7 +192,7 @@ export function validateSendAudiometryFileForm(formData: FormData): boolean{
  * @param {FormData} formData - The form data containing input values.
  * @returns {boolean} - Returns true if the form is valid, otherwise false.
  */
-export function validateAppointmentForm(formData: FormData): boolean{
+export function validateAppointmentForm(formData: FormData): boolean {
     clearErrorMessagesList()
 
     checkIfNotEmpty(formData, userNameName, EMPTY_USER_NAME_INPUT_MESSAGE)

@@ -588,11 +588,13 @@ export function parseShoppingForm(formData: FormData): any {
  * @returns {any} The parsed contact form.
  */
 export function parseContactForm(formData: FormData): any {
+    const newName = parseString(formData.get(userNameName)?.toString(), "CONTACT_NAME")
     const newEmail = parseString(formData.get(contactEmailName)?.toString(), "CONTACT_EMAIL")
     const newSubject = parseString(formData.get(contactSubjectName)?.toString(), "CONTACT_SUBJECT")
     const newBody = parseString(formData.get(contactBodyName)?.toString(), "CONTACT_BODY")
 
     return {
+        name: newName,
         email: newEmail,
         subject: newSubject,
         body: newBody,
@@ -606,11 +608,13 @@ export function parseContactForm(formData: FormData): any {
  * @returns {any} The parsed contact form.
  */
 export function parseSendAudiometryFileForm(formData: FormData): any {
+    const newName = parseString(formData.get(userNameName)?.toString(), "CONTACT_NAME")
     const newEmail = parseString(formData.get(contactEmailName)?.toString(), "CONTACT_EMAIL")
     const newBody = parseString(formData.get(contactBodyName)?.toString(), "CONTACT_BODY")
     const newAudiometryFile = parseFile(formData.get(audiometryFileName), "AUDIOMETRY_FILE")
 
     return {
+        name: newName,
         email: newEmail,
         body: newBody,
         audiometryFile: newAudiometryFile,

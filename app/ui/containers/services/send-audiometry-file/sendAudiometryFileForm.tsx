@@ -4,6 +4,7 @@ import {
   audiometryFileName,
   contactBodyName,
   contactEmailName,
+  userNameName,
 } from "@/app/config/JSONnames";
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 import FileInput from "@/app/ui/components/inputs/fileInput/fileInput";
@@ -20,10 +21,10 @@ import { sendAudiometryFileEmail } from "@/lib/mail";
 import { validateSendAudiometryFileForm } from "@/lib/validations/validations";
 import {
   faEnvelope,
-  faPenNib,
   faComment,
   faUpload,
   faFile,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -69,25 +70,25 @@ export function SendAudiometryFileForm(): JSX.Element {
       <section className="flex flex-col lg:flex-row w-full gap-3">
         {/* Display Information */}
         <article
-          className={`flex flex-col lg:w-1/2 gap-4 lg:gap-8 m-2 md:mt-0 lg:mx-5 px-2 lg:px-5 justify-around
-                              ${componentText} text-lg sm:text-xl lg:text-2xl font-medium  align-middle text-justify `}
+          className={`flex flex-col justify-center
+            lg:w-1/2 gap-4 lg:gap-8 m-2 md:mt-0 lg:mx-5 px-2 lg:px-5
+                              ${componentText} 
+                              text-lg sm:text-xl lg:text-2xl font-medium  align-middle text-center sm:text-justify `}
         >
-          <div>
+          <p>
             En esta página puedes{" "}
-            <span className="font-bold">enviarnos tu audiometría</span> para que
-            podamos realizar recomendaciones de productos afínes a tus
-            necesidades.
-          </div>
-          <ul className="px-5 lg:px-10 font-semibold">
+            <span className="font-bold">enviarnos tu audiometría</span>.
+          </p>
+          <ul className="px-2 lg:px-10 sm:grid gap-2 font-semibold text-start hidden">
             <li>* ¿Tienes dudas al elegir los audífonos disponibles?</li>
             <li>* ¿Necesitas que tengamos algún detalle en cuenta?</li>
             <li>* ¿Buscar algo en específico?</li>
           </ul>
-          <div>
+          <p>
             Sea lo que necesites, no dudes en escribirnos. Y en{" "}
             <span className="font-bold">menos de 24 horas</span> serás
             contestado con una serie de sugerencias.
-          </div>
+          </p>
         </article>
         {/* Contact Form */}
         <form
@@ -97,6 +98,13 @@ export function SendAudiometryFileForm(): JSX.Element {
                      ${componentBorder} rounded-xl`}
         >
           <SectionHeader text={"Envíanos tu audiometría"} />
+          <TextInput
+            name={userNameName}
+            type={"text"}
+            placeholder={"Me llamo..."}
+            label={"Nombre"}
+            icon={faUser}
+          />
           <TextInput
             name={contactEmailName}
             type={"text"}

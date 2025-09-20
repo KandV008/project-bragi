@@ -15,7 +15,7 @@ vi.mock("next/navigation", () => ({
 
 describe("<Summary />", () => {
   it(`[${COMPONENT_TEST_TAG}] should render Summary`, () => {
-    render(<Summary products={[]} />)
+    render(<Summary changeableProducts={[]} />)
 
     expect(screen.queryAllByRole("button").length).toBeGreaterThanOrEqual(0);
   });

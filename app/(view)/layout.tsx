@@ -18,9 +18,15 @@ const inter = Inter({ subsets: ["latin"] });
  * Metadata for the page, defining the title and description.
  */
 export const metadata: Metadata = {
-  title: "Audífonos X menos",
+  title: {
+    default: "Audífonos X menos",
+    template: "%s - Audífonos X menos",
+  },
   description:
-    "Audífonos X menos is an e-commerce of earphones and accessories oriented to elder people. So the main pillars are accessibility, usability, and affordable prices.",
+    "Professional e-commerce for hearing aids and accessories, with the option to request appointments.",
+  twitter: {
+    card: "summary_large_image"
+  }
 };
 
 /**
@@ -67,10 +73,10 @@ export default async function RootLayout({
           {/* Main content section */}
           <div className="mt-20"></div>
           <main
-            className="flex flex-col flex-grow justify-center 
-            space-y-5 md:space-y-10 
+            className="flex flex-col flex-grow justify-center place-self-center
+            space-y-5 md:space-y-2 
             py-16 md:py-12 lg:py-10 2xl:py-5 
-            w-11/12 xl:w-4/6 place-self-center"
+            w-11/12 xl:w-4/6 "
           >
             {/* Toast notifications */}
             <Toaster position="bottom-right" />

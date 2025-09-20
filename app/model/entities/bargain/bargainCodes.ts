@@ -1,5 +1,5 @@
 import { ShoppingProductDTO } from "../shoppingProductDTO/ShoppingProductDTO";
-import { CODE_2PER1, codeAction2PER1 } from "./codes/2per1Code/2per1Code";
+import { codeAction70PERC, DISCOUNT_70_PERCENT } from "./codes/70percentDiscount/70percentDiscount";
 
 /**
  * Represents the result of applying a bargain action.
@@ -16,5 +16,5 @@ export interface BargainActionProps {
  * The action functions define how a specific discount code modifies the shopping list.
  */
 export const bargainCodeMap = {
-    [CODE_2PER1]: codeAction2PER1,
+    [DISCOUNT_70_PERCENT]: codeAction70PERC,
 };

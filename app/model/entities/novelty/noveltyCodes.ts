@@ -1,4 +1,3 @@
-import { DISCOUNT_70_PERCENT, discountAction70Percent } from "./codes/70percentDiscount/70percentDiscount";
 
 /**
  * Represents the result of applying a novelty action.
@@ -16,5 +15,5 @@ export interface NoveltyActionProps {
  * The action functions define how a specific discount code modifies the products.
  */
 export const noveltyCodeMap = {
-    [DISCOUNT_70_PERCENT]: discountAction70Percent,
+
 };

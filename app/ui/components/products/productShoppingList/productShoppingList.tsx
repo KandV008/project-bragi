@@ -67,7 +67,7 @@ export default function ProductShoppingList({
   colorHex,
   quantity,
 }: ProductInformationProps) {
-  let showEarSide: string = getEarSideLabel(earSide);  
+  let showEarSide: string = getEarSideLabel(earSide);
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
@@ -105,121 +105,124 @@ export default function ProductShoppingList({
 
   return (
     <section
-      className={`flex flex-col sm:grid sm:grid-cols-2 gap-2 p-5 rounded rounded-tr-3xl
-      2xl:flex 2xl:flex-row 2xl:justify-between 2xl:gap-5 
+      className={`flex flex-col gap-2 p-5 rounded rounded-tr-3xl
+       2xl:justify-between 2xl:gap-5 w-full
       ${componentBackground}  
       ${componentText}
       ${componentBorder}`}
     >
-      {/* Image */}
-      <>
-        <Image
-          src={imageURL}
-          width={150}
-          height={150}
-          alt={"img-" + name}
-          className="size-64 md:size-56 2xl:size-48 bg-white rounded self-center justify-self-center"
-        />
-      </>
-      {/* Information */}
-      <article className="flex flex-col self-center 2xl:flex-col gap-2 rounded-md p-3">
-        {/* Product */}
-        <div className="flex flex-col gap-1 2xl:flex-row text-center">
-          {/* Name */}
-          <div className="flex flex-col ">
-            <span className="text-lg md:text-xl font-bold text-center">{name}</span>
-            {/* Brand */}
-            <span className="text-lg font-bold">{brand}</span>
+      {/* About */}
+      <div className="flex flex-row">
+        {/* Image */}
+        <>
+          <Image
+            src={imageURL}
+            width={150}
+            height={150}
+            alt={"img-" + name}
+            className="size-64 md:size-56 2xl:size-48 bg-white rounded self-center justify-self-center"
+          />
+        </>
+        {/* Information */}
+        <article className="flex flex-row self-center 2xl:flex-col gap-2 rounded-md p-3">
+          {/* Product */}
+          <div className="flex flex-col gap-1 2xl:flex-row text-start">
+            {/* Name */}
+            <div className="flex flex-col ">
+              <span className="text-xl font-bold text-center">{name}</span>
+              {/* Brand */}
+              <span className="text-lg font-bold">{brand}</span>
+            </div>
           </div>
-          {/* Price */}
-          <div className="flex flex-col text-center">
-            {discountPrice ? (
-              <>
-                <span className="text-2xl font-bold">Precio total</span>
-                <div className="flex flex-col gap-1 justify-center">
-                  <del className="text-xl font-bold">
-                    {(price * quantity).toFixed(2)}€
-                  </del>
-                  <span className="text-2xl font-bold text-red-500">
-                    {(discountPrice * quantity).toFixed(2)}€
-                  </span>
-                </div>
-              </>
+          {/* Choices */}
+          <div className="flex flex-col gap-2 text-start justify-between w-48">
+            {/* EarSide */}
+            {category === "EARPHONE" ? (
+              <div className="flex flex-row w-full">
+                <span className="font-bold w-20">Lado</span>
+                <span className="">{showEarSide}</span>
+              </div>
             ) : (
-              <>
-                <span className="text-2xl font-bold">Precio total</span>
-                <span className="text-2xl font-bold">{(price * quantity).toFixed(2)}€</span>
-              </>
+              <></>
+            )}
+            {/* Earphone Shape */}
+            {category === "EARPHONE" ? (
+              <div className="flex flex-row w-full">
+                <span className="font-bold w-20">Forma</span>
+                <span className="">{earphoneShape}</span>
+              </div>
+            ) : (
+              <></>
+            )}
+
+            {/* Color */}
+            {category === "EARPHONE" ? (
+              <div className="flex flex-row w-full">
+                <span className="font-bold w-20">Color</span>
+                <span className="">{colorText}</span>
+              </div>
+            ) : (
+              <></>
             )}
           </div>
+        </article>
+      </div>
+      {/* Amount & Price */}
+      <div className="flex flex-row justify-between">
+        {/* Amount Button */}
+        <article
+          className="gap-4 self-center
+              flex flex-row sm:justify-around 
+              2xl:justify-center"
+        >
+          <h1 className="text-xl font-bold self-center">Cantidad</h1>
+          <div className="flex flex-row gap-0">
+            {/* Substract Button */}
+            <AmountButton
+              symbol={faMinus}
+              productId={id}
+              colorText={colorText}
+              colorHex={colorHex}
+              earSide={earSide}
+              action={checkBeforeDecrement}
+              updateQuantity={() => setCurrentQuantity((prev) => prev - 1)}
+            />
+            {/* Amount */}
+            <span className="px-5 py-2 text-2xl font-bold">
+              {currentQuantity}
+            </span>
+            {/* Addition Button */}
+            <AmountButton
+              symbol={faPlus}
+              productId={id}
+              colorText={colorText}
+              colorHex={colorHex}
+              earSide={earSide}
+              action={incrementProductInShoppingList}
+              updateQuantity={() => setCurrentQuantity((prev) => prev + 1)}
+            />
+          </div>
+        </article>
+        {/* Price */}
+        <div className="flex flex-col text-cente justify-center">
+          <div className="flex flex-row gap-2">
+            <span className="text-xl font-bold">Precio </span>
+            <div className="flex flex-row gap-1 justify-center">
+              {!discountPrice ? (
+                <span className="text-2xl font-bold">
+                  {(price * quantity).toFixed(2)}€
+                </span>
+              ) : (
+                <span className="text-2xl font-bold text-red-500">
+                  {(discountPrice * quantity).toFixed(2)}€
+                </span>
+              )}
+            </div>
+          </div>
         </div>
-        {/* Choices */}
-        <div className="flex flex-col self-center 2xl:flex-row">
-          {/* EarSide */}
-          {category === "EARPHONE" ? (
-            <div className="flex flex-col sm:flex-row 2xl:flex-col justify-between">
-              <span className="font-bold">Lado del audífono</span>
-              <span className="mx-2">{showEarSide}</span>
-            </div>
-          ) : (
-            <></>
-          )}
-          {/* Earphone Shape */}
-          {category === "EARPHONE" ? (
-            <div className="flex flex-col sm:flex-row 2xl:flex-col justify-between">
-              <span className="font-bold">Forma del Audífono</span>
-              <span className="mx-2">{earphoneShape}</span>
-            </div>
-          ) : (
-            <></>
-          )}
+      </div>
 
-          {/* Color */}
-          {category === "EARPHONE" ? (
-            <div className="flex flex-col sm:flex-row 2xl:flex-col justify-between">
-              <span className="font-bold">Color</span>
-              <span className="mx-2">{colorText}</span>
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-      </article>
-      {/* Amount Button */}
-      <article
-        className="sm:col-span-2 gap-4 self-center
-      flex flex-col
-      sm:flex-row sm:justify-around 
-      2xl:flex-col 2xl:justify-center"
-      >
-        <h1 className="text-2xl font-bold self-center">Cantidad</h1>
-        <div className="flex flex-row gap-2">
-          {/* Substract Button */}
-          <AmountButton
-            symbol={faMinus}
-            productId={id}
-            colorText={colorText}
-            colorHex={colorHex}
-            earSide={earSide}
-            action={checkBeforeDecrement}
-            updateQuantity={() => setCurrentQuantity((prev) => prev - 1)}
-          />
-          {/* Amount */}
-          <span className="px-5 py-2 text-2xl font-bold">
-            {currentQuantity}
-          </span>
-          {/* Addition Button */}
-          <AmountButton
-            symbol={faPlus}
-            productId={id}
-            colorText={colorText}
-            colorHex={colorHex}
-            earSide={earSide}
-            action={incrementProductInShoppingList}
-            updateQuantity={() => setCurrentQuantity((prev) => prev + 1)}
-          />
-        </div>
-      </article>
+      {/* Pop Up */}
       <article className="flex flex-center shrink-0 justify-center h-full">
         {showModal && (
           <ConfirmationPopUp
@@ -245,7 +248,7 @@ function getEarSideLabel(earSide: String) {
   }
 
   if (earSide === "left") {
-    return "Izquierda";
+    return "Izquierdo";
   }
 
   return "Ambos";

@@ -13,6 +13,7 @@ export const getProductsByCategoryRoute = "/api/products/getProductsByCategory"
 export const getLatestProductsRoute = "/api/products/getLatestProducts"
 export const getRelatedProductsRoute = "/api/products/getRelatedProducts"
 export const getFilterInformationRoute = "/api/products/getFilterInformation"
+export const getShoppingListRoute = "/api/products/getShoppingList"
 
 export const checkFavoriteListRoute = "/api/favorites/checkFavoriteList"
 export const checkFavoriteRoute = "/api/favorites/checkFavorite"

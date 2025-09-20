@@ -15,18 +15,21 @@ import {
   BargainEntity,
   getCodeAction,
 } from "@/app/model/entities/bargain/Bargain";
-import MediumButtonWithIcon, {
+import {
   MediumButtonWithIconSkeleton,
 } from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
-import SectionHeader, {
+import {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 
 /**
  * Props for the Summary component.
  */
 interface SummaryProps {
-  products: ShoppingProductDTO[];
+  originalProducts: ShoppingProductDTO[];
+  changeableProducts: ShoppingProductDTO[];
+  updateProducts: (newShoppingList: ShoppingProductDTO[]) => void;
 }
 
 /**
@@ -36,11 +39,13 @@ interface SummaryProps {
  * @param {SummaryProps} props - Component properties containing the list of products.
  * @returns {JSX.Element} The summary component.
  */
-export default function Summary({ products }: SummaryProps): JSX.Element {
+export default function Summary({
+  originalProducts,
+  changeableProducts,
+  updateProducts,
+}: SummaryProps): JSX.Element {
   const router = useRouter();
   const [bargain, setBargain] = useState<BargainEntity | null>(null);
-  const [currentProducts, setCurrentProducts] =
-    useState<ShoppingProductDTO[]>(products);
   const [status, setStatus] = useState<0 | 1>(0);
 
   /**
@@ -50,6 +55,7 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
   const updateBargain = (newBargain: BargainEntity | null) => {
     if (!newBargain) {
       setBargain(null);
+      updateProducts(originalProducts);
       return;
     }
 
@@ -61,55 +67,24 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
     }
 
     setBargain(newBargain);
-    const { shoppingList, status } = bargainAction(products);
-    setCurrentProducts(shoppingList);
+    const { shoppingList, status } = bargainAction(changeableProducts);
+    updateProducts(shoppingList);
     setStatus(status);
   };
 
-  const totalPrice = currentProducts.reduce(
-    (total, product) => {
-      if (product.discountPrice == null){
-        return total + product.price * product.quantity
-      }
+  const totalPrice = changeableProducts.reduce((total, product) => {
+    if (product.discountPrice == null) {
+      return total + product.price * product.quantity;
+    }
 
-      return total + product.discountPrice * product.quantity
-    },
-    0
-  );
+    return total + product.discountPrice * product.quantity;
+  }, 0);
 
   return (
     <section
-      className={`sticky top-32 flex flex-col w-full rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+      className={`sticky top-32 flex flex-col w-96 rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
     >
-      <SectionHeader text={"Resumen"} />
-      <article className="flex flex-col gap-3">
-        <div className="flex flex-row gap-1 justify-between">
-          <span>Nombre</span>
-          <span>Color</span>
-          <span>Cantidad</span>
-          <span>Coste</span>
-        </div>
-        {products.map((product, index) => (
-          <div className="flex flex-row gap-1 justify-between" key={index}>
-            <span>{product.name}</span>
-            <span>{product.colorText}</span>
-            <span>x{product.quantity}</span>
-            {product.discountPrice != null ? (
-              <>
-                <span className="text-red-500">
-                  {(product.discountPrice * product.quantity).toFixed(2)}€
-                </span>
-              </>
-            ) : (
-              <>
-                <span>{(product.price * product.quantity).toFixed(2)}€</span>
-              </>
-            )}
-          </div>
-        ))}
-      </article>
-      <article className="flex flex-col gap-2">
-        <div className={`w-full border-t my-3 ${componentBorder}`}></div>
+      <article className="flex flex-col gap-2 justify-center">
         <BargainInput
           bargain={bargain}
           setBargain={updateBargain}
@@ -118,19 +93,22 @@ export default function Summary({ products }: SummaryProps): JSX.Element {
         <div className={`w-full border-t my-3 ${componentBorder}`}></div>
         <div className="flex flex-row justify-between gap-10">
           <h2 className="text-2xl font-bold">Total</h2>
-          <span className="text-2xl font-bold text-red-1">{totalPrice.toFixed(2)}€</span>
+          <span className="text-2xl font-bold text-red-1">
+            {totalPrice.toFixed(2)}€
+          </span>
         </div>
-        <div className="place-self-center">
-          <MediumButtonWithIcon
+        <div
+          className="place-self-center"
+          onClick={() =>
+            router.push(
+              `/profile/shoppingList/shopping?bargain=${bargain?.code}`
+            )
+          }
+        >
+          <SubmitButton
             icon={faCartShopping}
             text={"Comprar"}
-            subtext={"Empezar compra"}
-            type={"default"}
-            onClick={() =>
-              router.push(
-                `/profile/shoppingList/shopping?bargain=${bargain?.code}`
-              )
-            }
+            isDisable={false}
           />
         </div>
       </article>

@@ -21,10 +21,10 @@ export default function Logo() {
           width={1000}
           height={1000}
           alt="light_medium_logo"
-          className="block dark:hidden w-20
+          className="flex my-auto dark:hidden w-32
                     sm:hidden sm:w-28
                     md:block  
-                    lg:hidden"
+                    lg:hidden lg:w-36"
         />
         <Image
           src="/brand/logo_large_sain_dark_emerald.png"
@@ -34,8 +34,8 @@ export default function Logo() {
           className="hidden dark:hidden w-32
                     sm:block 
                     md:hidden 
-                    lg:block 
-                    xl:w-36"
+                    lg:block lg:w-36
+                    xl:w-48"
         />
       </>
       {/* Dark Mode */}
@@ -45,10 +45,10 @@ export default function Logo() {
           width={1000}
           height={1000}
           alt="dark_medium_logo"
-          className="hidden dark:block w-20  
+          className="hidden dark:flex my-auto w-32  
                     sm:dark:hidden sm:w-28
                     md:dark:block
-                    lg:dark:hidden"
+                    lg:dark:hidden lg:w-36"
         />
         <Image
           src="/brand/logo_large_sain_light_emerald.png"
@@ -58,8 +58,8 @@ export default function Logo() {
           className="hidden w-32
                     sm:dark:block
                     md:dark:hidden
-                    lg:dark:block  
-                    xl:w-36"
+                    lg:dark:block lg:w-36 
+                    xl:w-48"
                    
         />
       </>
