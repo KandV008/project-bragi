@@ -70,7 +70,7 @@ export default function Page(): JSX.Element {
         <p>
           En cumplimiento de la <strong>LSSI</strong>, le informamos que{" "}
           <strong>AUDIFONOS X MENOS</strong> es una sociedad con domicilio
-          social en la calle Santa Lucía 12, 03530 – Nucia (La) (Alicante) y con
+          social en la calle Gambo 2 bajo. Benidorm 03503 (Alicante) y con
           CIF B-54584552 que consta inscrita en el Registro Mercantil de
           Barcelona, Tomo 8892, Libro 8123, Folio 139, Hoja 104.143 y está
           debidamente legitimada para el uso y explotación del presente{" "}
@@ -662,34 +662,34 @@ export default function Page(): JSX.Element {
       <>
         <ArticleHeader text={"13. Entrega"} id="13-entrega" />
         <p>
-          Sin perjuicio de lo establecido respecto a la disponibilidad de stock,
-          y salvo que se produzcan circunstancias extraordinarias,{" "}
-          <strong>AUDIFONOS X MENOS</strong> procederá a preparar y a enviar los
-          productos adquiridos en la <strong>Tienda Online</strong> y
-          relacionados en la confirmación del pedido a la dirección indicada por
-          el usuario o en la tienda física de <strong>AUDIFONOS X MENOS</strong>{" "}
-          indicada en el momento de realizar el pedido (en caso de haber
-          seleccionado dicha opción) para su entrega en la dirección indicada en
-          el pedido o recogida en la tienda física de{" "}
-          <strong>AUDIFONOS X MENOS</strong> (según la forma de envío
-          seleccionada) dentro del plazo indicado en el momento de la
-          realización del pedido.
+          Sin perjuicio de lo establecido respecto a la disponibilidad de stock, 
+          y salvo que se produzcan circunstancias extraordinarias, 
+          <strong>AUDIFONOS X MENOS</strong> procederá a preparar y a enviar los 
+          productos adquiridos en la <strong>Tienda Online</strong> y 
+          relacionados en la confirmación del pedido, a la dirección indicada por 
+          el usuario o en la tienda física de <strong>AUDIFONOS X MENOS</strong> 
+          indicada en el momento de realizar el pedido (en caso de haber 
+          seleccionado dicha opción). Dicha entrega  se realizará (según la forma 
+          de envío seleccionada) dentro del plazo indicado en el momento de la 
+          realización del pedido. Si el pedido es inferior a 40 euros, se le 
+          cobrará al cliente 3,99 euros de gastos de envío. Si el pedido es igual 
+          o superior a 40 euros, los gastos de envío serán de 0 euros.
         </p>
         <p>
-          Como se indica en dicho apartado, como norma general, los sábados,
-          domingos y festivos no se realizan entregas, por lo que dichos días no
-          computan a efectos de plazo de preparación ni de entrega de los
-          pedidos realizados a través de la <strong>Tienda Online</strong>. No
-          obstante, el usuario sí puede pasar a recoger en fin de semana y
-          dentro del horario de apertura de la tienda física de{" "}
-          <strong>INTERVISION EXPERT BENIDORM</strong> que en caso de haber
-          seleccionado en el momento de la compra dicha modalidad de recogida
-          del pedido.
+          Como se indica en dicho apartado, como norma general, los sábados, 
+          domingos y festivos no se realizan entregas, por lo que dichos días, no 
+          computan a efectos del plazo de preparación ni de entrega de los 
+          pedidos realizados a través de la <strong>Tienda Online</strong>. No 
+          obstante, el usuario sí puede pasar a recoger en fin de semana y 
+          dentro del horario de apertura de la tienda física de 
+          <strong>INTERVISION EXPERT BENIDORM</strong> solo en el caso de haber 
+          seleccionado en el momento de la compra dicha modalidad de recogida 
+          del pedido. El envío se realizará entre 5 y 7 días laborales.
         </p>
         <p>
-          A efectos de las presentes <strong>Condiciones</strong>, se entenderá
-          que se ha producido la entrega en el momento en que el usuario o un
-          tercero en su nombre firme la recepción de los productos en la
+          A efectos de las presentes <strong>Condiciones</strong>, se entenderá 
+          que se ha producido la entrega en el momento en que el usuario o un 
+          tercero en su nombre firme la recepción de los productos en la 
           dirección de entrega convenida.
         </p>
       </>
@@ -997,8 +997,7 @@ export default function Page(): JSX.Element {
           pudiera surgir, el usuario se compromete a contactar con el
           departamento de atención al cliente de{" "}
           <strong>AUDIFONOS X MENOS</strong> a través de los siguientes medios:
-          AFORDA VISION S.L. Departamento de Atención al Cliente, calle Santa
-          Lucía 12, 03530 – Nucia (La) (Alicante) o bien mediante el envío de un
+          AFORDA VISION S.L. Departamento de Atención al Cliente, calle Gambo 2 bajo. Benidorm 03503 (Alicante) o bien mediante el envío de un
           correo electrónico a la dirección{" "}
           <a href="contact@audifonosxmenos.com">contact@audifonosxmenos.com</a>,
           antes de presentar una reclamación ante cualquier autoridad

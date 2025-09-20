@@ -36,7 +36,7 @@ export default function Page(): JSX.Element {
         <p>
           El responsable del tratamiento de sus datos es AFORDA VISION, S.L.
           (entidad titular y que explota el Website) con CIF número B-54584552
-          con dirección en calle Santa Lucía 12, 03530 – Nucia (La) y dirección
+          con dirección en calle Gambo 2 bajo. Benidorm 03503 (Alicante) y dirección
           de correo electrónico de contacto contact@audifonosxmenos.es .{" "}
         </p>
       </>
@@ -257,8 +257,8 @@ export default function Page(): JSX.Element {
         </ul>
         <p>
           Podrá ejercer los derechos expuestos anteriormente mediante
-          comunicación escrita a AFORDA VISION S.L. (calle Santa Lucía 12, 03530
-          – Nucia (La)) o por correo electrónico a contact@audifonosxmenos.es
+          comunicación escrita a AFORDA VISION S.L. (calle Gambo 2 bajo. Benidorm 03503 (Alicante)) 
+          o por correo electrónico a contact@audifonosxmenos.es
           indicando el derecho que solicita e identificándose, en su caso, con
           una fotocopia de su DNI o documento equivalente.
         </p>
