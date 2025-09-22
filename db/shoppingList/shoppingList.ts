@@ -76,20 +76,42 @@ export async function addProductToShoppingList(formData: FormData) {
   try {
     const { userId } = auth();
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
-    const {
-      productId,
-      colorText,
-      colorHex,
-      earSide,
-      earphoneShape,
-      name,
-      category,
-      brand,
-      price,
-      imageURL
-    } = parseNewProductToShoppingList(formData);
+    const parsedProduct = parseNewProductToShoppingList(formData);
 
-    await sql`
+    const hasBoth = parsedProduct.earSide === "both"
+
+    if (hasBoth) {
+      await handleBothEarSideEarphone(parsedProduct, parsedUserId)
+    } else {
+      await handleAddingProduct(parsedProduct, parsedUserId);
+    }
+
+    Logger.endFunction(
+      SHOPPING_LIST_CONTEXT,
+      METHOD_ADD_PRODUCT_TO_SHOPPING_LIST,
+      `Added product ${parsedProduct.productId} to shoppingList for user ${parsedUserId}`
+    );
+  } catch (error) {
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
+  }
+}
+
+interface AddProductInterface {
+  productId: string;
+  colorText: string;
+  colorHex: string;
+  earSide: string;
+  earphoneShape: string;
+  name: string;
+  category: string;
+  brand: string;
+  price: number;
+  imageURL: string;
+}
+
+async function handleAddingProduct(parsedProduct: AddProductInterface, parsedUserId: string) {
+  await sql`
       INSERT INTO shoppingList (
         product_id,
         user_id,
@@ -105,34 +127,38 @@ export async function addProductToShoppingList(formData: FormData) {
         image_url
       )
       VALUES (
-        ${productId},
+        ${parsedProduct.productId},
         ${parsedUserId},
-        ${colorText},
-        ${colorHex},
-        ${earSide},
-        ${earphoneShape},
+        ${parsedProduct.colorText},
+        ${parsedProduct.colorHex},
+        ${parsedProduct.earSide},
+        ${parsedProduct.earphoneShape},
         1,
-        ${name},
-        ${category},
-        ${brand},
-        ${price},
-        ${imageURL}
+        ${parsedProduct.name},
+        ${parsedProduct.category},
+        ${parsedProduct.brand},
+        ${parsedProduct.price},
+        ${parsedProduct.imageURL}
       )
       ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side)
       DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity
     `;
-
-    Logger.endFunction(
-      SHOPPING_LIST_CONTEXT,
-      METHOD_ADD_PRODUCT_TO_SHOPPING_LIST,
-      `Added product ${productId} to shoppingList for user ${parsedUserId}`
-    );
-  } catch (error) {
-    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error);
-    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
-  }
 }
 
+async function handleBothEarSideEarphone(parsedProduct: AddProductInterface, parsedUserId: string) {
+  const leftSide: AddProductInterface = {
+    ...parsedProduct,
+    earSide: "left",
+  }
+
+    const rightSide: AddProductInterface = {
+    ...parsedProduct,
+    earSide: "right",
+  }
+
+  await handleAddingProduct(leftSide, parsedUserId)
+  await handleAddingProduct(rightSide, parsedUserId)
+}
 
 /**
  * Increments the quantity of a product in the user's shopping list.
