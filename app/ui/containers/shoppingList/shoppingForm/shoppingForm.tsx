@@ -46,6 +46,7 @@ import SectionHeader, {
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import toast from "react-hot-toast";
 import { checkInvalidEarphoneShape } from "@/app/ui/components/advices/shoppingFormAdvice";
+import { ProductEntity } from "@/app/model/entities/product/Product";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -121,18 +122,16 @@ export default function ShoppingForm({ products }: FormProps) {
       return;
     }
 
-    const { status, id, orderNumber } = await actionCreateOrder(
-      formData,
-      currentProducts,
-      bargainCode
-    );
+    const {
+      status,
+      id: _,
+      orderNumber,
+    } = await actionCreateOrder(formData, currentProducts, bargainCode);
 
     if (status) {
       toast.error("Ha habido un problema con el pedido");
       return;
     }
-
-    //const orderNumber = Number(String(Date.now()).slice(-8))
 
     await redirectTPV(totalPrice, orderNumber);
   };
@@ -234,18 +233,18 @@ export default function ShoppingForm({ products }: FormProps) {
           </div>
         </article>
         {/** User Contact Data */}
-        <section >
+        <section>
           {/* Contact */}
           <div className="flex flex-col md:flex-row md:gap-2">
             {/* Phone Number */}
             <div className="md:w-96">
               <TextInput // TODO add prefix
-              name={phoneNumberName}
-              type={"number"}
-              placeholder={"+YY XXX XXX XXX"}
-              label={"Número de teléfono"}
-              icon={faPhone}
-            />
+                name={phoneNumberName}
+                type={"number"}
+                placeholder={"+YY XXX XXX XXX"}
+                label={"Número de teléfono"}
+                icon={faPhone}
+              />
             </div>
             {/* E-mail */}
             <TextInput
@@ -319,38 +318,8 @@ export default function ShoppingForm({ products }: FormProps) {
               <span>Coste</span>
             </div>
             {products.map((product, index) => (
-              <div className="flex flex-row gap-1 justify-between text-center" key={index}>
-                <span className="w-14">{product.name}</span>
-                <span className="w-14">{product.colorText}</span>
-                <span className="w-14">x{product.quantity}</span>
-                {checkInvalidEarphoneShape(product) ? (
-                  <span className="text-red-500 w-14">
-                    Pedir Cita -{" "}
-                    {product.discountPrice == null
-                      ? (product.price * product.quantity).toFixed(2)
-                      : (product.discountPrice * product.quantity).toFixed(2)}
-                    €
-                  </span>
-                ) : (
-                  <>
-                    {product.discountPrice ? (
-                      <>
-                        <span className="text-red-500 w-14">
-                          {(product.discountPrice * product.quantity).toFixed(
-                            2
-                          )}
-                          €
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="w-14">
-                          {(product.price * product.quantity).toFixed(2)}€
-                        </span>
-                      </>
-                    )}
-                  </>
-                )}
+              <div key={index}>
+                <TableShoppingRow product={product} />
               </div>
             ))}
           </article>
@@ -361,6 +330,59 @@ export default function ShoppingForm({ products }: FormProps) {
         {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
       </article>
     </form>
+  );
+}
+
+export function TableShoppingRow({ product }: { product: ShoppingProductDTO }) {
+  const lockStyle = "w-14";
+  const specialLockStyle = "text-red-500 w-14";
+  const rowStyle = "flex flex-row gap-1 justify-between text-center";
+
+  const isInvalidEarphoneShape = checkInvalidEarphoneShape(product);
+
+  if (isInvalidEarphoneShape)
+    return (
+      <>
+        <div className={rowStyle}>
+          <span className={lockStyle}>{product.name}</span>
+          <span className={lockStyle}>{product.colorText}</span>
+          <span className={lockStyle}>x{product.quantity}</span>
+          <span className={specialLockStyle}>
+            Pedir Cita -{" "}
+            {product.discountPrice == null
+              ? (product.price * product.quantity).toFixed(2)
+              : (product.discountPrice * product.quantity).toFixed(2)}
+            €
+          </span>
+        </div>
+        <div className={rowStyle}>
+          <span className={lockStyle}>{`Molde para ${product.name}`}</span>
+          <span className={lockStyle}>{""}</span>
+          <span className={lockStyle}>x{product.quantity}</span>
+          <span className={specialLockStyle}>{(75).toFixed(2)}€</span>
+        </div>
+      </>
+    );
+
+  return (
+    <div className={rowStyle}>
+      <span className={lockStyle}>{product.name}</span>
+      <span className={lockStyle}>{product.colorText}</span>
+      <span className={lockStyle}>x{product.quantity}</span>
+      {product.discountPrice ? (
+        <>
+          <span className={specialLockStyle}>
+            {(product.discountPrice * product.quantity).toFixed(2)}€
+          </span>
+        </>
+      ) : (
+        <>
+          <span className={lockStyle}>
+            {(product.price * product.quantity).toFixed(2)}€
+          </span>
+        </>
+      )}
+    </div>
   );
 }
 

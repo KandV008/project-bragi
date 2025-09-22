@@ -4,7 +4,7 @@ import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Orde
 import { mapShoppingProductToDocument, ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/config/Logger";
 import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
-import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_NEXT_SEQUENCE_VALUE, METHOD_GET_ORDER, METHOD_GET_ORDERS, METHOD_UPDATE_ORDER_STATUS, ORDER_CONTEXT } from "../dbConfig";
+import { METHOD_CREATE_MOLD_FOR_EARPHONE, METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_CLASSIFIED_PRODUCTS, METHOD_GET_NEXT_SEQUENCE_VALUE, METHOD_GET_ORDER, METHOD_GET_ORDERS, METHOD_UPDATE_ORDER_STATUS, ORDER_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -135,7 +135,7 @@ export async function actionCreateOrder(formData: FormData, products: ShoppingPr
 async function createOrder(shoppingData: any, products: ShoppingProductDTO[], bargainCode: string | undefined) {
   Logger.startFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER);
 
-  const invalidProducts = getInvalidProducts(products);
+  const { productList, invalidProducts } = getClassifiedProducts(products);
 
   try {
     const database = client.db("Product-DDBB");
@@ -146,7 +146,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
     const originalFileName = `audiometria-${shoppingData.userName}_${shoppingData.userFirstName}`;
     const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_');
-    
+
     const newOrder = {
       order_number: orderNumber,
       status: "IN-PROCESS",
@@ -162,7 +162,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
         type: audiometryFile.type,
         name: sanitizedFileName,
       },
-      products: products.map((product) => (mapShoppingProductToDocument(product))),
+      products: productList.map((product) => (mapShoppingProductToDocument(product))),
       bargain_applied: bargainCode ? bargainCode : null,
       invalid_products: invalidProducts.map((product) => (mapShoppingProductToDocument(product))),
       total_price: products.reduce((sum, product) => sum + product.price * product.quantity, 0),
@@ -183,10 +183,48 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
  * @param products List of products to check
  * @returns All the invalids productos in the list
  */
-function getInvalidProducts(products: ShoppingProductDTO[]) {
-  return products.filter((product: ShoppingProductDTO) => {
-    return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
+function getClassifiedProducts(products: ShoppingProductDTO[]): { productList: ShoppingProductDTO[], invalidProducts: ShoppingProductDTO[] } {
+  Logger.startFunction(ORDER_CONTEXT, METHOD_GET_CLASSIFIED_PRODUCTS);
+
+  const productList: ShoppingProductDTO[] = []
+  const invalidProducts: ShoppingProductDTO[] = []
+
+  products.forEach((product: ShoppingProductDTO) => {
+    productList.push(product)
+
+    if (product.earphoneShape === "BTE" || product.earphoneShape === "CIC") {
+      invalidProducts.push(product);
+      const earphoneMold: ShoppingProductDTO = createMoldForEarphone(product);
+      productList.push(earphoneMold)
+      invalidProducts.push(earphoneMold)
+    }
   })
+
+  Logger.endFunction(ORDER_CONTEXT, METHOD_GET_CLASSIFIED_PRODUCTS, { productList, invalidProducts });
+
+  return { productList, invalidProducts }
+}
+
+function createMoldForEarphone(product: ShoppingProductDTO): ShoppingProductDTO {
+  Logger.startFunction(ORDER_CONTEXT, METHOD_CREATE_MOLD_FOR_EARPHONE);
+
+  const newMold = {
+    id: "none",
+    name: "Molde para " + product.name,
+    category: product.earphoneShape,
+    brand: product.brand,
+    price: 75,
+    discountPrice: null,
+    earSide: product.earSide,
+    earphoneShape: product.earphoneShape,
+    colorText: product.colorText,
+    colorHex: product.colorHex,
+    imageURL: "/",
+    quantity: 1
+  }
+
+  Logger.endFunction(ORDER_CONTEXT, METHOD_CREATE_MOLD_FOR_EARPHONE, newMold);
+  return newMold
 }
 
 /**
