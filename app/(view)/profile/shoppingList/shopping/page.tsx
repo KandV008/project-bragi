@@ -1,4 +1,3 @@
-import ShoppingFormAdvice from "@/app/ui/components/advices/shoppingFormAdvice";
 import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMessage/noShoppingCartMessage";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import ShoppingForm from "@/app/ui/containers/shoppingList/shoppingForm/shoppingForm";
@@ -31,8 +30,6 @@ export default async function Page() {
         <>
           {/* Page header */}
           <SectionHeader text="Proceso de Compra" />
-          {/* Advise about BTE and CIC products */}
-          <ShoppingFormAdvice products={shoppingList} />
           {/* Shopping form and summary section */}
           <ShoppingForm products={shoppingList} />
         </>

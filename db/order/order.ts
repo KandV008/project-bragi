@@ -135,8 +135,6 @@ export async function actionCreateOrder(formData: FormData, products: ShoppingPr
 async function createOrder(shoppingData: any, products: ShoppingProductDTO[], bargainCode: string | undefined) {
   Logger.startFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER);
 
-  const { productList, invalidProducts } = getClassifiedProducts(products);
-
   try {
     const database = client.db("Product-DDBB");
     const ordersCollection = database.collection("orders");
@@ -162,9 +160,8 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
         type: audiometryFile.type,
         name: sanitizedFileName,
       },
-      products: productList.map((product) => (mapShoppingProductToDocument(product))),
+      products: products.map((product) => (mapShoppingProductToDocument(product))),
       bargain_applied: bargainCode ? bargainCode : null,
-      invalid_products: invalidProducts.map((product) => (mapShoppingProductToDocument(product))),
       total_price: products.reduce((sum, product) => sum + product.price * product.quantity, 0),
       creation_date: new Date(),
     };
@@ -176,55 +173,6 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
     Logger.errorFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, error);
     throw new Error(`[${METHOD_CREATE_ORDER}] ${error}`)
   }
-}
-
-/**
- * Get the invalid products from a list of product 
- * @param products List of products to check
- * @returns All the invalids productos in the list
- */
-function getClassifiedProducts(products: ShoppingProductDTO[]): { productList: ShoppingProductDTO[], invalidProducts: ShoppingProductDTO[] } {
-  Logger.startFunction(ORDER_CONTEXT, METHOD_GET_CLASSIFIED_PRODUCTS);
-
-  const productList: ShoppingProductDTO[] = []
-  const invalidProducts: ShoppingProductDTO[] = []
-
-  products.forEach((product: ShoppingProductDTO) => {
-    productList.push(product)
-
-    if (product.earphoneShape === "BTE" || product.earphoneShape === "CIC") {
-      invalidProducts.push(product);
-      const earphoneMold: ShoppingProductDTO = createMoldForEarphone(product);
-      productList.push(earphoneMold)
-      invalidProducts.push(earphoneMold)
-    }
-  })
-
-  Logger.endFunction(ORDER_CONTEXT, METHOD_GET_CLASSIFIED_PRODUCTS, { productList, invalidProducts });
-
-  return { productList, invalidProducts }
-}
-
-function createMoldForEarphone(product: ShoppingProductDTO): ShoppingProductDTO {
-  Logger.startFunction(ORDER_CONTEXT, METHOD_CREATE_MOLD_FOR_EARPHONE);
-
-  const newMold = {
-    id: "none",
-    name: "Molde para " + product.name,
-    category: product.earphoneShape,
-    brand: product.brand,
-    price: 75,
-    discountPrice: null,
-    earSide: product.earSide,
-    earphoneShape: product.earphoneShape,
-    colorText: product.colorText,
-    colorHex: product.colorHex,
-    imageURL: "/",
-    quantity: 1
-  }
-
-  Logger.endFunction(ORDER_CONTEXT, METHOD_CREATE_MOLD_FOR_EARPHONE, newMold);
-  return newMold
 }
 
 /**

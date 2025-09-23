@@ -45,8 +45,6 @@ import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import toast from "react-hot-toast";
-import { checkInvalidEarphoneShape } from "@/app/ui/components/advices/shoppingFormAdvice";
-import { ProductEntity } from "@/app/model/entities/product/Product";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -98,10 +96,6 @@ export default function ShoppingForm({ products }: FormProps) {
   };
 
   const totalPrice = currentProducts.reduce((total, product) => {
-    if (checkInvalidEarphoneShape(product)) {
-      return total;
-    }
-
     if (product.discountPrice || product.discountPrice === 0) {
       return total + product.discountPrice * product.quantity;
     }
@@ -337,32 +331,6 @@ export function TableShoppingRow({ product }: { product: ShoppingProductDTO }) {
   const lockStyle = "w-14";
   const specialLockStyle = "text-red-500 w-14";
   const rowStyle = "flex flex-row gap-1 justify-between text-center";
-
-  const isInvalidEarphoneShape = checkInvalidEarphoneShape(product);
-
-  if (isInvalidEarphoneShape)
-    return (
-      <>
-        <div className={rowStyle}>
-          <span className={lockStyle}>{product.name}</span>
-          <span className={lockStyle}>{product.colorText}</span>
-          <span className={lockStyle}>x{product.quantity}</span>
-          <span className={specialLockStyle}>
-            Pedir Cita -{" "}
-            {product.discountPrice == null
-              ? (product.price * product.quantity).toFixed(2)
-              : (product.discountPrice * product.quantity).toFixed(2)}
-            €
-          </span>
-        </div>
-        <div className={rowStyle}>
-          <span className={lockStyle}>{`Molde para ${product.name}`}</span>
-          <span className={lockStyle}>{""}</span>
-          <span className={lockStyle}>x{product.quantity}</span>
-          <span className={specialLockStyle}>{(75).toFixed(2)}€</span>
-        </div>
-      </>
-    );
 
   return (
     <div className={rowStyle}>
