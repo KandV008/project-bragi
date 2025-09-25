@@ -87,6 +87,9 @@ export default function Header() {
               href={"/services"}
             />
           </section>
+          <div className="hidden md:block lg:hidden">
+          <ThemeToggle />
+        </div>
         </article>
 
         {/* Theme toggle for larger screens */}
@@ -98,7 +101,7 @@ export default function Header() {
       {/* Bottom Header Section (Subheader buttons) */}
       <section className="flex-row justify-center items-center space-x-4 hidden md:flex pb-2 2xl:pb-0">
         <SubHeaderButtons />
-        <div className="block 2xl:hidden">
+        <div className="hidden lg:block 2xl:hidden">
           <ThemeToggle />
         </div>
       </section>
