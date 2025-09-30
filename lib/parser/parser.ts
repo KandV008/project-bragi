@@ -364,14 +364,15 @@ function parseUses(formData: FormData): string[] {
  */
 function parseAccessories(formData: FormData): string[] {
     const parse: string[] = []
-    let index = 0;
+    const counter = Number(formData.get(accessoriesName)?.toString());
 
-    while (formData.get(`${accessoriesName}-${index}`) !== null) {
-        const accessory = parseString(formData.get(`${accessoriesName}-${index}`)?.toString(), accessoriesName)
-        parse.push(accessory)
-        index += 1
+    for (let index = 0; index < counter; index++) {
+        if (formData.get(`${accessoriesName}-${index}`) !== null) {
+            const accessory = parseString(formData.get(`${accessoriesName}-${index}`)?.toString(), accessoriesName)
+            parse.push(accessory)
+        }
     }
-    
+
     return parse
 }
 

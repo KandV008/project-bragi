@@ -433,7 +433,7 @@ async function createProduct(productData: any): Promise<void> {
 
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
-    
+
     const result = await coll.insertOne(productData);
     Logger.endFunction(PRODUCT_CONTEXT, METHOD_CREATE_PRODUCT, `Product added with ID: ${result.insertedId}`)
   } catch (error) {
@@ -564,6 +564,11 @@ async function deleteProduct(productId: string | undefined | null): Promise<void
     if (result.deletedCount !== 1) {
       throw new Error(`Failed to delete product with ID: ${id}. Product not found.`)
     }
+
+    await db.collection('products').updateMany(
+      { accessories: objectId.toString() },
+      { $pull: { accessories: objectId.toString() as any } }
+    );
 
     Logger.errorFunction(
       PRODUCT_CONTEXT,

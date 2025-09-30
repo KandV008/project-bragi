@@ -25,8 +25,8 @@ interface AccessoriesInputProps {
 export default function AccessoriesInput({
   values,
 }: AccessoriesInputProps): JSX.Element {
-  const [accessoriesAvailableLabel, setAccessoriesAvailableLabel]= useState<string[]>([]);
-  const [accessoriesAvailableValue, setAccessoriesAvailableValue]= useState<string[]>([]);
+  const [accessoriesAvailableLabel, setAccessoriesAvailableLabel] = useState<string[]>([]);
+  const [accessoriesAvailableValue, setAccessoriesAvailableValue] = useState<string[]>([]);
 
   useEffect(() => {
     fetch(getAccessoriesAvailableRoute)

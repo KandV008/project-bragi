@@ -66,7 +66,7 @@ export default function CheckBoxInput({
 
   return (
     <section className="flex flex-col w-full">
-      <input type="hidden" name="uses" value={selectedValues.length}/>
+      <input type="hidden" name={name} value={optionLabels.length}/>
       <label
         htmlFor={name}
         className="bg-transparent 
