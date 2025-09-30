@@ -71,6 +71,7 @@ import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { useRouter } from "next/navigation";
+import AccessoriesInput, { AccessoriesInputSkeleton } from "@/app/ui/components/inputs/accessoriesInput/AccessoriesInput";
 
 interface FormProps {
   product?: ProductEntity;
@@ -229,7 +230,8 @@ export default function ProductForm({ product }: FormProps) {
             <CheckBoxInput
               name={dustWaterResistanceName}
               label={"Resistencia al Agua y al Polvo"}
-              list={["YES"]}
+              optionLabels={["YES"]}
+              optionValues={["YES"]}
               values={
                 product
                   ? product.earphoneAttributes?.waterDustResistance
@@ -258,7 +260,8 @@ export default function ProductForm({ product }: FormProps) {
             <CheckBoxInput
               name={usesName}
               label={"Usos del producto"}
-              list={usesList}
+              optionLabels={usesList}
+              optionValues={usesList}
               values={
                 product
                   ? product.earphoneAttributes?.uses.map((x) =>
@@ -267,6 +270,8 @@ export default function ProductForm({ product }: FormProps) {
                   : undefined
               }
             />
+            {/* Accessories */}
+            <AccessoriesInput values={product ? product.earphoneAttributes?.accessories : []}/>
           </>
         ) : (
           <></>
@@ -321,6 +326,8 @@ export function ProductFormSkeleton() {
         <RadioInputSkeleton />
         {/* Uses */}
         <CheckBoxInputSkeleton />
+        {/* Accessories */}
+        <AccessoriesInputSkeleton />
         {/* Submit Button */}
         <SubmitButtonSkeleton />
       </div>

@@ -6,7 +6,7 @@ import { Logger } from "@/app/config/Logger";
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
 import { deleteProductInFavorites } from "../favorites/favorites";
 import { deleteProductInShoppingList } from "../shoppingList/shoppingList";
-import { METHOD_ACTION_CREATE_PRODUCT, METHOD_ACTION_DELETE_PRODUCT, METHOD_ACTION_UPDATE_PRODUCT, METHOD_CREATE_PRODUCT, METHOD_DELETE_PRODUCT, METHOD_GET_ALL_PRODUCTS, METHOD_GET_FILTER_INFORMATION, METHOD_GET_LATEST_PRODUCTS, METHOD_GET_PRODUCT, METHOD_GET_PRODUCT_BY_CATEGORY, METHOD_GET_PRODUCTS_BY_IDS, METHOD_GET_RELATED_PRODUCTS, METHOD_SEARCH_PRODUCTS, METHOD_UPDATE_PRODUCT, PRODUCT_CONTEXT } from "../dbConfig";
+import { METHOD_ACTION_CREATE_PRODUCT, METHOD_ACTION_DELETE_PRODUCT, METHOD_ACTION_UPDATE_PRODUCT, METHOD_CREATE_PRODUCT, METHOD_DELETE_PRODUCT, METHOD_GET_ACCESSORIES_AVAILABLE, METHOD_GET_ALL_PRODUCTS, METHOD_GET_FILTER_INFORMATION, METHOD_GET_LATEST_PRODUCTS, METHOD_GET_PRODUCT, METHOD_GET_PRODUCT_BY_CATEGORY, METHOD_GET_PRODUCTS_BY_IDS, METHOD_GET_RELATED_PRODUCTS, METHOD_SEARCH_PRODUCTS, METHOD_UPDATE_PRODUCT, PRODUCT_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -24,7 +24,6 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
-
 
 /**
  * Fetches all products from the database within a specified range.
@@ -221,6 +220,38 @@ export async function getProductsByIds(ids: string[]): Promise<ProductEntity[]> 
 }
 
 /**
+ * Retrieves a list of accessories available.
+ * 
+ * The function retrieves all accessories available 
+ * It returns an empty array if no accessories are found.
+ *
+ * @returns {Promise<ProductEntity[]>} A list of matching products.
+ * @throws {Error} - If an error occurs while retrieving products from the database. 
+ */
+export async function getAccessoriesAvailable(): Promise<ProductEntity[]> {
+  Logger.startFunction(PRODUCT_CONTEXT, METHOD_GET_ACCESSORIES_AVAILABLE)
+
+  try {
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const cursor = coll.find({ category: "ACCESSORY" });
+
+    const docs = await cursor.toArray();
+    const products: ProductEntity[] = docs.map((doc: any) => mapDocumentToProduct(doc));
+
+    Logger.endFunction(PRODUCT_CONTEXT, METHOD_GET_ACCESSORIES_AVAILABLE, products)
+    return products
+  } catch (error) {
+    Logger.errorFunction(PRODUCT_CONTEXT, METHOD_GET_ACCESSORIES_AVAILABLE, error)
+    throw new Error(`[${METHOD_GET_ACCESSORIES_AVAILABLE}] ${error}`)
+  }
+}
+
+
+/**
  * Searches for products based on a keyword, optional filters, and pagination settings.
  * 
  * This function applies text-based search and optional filters, 
@@ -402,7 +433,7 @@ async function createProduct(productData: any): Promise<void> {
 
     const db = client.db("Product-DDBB");
     const coll = db.collection("products");
-
+    
     const result = await coll.insertOne(productData);
     Logger.endFunction(PRODUCT_CONTEXT, METHOD_CREATE_PRODUCT, `Product added with ID: ${result.insertedId}`)
   } catch (error) {

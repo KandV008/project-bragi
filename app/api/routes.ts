@@ -14,6 +14,8 @@ export const getLatestProductsRoute = "/api/products/getLatestProducts"
 export const getRelatedProductsRoute = "/api/products/getRelatedProducts"
 export const getFilterInformationRoute = "/api/products/getFilterInformation"
 export const getShoppingListRoute = "/api/products/getShoppingList"
+export const getAccessoriesAvailableRoute = "/api/products/getAccessoriesAvailable"
+export const getListOfProductsByIdRoute = "/api/products/getListOfProductsById"
 
 export const checkFavoriteListRoute = "/api/favorites/checkFavoriteList"
 export const checkFavoriteRoute = "/api/favorites/checkFavorite"

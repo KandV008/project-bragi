@@ -1,4 +1,4 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName, userDNIName } from "@/app/config/JSONnames";
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName, userDNIName, usesName, accessoriesName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_DATE, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
@@ -346,13 +346,32 @@ function convertToObject(type: string, value: string): object {
 function parseUses(formData: FormData): string[] {
     const parse: string[] = []
 
-    usesList.forEach((element) => {
-        if (formData.get(element) !== null) {
-            const use = parseString(formData.get(element)?.toString(), element)
+    usesList.forEach((element, index) => {
+        if (formData.get(`${usesName}-${index}`) !== null) {
+            const use = parseString(formData.get(`${usesName}-${index}`)?.toString(), element)
             parse.push(use)
         }
     })
 
+    return parse
+}
+
+/**
+ * Parses the selected uses from a FormData object.
+ * 
+ * @param {FormData} formData - The form data containing use attributes.
+ * @returns {string[]} An array of selected uses.
+ */
+function parseAccessories(formData: FormData): string[] {
+    const parse: string[] = []
+    let index = 0;
+
+    while (formData.get(`${accessoriesName}-${index}`) !== null) {
+        const accessory = parseString(formData.get(`${accessoriesName}-${index}`)?.toString(), accessoriesName)
+        parse.push(accessory)
+        index += 1
+    }
+    
     return parse
 }
 
@@ -498,6 +517,7 @@ function parseEarphoneAttributes(formData: FormData): object {
     const newEarphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE");
     const newDegreeOfLoss = parseString(formData.get(degreeOfLossName)?.toString(), "DEGREE_OF_LOSS");
     const newUses = parseUses(formData);
+    const newAccessories = parseAccessories(formData);
 
     return {
         colors: newColors,
@@ -506,6 +526,7 @@ function parseEarphoneAttributes(formData: FormData): object {
         earphone_shape: newEarphoneShape,
         degree_of_loss: newDegreeOfLoss,
         uses: newUses,
+        accessories: newAccessories
     };
 }
 

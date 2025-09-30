@@ -48,11 +48,6 @@ export interface ProductEntity {
     include: string[];
 
     /**
-     * List of related product IDs.
-     */
-    relatedProducts: string[];
-
-    /**
      * Earphone-specific attributes (null if not applicable).
      */
     earphoneAttributes: EarphoneAttributes | null;
@@ -86,7 +81,6 @@ export function mapDocumentToProduct(product: any): ProductEntity {
             description: product.description,
             brand: Brand[product.brand as keyof typeof Brand],
             include: Array.isArray(product.include) ? product.include : [],
-            relatedProducts: Array.isArray(product.related_products) ? product.related_products : [],
         };
 
         const newAttributes: EarphoneAttributes | null =

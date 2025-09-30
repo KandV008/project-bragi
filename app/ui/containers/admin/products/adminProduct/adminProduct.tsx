@@ -18,7 +18,11 @@ import {
   componentText,
   shimmer,
 } from "@/app/ui/tailwindClasses";
-import { getProductRoute } from "@/app/api/routes";
+import {
+  getListOfProductsByIdRoute,
+  getProductRoute,
+  getRelatedProductsRoute,
+} from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { ColorButtonSkeleton } from "@/app/ui/components/buttons/colorButton/colorButton";
@@ -30,6 +34,10 @@ import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import AdminPanel from "../../adminPanel/adminPanel";
+import SomeProductContainer from "@/app/ui/components/products/someProductContainer/someProductContainer";
+import DisplayProductAttributes from "../../../search/about/displayProductAttributes/displayProductAttributes";
+import DisplayProductDetails from "../../../search/about/displayProductDetails/displayProductDetails";
+import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 
 /**
  * Admin product management page for viewing and editing a product's details.
@@ -59,12 +67,14 @@ export default function AdminProduct(): JSX.Element {
   if (isLoading) return <AdminProductSkeleton />;
   if (!product) return <p>No product data</p>;
 
+  const isCofosis =
+    product.earphoneAttributes?.earphoneShape === EarphoneShape.COFOSIS;
+
+  const accessoriesIds = product.earphoneAttributes?.accessories;
+
   return (
-    <div
-      className={`flex flex-col gap-3 
-      ${componentText}`}
-    >
-      {/* Actions */}
+    <div className="flex flex-col gap-3">
+       {/* Actions */}
       <AdminPanel
         entity={"product"}
         context={"READ"}
@@ -74,85 +84,37 @@ export default function AdminProduct(): JSX.Element {
         }}
       />
       {/* Display */}
-      <section
-        className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10
-          ${componentBackground}
-          ${componentBorder} rounded-xl`}
-      >
-        <SectionHeader text={"Detalles del producto"} />
-        {/* Basic Data */}
-        <div className="flex flex-col items-center sm:grid sm:grid-cols-2 gap-3">
-          {/* Name */}
-          <Article label="Nombre" value={product.name} />
-          {/* Category */}
-          <Article label="Categoría" value={product.category} />
-          {/* Brand */}
-          <Article label="Marca" value={product.brand} />
-          {/* Price */}
-          <Article label="Precio" value={`${product.price.toFixed(2)}€`} />
-        </div>
-        {/* Description */}
-        <Article label="Descripción" value={product.description} />
-        {/* Earphone Attributes */}
-        {product.category === EARPHONE_VALUE ? (
-          <>
-            {/* Colors */}
-            <ColorArticle
-              label="Colores"
-              colors={product.earphoneAttributes!.colors}
-            />
-            {/* Technical Data */}
-            <div className="flex flex-col gap-2 items-center sm:grid sm:grid-cols-2 lg:grid-cols-3">
-              {/* Adaptation Range */}
-              <Article
-                label="Rango de Adaptación"
-                value={product.earphoneAttributes!.adaptationRange}
-              />
-              {/* Water Dust Resistance */}
-              <Article
-                label="Resistencia al agua y al polvo"
-                value={
-                  product.earphoneAttributes!.waterDustResistance ? "Sí" : "No"
-                }
-              />
-              {/* Earphone Shape */}
-              <Article
-                label="Forma de Audífono"
-                value={product.earphoneAttributes!.earphoneShape}
-              />
-
-              {/* Degree of Loss */}
-              <Article
-                label="Grado de pérdida"
-                value={product.earphoneAttributes!.degreeOfLoss}
-              />
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
-
-        {/* List of attributes */}
-        <div className="flex flex-col sm:grid sm:grid-cols-2">
-          {/* Includes */}
-          <UnorderedList label="Incluye" values={product.include} />
-          {/* Uses */}
-
-          {product.category === EARPHONE_VALUE ? (
-            <UnorderedList
-              label={"Usos"}
-              values={product.earphoneAttributes!.uses.map((x: any) => x.text)}
-            />
-          ) : (
-            <></>
-          )}
-        </div>
-      </section>
-      {/* Image Preview */}
-      <section className="flex flex-col justify-center gap-3">
-        <SectionHeader text={"Imagen del producto"} />
-        <BigImage src={product.imageURL} alt={"img-" + product.name} />
-      </section>
+      <DisplayProductAttributes
+        id={product.id}
+        name={product.name}
+        category={product.category}
+        price={product.price.toString()}
+        imageURL={product.imageURL}
+        colors={
+          product.earphoneAttributes ? product.earphoneAttributes.colors : null
+        }
+        earphoneShape={
+          product.earphoneAttributes
+            ? product.earphoneAttributes.earphoneShape
+            : null
+        }
+        isCofosis={isCofosis}
+        brand={product.brand}
+        include={product.include}
+        disable={true}
+      />
+      <DisplayProductDetails
+        description={product.description}
+        earphoneAttributes={product.earphoneAttributes}
+      />
+      {accessoriesIds && accessoriesIds?.length !== 0 && (
+        <SomeProductContainer
+          fetchUrl={`${getListOfProductsByIdRoute}?ids=${accessoriesIds?.join(
+            ","
+          )}`}
+          title={"Accessorios"}
+        />
+      )}
     </div>
   );
 }

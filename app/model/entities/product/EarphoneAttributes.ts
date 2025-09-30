@@ -38,6 +38,11 @@ export interface EarphoneAttributes {
      * The intended uses or applications of the earphone.
      */
     uses: UseDefinition[];
+
+    /**
+     * List of ids of the accessories associated
+     */
+    accessories: string[]
 }
 
 /**
@@ -63,6 +68,7 @@ export function mapDocumentToEarphoneAttributes(attributes: any): EarphoneAttrib
             earphoneShape: EarphoneShape[attributes.earphone_shape as keyof typeof EarphoneShape],
             degreeOfLoss: EarphoneDegreeOfLoss[attributes.degree_of_loss as keyof typeof EarphoneDegreeOfLoss],
             uses: attributes.uses.map((use: string) => Uses[use as keyof typeof Uses] as UseDefinition),
+            accessories: Array.isArray(attributes.accessories) ? attributes.accessories : []
         };
     } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_EARPHONE_ATTRIBUTES_ERROR_MESSAGE);

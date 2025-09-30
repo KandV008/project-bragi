@@ -75,6 +75,7 @@ interface ProductOptionsProps {
   isCofosis: boolean;
   brand: string;
   include: string[];
+  disable?: boolean;
 }
 
 /**
@@ -103,6 +104,7 @@ export default function DisplayProductAttributes({
   isCofosis,
   brand,
   include,
+  disable = false
 }: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
   const priceFormatted = Number(price).toFixed(2);
@@ -282,7 +284,7 @@ export default function DisplayProductAttributes({
               <SubmitButton
                 text={"Añadir a la cesta"}
                 icon={faCartShopping}
-                isDisable={!user ? true : false}
+                isDisable={disable || !user ? true : false}
               />
             </form>
             <div className="hidden xl:block">
