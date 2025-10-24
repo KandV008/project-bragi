@@ -1,5 +1,4 @@
 import { EarphoneAttributes } from "@/app/model/entities/product/EarphoneAttributes";
-import { valueOfEarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { valueOfEarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { valueOfEarphoneLevelOfDiscretionf } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneLevelOfDiscretion";
 import { valueOfEarphoneLocation } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneLocation";
@@ -43,7 +42,6 @@ export default function DisplayProductDetails({
 }: ProductDetailsProps): JSX.Element {
   const locationValue = earphoneAttributes ? valueOfEarphoneLocation(EarphoneShapeDetails[earphoneAttributes?.earphoneShape].location) : ""
   const discretionValue = earphoneAttributes ? valueOfEarphoneLevelOfDiscretionf(EarphoneShapeDetails[earphoneAttributes?.earphoneShape].level_of_discretion) : ""
-  const adaptationValue = earphoneAttributes ? valueOfEarphoneAdaptationRange(earphoneAttributes.adaptationRange) : ""
   const lossValue = earphoneAttributes ? valueOfEarphoneDegreeOfLoss(earphoneAttributes.degreeOfLoss) : ""
 
   return (
@@ -64,8 +62,6 @@ export default function DisplayProductDetails({
           <Article label={"Ubicación"} value={locationValue} />
           {/* Level of Discretion */}
           <Article label={"Nivel de Discreción"} value={discretionValue} />
-          {/* Adaptation Range */}
-          <Article label={"Rango de Adaptación"} value={adaptationValue} />
           {/* Degree of Loss */}
           <Article label={"Grado de pérdida"} value={lossValue} />
           {/* Dust and Water Resistance */}

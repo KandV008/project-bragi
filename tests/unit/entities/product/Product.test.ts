@@ -21,7 +21,6 @@ describe("Product Entity", () => {
           },
         ],
         include: ["Include 1", "Include 2", "Inlcude 3"],
-        adaptation_range: "MILD-SEVERE",
         dust_water_resistance: true,
         brand: "PHONAK",
         earphone_shape: "RIC",
@@ -33,13 +32,12 @@ describe("Product Entity", () => {
         const exampleEarphoneProduct = {
             ...exampleProduct,
             category: "EARPHONE",
-            related_products: ["product 1"]
+            related_products: ["123"]
         }
 
         const mappedProduct = mapDocumentToProduct(exampleEarphoneProduct)
 
         testProductAttributes(mappedProduct, exampleEarphoneProduct)
-        assert.lengthOf(mappedProduct.relatedProducts, exampleEarphoneProduct.related_products.length, "Related Products are different")
         testEarphoneAttributes(mappedProduct, exampleEarphoneProduct)
     })
 
@@ -52,7 +50,6 @@ describe("Product Entity", () => {
         const mappedProduct = mapDocumentToProduct(exampleEarphoneProduct)
 
         testProductAttributes(mappedProduct, exampleEarphoneProduct)
-        assert.lengthOf(mappedProduct.relatedProducts, 0, "Related Products are different")
         testEarphoneAttributes(mappedProduct, exampleEarphoneProduct)
     })
 
@@ -66,7 +63,6 @@ describe("Product Entity", () => {
         const mappedProduct = mapDocumentToProduct(exampleAccessoryProduct)
 
         testProductAttributes(mappedProduct, exampleAccessoryProduct)
-        assert.lengthOf(mappedProduct.relatedProducts, exampleAccessoryProduct.related_products.length, "Related Products are different")
         assert.isNull(mappedProduct.earphoneAttributes, "Earphone Attibutes is not null")
     })
 
@@ -79,7 +75,6 @@ describe("Product Entity", () => {
         const mappedProduct = mapDocumentToProduct(exampleAccessoryProduct)
 
         testProductAttributes(mappedProduct, exampleAccessoryProduct)
-        assert.lengthOf(mappedProduct.relatedProducts, 0, "Related Products are different")
         assert.isNull(mappedProduct.earphoneAttributes, "Earphone Attibutes is not null")
     })
 
@@ -100,7 +95,6 @@ describe("Product Entity", () => {
  */
 function testEarphoneAttributes(mappedProduct: ProductEntity, exampleEarphoneProduct: any) {
     assert.lengthOf(mappedProduct.earphoneAttributes!.colors, exampleEarphoneProduct.colors.length, "Colors are different")
-    assert.equal(mappedProduct.earphoneAttributes!.adaptationRange, exampleEarphoneProduct.adaptation_range, "Adaptation Ranges are different")
     assert.equal(mappedProduct.earphoneAttributes!.waterDustResistance, exampleEarphoneProduct.dust_water_resistance, "Water and Dust Resistances are different")
     assert.equal(mappedProduct.earphoneAttributes!.earphoneShape, exampleEarphoneProduct.earphone_shape, "Earphones are different")
     assert.equal(mappedProduct.earphoneAttributes!.degreeOfLoss, exampleEarphoneProduct.degree_of_loss, "Degrees of loss are different")

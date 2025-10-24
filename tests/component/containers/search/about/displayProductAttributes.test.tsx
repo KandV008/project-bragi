@@ -36,8 +36,8 @@ describe("<DisplayProductAttributes />", () => {
         earphoneShape={null}
         isCofosis={false}
         brand={"PHONAK"}
-        include={["example"]}
-      />
+        include={["example"]} 
+        accessories={[]}      />
     );
 
     expect(screen.queryAllByRole("button").length).toBeGreaterThanOrEqual(0);

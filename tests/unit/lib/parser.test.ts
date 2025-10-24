@@ -1,4 +1,4 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, earphoneShapeName, colorTextName, colorHexName, earSideName, adaptationRangeName, dustWaterResistanceName, degreeOfLossName, productDescriptionName, usesName, includeName, hasDustWaterResistanceName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, noveltyTypeName, noveltyContextName, endDateName, bargainRequirementsName, userDNIName } from "@/app/config/JSONnames"
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, earphoneShapeName, colorTextName, colorHexName, earSideName, dustWaterResistanceName, degreeOfLossName, productDescriptionName, usesName, includeName, hasDustWaterResistanceName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, noveltyTypeName, noveltyContextName, endDateName, bargainRequirementsName, userDNIName } from "@/app/config/JSONnames"
 import { parseAppointmentForm, parseBargainForm, parseContactForm, parseFile, parseFilters, parseNewProductToShoppingList, parseNoveltyForm, parseNumber, parsePrice, parseProductForm, parseProductIds, parseShoppingForm, parseStartAndEndIndex, parseString, parseStringList, parseUpdateOfShoppingList } from "../../../lib/parser/parser"
 import { APPOINTMENT_FORM_PARSER_NAME, BARGAIN_FORM_PARSER_NAME, CONTEXT_PARSE_APPOINTMENT_FORM, CONTEXT_PARSE_BARGAIN_FORM, CONTEXT_PARSE_CONTACT_FORM, CONTEXT_PARSE_FILE, CONTEXT_PARSE_FILTERS, CONTEXT_PARSE_NEW_PRODUCT_TO_SHOPPING_LIST, CONTEXT_PARSE_NOVELTY_FORM, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_FORM, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_SHOPPING_FORM, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_UPDATE_PRODUCT_OF_SHOPPING_LIST, END_INDEX_PARSER_NAME, FILE_PARSER_NAME, FILTERS_PARSER_NAME, NEW_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME, NOVELTY_FORM_PARSER_NAME, NUMBER_PARSER_NAME, ORDER_FORM_PARSER_NAME, PARSER_DOESNT_WORK_MESSAGE, PARSER_DOESNT_WORK_WITH_REASON_MESSAGE, PRICE_PARSER_NAME, PRODUCT_FORM_PARSER_NAME, PRODUCT_IDS_PARSER_NAME, START_INDEX_PARSER_NAME, STRING_LIST_PARSER_NAME, STRING_PARSER_NAME, UPDATE_PRODUCT_TO_SHOPPING_LIST_PARSER_NAME } from "../../../lib/parser/parserMessages"
 import { UNIT_TEST_TAG } from "@/tests/testConstants"
@@ -247,7 +247,8 @@ describe(CONTEXT_PARSE_UPDATE_PRODUCT_OF_SHOPPING_LIST, () => {
             [productIdName]: "1",
             [colorTextName]: "Color Ejemplo",
             [colorHexName]: "#FFFFFF",
-            [earSideName]: "left"
+            [earSideName]: "left",
+            [priceName]: "1"
         };
 
         const formData = new FormData();
@@ -263,6 +264,7 @@ describe(CONTEXT_PARSE_UPDATE_PRODUCT_OF_SHOPPING_LIST, () => {
     it(`[${UNIT_TEST_TAG}] should parse a form data into an update of Shopping ACCESSORY Product Object `, () => {
         const exampleFormData = {
             [productIdName]: "1",
+            [priceName]: "1"
         };
 
         const formData = new FormData();
@@ -297,7 +299,7 @@ describe(CONTEXT_PARSE_UPDATE_PRODUCT_OF_SHOPPING_LIST, () => {
 
 describe(CONTEXT_PARSE_FILTERS, () => {
     it(`[${UNIT_TEST_TAG}] should parse a text into an object of filters`, () => {
-        const exampleValue = `${adaptationRangeName}:value1,${dustWaterResistanceName}:value2`
+        const exampleValue = `${degreeOfLossName}:value1,${dustWaterResistanceName}:value2`
 
         const result = parseFilters(exampleValue)
 
@@ -328,7 +330,6 @@ describe(CONTEXT_PARSE_PRODUCT_FORM, () => {
             [colorTextName + "-1"]: "Blanco Ejemplo",
             [colorHexName]: "1",
             [colorHexName + "-1"]: "#FFFFFF",
-            [adaptationRangeName]: "MILD-SEVERE",
             [hasDustWaterResistanceName]: "YES",
             [earphoneShapeName]: "EXA",
             [degreeOfLossName]: "MILD-SEVERE",

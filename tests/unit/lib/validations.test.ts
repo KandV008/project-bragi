@@ -1,4 +1,4 @@
-import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, colorHexName, colorTextName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, productIdName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
+import { addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, colorHexName, colorTextName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, productIdName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
 import { UNIT_TEST_TAG } from "@/tests/testConstants";
 import { validateAddShoppingCart, validateFormProduct, validateFormBargain, validateBargainInput, validateFormNovelty, validateFormShopping, validateContactForm, validateAppointmentForm } from "@/lib/validations/validations";
 import { METHOD_VALIDATE_ADD_SHOPPING_CART_NAME, INVALID_FORM_DATA_TEST_MESSAGE, VALID_FORM_DATA_TEST_MESSAGE, METHOD_VALIDATE_FORM_PRODUCT_NAME, METHOD_VALIDATE_FORM_BARGAIN_NAME, METHOD_VALIDATE_BARGAIN_INPUT_NAME, METHOD_VALIDATE_FORM_NOVELTY_NAME, METHOD_VALIDATE_FORM_SHOPPING_NAME, METHOD_VALIDATE_CONTACT_FORM_NAME, METHOD_VALIDATE_APPOINTMENT_FORM_NAME } from "@/lib/validations/validationsMessages";
@@ -59,7 +59,6 @@ describe(METHOD_VALIDATE_FORM_PRODUCT_NAME, () => {
             [priceName]: "1234",
             [imageURLName]: "./no-image",
             [productDescriptionName]: "Lore ipsum...",
-            [adaptationRangeName]: "MILD-SEVERE",
             [earphoneShapeName]: "EXA",
             [degreeOfLossName]: "MILD-SEVERE",
             [usesName]: ["TV", "CHAT"]
@@ -103,7 +102,6 @@ describe(METHOD_VALIDATE_FORM_PRODUCT_NAME, () => {
             [priceName]: "1234",
             [imageURLName]: "./no-image",
             [productDescriptionName]: "Lore ipsum...",
-            [adaptationRangeName]: "MILD-SEVERE",
         };
         
         const formData = new FormData();

@@ -27,7 +27,6 @@ import {
 } from "@/app/ui/tailwindClasses";
 import toast from "react-hot-toast";
 import {
-  adaptationRangeName,
   brandName,
   categoryNameParam,
   degreeOfLossName,
@@ -42,7 +41,6 @@ import {
   imageURLName,
 } from "@/app/config/JSONnames";
 import { ProductEntity } from "@/app/model/entities/product/Product";
-import { earphoneAdaptationRangeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import { earphoneDegreeOfLossList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product/product";
@@ -217,14 +215,6 @@ export default function ProductForm({ product }: FormProps) {
             <ColorInput
               label={"Colores disponibles del producto"}
               values={product ? product.earphoneAttributes?.colors : undefined}
-            />
-            {/* Adaptation Range */}
-            <RadioInput
-              name={adaptationRangeName}
-              label={"Rango de adaptación del producto"}
-              list={earphoneAdaptationRangeList}
-              valueOf={(x) => x}
-              value={product ? product.earphoneAttributes?.adaptationRange : ""}
             />
             {/* Water Dust Resistance */}
             <CheckBoxInput
