@@ -6,6 +6,7 @@ import {
   colorHexName,
   colorTextName,
   earSideName,
+  priceName,
   productIdName,
 } from "@/app/config/JSONnames";
 import {
@@ -32,6 +33,8 @@ interface AmountButtonProps {
   colorHex: string;
   /** Ear side specification (e.g., left, right, both) */
   earSide: string;
+  /** Price specification */
+  price: number;
   /** Update current quanity action*/
   updateQuantity: () => void;
 }
@@ -50,6 +53,7 @@ export default function AmountButton({
   colorText,
   colorHex,
   earSide,
+  price,
   updateQuantity,
 }: AmountButtonProps) {
   /**
@@ -69,6 +73,7 @@ export default function AmountButton({
       <input type="hidden" name={colorTextName} value={colorText} />
       <input type="hidden" name={colorHexName} value={colorHex} />
       <input type="hidden" name={earSideName} value={earSide} />
+      <input type="hidden" name={priceName} value={price} />
       <button
         type="submit"
         className={`flex flex-col p-2 rounded-xl 

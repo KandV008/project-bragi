@@ -12,7 +12,7 @@ import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttrib
 
 /**
  * Page component that displays product details, attributes, related products, and a guarantee section.
- * It fetches product data based on the product ID from the URL and renders various components such as 
+ * It fetches product data based on the product ID from the URL and renders various components such as
  * product attributes, details, related products, and a guarantee message.
  *
  * @returns {JSX.Element} The Product Details page component.
@@ -39,8 +39,13 @@ export default function Page(): JSX.Element {
   if (isLoading) return <Loading />;
   if (!product) return <p>No product data</p>;
 
-  const isCofosis = product.earphoneAttributes?.earphoneShape === EarphoneShape.COFOSIS;
+  console.log("PRODUCT:", product);
 
+  const isCofosis =
+    product.earphoneAttributes?.earphoneShape === EarphoneShape.COFOSIS;
+
+  const accessoriesIds = product.earphoneAttributes?.accessories;
+  console.log("ACCESSORIES:", accessoriesIds)
   return (
     <div className="flex flex-col gap-3">
       <DisplayProductAttributes
@@ -49,11 +54,22 @@ export default function Page(): JSX.Element {
         category={product.category}
         price={product.price.toString()}
         imageURL={product.imageURL}
-        colors={product.earphoneAttributes ? product.earphoneAttributes.colors : null}
-        earphoneShape={product.earphoneAttributes ? product.earphoneAttributes.earphoneShape : null}
+        colors={
+          product.earphoneAttributes ? product.earphoneAttributes.colors : null
+        }
+        earphoneShape={
+          product.earphoneAttributes
+            ? product.earphoneAttributes.earphoneShape
+            : null
+        }
         isCofosis={isCofosis}
         brand={product.brand}
         include={product.include}
+        accessories={
+          accessoriesIds
+            ? accessoriesIds
+            : []
+        }
       />
       <DisplayProductDetails
         description={product.description}

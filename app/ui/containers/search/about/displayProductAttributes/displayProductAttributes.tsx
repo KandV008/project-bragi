@@ -25,6 +25,7 @@ import { addProductToShoppingList } from "@/db/shoppingList/shoppingList";
 import { checkFavoriteRoute } from "@/app/api/routes";
 import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import {
+  accessoriesName,
   brandName,
   categoryName,
   colorHexName,
@@ -75,6 +76,7 @@ interface ProductOptionsProps {
   isCofosis: boolean;
   brand: string;
   include: string[];
+  accessories: string[];
   disable?: boolean;
 }
 
@@ -104,6 +106,7 @@ export default function DisplayProductAttributes({
   isCofosis,
   brand,
   include,
+  accessories,
   disable = false
 }: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
@@ -281,6 +284,7 @@ export default function DisplayProductAttributes({
               <input type="hidden" name={brandName} value={brand} />
               <input type="hidden" name={priceName} value={price} />
               <input type="hidden" name={imageURLName} value={imageURL} />
+              <input type="hidden" name={accessoriesName} value={accessories.join(",")} />
               <SubmitButton
                 text={"Añadir a la cesta"}
                 icon={faCartShopping}

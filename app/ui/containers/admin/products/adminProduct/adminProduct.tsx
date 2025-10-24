@@ -74,7 +74,7 @@ export default function AdminProduct(): JSX.Element {
 
   return (
     <div className="flex flex-col gap-3">
-       {/* Actions */}
+      {/* Actions */}
       <AdminPanel
         entity={"product"}
         context={"READ"}
@@ -101,6 +101,11 @@ export default function AdminProduct(): JSX.Element {
         isCofosis={isCofosis}
         brand={product.brand}
         include={product.include}
+        accessories={
+          accessoriesIds
+            ? accessoriesIds
+            : []
+        }
         disable={true}
       />
       <DisplayProductDetails

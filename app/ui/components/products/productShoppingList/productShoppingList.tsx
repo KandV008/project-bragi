@@ -184,6 +184,7 @@ export default function ProductShoppingList({
               colorText={colorText}
               colorHex={colorHex}
               earSide={earSide}
+              price={price}
               action={checkBeforeDecrement}
               updateQuantity={() => setCurrentQuantity((prev) => prev - 1)}
             />
@@ -198,6 +199,7 @@ export default function ProductShoppingList({
               colorText={colorText}
               colorHex={colorHex}
               earSide={earSide}
+              price={price}
               action={incrementProductInShoppingList}
               updateQuantity={() => setCurrentQuantity((prev) => prev + 1)}
             />

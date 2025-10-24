@@ -237,15 +237,17 @@ export function parseNewProductToShoppingList(formData: FormData) {
     let colorText = ""
     let colorHex = ""
     let earSide = ""
+    let accessories: string[] = []
 
     if (category !== "ACCESSORY") {
         colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
         colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
         earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
         earphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE");
+        accessories = parseStringList(formData.get(accessoriesName)?.toString(), "ACCESSORIES");
     }
 
-    return { productId, colorText, colorHex, earSide, earphoneShape, name, category, brand, price, imageURL }
+    return { productId, colorText, colorHex, earSide, earphoneShape, name, category, brand, price, imageURL, accessories }
 }
 
 /**
@@ -266,13 +268,15 @@ export function parseUpdateOfShoppingList(formData: FormData): {
     colorText: string;
     colorHex: string;
     earSide: string;
+    price: number;
 } {
     const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
     const colorText = parseStringOrEmpty(formData.get(colorTextName)?.toString(), "COLOR_TEXT");
     const colorHex = parseStringOrEmpty(formData.get(colorHexName)?.toString(), "COLOR_HEX");
     const earSide = parseStringOrEmpty(formData.get(earSideName)?.toString(), "EAR_SIDE");
-
-    return { productId, colorText, colorHex, earSide }
+    const price = parseNumber(formData.get(priceName)?.toString(), "PRICE")
+    
+    return { productId, colorText, colorHex, earSide, price }
 }
 
 /**

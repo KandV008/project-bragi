@@ -8,6 +8,7 @@ import { Logger } from "@/app/config/Logger";
 import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
 import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
 import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
+import { getProduct } from "../product/product";
 
 /**
  * Retrieves the shopping list for the authenticated user.
@@ -83,7 +84,7 @@ export async function addProductToShoppingList(formData: FormData) {
     if (hasBoth) {
       await handleBothEarSideEarphone(parsedProduct, parsedUserId)
     } else {
-      await handleAddingProduct(parsedProduct, parsedUserId);
+      await handleOneEarSideEarphone(parsedProduct, parsedUserId);
     }
 
     Logger.endFunction(
@@ -92,8 +93,8 @@ export async function addProductToShoppingList(formData: FormData) {
       `Added product ${parsedProduct.productId} to shoppingList for user ${parsedUserId}`
     );
   } catch (error) {
-    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error);
-    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_ADD_PRODUCT_TO_SHOPPING_LIST}] ${error}`);
   }
 }
 
@@ -108,6 +109,7 @@ interface AddProductInterface {
   brand: string;
   price: number;
   imageURL: string;
+  accessories: string[];
 }
 
 async function handleAddingProduct(parsedProduct: AddProductInterface, parsedUserId: string) {
@@ -145,19 +147,96 @@ async function handleAddingProduct(parsedProduct: AddProductInterface, parsedUse
     `;
 }
 
+async function handleOneEarSideEarphone(parsedProduct: AddProductInterface, parsedUserId: string) {
+  await handleAddingProduct(parsedProduct, parsedUserId);
+
+  if (parsedProduct.accessories.length === 0) {
+    return;
+  }
+
+  const accessoryToAdd = parsedProduct.accessories[0]
+
+  if (!checkAddAccessoryByPairs(parsedProduct, accessoryToAdd)) {
+    return;
+  }
+
+  const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
+  await handleAddingProduct(parsedAccessory, parsedUserId)
+}
+
+async function checkAddAccessoryByPairs(parsedProduct: AddProductInterface, accessoryId: string) {
+  const products = await getShoppingList()
+  const filteredProducts = products.filter(x => x.name === parsedProduct.name)
+  const filterAccessory = products.filter(x => x.id === accessoryId && x.price === 0)
+  const numAccessories = filterAccessory ? filterAccessory[0].quantity : 0
+
+  console.warn("NUM FILTERED PRODUCTS:", filteredProducts.length)
+  if (filteredProducts.length <= 1) {
+    return false;
+  }
+
+  const leftEarphones = filteredProducts.filter(x => x.earSide === "left")
+  const rightEarphones = filteredProducts.filter(x => x.earSide === "right")
+
+  const leftQuantity = leftEarphones.reduce((x, y) => (x + y.quantity), 0)
+  const rightQuantity = rightEarphones.reduce((x, y) => (x + y.quantity), 0)
+
+  console.warn("NUM LEFT PRODUCTS:", leftQuantity)
+  console.warn("NUM RIGTH PRODUCTS:", rightQuantity)
+
+  const minQuantity = Math.min(leftQuantity, rightQuantity);
+  console.warn("MIN QUANTITY:", minQuantity);
+  console.warn("NUM ACCESSORIES:", numAccessories);
+
+  const result = minQuantity > numAccessories;
+  console.warn("RETURN RESULT:", result);
+
+  return result;
+}
+
 async function handleBothEarSideEarphone(parsedProduct: AddProductInterface, parsedUserId: string) {
   const leftSide: AddProductInterface = {
     ...parsedProduct,
     earSide: "left",
   }
 
-    const rightSide: AddProductInterface = {
+  const rightSide: AddProductInterface = {
     ...parsedProduct,
     earSide: "right",
   }
 
+  if (parsedProduct.accessories.length !== 0) {
+    const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
+
+    await handleAddingProduct(parsedAccessory, parsedUserId)
+  }
+
   await handleAddingProduct(leftSide, parsedUserId)
   await handleAddingProduct(rightSide, parsedUserId)
+}
+
+async function getParsedAccessory(parsedProduct: AddProductInterface) {
+  const accessoryId = parsedProduct.accessories[0];
+  const accessory = await getProduct(accessoryId);
+
+  if (!accessory) {
+    throw Error("Accessory not found");
+  }
+
+  const parsedAccessory: AddProductInterface = {
+    productId: accessoryId,
+    colorText: "",
+    colorHex: "",
+    earSide: "",
+    earphoneShape: "",
+    name: accessory.name,
+    category: accessory.category,
+    brand: accessory.brand,
+    price: 0,
+    imageURL: accessory.imageURL,
+    accessories: []
+  };
+  return parsedAccessory;
 }
 
 /**
@@ -169,19 +248,11 @@ export async function incrementProductInShoppingList(formData: FormData) {
   Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST);
 
   try {
+    const { productId, colorText, colorHex, earSide, price } = parseUpdateOfShoppingList(formData);
     const { userId } = auth();
-    const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
-
-    await sql`
-      UPDATE shoppingList
-      SET quantity = quantity + 1
-      WHERE product_id = ${productId}
-        AND user_id = ${parsedUserId}
-        AND color_text = ${colorText}
-        AND color_hex = ${colorHex}
-        AND ear_side = ${earSide}
-    `;
+    await handleIncrementProduct(productId, parsedUserId, colorText, colorHex, earSide, price);
+    await prepareAccessoryAddition(productId, parsedUserId)
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -194,6 +265,55 @@ export async function incrementProductInShoppingList(formData: FormData) {
   }
 }
 
+async function prepareAccessoryAddition(productId: string, parsedUserId: string) {
+  const product = await getProduct(productId)
+
+  if (!product || !product.earphoneAttributes) {
+    return;
+  }
+
+  if (product.earphoneAttributes.accessories.length === 0) {
+    return;
+  }
+
+  const parsedProduct: AddProductInterface = {
+    productId: product.id,
+    colorText: "",
+    colorHex: "",
+    earSide: "",
+    earphoneShape: "",
+    name: product.name,
+    category: "",
+    brand: "",
+    price: 0,
+    imageURL: "",
+    accessories: product.earphoneAttributes.accessories
+  }
+
+  const accessoryToAdd = product.earphoneAttributes.accessories[0]
+
+  if (!checkAddAccessoryByPairs(parsedProduct, accessoryToAdd)) {
+    return;
+  }
+
+  console.warn("Add accessory")
+
+  const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
+  await handleAddingProduct(parsedAccessory, parsedUserId)
+}
+
+async function handleIncrementProduct(productId: string, parsedUserId: string, colorText: string, colorHex: string, earSide: string, price: number) {
+  await sql`
+      UPDATE shoppingList
+      SET quantity = quantity + 1
+      WHERE product_id = ${productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${colorText}
+        AND color_hex = ${colorHex}
+        AND ear_side = ${earSide}
+        AND price = ${price}
+    `;
+}
 
 /**
  * Decrements the quantity of a product in the user's shopping list.
@@ -206,29 +326,10 @@ export async function decrementProductInShoppingList(formData: FormData) {
 
   try {
     const { userId } = auth();
-    const { productId, colorText, colorHex, earSide } = parseUpdateOfShoppingList(formData);
+    const { productId, colorText, colorHex, earSide, price } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
-
-    await sql`
-      UPDATE shoppingList
-      SET quantity = quantity - 1
-      WHERE product_id = ${productId}
-        AND user_id = ${parsedUserId}
-        AND color_text = ${colorText}
-        AND color_hex = ${colorHex}
-        AND ear_side = ${earSide}
-        AND quantity > 0
-    `;
-
-    await sql`
-      DELETE FROM shoppingList
-      WHERE product_id = ${productId}
-        AND user_id = ${parsedUserId}
-        AND color_text = ${colorText}
-        AND color_hex = ${colorHex}
-        AND ear_side = ${earSide}
-        AND quantity = 0
-    `;
+    await handleDecrementProduct(productId, parsedUserId, colorText, colorHex, earSide, price);
+    await prepareAccessoryRemoval(productId, parsedUserId)
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -241,3 +342,87 @@ export async function decrementProductInShoppingList(formData: FormData) {
   }
 }
 
+async function handleDecrementProduct(productId: string, parsedUserId: string, colorText: string, colorHex: string, earSide: string, price: number) {
+  await sql`
+      UPDATE shoppingList
+      SET quantity = quantity - 1
+      WHERE product_id = ${productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${colorText}
+        AND color_hex = ${colorHex}
+        AND ear_side = ${earSide}
+        AND price = ${price}
+        AND quantity > 0
+    `;
+
+  await sql`
+      DELETE FROM shoppingList
+      WHERE product_id = ${productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${colorText}
+        AND color_hex = ${colorHex}
+        AND ear_side = ${earSide}
+        AND price = ${price}
+        AND quantity = 0
+    `;
+}
+
+async function prepareAccessoryRemoval(productId: string, parsedUserId: string) {
+  const product = await getProduct(productId)
+
+  if (!product || !product.earphoneAttributes) {
+    return;
+  }
+
+  if (product.earphoneAttributes.accessories.length === 0) {
+    return;
+  }
+
+  const parsedProduct: AddProductInterface = {
+    productId: product.id,
+    colorText: "",
+    colorHex: "",
+    earSide: "",
+    earphoneShape: "",
+    name: product.name,
+    category: "",
+    brand: "",
+    price: 0,
+    imageURL: "",
+    accessories: product.earphoneAttributes.accessories
+  }
+
+  const accessoryToAdd = product.earphoneAttributes.accessories[0]
+
+  if (!checkAddAccessoryByPairs(parsedProduct, accessoryToAdd)) {
+    return;
+  }
+
+  const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
+  await handleRemovingProduct(parsedAccessory, parsedUserId)
+}
+
+async function handleRemovingProduct(parsedProduct: AddProductInterface, parsedUserId: string) {
+  await sql`
+      UPDATE shoppingList
+      SET quantity = quantity - 1
+      WHERE product_id = ${parsedProduct.productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${parsedProduct.colorText}
+        AND color_hex = ${parsedProduct.colorHex}
+        AND ear_side = ${parsedProduct.earSide}
+        AND price = ${parsedProduct.price}
+        AND quantity > 0
+    `;
+
+  await sql`
+      DELETE FROM shoppingList
+      WHERE product_id = ${parsedProduct.productId}
+        AND user_id = ${parsedUserId}
+        AND color_text = ${parsedProduct.colorText}
+        AND color_hex = ${parsedProduct.colorHex}
+        AND ear_side = ${parsedProduct.earSide}
+        AND price = ${parsedProduct.price}
+        AND quantity = 0
+    `;
+}
