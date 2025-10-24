@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
@@ -15,6 +15,8 @@ import {
   shimmer,
 } from "@/app/ui/tailwindClasses";
 import AmountButton from "../../buttons/amountButton/amountButton";
+import { ShoppingListContext } from "../../contexts/shoppingListContext";
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 
 /**
  * Props for the ProductShoppingList component.
@@ -68,10 +70,10 @@ export default function ProductShoppingList({
   quantity,
 }: ProductInformationProps) {
   let showEarSide: string = getEarSideLabel(earSide);
+  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
-  const [currentQuantity, setCurrentQuantity] = useState<number>(quantity);
 
   /**
    * Toggles the visibility of the modal.
@@ -87,7 +89,7 @@ export default function ProductShoppingList({
    * @param formData - The form data related to the product.
    */
   const checkBeforeDecrement = (formData: FormData) => {
-    if (currentQuantity === 1) {
+    if (quantity === 1) {
       setFormData(formData);
       handleShowModal();
     } else {
@@ -100,6 +102,11 @@ export default function ProductShoppingList({
    */
   const handleDecrementAmount = () => {
     handleShowModal();
+    setShoppingList((prev) => {
+      return prev.filter((product) => 
+        product.quantity !== 0
+      );
+    });
     decrementProductInShoppingList(currentFormData!);
   };
 
@@ -186,12 +193,23 @@ export default function ProductShoppingList({
               earSide={earSide}
               price={price}
               action={checkBeforeDecrement}
-              updateQuantity={() => setCurrentQuantity((prev) => prev - 1)}
+              updateQuantity={() =>
+                setShoppingList((prev) => {
+                  return prev.map((product) => {
+                    const isSameProduct = isEquals(product);
+
+                    if (isSameProduct) {
+                      const newQuantity = product.quantity - 1;
+                      return { ...product, quantity: newQuantity };
+                    }
+
+                    return product;
+                  });
+                })
+              }
             />
             {/* Amount */}
-            <span className="px-5 py-2 text-2xl font-bold">
-              {currentQuantity}
-            </span>
+            <span className="px-5 py-2 text-2xl font-bold">{quantity}</span>
             {/* Addition Button */}
             <AmountButton
               symbol={faPlus}
@@ -201,7 +219,20 @@ export default function ProductShoppingList({
               earSide={earSide}
               price={price}
               action={incrementProductInShoppingList}
-              updateQuantity={() => setCurrentQuantity((prev) => prev + 1)}
+              updateQuantity={() =>
+                setShoppingList((prev) =>
+                  prev.map((product) => {
+                    const isSameProduct = isEquals(product);
+
+                    if (isSameProduct) {
+                      const newQuantity = product.quantity + 1;
+                      return { ...product, quantity: newQuantity };
+                    }
+
+                    return product;
+                  })
+                )
+              }
             />
           </div>
         </article>
@@ -236,6 +267,18 @@ export default function ProductShoppingList({
       </article>
     </section>
   );
+
+  function isEquals(product: ShoppingProductDTO) {
+    return (
+      product.id === id &&
+      product.name === name &&
+      product.earSide === earSide &&
+      product.earphoneShape === earphoneShape &&
+      product.colorText === colorText &&
+      product.colorHex === colorHex &&
+      product.price === price
+    );
+  }
 }
 
 /**

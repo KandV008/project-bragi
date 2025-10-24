@@ -252,7 +252,7 @@ export async function incrementProductInShoppingList(formData: FormData) {
     const { userId } = auth();
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
     await handleIncrementProduct(productId, parsedUserId, colorText, colorHex, earSide, price);
-    await prepareAccessoryAddition(productId, parsedUserId)
+    //await prepareAccessoryAddition(productId, parsedUserId)
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -329,7 +329,7 @@ export async function decrementProductInShoppingList(formData: FormData) {
     const { productId, colorText, colorHex, earSide, price } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
     await handleDecrementProduct(productId, parsedUserId, colorText, colorHex, earSide, price);
-    await prepareAccessoryRemoval(productId, parsedUserId)
+    //await prepareAccessoryRemoval(productId, parsedUserId)
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,

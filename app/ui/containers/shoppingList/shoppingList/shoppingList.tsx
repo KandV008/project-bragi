@@ -1,27 +1,23 @@
-import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
+"use client";
+
+import { ShoppingListContext } from "@/app/ui/components/contexts/shoppingListContext";
 import ProductShoppingList, {
   ProductInformationSkeleton,
 } from "@/app/ui/components/products/productShoppingList/productShoppingList";
 import { shimmer } from "@/app/ui/tailwindClasses";
-
-/**
- * Props for the ShoppingList component.
- */
-interface ShoppingListProps {
-  /** Array of products to be displayed in the shopping list */
-  products: ShoppingProductDTO[];
-}
+import { useContext } from "react";
 
 /**
  * Renders a shopping list displaying a list of products.
  *
- * @param products - Array of `ProductDTO` objects to display.
  * @returns JSX element representing the shopping list.
  */
-export default function ShoppingList({ products }: ShoppingListProps) {
+export default function ShoppingList() {
+  const { shoppingList, setShoppingList:_ } = useContext(ShoppingListContext)
+
   return (
     <section className="flex flex-col gap-5 w-full">
-      {products.map((product, index) => (
+      {shoppingList.map((product, index) => (
         <ProductShoppingList
           key={`${product.id}-${index}`}
           id={product.id}
