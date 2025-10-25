@@ -9,6 +9,7 @@ import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
 import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
 import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
 import { getProduct } from "../product/product";
+import { checkAccessoryByPairs, checkRemoveAccessoryByPairs } from "@/lib/utils";
 
 /**
  * Retrieves the shopping list for the authenticated user.
@@ -126,7 +127,8 @@ async function handleAddingProduct(parsedProduct: AddProductInterface, parsedUse
         category,
         brand,
         price,
-        image_url
+        image_url,
+        accessories
       )
       VALUES (
         ${parsedProduct.productId},
@@ -140,11 +142,24 @@ async function handleAddingProduct(parsedProduct: AddProductInterface, parsedUse
         ${parsedProduct.category},
         ${parsedProduct.brand},
         ${parsedProduct.price},
-        ${parsedProduct.imageURL}
+        ${parsedProduct.imageURL},
+        ${toPostgresArray(parsedProduct.accessories || [])}
       )
       ON CONFLICT (product_id, user_id, color_text, color_hex, ear_side)
       DO UPDATE SET quantity = shoppingList.quantity + EXCLUDED.quantity
     `;
+
+  /**
+  * Converts a JavaScript string array into a PostgreSQL array literal.
+  * Example: ["a", "b", "c"] → '{a,b,c}'
+  */
+  function toPostgresArray(arr: string[]): string {
+    if (!arr || arr.length === 0) return "{}";
+    const escaped = arr.map(v =>
+      `"${v.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`
+    );
+    return `{${escaped.join(",")}}`;
+  }
 }
 
 async function handleOneEarSideEarphone(parsedProduct: AddProductInterface, parsedUserId: string) {
@@ -155,8 +170,9 @@ async function handleOneEarSideEarphone(parsedProduct: AddProductInterface, pars
   }
 
   const accessoryToAdd = parsedProduct.accessories[0]
+  const products = await getShoppingList()
 
-  if (!checkAddAccessoryByPairs(parsedProduct, accessoryToAdd)) {
+  if (!checkAccessoryByPairs(products, parsedProduct.name, accessoryToAdd)) {
     return;
   }
 
@@ -164,35 +180,6 @@ async function handleOneEarSideEarphone(parsedProduct: AddProductInterface, pars
   await handleAddingProduct(parsedAccessory, parsedUserId)
 }
 
-async function checkAddAccessoryByPairs(parsedProduct: AddProductInterface, accessoryId: string) {
-  const products = await getShoppingList()
-  const filteredProducts = products.filter(x => x.name === parsedProduct.name)
-  const filterAccessory = products.filter(x => x.id === accessoryId && x.price === 0)
-  const numAccessories = filterAccessory ? filterAccessory[0].quantity : 0
-
-  console.warn("NUM FILTERED PRODUCTS:", filteredProducts.length)
-  if (filteredProducts.length <= 1) {
-    return false;
-  }
-
-  const leftEarphones = filteredProducts.filter(x => x.earSide === "left")
-  const rightEarphones = filteredProducts.filter(x => x.earSide === "right")
-
-  const leftQuantity = leftEarphones.reduce((x, y) => (x + y.quantity), 0)
-  const rightQuantity = rightEarphones.reduce((x, y) => (x + y.quantity), 0)
-
-  console.warn("NUM LEFT PRODUCTS:", leftQuantity)
-  console.warn("NUM RIGTH PRODUCTS:", rightQuantity)
-
-  const minQuantity = Math.min(leftQuantity, rightQuantity);
-  console.warn("MIN QUANTITY:", minQuantity);
-  console.warn("NUM ACCESSORIES:", numAccessories);
-
-  const result = minQuantity > numAccessories;
-  console.warn("RETURN RESULT:", result);
-
-  return result;
-}
 
 async function handleBothEarSideEarphone(parsedProduct: AddProductInterface, parsedUserId: string) {
   const leftSide: AddProductInterface = {
@@ -252,7 +239,7 @@ export async function incrementProductInShoppingList(formData: FormData) {
     const { userId } = auth();
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
     await handleIncrementProduct(productId, parsedUserId, colorText, colorHex, earSide, price);
-    //await prepareAccessoryAddition(productId, parsedUserId)
+    await prepareAccessoryAddition(productId, parsedUserId)
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -290,13 +277,12 @@ async function prepareAccessoryAddition(productId: string, parsedUserId: string)
     accessories: product.earphoneAttributes.accessories
   }
 
-  const accessoryToAdd = product.earphoneAttributes.accessories[0]
+  const accessoryToAdd = parsedProduct.accessories[0]
+  const products = await getShoppingList()
 
-  if (!checkAddAccessoryByPairs(parsedProduct, accessoryToAdd)) {
+  if (!checkAccessoryByPairs(products, parsedProduct.name, accessoryToAdd)) {
     return;
   }
-
-  console.warn("Add accessory")
 
   const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
   await handleAddingProduct(parsedAccessory, parsedUserId)
@@ -329,7 +315,7 @@ export async function decrementProductInShoppingList(formData: FormData) {
     const { productId, colorText, colorHex, earSide, price } = parseUpdateOfShoppingList(formData);
     const parsedUserId = parseString(userId?.toString(), "USER_ID");
     await handleDecrementProduct(productId, parsedUserId, colorText, colorHex, earSide, price);
-    //await prepareAccessoryRemoval(productId, parsedUserId)
+    await prepareAccessoryRemoval(productId, parsedUserId)
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
@@ -392,9 +378,10 @@ async function prepareAccessoryRemoval(productId: string, parsedUserId: string) 
     accessories: product.earphoneAttributes.accessories
   }
 
-  const accessoryToAdd = product.earphoneAttributes.accessories[0]
+  const accessoryToRemove = parsedProduct.accessories[0]
+  const products = await getShoppingList()
 
-  if (!checkAddAccessoryByPairs(parsedProduct, accessoryToAdd)) {
+  if (checkRemoveAccessoryByPairs(products, parsedProduct.name, accessoryToRemove)) {
     return;
   }
 

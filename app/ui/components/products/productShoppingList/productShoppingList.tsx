@@ -17,6 +17,11 @@ import {
 import AmountButton from "../../buttons/amountButton/amountButton";
 import { ShoppingListContext } from "../../contexts/shoppingListContext";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
+import { getProduct } from "@/db/product/product";
+import {
+  checkAccessoryByPairs,
+  checkRemoveAccessoryByPairs,
+} from "@/lib/utils";
 
 /**
  * Props for the ProductShoppingList component.
@@ -46,6 +51,8 @@ interface ProductInformationProps {
   colorHex: string;
   /** Quantity of the product in the shopping list */
   quantity: number;
+  /** Accessories of the product */
+  accessories: string[];
 }
 
 /**
@@ -68,6 +75,7 @@ export default function ProductShoppingList({
   colorText,
   colorHex,
   quantity,
+  accessories,
 }: ProductInformationProps) {
   let showEarSide: string = getEarSideLabel(earSide);
   const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
@@ -103,9 +111,7 @@ export default function ProductShoppingList({
   const handleDecrementAmount = () => {
     handleShowModal();
     setShoppingList((prev) => {
-      return prev.filter((product) => 
-        product.quantity !== 0
-      );
+      return prev.filter((product) => product.quantity !== 0);
     });
     decrementProductInShoppingList(currentFormData!);
   };
@@ -193,20 +199,7 @@ export default function ProductShoppingList({
               earSide={earSide}
               price={price}
               action={checkBeforeDecrement}
-              updateQuantity={() =>
-                setShoppingList((prev) => {
-                  return prev.map((product) => {
-                    const isSameProduct = isEquals(product);
-
-                    if (isSameProduct) {
-                      const newQuantity = product.quantity - 1;
-                      return { ...product, quantity: newQuantity };
-                    }
-
-                    return product;
-                  });
-                })
-              }
+              updateQuantity={updateQuantity(-1)}
             />
             {/* Amount */}
             <span className="px-5 py-2 text-2xl font-bold">{quantity}</span>
@@ -219,20 +212,7 @@ export default function ProductShoppingList({
               earSide={earSide}
               price={price}
               action={incrementProductInShoppingList}
-              updateQuantity={() =>
-                setShoppingList((prev) =>
-                  prev.map((product) => {
-                    const isSameProduct = isEquals(product);
-
-                    if (isSameProduct) {
-                      const newQuantity = product.quantity + 1;
-                      return { ...product, quantity: newQuantity };
-                    }
-
-                    return product;
-                  })
-                )
-              }
+              updateQuantity={updateQuantity(1)}
             />
           </div>
         </article>
@@ -268,6 +248,31 @@ export default function ProductShoppingList({
     </section>
   );
 
+  function updateQuantity(delta: 1 | -1): () => void {
+  return () =>
+    setShoppingList((prev) => {
+      const updated = prev.map((product) =>
+        isEquals(product)
+          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
+          : product
+      );
+
+      const shouldSkipAccessory =
+        delta > 0
+          ? !checkAccessoryByPairs(updated, name, accessories[0])
+          : checkRemoveAccessoryByPairs(updated, name, accessories[0]);
+
+      if (shouldSkipAccessory) return updated;
+
+      const updatedWithAccessory = updated.map((product) =>
+        product.id === accessories[0] && product.price === 0
+          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
+          : product
+      );
+
+      return updatedWithAccessory;
+    });
+
   function isEquals(product: ShoppingProductDTO) {
     return (
       product.id === id &&
@@ -297,6 +302,7 @@ function getEarSideLabel(earSide: String) {
   }
 
   return "Ambos";
+}
 }
 
 /**

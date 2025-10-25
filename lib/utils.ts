@@ -1,3 +1,5 @@
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
+
 /**
  * Formats a given date input into a string of the format 'YYYY-MM-DD'.
  *
@@ -48,3 +50,48 @@ export const getSpanishHourValue = (value: any) => {
     console.log("HORA (España):", result);
     return result;
 };
+
+export function checkAccessoryByPairs(
+    products: ShoppingProductDTO[],
+    productName: string,
+    accessoryId: string
+): boolean {
+    const productList = products.filter(p => p.name === productName);
+    if (productList.length <= 1) return false;
+
+    const accessory = products.find(p => p.id === accessoryId && p.price === 0);
+    const accessoryQuantity = accessory?.quantity ?? 0;
+
+    const leftEarphones = productList.filter(p => p.earSide === "left");
+    const rightEarphones = productList.filter(p => p.earSide === "right");
+
+    const leftCount = leftEarphones.reduce((sum, p) => sum + (p.quantity ?? 0), 0);
+    const rightCount = rightEarphones.reduce((sum, p) => sum + (p.quantity ?? 0), 0);
+
+    const pairCount = Math.min(leftCount, rightCount);
+
+    console.warn("Product pairs:", pairCount);
+    console.warn("Accessory quantity:", accessoryQuantity);
+
+    return pairCount > accessoryQuantity;
+}
+
+export function checkRemoveAccessoryByPairs(products: ShoppingProductDTO[],
+    productName: string,
+    accessoryId: string) {
+    const accessory = products.find(
+        (p) => p.id === accessoryId && p.price === 0
+    );
+    const accessoryQty = accessory?.quantity ?? 0;
+
+    const sameName = products.filter((p) => p.name === productName);
+    const leftQty = sameName
+        .filter((p) => p.earSide === "left")
+        .reduce((sum, p) => sum + p.quantity, 0);
+    const rightQty = sameName
+        .filter((p) => p.earSide === "right")
+        .reduce((sum, p) => sum + p.quantity, 0);
+    const pairs = Math.min(leftQty, rightQty);
+
+    return pairs >= accessoryQty
+}
