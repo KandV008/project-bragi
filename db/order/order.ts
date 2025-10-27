@@ -4,7 +4,7 @@ import { mapDocumentToOrder, OrderEntity } from "@/app/model/entities/order/Orde
 import { mapShoppingProductToDocument, ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { Logger } from "@/app/config/Logger";
 import { parseShoppingForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
-import { METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_NEXT_SEQUENCE_VALUE, METHOD_GET_ORDER, METHOD_GET_ORDERS, METHOD_UPDATE_ORDER_STATUS, ORDER_CONTEXT } from "../dbConfig";
+import { METHOD_CREATE_MOLD_FOR_EARPHONE, METHOD_ACTION_CREATE_ORDER, METHOD_CREATE_ORDER, METHOD_GET_CLASSIFIED_PRODUCTS, METHOD_GET_NEXT_SEQUENCE_VALUE, METHOD_GET_ORDER, METHOD_GET_ORDERS, METHOD_UPDATE_ORDER_STATUS, ORDER_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -135,8 +135,6 @@ export async function actionCreateOrder(formData: FormData, products: ShoppingPr
 async function createOrder(shoppingData: any, products: ShoppingProductDTO[], bargainCode: string | undefined) {
   Logger.startFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER);
 
-  const invalidProducts = getInvalidProducts(products);
-
   try {
     const database = client.db("Product-DDBB");
     const ordersCollection = database.collection("orders");
@@ -146,7 +144,7 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
     const originalFileName = `audiometria-${shoppingData.userName}_${shoppingData.userFirstName}`;
     const sanitizedFileName = originalFileName.replace(/[^\w.-]/g, '_');
-    
+
     const newOrder = {
       order_number: orderNumber,
       status: "IN-PROCESS",
@@ -164,7 +162,6 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
       },
       products: products.map((product) => (mapShoppingProductToDocument(product))),
       bargain_applied: bargainCode ? bargainCode : null,
-      invalid_products: invalidProducts.map((product) => (mapShoppingProductToDocument(product))),
       total_price: products.reduce((sum, product) => sum + product.price * product.quantity, 0),
       creation_date: new Date(),
     };
@@ -176,17 +173,6 @@ async function createOrder(shoppingData: any, products: ShoppingProductDTO[], ba
     Logger.errorFunction(ORDER_CONTEXT, METHOD_CREATE_ORDER, error);
     throw new Error(`[${METHOD_CREATE_ORDER}] ${error}`)
   }
-}
-
-/**
- * Get the invalid products from a list of product 
- * @param products List of products to check
- * @returns All the invalids productos in the list
- */
-function getInvalidProducts(products: ShoppingProductDTO[]) {
-  return products.filter((product: ShoppingProductDTO) => {
-    return product.earphoneShape === "BTE" || product.earphoneShape === "CIC";
-  })
 }
 
 /**

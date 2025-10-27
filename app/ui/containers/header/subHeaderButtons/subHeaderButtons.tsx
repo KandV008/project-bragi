@@ -12,6 +12,7 @@ export default function SubHeaderButtons(): JSX.Element {
       <NavButton text="Audífonos" href={"/search?category=EARPHONE"} />
       <NavButton text="Accesorios" href={"/search?category=ACCESSORY"} />
       <NavButton text="Servicios" href={"/services"} />
+      <NavButton text="Ofertas" href={"/services/bargains"} />
       <NavButton text="Nosotros" href={"/services/about-us"} />
       <NavButton text="Pedir Cita" href={"/services/appointment"} />
     </>

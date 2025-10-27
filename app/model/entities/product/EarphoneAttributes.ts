@@ -1,4 +1,3 @@
-import { EarphoneAdaptationRange } from "./enums/earphoneAttributes/EarphoneAdaptationRange";
 import { EarphoneColor } from "./enums/earphoneAttributes/EarphoneColor";
 import { EarphoneDegreeOfLoss } from "./enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { EarphoneShape } from "./enums/earphoneAttributes/EarphoneShape";
@@ -13,11 +12,6 @@ export interface EarphoneAttributes {
      * Available colors for the earphone.
      */
     colors: EarphoneColor[];
-
-    /**
-     * The range of hearing loss adaptation supported by the earphone.
-     */
-    adaptationRange: EarphoneAdaptationRange;
 
     /**
      * Indicates whether the earphone has water and dust resistance.
@@ -38,6 +32,11 @@ export interface EarphoneAttributes {
      * The intended uses or applications of the earphone.
      */
     uses: UseDefinition[];
+
+    /**
+     * List of ids of the accessories associated
+     */
+    accessories: string[]
 }
 
 /**
@@ -49,7 +48,7 @@ export interface EarphoneAttributes {
  */
 export function mapDocumentToEarphoneAttributes(attributes: any): EarphoneAttributes {
     try {
-        if (!attributes || !attributes.colors || !attributes.adaptation_range || !attributes.degree_of_loss || !attributes.uses) {
+        if (!attributes || !attributes.colors || !attributes.degree_of_loss || !attributes.uses) {
             throw new Error(MAP_DOCUMENT_TO_EARPHONE_ATTRIBUTES_ERROR_MESSAGE);
         }
 
@@ -58,11 +57,11 @@ export function mapDocumentToEarphoneAttributes(attributes: any): EarphoneAttrib
                 name: color.name,
                 hex: color.hex,
             })),
-            adaptationRange: EarphoneAdaptationRange[attributes.adaptation_range as keyof typeof EarphoneAdaptationRange],
             waterDustResistance: Boolean(attributes.dust_water_resistance),
             earphoneShape: EarphoneShape[attributes.earphone_shape as keyof typeof EarphoneShape],
             degreeOfLoss: EarphoneDegreeOfLoss[attributes.degree_of_loss as keyof typeof EarphoneDegreeOfLoss],
             uses: attributes.uses.map((use: string) => Uses[use as keyof typeof Uses] as UseDefinition),
+            accessories: Array.isArray(attributes.accessories) ? attributes.accessories : []
         };
     } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_EARPHONE_ATTRIBUTES_ERROR_MESSAGE);

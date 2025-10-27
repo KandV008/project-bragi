@@ -12,7 +12,9 @@ interface CheckBoxInputProps {
   /** The label for the checkbox group */
   label: string;
   /** The list of options to display as checkboxes */
-  list: any[];
+  optionLabels: any[];
+  /** The list of options to value as checkboxes */
+  optionValues: any[];
   /** The pre-selected values (optional) */
   values?: string[];
 }
@@ -26,7 +28,8 @@ interface CheckBoxInputProps {
 export default function CheckBoxInput({
   name,
   label,
-  list,
+  optionLabels,
+  optionValues,
   values,
 }: CheckBoxInputProps): JSX.Element {
   const [selectedValues, setSelectedValues] = useState<string[]>(values ? values : []);
@@ -63,7 +66,7 @@ export default function CheckBoxInput({
 
   return (
     <section className="flex flex-col w-full">
-      <input type="hidden" name="uses" value={selectedValues.length}/>
+      <input type="hidden" name={name} value={optionLabels.length}/>
       <label
         htmlFor={name}
         className="bg-transparent 
@@ -72,18 +75,18 @@ export default function CheckBoxInput({
         {label}
       </label>
       <div className="flex flex-row flex-wrap gap-2 font-semibold">
-        {list.map((element, index) => (
+        {optionLabels.map((element, index) => (
           <article
             key={element + "-" + index}
-            className={getCheckBoxStatus(element)}
+            className={getCheckBoxStatus(optionValues[index])}
           >
             <input
               type="checkbox"
               id={name + "-" + index}
-              name={element}
-              value={element}
+              name={name + "-" + index}
+              value={optionValues[index]}
               onChange={handleCheckboxChange}
-              checked={selectedValues.includes(element)}
+              checked={selectedValues.includes(optionValues[index])}
             />
             <label htmlFor={name + "-" + index}> {element}</label>
             <br />

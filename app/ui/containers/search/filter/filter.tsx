@@ -11,10 +11,8 @@ import {
   shimmer,
 } from "../../../tailwindClasses";
 import { getFilterInformationRoute } from "@/app/api/routes";
-import { valueOfEarphoneAdaptationRange } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneAdaptationRange";
 import { valueOfEarphoneDegreeOfLoss } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import {
-  adaptationRangeName,
   brandName,
   degreeOfLossName,
   earphoneShapeName,
@@ -35,7 +33,6 @@ interface FilterProps {
 }
 
 const elementsToFilter = [
-  adaptationRangeName,
   dustWaterResistanceName,
   brandName,
   earphoneShapeName,
@@ -111,17 +108,6 @@ export default function Filter({
         </article>
         {category === "EARPHONE" ? (
           <>
-            {/* Adaptation Range */}
-            <article className="text-lg">
-              <h1 className="text-xl font-bold">Rango de Adaptación</h1>
-              <RadioInputWithQuantity
-                name={adaptationRangeName}
-                list={filterElements.adaptation_range}
-                valueOf={valueOfEarphoneAdaptationRange}
-                type={adaptationRangeName}
-                onChange={filterSelected}
-              />
-            </article>
             {/* Water Dust Resistance */}
             <article className="text-lg">
               <h1 className="text-xl font-bold">

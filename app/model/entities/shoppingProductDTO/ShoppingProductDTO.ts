@@ -28,6 +28,8 @@ export interface ShoppingProductDTO {
     imageURL: string;
     /** Available quantity of the product */
     quantity: number;
+    /** Ids of the accessories related */
+    accessories: string[];
 }
 
 /**
@@ -62,6 +64,7 @@ export function mapDocumentToShoppingProductDTO(shoppingProduct: any): ShoppingP
             colorHex: shoppingProduct.color_hex ? shoppingProduct.color_hex : "",
             imageURL: shoppingProduct.image_url,
             quantity: shoppingProduct.quantity,
+            accessories: Array.isArray(shoppingProduct.accessories) ? shoppingProduct.accessories : [],
         };
     } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_SHOPPING_PRODUCT_DTO_ERROR_MESSAGE)

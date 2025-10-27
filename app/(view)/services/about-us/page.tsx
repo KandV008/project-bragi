@@ -28,22 +28,22 @@ export default function Page(): JSX.Element {
         <TeamMember
           name={"Irina Osuna"}
           imageURL={"/team/picture_irina.HEIC"}
-          rol={"Encargada"}
+          rol={"Audioprotesista y directora de operaciones"}
         />
         <TeamMember
           name={"Jorge Martínez de Lizarduy"}
           imageURL={"/team/picture_jorge.HEIC"}
-          rol={"Encargada"}
+          rol={"CEO"}
         />
         <TeamMember
           name={"Liz Torres"}
           imageURL={"/team/picture_liz.HEIC"}
-          rol={"Encargada"}
+          rol={"Directora comercial"}
         />
         <TeamMember
           name={"Natalia Kostornichenko"}
           imageURL={"/team/picture_natalia.HEIC"}
-          rol={"Encargada"}
+          rol={"Directora de recursos humanos"}
         />
       </section>
       {/* Description */}

@@ -1,5 +1,5 @@
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category"
-import { adaptationRangeName, addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
+import { addressName, audiometryFileName, bargainCodeName, bargainDescriptionName, bargainTitleName, brandName, categoryName, contactBodyName, contactEmailName, contactSubjectName, degreeOfLossName, earphoneShapeName, earSideName, emailName, imageURLName, nameName, noveltyDescriptionName, noveltyTitleName, phoneNumberName, priceName, productDescriptionName, promotionalImageName, userFirstName, userIdName, userNameName, usesName } from "@/app/config/JSONnames"
 import { EMPTY_ADAPTATION_RANGE_INPUT_MESSAGE, EMPTY_BARGAIN_CODE_INPUT_MESSAGE, EMPTY_TITLE_INPUT_MESSAGE, EMPTY_BRAND_INPUT_MESSAGE, EMPTY_CATEGORY_INPUT_MESSAGE, EMPTY_DEGREE_OF_LOSS_INPUT_MESSAGE, EMPTY_DESCRIPTION_INPUT_MESSAGE, EMPTY_EARPHONE_SHAPE_INPUT_MESSAGE, EMPTY_IMAGE_URL_INPUT_MESSAGE, EMPTY_NAME_INPUT_MESSAGE, EMPTY_PRICE_INPUT_MESSAGE, EMPTY_USES_INPUT_MESSAGE, INVALID_BARGAIN_CODE_MESSAGE, NOT_SELECTED_EAR_SIDE_MESSAGE, EMPTY_USER_ID_INPUT_MESSAGE, EMPTY_USER_NAME_INPUT_MESSAGE, EMPTY_USER_FIRST_NAME_INPUT_MESSAGE, EMPTY_PHONE_NUMBER_INPUT_MESSAGE, EMPTY_EMAIL_INPUT_MESSAGE, EMPTY_ADDRESS_INPUT_MESSAGE, EMPTY_AUDIOMETRY_FILE_INPUT_MESSAGE, EMPTY_SUBJECT_INPUT_MESSAGE, EMPTY_BODY_INPUT_MESSAGE } from "./validationsMessages"
 
 /**
@@ -78,7 +78,6 @@ export function validateFormProduct(formData: FormData): boolean {
     checkIfNotEmpty(formData, productDescriptionName, EMPTY_DESCRIPTION_INPUT_MESSAGE)
 
     if (formData.get(categoryName) === EARPHONE_VALUE) {
-        checkIfNotEmpty(formData, adaptationRangeName, EMPTY_ADAPTATION_RANGE_INPUT_MESSAGE)
         checkIfNotEmpty(formData, earphoneShapeName, EMPTY_EARPHONE_SHAPE_INPUT_MESSAGE)
         checkIfNotEmpty(formData, degreeOfLossName, EMPTY_DEGREE_OF_LOSS_INPUT_MESSAGE)
         checkIfNotEmpty(formData, usesName, EMPTY_USES_INPUT_MESSAGE)

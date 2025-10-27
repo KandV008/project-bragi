@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   decrementProductInShoppingList,
   incrementProductInShoppingList,
@@ -15,6 +15,13 @@ import {
   shimmer,
 } from "@/app/ui/tailwindClasses";
 import AmountButton from "../../buttons/amountButton/amountButton";
+import { ShoppingListContext } from "../../contexts/shoppingListContext";
+import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
+import { getProduct } from "@/db/product/product";
+import {
+  checkAccessoryByPairs,
+  checkRemoveAccessoryByPairs,
+} from "@/lib/utils";
 
 /**
  * Props for the ProductShoppingList component.
@@ -44,6 +51,8 @@ interface ProductInformationProps {
   colorHex: string;
   /** Quantity of the product in the shopping list */
   quantity: number;
+  /** Accessories of the product */
+  accessories: string[];
 }
 
 /**
@@ -66,12 +75,13 @@ export default function ProductShoppingList({
   colorText,
   colorHex,
   quantity,
+  accessories,
 }: ProductInformationProps) {
   let showEarSide: string = getEarSideLabel(earSide);
+  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
-  const [currentQuantity, setCurrentQuantity] = useState<number>(quantity);
 
   /**
    * Toggles the visibility of the modal.
@@ -87,7 +97,7 @@ export default function ProductShoppingList({
    * @param formData - The form data related to the product.
    */
   const checkBeforeDecrement = (formData: FormData) => {
-    if (currentQuantity === 1) {
+    if (quantity === 1) {
       setFormData(formData);
       handleShowModal();
     } else {
@@ -100,6 +110,9 @@ export default function ProductShoppingList({
    */
   const handleDecrementAmount = () => {
     handleShowModal();
+    setShoppingList((prev) => {
+      return prev.filter((product) => product.quantity !== 0);
+    });
     decrementProductInShoppingList(currentFormData!);
   };
 
@@ -184,13 +197,12 @@ export default function ProductShoppingList({
               colorText={colorText}
               colorHex={colorHex}
               earSide={earSide}
+              price={price}
               action={checkBeforeDecrement}
-              updateQuantity={() => setCurrentQuantity((prev) => prev - 1)}
+              updateQuantity={updateQuantity(-1)}
             />
             {/* Amount */}
-            <span className="px-5 py-2 text-2xl font-bold">
-              {currentQuantity}
-            </span>
+            <span className="px-5 py-2 text-2xl font-bold">{quantity}</span>
             {/* Addition Button */}
             <AmountButton
               symbol={faPlus}
@@ -198,8 +210,9 @@ export default function ProductShoppingList({
               colorText={colorText}
               colorHex={colorHex}
               earSide={earSide}
+              price={price}
               action={incrementProductInShoppingList}
-              updateQuantity={() => setCurrentQuantity((prev) => prev + 1)}
+              updateQuantity={updateQuantity(1)}
             />
           </div>
         </article>
@@ -234,6 +247,43 @@ export default function ProductShoppingList({
       </article>
     </section>
   );
+
+  function updateQuantity(delta: 1 | -1): () => void {
+  return () =>
+    setShoppingList((prev) => {
+      const updated = prev.map((product) =>
+        isEquals(product)
+          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
+          : product
+      );
+
+      const shouldSkipAccessory =
+        delta > 0
+          ? !checkAccessoryByPairs(updated, name, accessories[0])
+          : checkRemoveAccessoryByPairs(updated, name, accessories[0]);
+
+      if (shouldSkipAccessory) return updated;
+
+      const updatedWithAccessory = updated.map((product) =>
+        product.id === accessories[0] && product.price === 0
+          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
+          : product
+      );
+
+      return updatedWithAccessory;
+    });
+
+  function isEquals(product: ShoppingProductDTO) {
+    return (
+      product.id === id &&
+      product.name === name &&
+      product.earSide === earSide &&
+      product.earphoneShape === earphoneShape &&
+      product.colorText === colorText &&
+      product.colorHex === colorHex &&
+      product.price === price
+    );
+  }
 }
 
 /**
@@ -252,6 +302,7 @@ function getEarSideLabel(earSide: String) {
   }
 
   return "Ambos";
+}
 }
 
 /**

@@ -1,4 +1,4 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, adaptationRangeName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName, userDNIName } from "@/app/config/JSONnames";
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName, userDNIName, usesName, accessoriesName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_DATE, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
@@ -237,15 +237,17 @@ export function parseNewProductToShoppingList(formData: FormData) {
     let colorText = ""
     let colorHex = ""
     let earSide = ""
+    let accessories: string[] = []
 
     if (category !== "ACCESSORY") {
         colorText = parseString(formData.get(colorTextName)?.toString(), "COLOR");
         colorHex = parseString(formData.get(colorHexName)?.toString(), "COLOR");
         earSide = parseString(formData.get(earSideName)?.toString(), "EAR_SIDE");
         earphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE");
+        accessories = parseStringList(formData.get(accessoriesName)?.toString(), "ACCESSORIES");
     }
 
-    return { productId, colorText, colorHex, earSide, earphoneShape, name, category, brand, price, imageURL }
+    return { productId, colorText, colorHex, earSide, earphoneShape, name, category, brand, price, imageURL, accessories }
 }
 
 /**
@@ -266,13 +268,15 @@ export function parseUpdateOfShoppingList(formData: FormData): {
     colorText: string;
     colorHex: string;
     earSide: string;
+    price: number;
 } {
     const productId = parseString(formData.get(productIdName)?.toString(), "PRODUCT_ID");
     const colorText = parseStringOrEmpty(formData.get(colorTextName)?.toString(), "COLOR_TEXT");
     const colorHex = parseStringOrEmpty(formData.get(colorHexName)?.toString(), "COLOR_HEX");
     const earSide = parseStringOrEmpty(formData.get(earSideName)?.toString(), "EAR_SIDE");
-
-    return { productId, colorText, colorHex, earSide }
+    const price = parseNumber(formData.get(priceName)?.toString(), "PRICE")
+    
+    return { productId, colorText, colorHex, earSide, price }
 }
 
 /**
@@ -312,11 +316,6 @@ const filterFunction = {
  * @throws {Error} If the filter type is not valid.
  */
 function convertToObject(type: string, value: string): object {
-
-    if (type === adaptationRangeName) {
-        return filterFunction.adaptationRangeType(value);
-    }
-
     if (type === dustWaterResistanceName) {
         return filterFunction.waterDustResistanceType(value);
     }
@@ -346,12 +345,32 @@ function convertToObject(type: string, value: string): object {
 function parseUses(formData: FormData): string[] {
     const parse: string[] = []
 
-    usesList.forEach((element) => {
-        if (formData.get(element) !== null) {
-            const use = parseString(formData.get(element)?.toString(), element)
+    usesList.forEach((element, index) => {
+        if (formData.get(`${usesName}-${index}`) !== null) {
+            const use = parseString(formData.get(`${usesName}-${index}`)?.toString(), element)
             parse.push(use)
         }
     })
+
+    return parse
+}
+
+/**
+ * Parses the selected uses from a FormData object.
+ * 
+ * @param {FormData} formData - The form data containing use attributes.
+ * @returns {string[]} An array of selected uses.
+ */
+function parseAccessories(formData: FormData): string[] {
+    const parse: string[] = []
+    const counter = Number(formData.get(accessoriesName)?.toString());
+
+    for (let index = 0; index < counter; index++) {
+        if (formData.get(`${accessoriesName}-${index}`) !== null) {
+            const accessory = parseString(formData.get(`${accessoriesName}-${index}`)?.toString(), accessoriesName)
+            parse.push(accessory)
+        }
+    }
 
     return parse
 }
@@ -493,19 +512,19 @@ export function parseProductForm(formData: FormData): object {
  */
 function parseEarphoneAttributes(formData: FormData): object {
     const newColors = parseColors(formData);
-    const newAdaptationRange = parseString(formData.get(adaptationRangeName)?.toString(), "ADAPTATION_RANGE");
     const newWaterDustResistance = parseWaterDustResistance(formData);
     const newEarphoneShape = parseString(formData.get(earphoneShapeName)?.toString(), "EARPHONE_SHAPE");
     const newDegreeOfLoss = parseString(formData.get(degreeOfLossName)?.toString(), "DEGREE_OF_LOSS");
     const newUses = parseUses(formData);
+    const newAccessories = parseAccessories(formData);
 
     return {
         colors: newColors,
-        adaptation_range: newAdaptationRange,
         dust_water_resistance: newWaterDustResistance,
         earphone_shape: newEarphoneShape,
         degree_of_loss: newDegreeOfLoss,
         uses: newUses,
+        accessories: newAccessories
     };
 }
 

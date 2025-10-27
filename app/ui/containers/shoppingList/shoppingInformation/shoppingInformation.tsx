@@ -9,6 +9,7 @@ import ShoppingList, {
 import Summary, { SummarySkeleton } from "../summary/summary";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import { getShoppingListRoute } from "@/app/api/routes";
+import { ShoppingListContext } from "@/app/ui/components/contexts/shoppingListContext";
 
 /**
  * Fetches and displays the user's shopping cart. If the cart is empty,
@@ -42,13 +43,13 @@ export default function ShoppingListInformation(): JSX.Element {
   console.log("UPDATED:", shoppingList);
 
   return (
-    <>
+    <ShoppingListContext.Provider value={{shoppingList, setShoppingList}}>
       {/* Page header */}
       <SectionHeader text="Cesta de la compra" />
       {/* Shopping list and summary section */}
       <section className="flex flex-col-reverse lg:flex-row gap-3 justify-center">
         {/* Shopping list container */}
-        <ShoppingList products={shoppingList} />
+        <ShoppingList />
         <div className="shrink-0 z-10">
           {/* Order summary section */}
           <Summary
@@ -60,7 +61,7 @@ export default function ShoppingListInformation(): JSX.Element {
           />
         </div>
       </section>
-    </>
+    </ShoppingListContext.Provider>
   );
 }
 
