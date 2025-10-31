@@ -9,6 +9,7 @@ import { getProductRoute, getRelatedProductsRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import SomeProductContainer from "@/app/ui/components/products/someProductContainer/someProductContainer";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
+import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
 
 /**
  * Page component that displays product details, attributes, related products, and a guarantee section.
@@ -45,9 +46,17 @@ export default function Page(): JSX.Element {
     product.earphoneAttributes?.earphoneShape === EarphoneShape.COFOSIS;
 
   const accessoriesIds = product.earphoneAttributes?.accessories;
-  console.log("ACCESSORIES:", accessoriesIds)
+  console.log("ACCESSORIES:", accessoriesIds);
   return (
     <div className="flex flex-col gap-3">
+      <AdminPanel
+        entity={"product"}
+        context={"READ"}
+        extras={{
+          entityId: productId,
+          url: "/admin/products",
+        }}
+      />
       <DisplayProductAttributes
         id={product.id}
         name={product.name}
@@ -65,11 +74,7 @@ export default function Page(): JSX.Element {
         isCofosis={isCofosis}
         brand={product.brand}
         include={product.include}
-        accessories={
-          accessoriesIds
-            ? accessoriesIds
-            : []
-        }
+        accessories={accessoriesIds ? accessoriesIds : []}
       />
       <DisplayProductDetails
         description={product.description}

@@ -19,8 +19,8 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import AdminPanel from "../../adminPanel/adminPanel";
 import UnorderedList from "@/app/ui/components/tags/unorderedList/unorderedList";
+import AdminPanel from "../../admin/adminPanel/adminPanel";
 
 /**
  * AdminBargain component for managing and displaying a specific bargain.
@@ -29,7 +29,7 @@ import UnorderedList from "@/app/ui/components/tags/unorderedList/unorderedList"
  *
  * @returns {JSX.Element} The rendered component.
  */
-export default function AdminBargain(): JSX.Element {
+export default function AboutBargain(): JSX.Element {
   const pathname = usePathname();
   const bargainId = pathname.split("/").pop();
 
@@ -54,7 +54,6 @@ export default function AdminBargain(): JSX.Element {
   return (
     <div className={`flex flex-col gap-3 ${componentText}`}>
       {/* Actions */}
-      <>
         <AdminPanel
           entity={"bargain"}
           context={"READ"}
@@ -63,7 +62,6 @@ export default function AdminBargain(): JSX.Element {
             url: "/admin/bargains",
           }}
         />
-      </>
       {/* Display */}
       <section
         className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10

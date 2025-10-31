@@ -62,7 +62,7 @@ export default function Novelty({
       {isPreview ? (
         <SeeMoreButton link={`/admin/novelties/${id}`} thing={"Novedad"} />
       ) : (
-        <></>
+        <SeeMoreButton link={`/services/novelties/${id}`} thing={"Novedad"} />
       )}
     </section>
   );

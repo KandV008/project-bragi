@@ -61,7 +61,7 @@ export default function Bargain({
       {isPreview ? (
         <SeeMoreButton link={`/admin/bargains/${id}`} thing={"Oferta"} />
       ) : (
-        <></>
+        <SeeMoreButton link={`/services/bargains/${id}`} thing={"Oferta"} />
       )}
     </section>
   );

@@ -21,14 +21,14 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import AdminPanel from "../../adminPanel/adminPanel";
+import AdminPanel from "../../admin/adminPanel/adminPanel";
 
 /**
  * This component displays the details of a novelty (news item) and provides options for editing or deleting it.
  *
- * @returns {JSX.Element} The AdminNovelty component.
+ * @returns {JSX.Element} The AboutNovelty component.
  */
-export default function AdminNovelty(): JSX.Element {
+export default function AboutNovelty(): JSX.Element {
   const pathname = usePathname();
   const noveltyId = pathname.split("/").pop();
 
