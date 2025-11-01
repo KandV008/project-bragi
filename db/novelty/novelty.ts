@@ -5,7 +5,7 @@ import { noveltyIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
 import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
-import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_CREATE_NOVELTY, METHOD_DELETE_NOVELTY, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES, METHOD_UPDATE_NOVELTY, NOVELTY_CONTEXT } from "../dbConfig";
+import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_CREATE_NOVELTY, METHOD_DELETE_NOVELTY, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES, METHOD_TOGGLE_NOVELTY, METHOD_UPDATE_NOVELTY, NOVELTY_CONTEXT } from "../dbConfig";
 
 /**
  * Fetches a paginated list of novelties.
@@ -119,6 +119,32 @@ export async function getNovelty(id: string | null): Promise<NoveltyEntity> {
     }
 }
 
+/**
+ * Toggles status of a single novelty by ID.
+ * @param {string | null} id - The ID of the novelty.
+ * @returns {Promise<NoveltyEntity>} 
+ * @throws {Error} - Throws an error if there is an exception during the operation.
+ */
+export async function toggleStatusNovelty(id: string | null): Promise<NoveltyEntity> {
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_TOGGLE_NOVELTY);
+
+    try {
+        const result = await sql`
+            UPDATE novelty
+            SET status = NOT status
+            WHERE id = ${id}
+            RETURNING *;
+        `;
+
+        const updatedNovelty = mapDocumentToNovelty(result.rows[0]);
+
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_TOGGLE_NOVELTY, updatedNovelty);
+        return updatedNovelty;
+    } catch (error) {
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_TOGGLE_NOVELTY, error);
+        throw new Error(`[${METHOD_TOGGLE_NOVELTY}] ${error}`);
+    }
+}
 
 /**
  * Handles the creation of a new novelty from form data.

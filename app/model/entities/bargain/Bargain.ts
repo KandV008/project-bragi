@@ -15,7 +15,7 @@ export interface BargainEntity {
     description: string;
     /** List of requirements to be able to use this bargain */
     requirements: string[];
-    /** Status of the bargan */
+    /** Status of the bargain */
     status: boolean;
 }
 
@@ -32,7 +32,7 @@ export function mapDocumentToBargain(bargain: any): BargainEntity {
             "id",
             "code",
             "title",
-            "description"
+            "description",
         ];
 
         checkDocument(bargain, requiredFields);
