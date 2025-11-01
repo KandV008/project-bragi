@@ -7,6 +7,7 @@ export enum Brand {
     PHONAK = "PHONAK",
     STARKEY = "STARKEY",
     INTERTON = "INTERTON",
+    SIGNIA = "SIGNIA"
 }
 
 /**
@@ -22,6 +23,16 @@ export interface BrandQuantity {
      * Quantity details for STARKEY brand.
      */
     STARKEY: BrandQuantityProps;
+
+    /**
+     * Quantity details for INTERTON brand.
+     */
+    INTERTON: BrandQuantityProps;
+
+    /**
+     * Quantity details for SIGNIA brand.
+     */
+    SIGNIA: BrandQuantityProps;
 }
 
 /**
@@ -49,6 +60,8 @@ export function checkBrandType(products: ProductEntity[]): BrandQuantity {
     const counts: BrandQuantity = {
         PHONAK: { quantity: 0, type: Brand.PHONAK },
         STARKEY: { quantity: 0, type: Brand.STARKEY },
+        INTERTON: { quantity: 0, type: Brand.PHONAK },
+        SIGNIA: { quantity: 0, type: Brand.STARKEY },
     };
 
     products.forEach((product) => {
