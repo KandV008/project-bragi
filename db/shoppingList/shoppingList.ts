@@ -40,26 +40,58 @@ export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
 }
 
 /**
- * Deletes a product from the user's shopping list.
+ * Deletes a product from all users' shopping lists.
  * @param {string | null | undefined} productId - The ID of the product to be removed.
- * @throws {Error} - If an error occurs while retrieving products in the shopping list from the database.
+ * @throws {Error} - If an error occurs while deleting the product from the shopping lists in the database.
  */
-export async function deleteProductInShoppingList(productId: string | null | undefined) {
+export async function deleteProductInShoppingList(productId: string | null | undefined): Promise<void> {
   Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST);
 
   try {
     const id = parseString(productId, "PRODUCT_ID");
-    const { userId } = auth();
 
     const result = await sql`
       DELETE FROM shoppingList
-      WHERE user_id = ${userId} AND product_id = ${id}
+      WHERE product_id = ${id}
     `;
 
     Logger.endFunction(
       SHOPPING_LIST_CONTEXT,
       METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST,
-      `Product with ID: ${id} has been removed from ${result.rowCount ?? 0} shopping lists.`
+      `Product with ID: ${id} has been removed from ${result.rowCount ?? 0} shopping lists (all users).`
+    );
+  } catch (error) {
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST}] ${error}`);
+  }
+}
+
+/**
+ * Deletes multiple products from all users' shopping lists.
+ * @param {string[]} productIds - The IDs of the products to be removed.
+ * @throws {Error} - If an error occurs while deleting products from the shopping list in the database.
+ */
+export async function deleteProductsInShoppingList(productIds: string[]): Promise<void> {
+  Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST);
+
+  try {
+    if (!Array.isArray(productIds) || productIds.length === 0) {
+      throw new Error("No product IDs provided for deletion from shopping lists.");
+    }
+
+    const validIds = productIds.map((id) => parseString(id, "PRODUCT_ID"));
+    const placeholders = validIds.map((_, i) => `$${i + 1}`).join(", ");
+
+    const query = `
+      DELETE FROM shoppingList
+      WHERE product_id IN (${placeholders})
+    `;
+    const result = await sql.query(query, validIds);
+
+    Logger.endFunction(
+      SHOPPING_LIST_CONTEXT,
+      METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST,
+      `Deleted ${result.rowCount ?? 0} shopping list entries for products: ${validIds.join(", ")}`
     );
   } catch (error) {
     Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, error);

@@ -199,3 +199,32 @@ export async function deleteProductInFavorites(productId: string | null | undefi
     }
 }
 
+/**
+ * Deletes multiple products from all users' favorites.
+ * @param {string[]} productIds - The list of product IDs to remove.
+ * @throws {Error} - If an error occurs while deleting products from the favorites database.
+ */
+export async function deleteProductsInFavorites(productIds: string[]): Promise<void> {
+  Logger.startFunction(FAVORITES_CONTEXT, METHOD_DELETE_IN_FAVORITES);
+
+  try {
+    if (!Array.isArray(productIds) || productIds.length === 0) {
+      throw new Error("No product IDs provided for deletion in favorites.");
+    }
+
+    const validIds = productIds.map((id) => parseString(id, "PRODUCT_ID"));
+    const placeholders = validIds.map((_, i) => `$${i + 1}`).join(", ");
+
+    const query = `DELETE FROM favourites WHERE product_id IN (${placeholders})`;
+    const result = await sql.query(query, validIds);
+
+    Logger.endFunction(
+      FAVORITES_CONTEXT,
+      METHOD_DELETE_IN_FAVORITES,
+      `Deleted ${result.rowCount ?? 0} favorite entries for products: ${validIds.join(", ")}`
+    );
+  } catch (error) {
+    Logger.errorFunction(FAVORITES_CONTEXT, METHOD_DELETE_IN_FAVORITES, error);
+    throw new Error(`[${METHOD_DELETE_IN_FAVORITES}] ${error}`);
+  }
+}

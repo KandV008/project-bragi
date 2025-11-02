@@ -4,8 +4,8 @@ import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, pars
 import { redirect } from "next/navigation";
 import { Logger } from "@/app/config/Logger";
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
-import { deleteProductInFavorites } from "../favorites/favorites";
-import { deleteProductInShoppingList } from "../shoppingList/shoppingList";
+import { deleteProductInFavorites, deleteProductsInFavorites } from "../favorites/favorites";
+import { deleteProductInShoppingList, deleteProductsInShoppingList } from "../shoppingList/shoppingList";
 import { METHOD_ACTION_CREATE_PRODUCT, METHOD_ACTION_DELETE_PRODUCT, METHOD_ACTION_UPDATE_PRODUCT, METHOD_CREATE_PRODUCT, METHOD_DELETE_PRODUCT, METHOD_GET_ACCESSORIES_AVAILABLE, METHOD_GET_ALL_PRODUCTS, METHOD_GET_FILTER_INFORMATION, METHOD_GET_LATEST_PRODUCTS, METHOD_GET_PRODUCT, METHOD_GET_PRODUCT_BY_CATEGORY, METHOD_GET_PRODUCTS_BY_IDS, METHOD_GET_RELATED_PRODUCTS, METHOD_SEARCH_PRODUCTS, METHOD_UPDATE_PRODUCT, PRODUCT_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
@@ -608,14 +608,13 @@ export async function deleteProductsByIds(productIds: string[]): Promise<void> {
       throw new Error(`No products were deleted. IDs not found: ${productIds.join(", ")}`);
     }
 
-    // Eliminar las referencias a estos productos en la propiedad "accessories"
-    //await db.collection("products").updateMany(
-    //  { accessories: { $in: productIds } },
-    //  { $pull: { accessories: { $in: productIds } } }
-    //);
+    await db.collection("products").updateMany(
+      { accessories: { $in: productIds } },
+      { $pull: { accessories: { $in: productIds } } as any }
+    );
 
-    //await deleteProductInFavorites(id);
-    //await deleteProductInShoppingList(id);
+    await deleteProductsInFavorites(productIds);
+    await deleteProductsInShoppingList(productIds);
 
     Logger.endFunction?.(
       PRODUCT_CONTEXT,
