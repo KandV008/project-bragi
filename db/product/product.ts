@@ -580,3 +580,52 @@ async function deleteProduct(productId: string | undefined | null): Promise<void
     throw new Error(`[${METHOD_DELETE_PRODUCT}] ${error}`)
   }
 }
+
+/**
+ * Deletes multiple products by their IDs from the database.
+ * @param {string[]} productIds - The IDs of the products to be deleted.
+ * @returns {Promise<void>} A promise that resolves when all products are deleted.
+ * @throws {Error} - If an error occurs while deleting products from the database.
+ */
+export async function deleteProductsByIds(productIds: string[]): Promise<void> {
+  Logger.startFunction(PRODUCT_CONTEXT, METHOD_DELETE_PRODUCT);
+
+  try {
+    if (!Array.isArray(productIds) || productIds.length === 0) {
+      throw new Error("No product IDs provided for deletion.");
+    }
+
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const objectIds = productIds.map((id) => new ObjectId(id));
+
+    const deleteResult = await coll.deleteMany({ _id: { $in: objectIds } });
+
+    if (deleteResult.deletedCount === 0) {
+      throw new Error(`No products were deleted. IDs not found: ${productIds.join(", ")}`);
+    }
+
+    // Eliminar las referencias a estos productos en la propiedad "accessories"
+    //await db.collection("products").updateMany(
+    //  { accessories: { $in: productIds } },
+    //  { $pull: { accessories: { $in: productIds } } }
+    //);
+
+    //await deleteProductInFavorites(id);
+    //await deleteProductInShoppingList(id);
+
+    Logger.endFunction?.(
+      PRODUCT_CONTEXT,
+      METHOD_DELETE_PRODUCT,
+      `Deleted ${deleteResult.deletedCount} product(s) with IDs: ${productIds.join(", ")}`
+    );
+  } catch (error) {
+    Logger.errorFunction(PRODUCT_CONTEXT, METHOD_DELETE_PRODUCT, error);
+    throw new Error(`[${METHOD_DELETE_PRODUCT}] ${error}`);
+  } finally {
+    await client.close();
+  }
+}
