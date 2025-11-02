@@ -1,11 +1,11 @@
 import { createContext } from 'react';
 
-type DeletingProductsContextType = {
+type DeletingContextType = {
   selectedValues: string[];
   setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-export const DeletingProductsContext = createContext<DeletingProductsContextType>({
+export const DeletingContext = createContext<DeletingContextType>({
   selectedValues: [],
   setSelectedValues: () => {},
 });

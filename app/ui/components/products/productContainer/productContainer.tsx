@@ -8,7 +8,6 @@ import Product, { ProductSkeleton } from "../product/product";
 import { shimmer } from "../../../tailwindClasses";
 import MediumButton from "../../buttons/mediumButton/mediumButton";
 import ProductCheck from "../productCheck/productCheck";
-import { DeletingProductsContext } from "../../contexts/deletingProductsContext";
 
 /**
  * Props for the ProductContainer component.

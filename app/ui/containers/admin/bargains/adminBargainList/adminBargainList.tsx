@@ -1,11 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import BargainContainer, { BargainContainerSkeleton } from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
+import BargainContainer, {
+  BargainContainerSkeleton,
+} from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { getBargainsRoute } from "@/app/api/routes";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 import AdminPanel from "../../adminPanel/adminPanel";
+import AdminDeletionPanel from "../../adminDeletionPanel/adminDeletionPanel";
+import { deleteBargains } from "@/db/bargain/bargain";
+import { DeletingContext } from "@/app/ui/components/contexts/deletingContext";
 
 /**
  * AdminBargainList component for displaying and managing a list of bargains.
@@ -19,6 +24,8 @@ export default function AdminBargainList(): JSX.Element {
   const increment = 10;
   const [bargains, setBargains] = useState<BargainEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
+  const [statusDeleteAction, setStatusDelecteAction] = useState(true);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   /**
    * Fetches the list of bargains based on start and end indices.
@@ -45,27 +52,36 @@ export default function AdminBargainList(): JSX.Element {
   };
 
   return (
-    <section className="flex flex-col gap-5 w-full justify-between">
-      {/* Actions */}
-      <AdminPanel
-        entity={"bargain"}
-        context={"ALL"}
-        extras={{
-          entityId: undefined,
-          url: "/admin",
-        }}
-      />
-
-      {/* List */}
-      <article className="md:size-fit lg:px-12">
-        <BargainContainer
-          bargains={bargains}
-          moreBargain={loadMoreBargains}
-          showMoreButton={bargains.length === endIndex + 1}
-          isPreview={true}
+    <DeletingContext.Provider value={{ selectedValues, setSelectedValues }}>
+      <section className="flex flex-col gap-5 w-full justify-between">
+        {/* Actions */}
+        <AdminPanel
+          entity={"bargain"}
+          context={"ALL"}
+          extras={{
+            entityId: undefined,
+            url: "/admin",
+          }}
         />
-      </article>
-    </section>
+        {/* Delete Bargains */}
+        <AdminDeletionPanel
+          action={deleteBargains}
+          updateDeletionStatus={() => {
+            setStatusDelecteAction((prev) => !prev);
+          }}
+        />
+        {/* List */}
+        <article className="md:size-fit lg:px-12">
+          <BargainContainer
+            bargains={bargains}
+            moreBargain={loadMoreBargains}
+            showMoreButton={bargains.length === endIndex + 1}
+            isPreview={true}
+            isDeleting={statusDeleteAction}
+          />
+        </article>
+      </section>
+    </DeletingContext.Provider>
   );
 }
 

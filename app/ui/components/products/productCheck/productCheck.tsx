@@ -10,7 +10,7 @@ import {
 } from "../../../tailwindClasses";
 import { FavoriteToggleButtonSkeleton } from "../../buttons/favoriteToggleButton/favoriteToggleButton";
 import { ChangeEvent, MouseEvent, useContext } from "react";
-import { DeletingProductsContext } from "../../contexts/deletingProductsContext";
+import { DeletingContext } from "../../contexts/deletingContext";
 
 interface ProductProps {
   id: string;
@@ -29,7 +29,7 @@ export default function ProductCheck({
 }: ProductProps) {
   const priceFormatted = Number(price).toFixed(2);
   const { selectedValues, setSelectedValues } = useContext(
-    DeletingProductsContext
+    DeletingContext
   );
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {

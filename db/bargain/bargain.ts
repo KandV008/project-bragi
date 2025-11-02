@@ -330,3 +330,45 @@ async function deleteBargain(id: string): Promise<void> {
         throw new Error(`[${METHOD_DELETE_BARGAIN}] ${error}`);
     }
 }
+
+/**
+ * Deletes multiple bargain entries.
+ *
+ * @param {string[]} ids - List of bargain IDs to delete.
+ * @returns {Promise<void>} - Resolves when all specified bargains are successfully deleted.
+ * @throws {Error} - If an error occurs during the deletion process.
+ */
+export async function deleteBargains(ids: string[]): Promise<void> {
+  Logger.startFunction(BARGAIN_CONTEXT, METHOD_DELETE_BARGAIN);
+
+  try {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      throw new Error("No bargain IDs provided for deletion.");
+    }
+
+    const validIds = ids.map((id) => parseString(id, "BARGAIN_ID"));
+    const placeholders = validIds.map((_, i) => `$${i + 1}`).join(", ");
+
+    const query = `
+      DELETE FROM bargain
+      WHERE id IN (${placeholders})
+    `;
+    const result = await sql.query(query, validIds);
+
+    if (result.rowCount === 0) {
+      throw new Error(
+        `No bargains were deleted. IDs not found: ${validIds.join(", ")}`
+      );
+    }
+
+    Logger.endFunction(
+      BARGAIN_CONTEXT,
+      METHOD_DELETE_BARGAIN,
+      `Deleted ${result.rowCount} bargain(s) with IDs: ${validIds.join(", ")}`
+    );
+  } catch (error) {
+    Logger.errorFunction(BARGAIN_CONTEXT, METHOD_DELETE_BARGAIN, error);
+    throw new Error(`[${METHOD_DELETE_BARGAIN}] ${error}`);
+  }
+}
+

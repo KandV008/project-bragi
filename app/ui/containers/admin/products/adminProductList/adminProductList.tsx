@@ -10,9 +10,10 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage
 import AdminPanel from "../../adminPanel/adminPanel";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 import { faArrowRight, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { DeletingProductsContext } from "@/app/ui/components/contexts/deletingProductsContext";
+import { DeletingContext } from "@/app/ui/components/contexts/deletingContext";
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 import { deleteProductsByIds } from "@/db/product/product";
+import AdminDeletionPanel from "../../adminDeletionPanel/adminDeletionPanel";
 
 /**
  * This component displays a list of products for administrative purposes. It fetches
@@ -58,9 +59,7 @@ export default function AdminProductList(): JSX.Element {
   };
 
   return (
-    <DeletingProductsContext.Provider
-      value={{ selectedValues, setSelectedValues }}
-    >
+    <DeletingContext.Provider value={{ selectedValues, setSelectedValues }}>
       <section className="flex flex-col gap-5 w-full justify-between">
         {/* Actions */}
         <AdminPanel
@@ -71,36 +70,12 @@ export default function AdminProductList(): JSX.Element {
           }}
         />
         {/* Delete products */}
-        <div 
-          className=" flex flex-col gap-2 justify-center fixed bottom-4 right-4 z-50"
-        >
-          <input
-            type="hidden"
-            name="delete-products"
-            value={selectedValues.join(",")}
-          />
-          {selectedValues.length !== 0 && (
-            <MediumButtonWithIcon
-              icon={faArrowRight}
-              text={"Continuar"}
-              subtext={""}
-              type={"danger"}
-              onClick={() => {
-                  deleteProductsByIds(selectedValues)
-              }}
-            />
-          )}
-
-          <MediumButtonWithIcon
-            icon={faTrashCan}
-            text={"Borrar productos"}
-            subtext={""}
-            type={"warning"}
-            onClick={() => {
-              setStatusDelecteAction((prev) => !prev);
-            }}
-          />
-        </div>
+        <AdminDeletionPanel
+          action={deleteProductsByIds}
+          updateDeletionStatus={() => {
+            setStatusDelecteAction((prev) => !prev);
+          }}
+        />
         {/* List */}
         <article className="md:size-fit lg:px-12">
           <ProductContainer
@@ -112,7 +87,7 @@ export default function AdminProductList(): JSX.Element {
           />
         </article>
       </section>
-    </DeletingProductsContext.Provider>
+    </DeletingContext.Provider>
   );
 }
 
