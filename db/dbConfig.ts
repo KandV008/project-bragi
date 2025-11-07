@@ -34,6 +34,7 @@ export const METHOD_ACTION_UPDATE_NOVELTY = "actionUpdateNovelty"
 export const METHOD_UPDATE_NOVELTY = "updateNovelty"
 export const METHOD_ACTION_DELETE_NOVELTY = "actionDeleteNovelty"
 export const METHOD_DELETE_NOVELTY = "deleteNovelty"
+export const METHOD_DELETE_NOVELTIES = "deleteNovelties"
 
 export const METHOD_GET_SHOPPING_LIST = "getShoppingList"
 export const METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST = "deleteProductInShoppingList"

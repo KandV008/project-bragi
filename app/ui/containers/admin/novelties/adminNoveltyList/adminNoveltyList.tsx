@@ -7,6 +7,9 @@ import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/nov
 import { NoveltyContainerSkeleton } from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
 import AdminPanel from "../../adminPanel/adminPanel";
+import { DeletingContext } from "@/app/ui/components/contexts/deletingContext";
+import AdminDeletionPanel from "../../adminDeletionPanel/adminDeletionPanel";
+import { deleteNovelties } from "@/db/novelty/novelty";
 
 /**
  * This component fetches and displays a paginated list of novelties (offers).
@@ -20,6 +23,8 @@ export default function AdminNoveltyList(): JSX.Element {
   const increment = 10;
   const [novelties, setNovelties] = useState<NoveltyEntity[]>([]);
   const [isLoading, setLoading] = useState(true);
+  const [statusDeleteAction, setStatusDelecteAction] = useState(true);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   /**
    * Fetches novelties from the API based on the current start and end indices.
@@ -50,26 +55,36 @@ export default function AdminNoveltyList(): JSX.Element {
   };
 
   return (
-    <section className="flex flex-col gap-5 w-full justify-between">
-      {/* Actions */}
-      <AdminPanel
-        entity={"novelty"}
-        context={"ALL"}
-        extras={{
-          entityId: undefined,
-          url: "/admin",
-        }}
-      />
-      {/* List */}
-      <article className="md:size-fit lg:px-12">
-        <NoveltyContainer
-          novelties={novelties}
-          moreNovelty={addMoreProducts}
-          showMoreButton={novelties.length === endIndex + 1}
-          isPreview={true}
+    <DeletingContext.Provider value={{ selectedValues, setSelectedValues }}>
+      <section className="flex flex-col gap-5 w-full justify-between">
+        {/* Actions */}
+        <AdminPanel
+          entity={"novelty"}
+          context={"ALL"}
+          extras={{
+            entityId: undefined,
+            url: "/admin",
+          }}
         />
-      </article>
-    </section>
+        {/* Delete Bargains */}
+        <AdminDeletionPanel
+          action={deleteNovelties}
+          updateDeletionStatus={() => {
+            setStatusDelecteAction((prev) => !prev);
+          }}
+        />
+        {/* List */}
+        <article className="md:size-fit lg:px-12">
+          <NoveltyContainer
+            novelties={novelties}
+            moreNovelty={addMoreProducts}
+            showMoreButton={novelties.length === endIndex + 1}
+            isPreview={true}
+            isDeleting={statusDeleteAction}
+          />
+        </article>
+      </section>
+    </DeletingContext.Provider>
   );
 }
 
