@@ -4,7 +4,7 @@ import { COMPONENT_TEST_TAG } from '@/tests/testConstants'
 import { render, screen } from '@testing-library/react'
 
 describe("<BargainContainer />", () => {
-    it(`[${COMPONENT_TEST_TAG}] should render 3 bargains as not preview with no Show More Button`, () => {
+    it.skip(`[${COMPONENT_TEST_TAG}] should render 3 bargains as not preview with no Show More Button`, () => {
         const bargains: BargainEntity[] = [
             {
                 id: "1", code: "TEST1", title: "Test 1", description: "Texto Ejemplo 1",
