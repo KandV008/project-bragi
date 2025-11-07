@@ -7,10 +7,11 @@ import Loading from "./loading";
 import { getActiveBargainsRoute, getBargainsRoute } from "@/app/api/routes";
 import Spinner from "@/app/ui/components/common/spinner/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
+import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
 
 /**
  * Page component that displays a list of bargains.
- * This component fetches bargain data and displays it using the `BargainContainer`. 
+ * This component fetches bargain data and displays it using the `BargainContainer`.
  * It handles loading states, pagination, and displays a spinner while fetching additional data.
  *
  * @returns {JSX.Element} The Bargains page component.
@@ -27,9 +28,7 @@ export default function Page(): JSX.Element {
   useEffect(() => {
     if (!isLoading) setSpinnerActive(true);
 
-    fetch(
-      `${getActiveBargainsRoute}?start=${startIndex}&end=${endIndex}`
-    )
+    fetch(`${getActiveBargainsRoute}?start=${startIndex}&end=${endIndex}`)
       .then((response) => response.json())
       .then((data) => {
         if (startIndex === 0) {
@@ -57,6 +56,13 @@ export default function Page(): JSX.Element {
 
   return (
     <>
+      <AdminPanel
+        entity={"bargain"}
+        context={"ALL"}
+        extras={{
+          url: "/admin",
+        }}
+      />
       {isSpinnerActive ? (
         <div className="fixed top-36 right-0 xl:right-80 transform -translate-x-1/2 z-50">
           <Spinner />

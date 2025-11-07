@@ -5,7 +5,7 @@ import { noveltyIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
 import { parseNoveltyForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
-import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_CREATE_NOVELTY, METHOD_DELETE_NOVELTY, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES, METHOD_UPDATE_NOVELTY, NOVELTY_CONTEXT } from "../dbConfig";
+import { METHOD_ACTION_CREATE_NOVELTY, METHOD_ACTION_DELETE_NOVELTY, METHOD_ACTION_UPDATE_NOVELTY, METHOD_CREATE_NOVELTY, METHOD_DELETE_NOVELTIES, METHOD_DELETE_NOVELTY, METHOD_GET_NOVELTIES, METHOD_GET_NOVELTY, METHOD_GET_VALID_NOVELTIES, METHOD_TOGGLE_NOVELTY, METHOD_UPDATE_NOVELTY, NOVELTY_CONTEXT } from "../dbConfig";
 
 /**
  * Fetches a paginated list of novelties.
@@ -119,6 +119,32 @@ export async function getNovelty(id: string | null): Promise<NoveltyEntity> {
     }
 }
 
+/**
+ * Toggles status of a single novelty by ID.
+ * @param {string | null} id - The ID of the novelty.
+ * @returns {Promise<NoveltyEntity>} 
+ * @throws {Error} - Throws an error if there is an exception during the operation.
+ */
+export async function toggleStatusNovelty(id: string | null): Promise<NoveltyEntity> {
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_TOGGLE_NOVELTY);
+
+    try {
+        const result = await sql`
+            UPDATE novelty
+            SET status = NOT status
+            WHERE id = ${id}
+            RETURNING *;
+        `;
+
+        const updatedNovelty = mapDocumentToNovelty(result.rows[0]);
+
+        Logger.endFunction(NOVELTY_CONTEXT, METHOD_TOGGLE_NOVELTY, updatedNovelty);
+        return updatedNovelty;
+    } catch (error) {
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_TOGGLE_NOVELTY, error);
+        throw new Error(`[${METHOD_TOGGLE_NOVELTY}] ${error}`);
+    }
+}
 
 /**
  * Handles the creation of a new novelty from form data.
@@ -290,4 +316,47 @@ async function deleteNovelty(noveltyId: any): Promise<void> {
         throw new Error(`[${METHOD_DELETE_NOVELTY}] ${error}`);
     }
 }
+
+/**
+ * Deletes multiple novelties from the database.
+ * @param {string[]} ids - An array of novelty IDs to delete.
+ * @throws {Error} - Throws an error if there is an exception during the operation.
+ */
+export async function deleteNovelties(ids: string[]): Promise<void> {
+    Logger.startFunction(NOVELTY_CONTEXT, METHOD_DELETE_NOVELTIES);
+
+    try {
+
+        if (!Array.isArray(ids) || ids.length === 0) {
+            throw new Error("No bargain IDs provided for deletion.");
+        }
+
+        const validIds = ids.map((id) => parseString(id, "BARGAIN_ID"));
+        const placeholders = validIds.map((_, i) => `$${i + 1}`).join(", ");
+
+        const query = `
+            DELETE FROM novelty
+            WHERE id IN(${placeholders})
+        `;
+
+        const result = await sql.query(query, validIds);
+
+
+        if (result.rowCount === 0) {
+            throw new Error(
+                `No novelties were deleted. IDs not found: ${validIds.join(", ")}`
+            );
+        }
+
+        Logger.endFunction(
+            NOVELTY_CONTEXT,
+            METHOD_DELETE_NOVELTIES,
+            `${result.rowCount} novelty(ies) removed from the database.`
+        );
+    } catch (error) {
+        Logger.errorFunction(NOVELTY_CONTEXT, METHOD_DELETE_NOVELTIES, error);
+        throw new Error(`[${METHOD_DELETE_NOVELTIES}] ${error}`);
+    }
+}
+
 

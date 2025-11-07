@@ -7,6 +7,7 @@ import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/nov
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import Spinner from "@/app/ui/components/common/spinner/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
+import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
 
 /**
  * Page component that handles the display of novelties.
@@ -27,9 +28,7 @@ export default function Page(): JSX.Element {
   useEffect(() => {
     if (!isLoading) setSpinnerActive(true);
 
-    fetch(
-      `${getActiveNoveltiesRoute}?start=${startIndex}&end=${endIndex}`
-    )
+    fetch(`${getActiveNoveltiesRoute}?start=${startIndex}&end=${endIndex}`)
       .then((response) => response.json())
       .then((data) => {
         if (startIndex === 0) {
@@ -43,7 +42,7 @@ export default function Page(): JSX.Element {
       .catch((error) => console.error("Error fetching novelties:", error));
   }, [endIndex, isLoading, startIndex]);
 
-  if (isLoading) return <Loading />; 
+  if (isLoading) return <Loading />;
   if (novelties.length === 0) return <EmptyMessage />;
 
   /**
@@ -56,6 +55,13 @@ export default function Page(): JSX.Element {
 
   return (
     <>
+      <AdminPanel
+        entity={"novelty"}
+        context={"ALL"}
+        extras={{
+          url: "/admin",
+        }}
+      />
       {isSpinnerActive ? (
         <div className="fixed top-36 right-0 xl:right-80 transform -translate-x-1/2 z-50">
           <Spinner />

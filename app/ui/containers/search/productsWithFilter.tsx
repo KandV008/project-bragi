@@ -11,6 +11,7 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import ProductContainer from "../../components/products/productContainer/productContainer";
 import Spinner from "../../components/common/spinner/spinner";
 import EmptyMessage from "../../components/messages/emptyMessage/emptyMessage";
+import AdminPanel from "../admin/adminPanel/adminPanel";
 
 interface ProductsWithFilterProps {
   /** The API endpoint to fetch products from. */
@@ -122,6 +123,13 @@ export default function ProductsWithFilter({
 
   return (
     <div className="relative w-full">
+      <AdminPanel
+        entity={"product"}
+        context={"ALL"}
+        extras={{
+          url: "/admin",
+        }}
+      />
       {isSpinnerActive ? (
         <div className="fixed top-36 right-0 xl:right-80 transform -translate-x-1/2 z-50">
           <Spinner />

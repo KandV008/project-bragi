@@ -4,6 +4,7 @@ import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import Bargain, { BargainSkeleton } from "../bargain/bargain";
 import { shimmer } from "../../../tailwindClasses";
 import MediumButton from "../../buttons/mediumButton/mediumButton";
+import BargainCheck from "../bargainCheck/bargainCheck";
 
 /**
  * Props for the `BargainContainer` component.
@@ -17,6 +18,7 @@ interface BargainContainerProps {
   showMoreButton: boolean;
   /** Indicates if the bargains are displayed in preview mode. */
   isPreview?: boolean;
+  isDeleting?: boolean;
 }
 
 /**
@@ -30,19 +32,32 @@ export default function BargainContainer({
   moreBargain,
   showMoreButton,
   isPreview,
+  isDeleting,
 }: BargainContainerProps): JSX.Element {
   return (
     <section className="flex flex-col gap-10 w-full items-center">
       <article className="flex flex-col w-full p-3 md:w-2/3 lg:w-1/2 gap-3 items-center self-center">
         {bargains.map((bargain) => (
-          <Bargain
-            key={bargain.id}
-            id={bargain.id}
-            title={bargain.title}
-            description={bargain.description}
-            code={bargain.code}
-            isPreview={isPreview}
-          />
+          <>
+            {isDeleting ? (
+              <BargainCheck
+                key={bargain.id}
+                id={bargain.id}
+                title={bargain.title}
+                description={bargain.description}
+                code={bargain.code}
+              />
+            ) : (
+              <Bargain
+                key={bargain.id}
+                id={bargain.id}
+                title={bargain.title}
+                description={bargain.description}
+                code={bargain.code}
+                isPreview={isPreview}
+              />
+            )}
+          </>
         ))}
       </article>
       {showMoreButton ? (

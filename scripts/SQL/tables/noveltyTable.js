@@ -26,7 +26,8 @@ async function createNoveltyTable(client) {
         promotional_image VARCHAR(255) NOT NULL,
         type VARCHAR(255) NOT NULL,
         context VARCHAR(255) NOT NULL,
-        end_date TIMESTAMP NOT NULL
+        end_date TIMESTAMP NOT NULL,
+        status BOOLEAN DEFAULT false NOT NULL
       );
     `;
 

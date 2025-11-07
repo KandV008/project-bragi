@@ -21,14 +21,18 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import AdminPanel from "../../adminPanel/adminPanel";
+import AdminPanel from "../../admin/adminPanel/adminPanel";
+import { Protect } from "@clerk/nextjs";
+import { faBoltLightning } from "@fortawesome/free-solid-svg-icons";
+import { toggleStatusNovelty } from "@/db/novelty/novelty";
+import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 
 /**
  * This component displays the details of a novelty (news item) and provides options for editing or deleting it.
  *
- * @returns {JSX.Element} The AdminNovelty component.
+ * @returns {JSX.Element} The AboutNovelty component.
  */
-export default function AdminNovelty(): JSX.Element {
+export default function AboutNovelty(): JSX.Element {
   const pathname = usePathname();
   const noveltyId = pathname.split("/").pop();
 
@@ -49,6 +53,13 @@ export default function AdminNovelty(): JSX.Element {
 
   if (isLoading) return <AdminNoveltySkeleton />;
   if (!novelty) return <EmptyMessage />;
+
+  const isActive = novelty.status;
+  const labelActiveButton = isActive ? "Desactivar Novedad" : "Activar Novedad";
+  const formActiveButton = async () => {
+    const updatedNovelty = await toggleStatusNovelty(noveltyId!);
+    setNovelty(updatedNovelty);
+  };
 
   return (
     <div className={`flex flex-col gap-3 ${componentText}`}>
@@ -76,7 +87,6 @@ export default function AdminNovelty(): JSX.Element {
               alt={"imagen_promocional"}
               height={750}
               width={1250}
-              
             />
           </div>
         </div>
@@ -90,9 +100,25 @@ export default function AdminNovelty(): JSX.Element {
           <Article label="Contexto" value={novelty.context} />
         </div>
         <div className="flex flex-row items-center sm:items-start gap-3">
-          <Article label="Fecha de Finalización" value={novelty.endDate.toString()} />
-          <Article label="Código asociado" value={novelty.code ? novelty.code : "Sin Crear"} />
+          <Article
+            label="Fecha de Finalización"
+            value={novelty.endDate.toString()}
+          />
+          <Article
+            label="Código asociado"
+            value={novelty.code ? novelty.code : "Sin Crear"}
+          />
         </div>
+        {/* Switch Active */}
+        <Protect permission="org:product:managment">
+          <MediumButtonWithIcon
+            text={labelActiveButton}
+            icon={faBoltLightning}
+            subtext={""}
+            onClick={formActiveButton}
+            type={"default"}
+          />
+        </Protect>
       </section>
     </div>
   );

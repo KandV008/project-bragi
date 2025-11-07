@@ -5,7 +5,7 @@ import { bargainIdName } from "@/app/config/JSONnames";
 import { Logger } from "@/app/config/Logger";
 import { parseBargainForm, parseStartAndEndIndex, parseString } from "@/lib/parser/parser";
 import { sql } from "@vercel/postgres";
-import { BARGAIN_CONTEXT, METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_DELETE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_CREATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_GET_BARGAINS, METHOD_UPDATE_BARGAIN } from "../dbConfig";
+import { BARGAIN_CONTEXT, METHOD_ACTION_CREATE_BARGAIN, METHOD_ACTION_DELETE_BARGAIN, METHOD_ACTION_UPDATE_BARGAIN, METHOD_CREATE_BARGAIN, METHOD_DELETE_BARGAIN, METHOD_GET_BARGAIN, METHOD_GET_BARGAIN_BY_CODE, METHOD_GET_BARGAINS, METHOD_TOGGLE_BARGAIN, METHOD_UPDATE_BARGAIN } from "../dbConfig";
 
 /**
  * Retrieves a list of bargains from the database.
@@ -120,6 +120,33 @@ export async function getBargainByCode(code: string | null | undefined): Promise
     } catch (error) {
         Logger.errorFunction(BARGAIN_CONTEXT, METHOD_GET_BARGAIN_BY_CODE, error);
         throw new Error(`[${METHOD_GET_BARGAIN_BY_CODE}] ${error}`);
+    }
+}
+
+/**
+ * Toggles status of a single bargain by ID.
+ * @param {string | null} id - The ID of the bargain.
+ * @returns {Promise<BargainEntity>} 
+ * @throws {Error} - Throws an error if there is an exception during the operation.
+ */
+export async function toggleStatusBargain(id: string | null): Promise<BargainEntity> {
+    Logger.startFunction(BARGAIN_CONTEXT, METHOD_TOGGLE_BARGAIN);
+
+    try {
+        const result = await sql`
+            UPDATE bargain
+            SET status = NOT status
+            WHERE id = ${id}
+            RETURNING *;
+        `;
+
+        const updatedNovelty = mapDocumentToBargain(result.rows[0]);
+
+        Logger.endFunction(BARGAIN_CONTEXT, METHOD_TOGGLE_BARGAIN, updatedNovelty);
+        return updatedNovelty;
+    } catch (error) {
+        Logger.errorFunction(BARGAIN_CONTEXT, METHOD_TOGGLE_BARGAIN, error);
+        throw new Error(`[${METHOD_TOGGLE_BARGAIN}] ${error}`);
     }
 }
 
@@ -303,3 +330,45 @@ async function deleteBargain(id: string): Promise<void> {
         throw new Error(`[${METHOD_DELETE_BARGAIN}] ${error}`);
     }
 }
+
+/**
+ * Deletes multiple bargain entries.
+ *
+ * @param {string[]} ids - List of bargain IDs to delete.
+ * @returns {Promise<void>} - Resolves when all specified bargains are successfully deleted.
+ * @throws {Error} - If an error occurs during the deletion process.
+ */
+export async function deleteBargains(ids: string[]): Promise<void> {
+  Logger.startFunction(BARGAIN_CONTEXT, METHOD_DELETE_BARGAIN);
+
+  try {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      throw new Error("No bargain IDs provided for deletion.");
+    }
+
+    const validIds = ids.map((id) => parseString(id, "BARGAIN_ID"));
+    const placeholders = validIds.map((_, i) => `$${i + 1}`).join(", ");
+
+    const query = `
+      DELETE FROM bargain
+      WHERE id IN (${placeholders})
+    `;
+    const result = await sql.query(query, validIds);
+
+    if (result.rowCount === 0) {
+      throw new Error(
+        `No bargains were deleted. IDs not found: ${validIds.join(", ")}`
+      );
+    }
+
+    Logger.endFunction(
+      BARGAIN_CONTEXT,
+      METHOD_DELETE_BARGAIN,
+      `Deleted ${result.rowCount} bargain(s) with IDs: ${validIds.join(", ")}`
+    );
+  } catch (error) {
+    Logger.errorFunction(BARGAIN_CONTEXT, METHOD_DELETE_BARGAIN, error);
+    throw new Error(`[${METHOD_DELETE_BARGAIN}] ${error}`);
+  }
+}
+

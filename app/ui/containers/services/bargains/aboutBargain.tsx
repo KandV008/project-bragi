@@ -19,8 +19,12 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import AdminPanel from "../../adminPanel/adminPanel";
 import UnorderedList from "@/app/ui/components/tags/unorderedList/unorderedList";
+import AdminPanel from "../../admin/adminPanel/adminPanel";
+import { Protect } from "@clerk/nextjs";
+import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
+import { faBoltLightning } from "@fortawesome/free-solid-svg-icons";
+import { toggleStatusBargain } from "@/db/bargain/bargain";
 
 /**
  * AdminBargain component for managing and displaying a specific bargain.
@@ -29,7 +33,7 @@ import UnorderedList from "@/app/ui/components/tags/unorderedList/unorderedList"
  *
  * @returns {JSX.Element} The rendered component.
  */
-export default function AdminBargain(): JSX.Element {
+export default function AboutBargain(): JSX.Element {
   const pathname = usePathname();
   const bargainId = pathname.split("/").pop();
 
@@ -51,19 +55,24 @@ export default function AdminBargain(): JSX.Element {
   if (isLoading) return <AdminBargainSkeleton />;
   if (!bargain) return <EmptyMessage />;
 
+  const isActive = bargain.status;
+  const labelActiveButton = isActive ? "Desactivar Oferta" : "Activar Oferta";
+  const formActiveButton = async () => {
+    const updatedBargain = await toggleStatusBargain(bargainId!);
+    setBargain(updatedBargain);
+  };
+
   return (
     <div className={`flex flex-col gap-3 ${componentText}`}>
       {/* Actions */}
-      <>
-        <AdminPanel
-          entity={"bargain"}
-          context={"READ"}
-          extras={{
-            entityId: bargainId,
-            url: "/admin/bargains",
-          }}
-        />
-      </>
+      <AdminPanel
+        entity={"bargain"}
+        context={"READ"}
+        extras={{
+          entityId: bargainId,
+          url: "/admin/bargains",
+        }}
+      />
       {/* Display */}
       <section
         className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10
@@ -80,8 +89,21 @@ export default function AdminBargain(): JSX.Element {
         {/* Status Data */}
         <div className="flex flex-col items-center sm:grid sm:grid-cols-2 gap-3">
           <UnorderedList label="Requisitos" values={bargain.requirements} />
-          <Article label="Estado" value={bargain.status ? "Activo" : "Inactivo"} />
+          <Article
+            label="Estado"
+            value={bargain.status ? "Activo" : "Inactivo"}
+          />
         </div>
+        {/* Switch Active */}
+        <Protect permission="org:product:managment">
+          <MediumButtonWithIcon
+            text={labelActiveButton}
+            icon={faBoltLightning}
+            subtext={""}
+            onClick={formActiveButton}
+            type={"default"}
+          />
+        </Protect>
       </section>
     </div>
   );

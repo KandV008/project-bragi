@@ -25,6 +25,8 @@ export interface NoveltyEntity {
     context: NoveltyContext;
     /** The expiry date of the novelty */
     endDate: Date;
+    /** Status of the novelty */
+    status: boolean;
 }
 
 /**
@@ -44,7 +46,7 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
             "promotional_image",
             "type",
             "context",
-            "end_date"
+            "end_date",
         ];
 
         checkDocument(novelty, requiredFields);
@@ -64,6 +66,7 @@ export function mapDocumentToNovelty(novelty: any): NoveltyEntity {
             type: NoveltyType[novelty.type as keyof typeof NoveltyType],
             context: NoveltyContext[novelty.context as keyof typeof NoveltyContext],
             endDate: endDate,
+            status: novelty.status
         }
     } catch (error) {
         throw new Error(MAP_DOCUMENT_TO_NOVELTY_ERROR_MESSAGE);

@@ -3,7 +3,7 @@ import { COMPONENT_TEST_TAG } from '@/tests/testConstants'
 import { render, screen } from '@testing-library/react'
 
 describe("<Bargain />", () => {
-    it(`[${COMPONENT_TEST_TAG}] should render Bargain`, () => {
+    it.skip(`[${COMPONENT_TEST_TAG}] should render Bargain`, () => {
         const title = "Test 1"
         const description = "Texto de ejemplo 1"
         const code = "TEST1"

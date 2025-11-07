@@ -4,6 +4,7 @@ import { shimmer } from "../../../tailwindClasses";
 import MediumButton from "../../buttons/mediumButton/mediumButton";
 import Novelty, { NoveltySkeleton } from "../novelty/novelty";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
+import NoveltyCheck from "../noveltyCheck/noveltyCheck";
 
 /**
  * Props for the NoveltyContainer component.
@@ -17,7 +18,8 @@ interface NoveltyContainerProps {
   novelties: NoveltyEntity[];
   moreNovelty?: () => void;
   showMoreButton: boolean;
-  isPreview?: boolean; 
+  isPreview?: boolean;
+  isDeleting?: boolean;
 }
 
 /**
@@ -31,20 +33,33 @@ export default function NoveltyContainer({
   novelties,
   moreNovelty,
   showMoreButton,
-  isPreview
+  isPreview,
+  isDeleting,
 }: NoveltyContainerProps): JSX.Element {
   return (
     <section className="flex flex-col gap-10 w-full items-center">
       <article className="flex flex-col w-full p-3 md:w-2/3 lg:w-1/2 gap-3 items-center self-center">
         {novelties.map((novelty) => (
-          <Novelty
-            key={novelty.id}
-            id={novelty.id}
-            title={novelty.title}
-            description={novelty.description}
-            promotionalImage={novelty.promotionalImage}
-            isPreview={isPreview}
-          />
+          <>
+            {isDeleting ? (
+              <NoveltyCheck
+                key={novelty.id}
+                id={novelty.id}
+                title={novelty.title}
+                description={novelty.description}
+                promotionalImage={novelty.promotionalImage}
+              />
+            ) : (
+              <Novelty
+                key={novelty.id}
+                id={novelty.id}
+                title={novelty.title}
+                description={novelty.description}
+                promotionalImage={novelty.promotionalImage}
+                isPreview={isPreview}
+              />
+            )}
+          </>
         ))}
       </article>
       {showMoreButton ? (

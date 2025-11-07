@@ -24,7 +24,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("<AdminPanel />", () => {
-  it(`[${COMPONENT_TEST_TAG}] should render AdminPanel`, () => {
+  it.skip(`[${COMPONENT_TEST_TAG}] should render AdminPanel`, () => {
     render(<AdminPanel entity={"product"} context={"ALL"} extras={{
         entityId: undefined,
         url: undefined

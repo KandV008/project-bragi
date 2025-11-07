@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 /**
  * Page component for viewing a bargain.
- * This component renders the `AdminBargain` container.
+ * This component renders the `AboutBargain` container.
  *
- * @returns {JSX.Element} The AdminBargain page component.
+ * @returns {JSX.Element} The AboutBargain page component.
  */
 export default function Page(): JSX.Element {
   return <AboutBargain />;

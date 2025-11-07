@@ -4,8 +4,8 @@ import { parseFilters, parsePrice, parseProductForm, parseStartAndEndIndex, pars
 import { redirect } from "next/navigation";
 import { Logger } from "@/app/config/Logger";
 import { ProductEntity, mapDocumentToProduct } from "@/app/model/entities/product/Product";
-import { deleteProductInFavorites } from "../favorites/favorites";
-import { deleteProductInShoppingList } from "../shoppingList/shoppingList";
+import { deleteProductInFavorites, deleteProductsInFavorites } from "../favorites/favorites";
+import { deleteProductInShoppingList, deleteProductsInShoppingList } from "../shoppingList/shoppingList";
 import { METHOD_ACTION_CREATE_PRODUCT, METHOD_ACTION_DELETE_PRODUCT, METHOD_ACTION_UPDATE_PRODUCT, METHOD_CREATE_PRODUCT, METHOD_DELETE_PRODUCT, METHOD_GET_ACCESSORIES_AVAILABLE, METHOD_GET_ALL_PRODUCTS, METHOD_GET_FILTER_INFORMATION, METHOD_GET_LATEST_PRODUCTS, METHOD_GET_PRODUCT, METHOD_GET_PRODUCT_BY_CATEGORY, METHOD_GET_PRODUCTS_BY_IDS, METHOD_GET_RELATED_PRODUCTS, METHOD_SEARCH_PRODUCTS, METHOD_UPDATE_PRODUCT, PRODUCT_CONTEXT } from "../dbConfig";
 
 require("dotenv").config({ path: ".env.local" });
@@ -578,5 +578,53 @@ async function deleteProduct(productId: string | undefined | null): Promise<void
   } catch (error) {
     Logger.errorFunction(PRODUCT_CONTEXT, METHOD_DELETE_PRODUCT, error);
     throw new Error(`[${METHOD_DELETE_PRODUCT}] ${error}`)
+  }
+}
+
+/**
+ * Deletes multiple products by their IDs from the database.
+ * @param {string[]} productIds - The IDs of the products to be deleted.
+ * @returns {Promise<void>} A promise that resolves when all products are deleted.
+ * @throws {Error} - If an error occurs while deleting products from the database.
+ */
+export async function deleteProductsByIds(productIds: string[]): Promise<void> {
+  Logger.startFunction(PRODUCT_CONTEXT, METHOD_DELETE_PRODUCT);
+
+  try {
+    if (!Array.isArray(productIds) || productIds.length === 0) {
+      throw new Error("No product IDs provided for deletion.");
+    }
+
+    await client.connect();
+
+    const db = client.db("Product-DDBB");
+    const coll = db.collection("products");
+
+    const objectIds = productIds.map((id) => new ObjectId(id));
+
+    const deleteResult = await coll.deleteMany({ _id: { $in: objectIds } });
+
+    if (deleteResult.deletedCount === 0) {
+      throw new Error(`No products were deleted. IDs not found: ${productIds.join(", ")}`);
+    }
+
+    await db.collection("products").updateMany(
+      { accessories: { $in: productIds } },
+      { $pull: { accessories: { $in: productIds } } as any }
+    );
+
+    await deleteProductsInFavorites(productIds);
+    await deleteProductsInShoppingList(productIds);
+
+    Logger.endFunction?.(
+      PRODUCT_CONTEXT,
+      METHOD_DELETE_PRODUCT,
+      `Deleted ${deleteResult.deletedCount} product(s) with IDs: ${productIds.join(", ")}`
+    );
+  } catch (error) {
+    Logger.errorFunction(PRODUCT_CONTEXT, METHOD_DELETE_PRODUCT, error);
+    throw new Error(`[${METHOD_DELETE_PRODUCT}] ${error}`);
+  } finally {
+    await client.close();
   }
 }
