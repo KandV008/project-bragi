@@ -19,12 +19,15 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import UnorderedList from "@/app/ui/components/tags/unorderedList/unorderedList";
+import UnorderedList, {
+  UnorderedListSkeleton,
+} from "@/app/ui/components/tags/unorderedList/unorderedList";
 import AdminPanel from "../../admin/adminPanel/adminPanel";
 import { Protect } from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 import { faBoltLightning } from "@fortawesome/free-solid-svg-icons";
 import { toggleStatusBargain } from "@/db/bargain/bargain";
+import SmallButtonWithIcon from "@/app/ui/components/buttons/smallButtonWithIcon/smallButtonWithIcon";
 
 /**
  * AdminBargain component for managing and displaying a specific bargain.
@@ -75,34 +78,48 @@ export default function AboutBargain(): JSX.Element {
       />
       {/* Display */}
       <section
-        className={`flex flex-col items-center sm:items-start gap-3 p-2 md:p-10
-          ${componentBackground} ${componentBorder} rounded-xl`}
+        className={`flex flex-col place-self-center items-center sm:items-start pag-2 sm:gap-5 p-4 md:p-10
+          ${componentBackground} ${componentBorder} rounded-xl w-5/6 sm:w-2/3`}
       >
-        <SectionHeader text="Detalles de la oferta" />
-        {/* Basic Data */}
-        <div className="flex flex-col items-center sm:grid sm:grid-cols-2 gap-3">
-          <Article label="Código" value={bargain.code} />
-          <Article label="Título" value={bargain.title} />
-        </div>
+        <SectionHeader text={bargain.title} />
         {/* Description */}
-        <Article label="Descripción" value={bargain.description} />
+        <Article label="" value={bargain.description} />
+
         {/* Status Data */}
-        <div className="flex flex-col items-center sm:grid sm:grid-cols-2 gap-3">
-          <UnorderedList label="Requisitos" values={bargain.requirements} />
-          <Article
-            label="Estado"
-            value={bargain.status ? "Activo" : "Inactivo"}
+        <div className="flex flex-col items-start sm:grid sm:grid-cols-2 gap-3">
+          <Article label="Código para usar en la cesta:" value={bargain.code} />
+          <UnorderedList
+            label="Requisitos para activar el código:"
+            values={bargain.requirements}
           />
         </div>
         {/* Switch Active */}
         <Protect permission="org:product:managment">
-          <MediumButtonWithIcon
-            text={labelActiveButton}
-            icon={faBoltLightning}
-            subtext={""}
-            onClick={formActiveButton}
-            type={"default"}
-          />
+          <br></br>
+          <div className={`w-full border-t mb-3 ${componentBorder}`}></div>
+          <div className="flex flex-col sm:flex-row w-full gap-2 items-center justify-center">
+            <Article
+              label="Estado"
+              value={bargain.status ? "Activo" : "Inactivo"}
+            />
+            <div className="hidden sm:block">
+              <MediumButtonWithIcon
+                text={labelActiveButton}
+                icon={faBoltLightning}
+                subtext={""}
+                onClick={formActiveButton}
+                type={"default"}
+              />
+            </div>
+            <div className="block sm:hidden">
+              <SmallButtonWithIcon
+                icon={faBoltLightning}
+                text={labelActiveButton}
+                subtext={""}
+                onClick={formActiveButton}
+              />
+            </div>
+          </div>
         </Protect>
       </section>
     </div>
@@ -117,16 +134,16 @@ export default function AboutBargain(): JSX.Element {
 export function AdminBargainSkeleton(): JSX.Element {
   return (
     <div
-      className={`${shimmer} flex flex-col gap-3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
+      className={`${shimmer} flex flex-col place-self-center gap-5 w-2/3 relative overflow-hidden rounded rounded-tr-3xl shadow-sm`}
     >
       {/* Display */}
-      <section className="flex flex-col gap-3 p-10 bg-gray-100">
+      <section className="flex flex-col gap-3 p-4 lg:p-10 bg-gray-100">
         <SectionHeaderSkeleton />
-        <div className="grid grid-cols-2 gap-3">
-          <ArticleSkeleton />
-          <ArticleSkeleton />
-        </div>
         <TextAreaInputSkeleton />
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-3">
+          <ArticleSkeleton />
+          <UnorderedListSkeleton />
+        </div>
       </section>
     </div>
   );

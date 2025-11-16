@@ -42,10 +42,10 @@ export function UnorderedListSkeleton(): JSX.Element {
       {/* Placeholder for list label */}
       <h1 className="md:self-start h-7 sm:h-7 lg:h-8 w-24 rounded-md bg-gray-200" />
       {/* Placeholder for list items */}
-      <ul className="flex flex-col px-10 text-sm lg:text-base gap-1">
-        <li className="mx-10 md:self-start h-7 sm:h-7 lg:h-8 w-48 rounded-md bg-gray-200" />
-        <li className="mx-10 md:self-start h-7 sm:h-7 lg:h-8 w-48 rounded-md bg-gray-200" />
-        <li className="mx-10 md:self-start h-7 sm:h-7 lg:h-8 w-48 rounded-md bg-gray-200" />
+      <ul className="flex flex-col px-2 sm:px-6 lg:px-10 text-sm lg:text-base gap-1">
+        <li className="md:self-start h-7 sm:h-7 lg:h-8 w-32 lg:w-48 rounded-md bg-gray-200" />
+        <li className="md:self-start h-7 sm:h-7 lg:h-8 w-32 lg:w-48 rounded-md bg-gray-200" />
+        <li className="md:self-start h-7 sm:h-7 lg:h-8 w-32 lg:w-48 rounded-md bg-gray-200" />
       </ul>
     </article>
   );
