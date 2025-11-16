@@ -78,7 +78,7 @@ export default function AboutBargain(): JSX.Element {
       />
       {/* Display */}
       <section
-        className={`flex flex-col place-self-center items-center sm:items-start pag-2 sm:gap-5 p-4 md:p-10
+        className={`flex flex-col place-self-center items-center sm:items-start gap-2 sm:gap-5 p-4 md:p-10
           ${componentBackground} ${componentBorder} rounded-xl w-5/6 sm:w-2/3`}
       >
         <SectionHeader text={bargain.title} />
