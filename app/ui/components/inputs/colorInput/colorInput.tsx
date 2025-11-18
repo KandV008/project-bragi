@@ -84,7 +84,7 @@ export default function ColorInput({ label, values }: TextInputProps) {
             placeholder={`Color ${input.counter}`}
             label={`Nombre ${input.counter}`}
             icon={faBrush}
-            value={values ? values[index].name : ""}
+            value={values && values[index] ? values[index].name : ""}
           />
           <MiniTextInput
             key={`${colorHexName}-${input.id}`}
@@ -93,7 +93,7 @@ export default function ColorInput({ label, values }: TextInputProps) {
             placeholder={`XXXXXX ${input.counter}`}
             label={`Código ${input.counter}`}
             icon={faHashtag}
-            value={values ? values[index].hex.slice(1) : ""}
+            value={values && values[index] ? values[index].hex.slice(1) : ""}
           />
         </div>
       ))}

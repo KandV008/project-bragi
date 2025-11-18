@@ -68,6 +68,7 @@ export default function AdminNoveltyList(): JSX.Element {
         />
         {/* Delete Bargains */}
         <AdminDeletionPanel
+          status={statusDeleteAction}
           action={deleteNovelties}
           updateDeletionStatus={() => {
             setStatusDelecteAction((prev) => !prev);

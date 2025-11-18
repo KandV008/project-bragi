@@ -71,6 +71,7 @@ export default function AdminProductList(): JSX.Element {
         />
         {/* Delete products */}
         <AdminDeletionPanel
+          status={statusDeleteAction}
           action={deleteProductsByIds}
           updateDeletionStatus={() => {
             setStatusDelecteAction((prev) => !prev);

@@ -44,7 +44,7 @@ export function SectionHeaderSkeleton(): JSX.Element {
   return (
     <h1 className="w-fit flex flex-col gap-1">
       {/* Placeholder for the header text */}
-      <div className="md:self-start h-7 sm:h-8 lg:h-10 w-44 rounded-md bg-gray-200" />
+      <div className="md:self-start h-7 sm:h-8 lg:h-10 w-32 md:w-44 lg:w-56 rounded-md bg-gray-200" />
       {/* Placeholder for the underline */}
       <div className="w-full border-t mb-3 border-2"></div>
     </h1>
