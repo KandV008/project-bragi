@@ -7,8 +7,9 @@ import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIc
 import { faArrowRight, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 interface AdminPanelProps {
-    action: (ids: string[]) => Promise<void>;
-    updateDeletionStatus: () => void;
+  status: boolean;
+  action: (ids: string[]) => Promise<void>;
+  updateDeletionStatus: () => void;
 }
 
 /**
@@ -19,36 +20,36 @@ interface AdminPanelProps {
  * @returns {JSX.Element} The rendered Admin Dashboard component.
  */
 export default function AdminDeletionPanel({
+  status,
   action,
-  updateDeletionStatus
+  updateDeletionStatus,
 }: AdminPanelProps): JSX.Element {
-  const { selectedValues, setSelectedValues } = useContext(DeletingContext);
+  const { selectedValues, setSelectedValues: _ } = useContext(DeletingContext);
+  const buttonText = status ? "Cancelar" : "Borrar entidades"
 
   return (
     <Protect permission="org:product:managment">
-        <div 
-          className=" flex flex-col gap-2 justify-center fixed bottom-4 right-4 z-50"
-        >
-          {selectedValues.length !== 0 && (
-            <MediumButtonWithIcon
-              icon={faArrowRight}
-              text={"Continuar"}
-              subtext={""}
-              type={"danger"}
-              onClick={() => {
-                action(selectedValues)
-              }}
-            />
-          )}
-
+      <div className=" flex flex-col gap-2 justify-center fixed bottom-4 right-4 z-50">
+        {selectedValues.length !== 0 && (
           <MediumButtonWithIcon
-            icon={faTrashCan}
-            text={"Borrar entidades"}
+            icon={faArrowRight}
+            text={"Continuar"}
             subtext={""}
-            type={"warning"}
-            onClick={updateDeletionStatus}
+            type={"danger"}
+            onClick={() => {
+              action(selectedValues);
+            }}
           />
-        </div>
+        )}
+
+        <MediumButtonWithIcon
+          icon={faTrashCan}
+          text={buttonText}
+          subtext={""}
+          type={"warning"}
+          onClick={updateDeletionStatus}
+        />
+      </div>
     </Protect>
   );
 }

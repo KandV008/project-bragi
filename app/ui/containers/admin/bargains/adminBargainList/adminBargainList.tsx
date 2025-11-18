@@ -65,6 +65,7 @@ export default function AdminBargainList(): JSX.Element {
         />
         {/* Delete Bargains */}
         <AdminDeletionPanel
+          status={statusDeleteAction}
           action={deleteBargains}
           updateDeletionStatus={() => {
             setStatusDelecteAction((prev) => !prev);
