@@ -429,7 +429,7 @@ function parseRequirements(formData: FormData): string[] {
  * @returns {boolean} True if water and dust resistance is enabled, otherwise false.
  */
 function parseWaterDustResistance(formData: FormData): boolean {
-    const resistanceElement = formData.get(hasDustWaterResistanceName)
+    const resistanceElement = formData.get(dustWaterResistanceName + "-0")
 
     if (resistanceElement === null) {
         return false
