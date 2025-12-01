@@ -33,7 +33,7 @@ export default function Header() {
 
   return (
     <header
-      className={`flex flex-col justify-center items-center place-self-center space-y-2 w-full xl:w-4/6 pt-2
+      className={`flex flex-col justify-center items-center place-self-center space-y-2 w-full xl:w-4/6 pt-2 
             ${mainBackground}
             top-0 z-30 fixed`}
     >
@@ -41,7 +41,7 @@ export default function Header() {
       <section className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
         
         {/* Logo and Expand Button */}
-        <article className="flex flex-row justify-between w-full sm:w-fit align-middle">
+        <article className="flex flex-row justify-between w-full sm:w-fit align-middle px-2 sm:px-0">
           <section className="block sm:hidden">
             <ThemeToggle />
           </section>
