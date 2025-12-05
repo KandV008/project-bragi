@@ -10,26 +10,21 @@ import {
   shimmer,
 } from "../../../tailwindClasses";
 import BargainInput from "../../../components/bargains/bargainInput/bargainInput";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   BargainEntity,
   getCodeAction,
 } from "@/app/model/entities/bargain/Bargain";
-import {
-  MediumButtonWithIconSkeleton,
-} from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
-import {
-  SectionHeaderSkeleton,
-} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { MediumButtonWithIconSkeleton } from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
+import { SectionHeaderSkeleton } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
+import { ShoppingListContext } from "@/app/ui/components/contexts/shoppingListContext";
 
 /**
  * Props for the Summary component.
  */
 interface SummaryProps {
-  originalProducts: ShoppingProductDTO[];
   changeableProducts: ShoppingProductDTO[];
-  updateProducts: (newShoppingList: ShoppingProductDTO[]) => void;
 }
 
 /**
@@ -40,11 +35,13 @@ interface SummaryProps {
  * @returns {JSX.Element} The summary component.
  */
 export default function Summary({
-  originalProducts,
   changeableProducts,
-  updateProducts,
 }: SummaryProps): JSX.Element {
   const router = useRouter();
+  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
+  const [originalBeforeBargain, setOriginalBeforeBargain] = useState<
+    ShoppingProductDTO[]
+  >([]);
   const [bargain, setBargain] = useState<BargainEntity | null>(null);
   const [status, setStatus] = useState<0 | 1>(0);
 
@@ -54,21 +51,28 @@ export default function Summary({
    */
   const updateBargain = (newBargain: BargainEntity | null) => {
     if (!newBargain) {
+      console.log("ENTRA");
       setBargain(null);
-      updateProducts(originalProducts);
+      console.log("original:", originalBeforeBargain);
+      setShoppingList(originalBeforeBargain);
       return;
     }
 
-    const bargainAction = getCodeAction(newBargain.code);
+    const snapshot = shoppingList.map((p) => ({ ...p }));
+    setOriginalBeforeBargain(snapshot);
 
+    const bargainAction = getCodeAction(newBargain.code);
     if (!bargainAction) {
       setBargain(null);
-      return; // TODO handle invalid bargain
+      return;
     }
 
     setBargain(newBargain);
-    const { shoppingList, status } = bargainAction(changeableProducts);
-    updateProducts(shoppingList);
+
+    const { shoppingList: newShoppingList, status } =
+      bargainAction(changeableProducts);
+
+    setShoppingList(newShoppingList);
     setStatus(status);
   };
 
