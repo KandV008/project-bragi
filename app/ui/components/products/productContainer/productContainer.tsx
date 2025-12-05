@@ -60,8 +60,8 @@ export default function ProductContainer({
   }, [products, user]);
 
   return (
-    <section className="flex flex-col gap-10 w-full items-center">
-      <article className="flex flex-wrap shrink-0 w-fit gap-4 lg:gap-6 place-self-center items-center justify-center lg:justify-between">
+    <section className="flex flex-col gap-10">
+        <article className="flex flex-wrap self-center justify-center xl:justify-start shrink-0 w-fit gap-2 lg:gap-4">
           {products.map((product, index) => (
             <>
               {isDeleting ? (
@@ -87,7 +87,7 @@ export default function ProductContainer({
               )}
             </>
           ))}
-      </article>
+        </article>
       {showMoreButton ? (
         <article className="self-center">
           <MediumButton text="Ver más" onClick={moreProduct} />
