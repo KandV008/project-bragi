@@ -7,7 +7,7 @@ import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList }
 import { Logger } from "@/app/config/Logger";
 import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
 import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
-import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
+import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_COUNT_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
 import { getProduct } from "../product/product";
 import { checkAccessoryByPairs, checkRemoveAccessoryByPairs } from "@/lib/utils";
 
@@ -36,6 +36,29 @@ export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
   } catch (error) {
     Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_GET_SHOPPING_LIST, error);
     throw new Error(`[${METHOD_GET_SHOPPING_LIST}] ${error}`);
+  }
+}
+
+/**
+ * Counts the total quantity of products in the shopping list.
+ * This function retrieves the shopping list and calculates the sum of all product quantities.
+ *
+ * @returns {Promise<number>} A promise that resolves to the total quantity of products in the shopping list.
+ * @throws {Error} Throws an error if there's an issue fetching the shopping list or calculating the count.
+ */
+export async function countShoppingList(): Promise<number>{
+  Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_COUNT_SHOPPING_LIST);
+
+    try {
+    const shoppingList = await getShoppingList();
+
+    const counter = shoppingList.reduce(((prev, product) => product.quantity + prev), 0)
+
+    Logger.endFunction(SHOPPING_LIST_CONTEXT, METHOD_COUNT_SHOPPING_LIST, counter);
+    return counter;
+  } catch (error) {
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_COUNT_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_COUNT_SHOPPING_LIST}] ${error}`);
   }
 }
 

@@ -22,6 +22,7 @@ import {
   checkAccessoryByPairs,
   checkRemoveAccessoryByPairs,
 } from "@/lib/utils";
+import { CountShoppingListContext } from "../../contexts/countShoppingListContext";
 
 /**
  * Props for the ProductShoppingList component.
@@ -78,7 +79,8 @@ export default function ProductShoppingList({
   accessories,
 }: ProductInformationProps) {
   let showEarSide: string = getEarSideLabel(earSide);
-  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
+  const { shoppingList:_1, setShoppingList } = useContext(ShoppingListContext);
+  const { counter:_2, setCounter } = useContext(CountShoppingListContext);
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
@@ -248,61 +250,71 @@ export default function ProductShoppingList({
     </section>
   );
 
-  function updateQuantity(delta: 1 | -1): () => void {
-  return () =>
-    setShoppingList((prev) => {
-      const updated = prev.map((product) =>
-        isEquals(product)
-          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
-          : product
+  function updateQuantity(delta: 1 | -1) {
+    return () => {
+      setShoppingList((prev) => {
+        const updated = prev.map((product) =>
+          isEquals(product)
+            ? {
+                ...product,
+                quantity: Math.max(product.quantity + delta, 0),
+              }
+            : product
+        );
+
+        const shouldSkipAccessory =
+          delta > 0
+            ? !checkAccessoryByPairs(updated, name, accessories[0])
+            : checkRemoveAccessoryByPairs(updated, name, accessories[0]);
+
+        const finalList = shouldSkipAccessory
+          ? updated
+          : updated.map((product) =>
+              product.id === accessories[0] && product.price === 0
+                ? {
+                    ...product,
+                    quantity: Math.max(product.quantity + delta, 0),
+                  }
+                : product
+            );
+
+        const newCounter = finalList.reduce((prev, p) => prev + p.quantity, 0);
+        setCounter(newCounter);
+
+        return finalList;
+      });
+    };
+
+    function isEquals(product: ShoppingProductDTO) {
+      return (
+        product.id === id &&
+        product.name === name &&
+        product.earSide === earSide &&
+        product.earphoneShape === earphoneShape &&
+        product.colorText === colorText &&
+        product.colorHex === colorHex &&
+        product.price === price
       );
-
-      const shouldSkipAccessory =
-        delta > 0
-          ? !checkAccessoryByPairs(updated, name, accessories[0])
-          : checkRemoveAccessoryByPairs(updated, name, accessories[0]);
-
-      if (shouldSkipAccessory) return updated;
-
-      const updatedWithAccessory = updated.map((product) =>
-        product.id === accessories[0] && product.price === 0
-          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
-          : product
-      );
-
-      return updatedWithAccessory;
-    });
-
-  function isEquals(product: ShoppingProductDTO) {
-    return (
-      product.id === id &&
-      product.name === name &&
-      product.earSide === earSide &&
-      product.earphoneShape === earphoneShape &&
-      product.colorText === colorText &&
-      product.colorHex === colorHex &&
-      product.price === price
-    );
-  }
-}
-
-/**
- * Returns a label for the ear side (e.g., "Derecho", "Izquierda", "Ambos").
- *
- * @param earSide - The ear side value ("right", "left", or "both").
- * @returns A human-readable label for the ear side.
- */
-function getEarSideLabel(earSide: String) {
-  if (earSide === "right") {
-    return "Derecho";
+    }
   }
 
-  if (earSide === "left") {
-    return "Izquierdo";
-  }
+  /**
+   * Returns a label for the ear side (e.g., "Derecho", "Izquierda", "Ambos").
+   *
+   * @param earSide - The ear side value ("right", "left", or "both").
+   * @returns A human-readable label for the ear side.
+   */
+  function getEarSideLabel(earSide: String) {
+    if (earSide === "right") {
+      return "Derecho";
+    }
 
-  return "Ambos";
-}
+    if (earSide === "left") {
+      return "Izquierdo";
+    }
+
+    return "Ambos";
+  }
 }
 
 /**

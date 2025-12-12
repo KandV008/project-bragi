@@ -14,6 +14,9 @@ import SubHeaderButtons from "../../../containers/header/subHeaderButtons/subHea
 import SmallButtonWithIcon from "../../buttons/smallButtonWithIcon/smallButtonWithIcon";
 import ThemeToggle from "../themeToggle/themeToggle";
 import SearchBar from "../../inputs/searchBar/searchBar";
+import { useContext, useEffect, useState } from "react";
+import { countShoppingListRoute } from "@/app/api/routes";
+import { CountShoppingListContext } from "../../contexts/countShoppingListContext";
 
 /**
  * Header component of the website, containing:
@@ -21,15 +24,31 @@ import SearchBar from "../../inputs/searchBar/searchBar";
  * - Search bar.
  * - Profile and shopping actions buttons (e.g., account, favorites, cart).
  * - Theme toggle button.
- * 
+ *
  * @returns The Header JSX element.
  */
 export default function Header() {
   const { user } = useUser();
+  const { counter, setCounter } = useContext(CountShoppingListContext);
 
   const profileText = user ? "Ver tu perfil" : "Iniciar sesión / Registrarse";
   const favoritesText = user ? "Ver tu lista de favoritos" : "Iniciar sesión";
-  const shoppingListText = user ? "Ver tu lista de la compra" : "Iniciar sesión";
+  const shoppingListText = user
+    ? "Ver tu lista de la compra"
+    : "Iniciar sesión";
+
+  useEffect(() => {
+    if (user) {
+      fetch(`${countShoppingListRoute}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setCounter(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching shopping list count:", error);
+        });
+    }
+  }, [setCounter, user]);
 
   return (
     <header
@@ -39,7 +58,6 @@ export default function Header() {
     >
       {/* Top Header Section */}
       <section className="flex flex-col space-y-4 md:flex-row justify-between items-center md:space-x-8 lg:space-x-6">
-        
         {/* Logo and Expand Button */}
         <article className="flex flex-row justify-between w-full sm:w-fit align-middle px-2 sm:px-0">
           <section className="block sm:hidden">
@@ -73,12 +91,20 @@ export default function Header() {
             subtext={favoritesText}
             href={"/profile/favorites"}
           />
-          <SmallButtonWithIcon
-            icon={faCartShopping}
-            text={"Cesta"}
-            subtext={shoppingListText}
-            href={"/profile/shoppingList"}
-          />
+          <div className="relative">
+            {user && (
+              <div className="size-4 bg-red-500 rounded-full text-white text-xs font-bold text-center absolute top-0.5 left-5 z-10">
+                {counter < 10 ? counter : "+9"}
+              </div>
+            )}
+            <SmallButtonWithIcon
+              icon={faCartShopping}
+              text={"Cesta"}
+              subtext={shoppingListText}
+              href={"/profile/shoppingList"}
+            />
+          </div>
+
           <section className="hidden sm:block md:hidden">
             <SmallButtonWithIcon
               icon={faWrench}
@@ -88,8 +114,8 @@ export default function Header() {
             />
           </section>
           <div className="hidden md:block lg:hidden">
-          <ThemeToggle />
-        </div>
+            <ThemeToggle />
+          </div>
         </article>
 
         {/* Theme toggle for larger screens */}

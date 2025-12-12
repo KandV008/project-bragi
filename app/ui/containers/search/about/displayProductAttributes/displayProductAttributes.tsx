@@ -1,7 +1,7 @@
 "use client";
 
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { validateAddShoppingCart } from "@/lib/validations/validations";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
@@ -51,6 +51,7 @@ import { SmallImageSkeleton } from "@/app/ui/components/images/smallImage/smallI
 import ArticleHeader, {
   ArticleHeaderSkeleton,
 } from "@/app/ui/components/tags/articleHeader/articleHeader";
+import { CountShoppingListContext } from "@/app/ui/components/contexts/countShoppingListContext";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -110,6 +111,8 @@ export default function DisplayProductAttributes({
   disable = false
 }: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
+  const { counter, setCounter } = useContext(CountShoppingListContext);
+  
   const priceFormatted = Number(price).toFixed(2);
 
   const LEFT_SIDE = "left";
@@ -153,8 +156,18 @@ export default function DisplayProductAttributes({
       addProductToShoppingList(formData)
         .then((_) => toast.success("Se ha añadido a la cesta."))
         .catch((_) => toast.error("No se ha podido añadir a la cesta."));
+
+      updateCountShoppingList();
     } else handleShowModal();
   };
+
+  const updateCountShoppingList = () => {
+    if (earSide === BOTH_SIDE) {
+      setCounter(prev => prev + 2 + accessories.length);
+    } else {
+      setCounter(prev => prev + 1);
+    }
+  }
 
   return (
     <>
