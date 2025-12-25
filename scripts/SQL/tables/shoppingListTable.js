@@ -4,19 +4,18 @@
  * @param {object} client - The PostgreSQL client instance.
  */
 async function createShoppingListTable(client) {
-  // TODO: Optimize space
   await client.sql`
     CREATE TABLE IF NOT EXISTS shoppingList (
       product_id VARCHAR(24) NOT NULL,
       user_id VARCHAR(36) NOT NULL,
-      color_text VARCHAR(255) NOT NULL,
-      color_hex VARCHAR(255) NOT NULL,
-      ear_side VARCHAR(255) NOT NULL,
-      earphone_shape VARCHAR(255) NOT NULL,
+      color_text VARCHAR(50) NOT NULL,
+      color_hex VARCHAR(7) NOT NULL,
+      ear_side VARCHAR(5) NOT NULL,
+      earphone_shape VARCHAR(3) NOT NULL,
       quantity INT NOT NULL,
       name VARCHAR(255) NOT NULL,
-      category VARCHAR(255) NOT NULL,
-      brand VARCHAR(255) NOT NULL,
+      category VARCHAR(10) NOT NULL,
+      brand VARCHAR(50) NOT NULL,
       price DOUBLE PRECISION NOT NULL,
       discound_price DOUBLE PRECISION,
       image_url VARCHAR(255) NOT NULL,
