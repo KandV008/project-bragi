@@ -4,11 +4,13 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import BargainForm, {
   BargainFormSkeleton,
-} from "@/app/ui/containers/admin/bargains/bargainForm/bargainForm";
+} from "@/app/ui/containers/admin/bargains/bargainForm";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { getBargainRoute } from "@/app/api/routes";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../../adminPanel/adminPanel";
+import dynamic from "next/dynamic";
+
+const AdminPanel = dynamic(() => import("../adminPanel"), { ssr: false });
 
 /**
  * AdminUpdateBargain component for fetching and updating a bargain's details.

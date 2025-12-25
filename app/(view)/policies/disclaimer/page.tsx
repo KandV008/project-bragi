@@ -2,6 +2,8 @@ import ArticleHeader from "@/app/ui/components/tags/articleHeader/articleHeader"
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { Metadata } from "next";
 
+export const dynamic = "force-static";
+
 /**
  * Metadata for the page, defining the title.
  */

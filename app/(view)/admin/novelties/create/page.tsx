@@ -1,6 +1,6 @@
-import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
-import NoveltyForm from "@/app/ui/containers/admin/novelties/noveltyForm/noveltyForm";
+import { NoveltyFormSkeleton } from "@/app/ui/containers/admin/novelties/noveltyForm";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 /**
  * Metadata for the page, defining the title.
@@ -8,6 +8,16 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Crear Novedad",
 };
+
+const NoveltyForm = dynamic(
+  () => import("@/app/ui/containers/admin/novelties/noveltyForm"),
+  { ssr: false, loading: () => <NoveltyFormSkeleton /> }
+);
+
+const AdminPanel = dynamic(
+  () => import("@/app/ui/containers/admin/adminPanel"),
+  { ssr: false }
+);
 
 /**
  * Page component for creating a new novelty.

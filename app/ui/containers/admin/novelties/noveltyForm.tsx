@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  faImage,
-  faTag,
-  faTextHeight,
-  faUpload,
-} from "@fortawesome/free-solid-svg-icons";
 import { validateFormNovelty } from "@/lib/validations/validations";
 import { useState } from "react";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import {
   componentBackground,
   componentBorder,
@@ -26,28 +19,41 @@ import {
   promotionalImageName,
 } from "@/app/config/JSONnames";
 import { actionCreateNovelty, actionUpdateNovelty } from "@/db/novelty/novelty";
-import SubmitButton, {
-  SubmitButtonSkeleton,
-} from "@/app/ui/components/buttons/submitButton/submitButton";
-import TextAreaInput, {
-  TextAreaInputSkeleton,
-} from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
-import TextInput, {
-  TextInputSkeleton,
-} from "@/app/ui/components/inputs/textInput/textInput";
-import SectionHeader, {
-  SectionHeaderSkeleton,
-} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { useRouter } from "next/navigation";
-import RadioInput, {
-  RadioInputSkeleton,
-} from "@/app/ui/components/inputs/radioInput/radioInput";
 import { NoveltyType } from "@/app/model/entities/novelty/enums/NoveltyType";
 import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
-import DateInput, {
-  DateInputSkeleton,
-} from "@/app/ui/components/inputs/dateInput/dateInput";
 import { getDateValue } from "@/lib/utils";
+import dynamic from "next/dynamic";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
+
+const SectionHeader = dynamic(
+  () => import("@/app/ui/components/tags/sectionHeader/sectionHeader").then(mod => mod.default),
+  { ssr: false }
+);
+const SectionHeaderSkeleton = dynamic(
+  () => import("@/app/ui/components/tags/sectionHeader/sectionHeader").then(mod => mod.SectionHeaderSkeleton),
+  { ssr: false }
+);
+
+const TextInput = dynamic(() => import("@/app/ui/components/inputs/textInput/textInput").then(mod => mod.default), { ssr: false });
+const TextInputSkeleton = dynamic(() => import("@/app/ui/components/inputs/textInput/textInput").then(mod => mod.TextInputSkeleton), { ssr: false });
+
+const TextAreaInput = dynamic(() => import("@/app/ui/components/inputs/textAreaInput/textAreaInput").then(mod => mod.default), { ssr: false });
+const TextAreaInputSkeleton = dynamic(() => import("@/app/ui/components/inputs/textAreaInput/textAreaInput").then(mod => mod.TextAreaInputSkeleton), { ssr: false });
+
+const RadioInput = dynamic(() => import("@/app/ui/components/inputs/radioInput/radioInput").then(mod => mod.default), { ssr: false });
+const RadioInputSkeleton = dynamic(() => import("@/app/ui/components/inputs/radioInput/radioInput").then(mod => mod.RadioInputSkeleton), { ssr: false });
+
+const DateInput = dynamic(() => import("@/app/ui/components/inputs/dateInput/dateInput").then(mod => mod.default), { ssr: false });
+const DateInputSkeleton = dynamic(() => import("@/app/ui/components/inputs/dateInput/dateInput").then(mod => mod.DateInputSkeleton), { ssr: false });
+
+const SubmitButton = dynamic(() => import("@/app/ui/components/buttons/submitButton/submitButton").then(mod => mod.default), { ssr: false });
+const SubmitButtonSkeleton = dynamic(() => import("@/app/ui/components/buttons/submitButton/submitButton").then(mod => mod.SubmitButtonSkeleton), { ssr: false });
+
+const FormValidationPopUp = dynamic(
+  () => import("@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp").then(mod => mod.default),
+  { ssr: false }
+);
 
 interface FormProps {
   novelty?: NoveltyEntity;
@@ -125,7 +131,7 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
           type={"text"}
           placeholder={"Título de la Novedad"}
           label={"Título de la Novedad"}
-          icon={faTag}
+          icon={Icons.tag}
           value={novelty ? novelty.title : ""}
         />
         {/* Description */}
@@ -133,7 +139,7 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
           name={noveltyDescriptionName}
           placeholder={"Lore ipsum..."}
           label={"Descripción"}
-          icon={faTextHeight}
+          icon={Icons.text}
           value={novelty ? novelty.description : ""}
         />
         {/* URL */}
@@ -142,7 +148,7 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
           type={"text"}
           placeholder={"url-ejemplo.jpg"}
           label={"URL de la imagen promocional"}
-          icon={faImage}
+          icon={Icons.image}
           value={novelty ? novelty.promotionalImage : ""}
         />
         {/* TYPE */}
@@ -169,7 +175,7 @@ export default function NoveltyForm({ novelty }: FormProps): JSX.Element {
         />
         {/* Submit Button */}
         <section className="self-center">
-          <SubmitButton text={actionText} icon={faUpload} isDisable={false} />
+          <SubmitButton text={actionText} icon={Icons.upload} isDisable={false} />
         </section>
       </form>
       <article className="flex flex-center shrink-0 justify-center h-full">

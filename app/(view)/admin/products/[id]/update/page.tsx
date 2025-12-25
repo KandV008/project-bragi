@@ -1,5 +1,11 @@
-import AdminUpdateProduct from "@/app/ui/containers/admin/products/adminUpdateProduct/adminUpdateProduct";
+import { AdminUpdateProductSkeleton } from "@/app/ui/containers/admin/products/adminUpdateProduct";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const AdminUpdateProduct = dynamic(
+  () => import("@/app/ui/containers/admin/products/adminUpdateProduct"),
+  { ssr: false, loading: () => <AdminUpdateProductSkeleton /> }
+);
 
 /**
  * Metadata for the Update Product Page

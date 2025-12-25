@@ -9,14 +9,6 @@ import {
   usesList,
   valueOfUses,
 } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
-import {
-  faEarListen,
-  faImage,
-  faMoneyBill,
-  faPlus,
-  faTextHeight,
-  faUpload,
-} from "@fortawesome/free-solid-svg-icons";
 import { validateFormProduct } from "@/lib/validations/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
@@ -44,32 +36,44 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import { earphoneShapeList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
 import { earphoneDegreeOfLossList } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneDegreeOfLoss";
 import { actionUpdateProduct, actionCreateProduct } from "@/db/product/product";
-import SubmitButton, {
+import {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton/submitButton";
-import CheckBoxInput, {
+import {
   CheckBoxInputSkeleton,
 } from "@/app/ui/components/inputs/checkBoxInput/checkBoxInput";
-import ColorInput, {
+import {
   ColorInputSkeleton,
 } from "@/app/ui/components/inputs/colorInput/colorInput";
-import IncrementalTextInput, {
+import {
   IncrementalTextInputSkeleton,
 } from "@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput";
-import RadioInput, {
+import {
   RadioInputSkeleton,
 } from "@/app/ui/components/inputs/radioInput/radioInput";
-import TextAreaInput, {
+import {
   TextAreaInputSkeleton,
 } from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
-import TextInput, {
+import {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput/textInput";
-import SectionHeader, {
+import {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { useRouter } from "next/navigation";
-import AccessoriesInput, { AccessoriesInputSkeleton } from "@/app/ui/components/inputs/accessoriesInput/AccessoriesInput";
+import { AccessoriesInputSkeleton } from "@/app/ui/components/inputs/accessoriesInput/AccessoriesInput";
+import dynamic from "next/dynamic";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
+
+const TextInput = dynamic(() => import("@/app/ui/components/inputs/textInput/textInput"));
+const RadioInput = dynamic(() => import("@/app/ui/components/inputs/radioInput/radioInput"));
+const ColorInput = dynamic(() => import("@/app/ui/components/inputs/colorInput/colorInput"));
+const CheckBoxInput = dynamic(() => import("@/app/ui/components/inputs/checkBoxInput/checkBoxInput"));
+const AccessoriesInput = dynamic(() => import("@/app/ui/components/inputs/accessoriesInput/AccessoriesInput"));
+const TextAreaInput = dynamic(() => import("@/app/ui/components/inputs/textAreaInput/textAreaInput"));
+const IncrementalTextInput = dynamic(() => import("@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput"));
+const SubmitButton = dynamic(() => import("@/app/ui/components/buttons/submitButton/submitButton"));
+const SectionHeader = dynamic(() => import("@/app/ui/components/tags/sectionHeader/sectionHeader"));
 
 interface FormProps {
   product?: ProductEntity;
@@ -153,7 +157,7 @@ export default function ProductForm({ product }: FormProps) {
           type={"text"}
           placeholder={"Audífono X"}
           label={"Nombre del producto"}
-          icon={faEarListen}
+          icon={Icons.earListen}
           value={product ? product.name : ""}
         />
         {/* Category */}
@@ -179,7 +183,7 @@ export default function ProductForm({ product }: FormProps) {
           type={"number"}
           placeholder={"1234.56"}
           label={"Precio del producto (€)"}
-          icon={faMoneyBill}
+          icon={Icons.money}
           value={product ? product.price.toString() : ""}
         />
         {/* Image URL */}
@@ -188,7 +192,7 @@ export default function ProductForm({ product }: FormProps) {
           type={"text"}
           placeholder={"https://example.url.com"}
           label={"URL de la imagen asociada al producto"}
-          icon={faImage}
+          icon={Icons.image}
           value={product ? product.imageURL : ""}
         />
         {/* Description */}
@@ -196,7 +200,7 @@ export default function ProductForm({ product }: FormProps) {
           name={productDescriptionName}
           placeholder={"Lore ipsum..."}
           label={"Descripción del producto"}
-          icon={faTextHeight}
+          icon={Icons.text}
           value={product ? product.description : ""}
         />
         {/* Includes */}
@@ -205,7 +209,7 @@ export default function ProductForm({ product }: FormProps) {
           type={"text"}
           placeholder={"Incluye..."}
           label={"Incluye el producto"}
-          icon={faPlus}
+          icon={Icons.plus}
           values={product ? product.include : undefined}
         />
         {/* Earphone Attributes */}
@@ -269,7 +273,7 @@ export default function ProductForm({ product }: FormProps) {
 
         {/* Submit Button */}
         <section className="self-center">
-          <SubmitButton text={actionText} icon={faUpload} isDisable={false} />
+          <SubmitButton text={actionText} icon={Icons.upload} isDisable={false} />
         </section>
       </form>
       <article className="flex flex-center shrink-0 justify-center h-full">

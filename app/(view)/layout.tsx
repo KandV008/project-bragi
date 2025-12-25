@@ -13,6 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
  * Metadata for the page, defining the title and description.
  */
 export const metadata: Metadata = {
+  metadataBase: new URL("https://audifonosxmenos.com"),
   title: {
     default: "Audífonos X menos",
     template: "%s - Audífonos X menos",
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
 };
+
 
 /**
  * Root layout component that wraps around all pages.
@@ -42,10 +44,6 @@ export default async function RootLayout({
         <head>
           {/* Meta tags and favicon for the page */}
           <link rel="icon" href="/favicon.ico" sizes="any" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          ></meta>
         </head>
         <body
           className={`${inter.className} flex flex-col min-h-screen align-middle ${mainBackground}`}

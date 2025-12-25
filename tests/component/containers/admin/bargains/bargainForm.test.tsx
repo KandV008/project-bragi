@@ -1,4 +1,4 @@
-import BargainForm from "@/app/ui/containers/admin/bargains/bargainForm/bargainForm";
+import BargainForm from "@/app/ui/containers/admin/bargains/bargainForm";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
 import { render, screen } from "@testing-library/react";
 

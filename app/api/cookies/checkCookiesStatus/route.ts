@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { checkCookiesStatus } from "@/lib/cookies";
 import { NextResponse } from "next/server";
 

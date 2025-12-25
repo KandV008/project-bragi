@@ -21,7 +21,7 @@ import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage
 import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import AdminPanel from "../../admin/adminPanel/adminPanel";
+import AdminPanel from "../../admin/adminPanel";
 import { Protect } from "@clerk/nextjs";
 import { faBoltLightning } from "@fortawesome/free-solid-svg-icons";
 import { toggleStatusNovelty } from "@/db/novelty/novelty";

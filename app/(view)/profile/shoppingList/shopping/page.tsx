@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import NoShoppingCartMessage from "@/app/ui/components/messages/noShoppingCartMessage/noShoppingCartMessage";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import ShoppingForm from "@/app/ui/containers/shoppingList/shoppingForm/shoppingForm";

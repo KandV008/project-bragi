@@ -6,9 +6,11 @@ import { getNoveltyRoute } from "@/app/api/routes";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import NoveltyForm, {
   NoveltyFormSkeleton,
-} from "@/app/ui/containers/admin/novelties/noveltyForm/noveltyForm";
+} from "@/app/ui/containers/admin/novelties/noveltyForm";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../../adminPanel/adminPanel";
+import dynamic from "next/dynamic";
+
+const AdminPanel = dynamic(() => import("../adminPanel"), { ssr: false });
 
 /**
  * This component fetches a specific novelty (offer) based on its ID from the URL
@@ -17,9 +19,8 @@ import AdminPanel from "../../adminPanel/adminPanel";
  * @returns {JSX.Element} The rendered admin update novelty component.
  */
 export default function AdminUpdateNovelty() {
-  const pathname = usePathname().split("/");
-  pathname.pop();
-  const id = pathname.pop();
+  const pathname = usePathname();
+  const id = pathname?.split("/").at(-1);
 
   const [novelty, setNovelty] = useState<NoveltyEntity>();
   const [isLoading, setLoading] = useState(true);

@@ -1,15 +1,5 @@
 "use client";
 
-import {
-  faCarOn,
-  faCode,
-  faEnvelope,
-  faExclamation,
-  faQuestion,
-  faTag,
-  faTextHeight,
-  faUpload,
-} from "@fortawesome/free-solid-svg-icons";
 import { validateFormBargain } from "@/lib/validations/validations";
 import { useState } from "react";
 import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
@@ -28,20 +18,28 @@ import {
   bargainRequirementsName,
   bargainTitleName,
 } from "@/app/config/JSONnames";
-import SubmitButton, {
+import {
   SubmitButtonSkeleton,
 } from "@/app/ui/components/buttons/submitButton/submitButton";
-import TextAreaInput, {
+import {
   TextAreaInputSkeleton,
 } from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
-import TextInput, {
+import {
   TextInputSkeleton,
 } from "@/app/ui/components/inputs/textInput/textInput";
-import SectionHeader, {
+import {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { useRouter } from "next/navigation";
-import IncrementalTextInput, { IncrementalTextInputSkeleton } from "@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput";
+import { IncrementalTextInputSkeleton } from "@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput";
+import dynamic from "next/dynamic";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
+
+const TextInput = dynamic(() => import("@/app/ui/components/inputs/textInput/textInput"));
+const TextAreaInput = dynamic(() => import("@/app/ui/components/inputs/textAreaInput/textAreaInput"));
+const IncrementalTextInput = dynamic(() => import("@/app/ui/components/inputs/incrementalTextInput/incrementalTextInput"));
+const SubmitButton = dynamic(() => import("@/app/ui/components/buttons/submitButton/submitButton"));
+const SectionHeader = dynamic(() => import("@/app/ui/components/tags/sectionHeader/sectionHeader"));
 
 /**
  * Interface for form properties used in BargainForm
@@ -122,7 +120,7 @@ export default function BargainForm({ bargain }: FormProps) {
           type={"text"}
           placeholder={"Código"}
           label={"Código de la Oferta"}
-          icon={faCode}
+          icon={Icons.code}
           value={bargain ? bargain.code : ""}
         />
         {/* Title */}
@@ -131,7 +129,7 @@ export default function BargainForm({ bargain }: FormProps) {
           type={"text"}
           placeholder={"Nombre de la oferta"}
           label={"Título de la Oferta"}
-          icon={faTag}
+          icon={Icons.tag}
           value={bargain ? bargain.title : ""}
         />
         {/* Description */}
@@ -139,7 +137,7 @@ export default function BargainForm({ bargain }: FormProps) {
           name={bargainDescriptionName}
           placeholder={"Lore ipsum..."}
           label={"Descripción"}
-          icon={faTextHeight}
+          icon={Icons.text}
           value={bargain ? bargain.description : ""}
         />
         {/* Requirements */}
@@ -148,12 +146,12 @@ export default function BargainForm({ bargain }: FormProps) {
           type="text"
           placeholder={"Requisito"}
           label={"Requisitos para aplicar la oferta"}
-          icon={faExclamation}
+          icon={Icons.exclamation}
           values={bargain ? bargain.requirements : undefined}
         />
         {/* Submit Button */}
         <section className="self-center">
-          <SubmitButton text={actionText} icon={faUpload} isDisable={false} />
+          <SubmitButton text={actionText} icon={Icons.upload} isDisable={false} />
         </section>
       </form>
       <article className="flex flex-center shrink-0 justify-center h-full">

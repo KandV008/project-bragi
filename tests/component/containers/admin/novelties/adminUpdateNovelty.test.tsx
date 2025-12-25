@@ -1,4 +1,4 @@
-import AdminUpdateNovelty from "@/app/ui/containers/admin/novelties/adminUpdateNovelty/adminUpdateNovelty";
+import AdminUpdateNovelty from "@/app/ui/containers/admin/novelties/adminUpdateNovelty";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
 import { render, screen } from "@testing-library/react";
 

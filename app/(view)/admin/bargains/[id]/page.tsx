@@ -1,5 +1,11 @@
-import AboutBargain from "@/app/ui/containers/services/bargains/aboutBargain";
+import { AdminBargainSkeleton } from "@/app/ui/containers/services/bargains/aboutBargain";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const AboutBargain = dynamic(
+  () => import("@/app/ui/containers/services/bargains/aboutBargain"),
+  { ssr: false, loading: () => <AdminBargainSkeleton /> }
+);
 
 /**
  * Metadata for the page, defining the title.

@@ -11,7 +11,7 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import ProductContainer from "../../components/products/productContainer/productContainer";
 import Spinner from "../../components/common/spinner/spinner";
 import EmptyMessage from "../../components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../admin/adminPanel/adminPanel";
+import AdminPanel from "../admin/adminPanel";
 
 interface ProductsWithFilterProps {
   /** The API endpoint to fetch products from. */

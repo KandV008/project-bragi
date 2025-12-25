@@ -1,16 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import BargainContainer, {
+import {
   BargainContainerSkeleton,
 } from "@/app/ui/components/bargains/bargainContainer/bargainContainer";
 import { BargainEntity } from "@/app/model/entities/bargain/Bargain";
 import { getBargainsRoute } from "@/app/api/routes";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../../adminPanel/adminPanel";
-import AdminDeletionPanel from "../../adminDeletionPanel/adminDeletionPanel";
 import { deleteBargains } from "@/db/bargain/bargain";
 import { DeletingContext } from "@/app/ui/components/contexts/deletingContext";
+import dynamic from "next/dynamic";
+
+const AdminPanel = dynamic(() => import("../adminPanel"));
+const AdminDeletionPanel = dynamic(() => import("../adminDeletionPanel"));
+const BargainContainer = dynamic(
+  () => import("@/app/ui/components/bargains/bargainContainer/bargainContainer")
+);
 
 /**
  * AdminBargainList component for displaying and managing a list of bargains.
