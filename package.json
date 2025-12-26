@@ -23,6 +23,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^5.2.2",
     "@vercel/fun": "^1.1.5",
     "@vercel/node": "^2.15.10",
     "@vercel/postgres": "^0.9.0",
@@ -38,10 +39,12 @@
     "puppeteer": "^24.8.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.69.0",
     "react-hot-toast": "^2.5.2",
     "sharp": "^0.33.5",
     "vercel": "^32.3.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@clerk/testing": "^1.7.4",

@@ -14,6 +14,10 @@ import {
   faUpload,
   faCode,
   faExclamation,
+  faEnvelope,
+  faPenNib,
+  faComment,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Icons = {
@@ -32,4 +36,8 @@ export const Icons = {
   upload: faUpload,
   code: faCode,
   exclamation: faExclamation,
+  email: faEnvelope,
+  pen: faPenNib,
+  comment: faComment,
+  user: faUser,
 };

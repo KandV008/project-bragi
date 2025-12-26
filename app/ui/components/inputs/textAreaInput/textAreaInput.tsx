@@ -1,23 +1,22 @@
-'use client';
+"use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { fillDefaultComponentBackground, componentText, componentBorder } from "@/app/ui/tailwindClasses";
+import {
+  fillDefaultComponentBackground,
+  componentText,
+  componentBorder,
+} from "@/app/ui/tailwindClasses";
+import { UseFormRegisterReturn } from "react-hook-form";
 
-/**
- * Props for the TextAreaInput component.
- */
-interface TextInputProps {
-  /** Name attribute for the textarea input */
+interface TextAreaInputProps {
   name: string;
-  /** Placeholder text displayed inside the textarea */
   placeholder: string;
-  /** Label text for the input */
   label: string;
-  /** Icon displayed alongside the textarea */
   icon: IconDefinition;
-  /** Initial value of the textarea (optional) */
   value?: string;
+  register?: UseFormRegisterReturn;
+  error?: string;
 }
 
 /**
@@ -32,7 +31,9 @@ export default function TextAreaInput({
   label,
   icon,
   value,
-}: TextInputProps): JSX.Element {
+  register,
+  error,
+}: TextAreaInputProps): JSX.Element {
   return (
     <section className="flex flex-col w-full">
       <label
@@ -55,14 +56,16 @@ export default function TextAreaInput({
         <textarea
           id={name}
           name={name}
-          className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           placeholder={placeholder}
-          autoComplete="off"
           defaultValue={value}
+          {...register}
+          className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
+          autoComplete="off"
           readOnly={false}
           maxLength={1024}
         />
       </article>
+      {error && <span className="text-pink-600 text-sm mt-1">{error}</span>}
     </section>
   );
 }

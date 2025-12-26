@@ -1,27 +1,24 @@
-'use client';
+"use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { fillDefaultComponentBackground, componentText, componentBorder } from "@/app/ui/tailwindClasses";
+import {
+  fillDefaultComponentBackground,
+  componentText,
+  componentBorder,
+} from "@/app/ui/tailwindClasses";
+import { UseFormRegisterReturn } from "react-hook-form";
 
-/**
- * Props for the TextInput component.
- */
 interface TextInputProps {
-  /** Name attribute for the input */
   name: string;
-  /** Type of the input field */
   type: "text" | "password" | "number" | "url";
-  /** Placeholder text displayed inside the input */
   placeholder: string;
-  /** Label text for the input */
   label: string;
-  /** Icon displayed alongside the input */
   icon: IconDefinition;
-  /** Initial value of the input (optional) */
   value?: string;
+  register?: UseFormRegisterReturn;
+  error?: string; // nuevo prop
 }
-
 /**
  * A styled text input component with an icon and label.
  *
@@ -35,6 +32,8 @@ export default function TextInput({
   label,
   icon,
   value,
+  register,
+  error,
 }: TextInputProps): JSX.Element {
   return (
     <section className="flex flex-col w-full">
@@ -56,18 +55,20 @@ export default function TextInput({
           <FontAwesomeIcon icon={icon} className="size-6" />
         </div>
         <input
-          type={type}
           id={name}
           name={name}
-          className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
+          type={type}
           placeholder={placeholder}
+          defaultValue={value}
+          {...register}
+          className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
           autoComplete="off"
           step="any"
-          defaultValue={value}
           maxLength={255}
           readOnly={false}
         />
       </article>
+      {error && <span className="text-pink-600 text-sm mt-1">{error}</span>}
     </section>
   );
 }

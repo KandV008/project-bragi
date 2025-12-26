@@ -5,6 +5,7 @@ import { parseAppointmentForm, parseContactForm, parseSendAudiometryFileForm, pa
 import { Logger } from "@/app/config/Logger";
 import createReceipt from "./receipt";
 import { getOrder } from "@/db/order/order";
+import { ContactFormData } from "./validations/contact.scheme";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -29,19 +30,22 @@ const transporter = nodemailer.createTransport({
 /**
  * Sends a contact email with the provided form data.
  *
- * @param {FormData} formData - The form data containing email, subject, and body.
+ * @param {ContactFormData} data - The validated form data containing name, email, subject, and body.
  * @returns {Promise<void>} A promise that resolves when the email is sent.
  */
-export async function sendContactEmail(formData: FormData): Promise<void> {
+export async function sendContactEmail(data: ContactFormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendContactEmail")
 
-    const { name, email, subject, body } = parseContactForm(formData)
+    const { user_mame, email, subject, body } = data;
 
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
         subject: "Contacto: " + subject,
-        text: "Nombre: " + name + "\nCorreo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
+        text:
+            "Nombre: " + user_mame +
+            "\nCorreo electrónico: " + email +
+            "\nCuerpo del Mensaje: " + body,
     });
 
     Logger.endFunction(CONTEXT, "sendContactEmail", info.messageId)
