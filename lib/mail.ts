@@ -6,6 +6,7 @@ import { Logger } from "@/app/config/Logger";
 import createReceipt from "./receipt";
 import { getOrder } from "@/db/order/order";
 import { ContactFormData } from "./validations/contact.scheme";
+import { AppointmentFormData } from "./validations/appointment.scheme";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -36,14 +37,14 @@ const transporter = nodemailer.createTransport({
 export async function sendContactEmail(data: ContactFormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendContactEmail")
 
-    const { user_mame, email, subject, body } = data;
+    const { user_name, email, subject, body } = data;
 
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
         subject: "Contacto: " + subject,
         text:
-            "Nombre: " + user_mame +
+            "Nombre: " + user_name +
             "\nCorreo electrónico: " + email +
             "\nCuerpo del Mensaje: " + body,
     });
@@ -88,19 +89,22 @@ export async function sendAudiometryFileEmail(formData: FormData): Promise<void>
  * Sends an appointment email with the provided form data.
  * Extracts user details from the form and sends an email to the contact address.
  *
- * @param {FormData} formData - The form data containing user input.
+ * @param {FormData} data - The form data containing user input.
  * @returns {Promise<void>} - A promise that resolves when the email is sent.
  */
-export async function sendAppointmentEmail(formData: FormData): Promise<void> {
+export async function sendAppointmentEmail(data: AppointmentFormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendAppointmentEmail")
 
-    const { userName, email, phoneNumber, body } = parseAppointmentForm(formData)
+    const { user_name, email, phone_number, body } = data
 
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
-        subject: "Cita: " + userName,
-        text: "Correo electrónico: " + email + "\nNúmero de teléfono: " + phoneNumber + "\nConsideraciones: " + body,
+        subject: "Cita: " + user_name,
+        text: 
+            "Correo electrónico: " + email + 
+            "\nNúmero de teléfono: " + phone_number + 
+            "\nConsideraciones: " + body,
     });
 
     Logger.endFunction(CONTEXT, "sendAppointmentEmail", info.messageId)

@@ -43,7 +43,7 @@ export const noveltyContextName = "novelty_context"
 export const endDateName = "end_date"
 
 export const userIdName = "user_id"
-export const userNameName = "user_mame"
+export const userNameName = "user_name"
 export const userFirstName = "user_first_name"
 export const userDNIName = "user_dni"
 export const phoneNumberName = "phone_number"

@@ -18,6 +18,7 @@ import {
   faPenNib,
   faComment,
   faUser,
+  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Icons = {
@@ -40,4 +41,5 @@ export const Icons = {
   pen: faPenNib,
   comment: faComment,
   user: faUser,
+  phone: faPhone,
 };

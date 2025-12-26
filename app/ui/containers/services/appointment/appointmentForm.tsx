@@ -9,23 +9,20 @@ import {
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 import TextAreaInput from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
 import TextInput from "@/app/ui/components/inputs/textInput/textInput";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 import {
   componentText,
   componentBackground,
   componentBorder,
 } from "@/app/ui/tailwindClasses";
 import { sendAppointmentEmail } from "@/lib/mail";
-import { validateAppointmentForm } from "@/lib/validations/validations";
 import {
-  faComment,
-  faEnvelope,
-  faPhone,
-  faUpload,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+  AppointmentFormData,
+  appointmentSchema,
+} from "@/lib/validations/appointment.scheme";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 /**
@@ -34,30 +31,23 @@ import toast from "react-hot-toast";
  * @returns {JSX.Element} The rendered appointment form.
  */
 export default function AppointmentForm(): JSX.Element {
-  const [showModal, setShowModal] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<AppointmentFormData>({
+    resolver: zodResolver(appointmentSchema),
+  });
 
-  /**
-   * Toggles the validation popup modal.
-   */
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
-
-  /**
-   * Handles form submission, validates input, and performs the respective action.
-   * If the form is valid, it sends an email; otherwise, it shows a validation popup.
-   *
-   * @function
-   * @param {FormData} formData - The submitted form data.
-   */
-  const handleContactForm = (formData: FormData) => {
-    const isValid = validateAppointmentForm(formData);
-
-    if (isValid) {
-      sendAppointmentEmail(formData)
-        .then((_) => toast.success("Se ha enviado el correo."))
-        .catch((_) => toast.error("No se ha podido enviar el correo."));
-    } else handleShowModal();
+  const onSubmit = async (data: AppointmentFormData) => {
+    try {
+      await sendAppointmentEmail(data);
+      toast.success("Se ha enviado el correo.");
+      reset();
+    } catch {
+      toast.error("No se ha podido enviar el correo.");
+    }
   };
 
   return (
@@ -73,13 +63,16 @@ export default function AppointmentForm(): JSX.Element {
           <div className="text-center sm:text-justify px-2 lg:px-2 flex flex-col gap-2">
             <p>
               En esta página puedes{" "}
-              <span className="font-bold">solicitar una cita vía online.</span> 
+              <span className="font-bold">solicitar una cita vía online.</span>
             </p>
             <p>
               Nosotros contactaremos contigo vía telefónica para concretar la
               cita.
             </p>
-            <p>Recuerda que la cita será <span className="font-bold">presencial</span> en nuestra tienda.</p>
+            <p>
+              Recuerda que la cita será{" "}
+              <span className="font-bold">presencial</span> en nuestra tienda.
+            </p>
           </div>
           {/* Map */}
           <div className="size-full flex flex-col justify-center">
@@ -108,7 +101,7 @@ export default function AppointmentForm(): JSX.Element {
         </article>
         {/* Appointment Form */}
         <form
-          action={handleContactForm}
+          onSubmit={handleSubmit(onSubmit)}
           className={`flex flex-col gap-5 p-5 sm:p-10 items-center justify-center lg:w-1/2
                      ${componentBackground}
                      ${componentBorder} rounded-xl`}
@@ -119,36 +112,42 @@ export default function AppointmentForm(): JSX.Element {
             type={"text"}
             placeholder={"Me llamo..."}
             label={"Nombre"}
-            icon={faUser}
+            icon={Icons.user}
+            register={register(userNameName)}
+            error={errors[userNameName]?.message}
           />
           <TextInput
             name={contactEmailName}
             type={"text"}
             placeholder={"ejemplo@email.com"}
             label={"Correo Electrónico"}
-            icon={faEnvelope}
+            icon={Icons.email}
+            register={register(contactEmailName)}
+            error={errors[contactEmailName]?.message}
           />
           <TextInput
             name={phoneNumberName}
             type={"text"}
-            placeholder={"Teléfono de contaco"}
+            placeholder={"Teléfono de contacto"}
             label={"Teléfono de contacto"}
-            icon={faPhone}
+            icon={Icons.phone}
+            register={register(phoneNumberName)}
+            error={errors[phoneNumberName]?.message}
           />
           <TextAreaInput
             name={contactBodyName}
             placeholder={"Comentarios a tener en cuenta"}
             label={"Comentarios extras (opcional)"}
-            icon={faComment}
+            icon={Icons.comment}
+            register={register(contactBodyName)}
+            error={errors[contactBodyName]?.message}
           />
           <div className="place-self-center">
-            <SubmitButton text={"Enviar"} icon={faUpload} isDisable={false} />
+            <SubmitButton text={"Enviar"} icon={Icons.upload} isDisable={false} />
           </div>
         </form>
       </section>
-      <article className="flex flex-center shrink-0 justify-center h-full">
-        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
-      </article>
+      <article className="flex flex-center shrink-0 justify-center h-full"></article>
     </>
   );
 }
