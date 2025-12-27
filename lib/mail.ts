@@ -55,13 +55,13 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
 /**
  * Sends a contact email with the provided form data.
  *
- * @param {FormData} formData - The form data containing email, subject, and body.
+ * @param {FormData} data - The form data containing email, subject, and body.
  * @returns {Promise<void>} A promise that resolves when the email is sent.
  */
-export async function sendAudiometryFileEmail(formData: FormData): Promise<void> {
+export async function sendAudiometryFileEmail(data: FormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendAudiometryFileEmail")
 
-    const { name, email, body, audiometryFile } = parseSendAudiometryFileForm(formData)
+    const { name, email, body, audiometryFile } = parseSendAudiometryFileForm(data)
 
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
 
@@ -72,7 +72,10 @@ export async function sendAudiometryFileEmail(formData: FormData): Promise<void>
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
         subject: "Archivo de Audiometría. Se requiere una recomendación.",
-        text: "Nombre: " + name + "\nCorreo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
+        text: 
+            "Nombre: " + name + 
+            "\nCorreo electrónico: " + email + 
+            "\nCuerpo del Mensaje: " + body,
         attachments: [
             {
                 filename: sanitizedFileName,

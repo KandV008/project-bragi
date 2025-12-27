@@ -19,6 +19,7 @@ import {
   faComment,
   faUser,
   faPhone,
+  faFile,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Icons = {
@@ -42,4 +43,5 @@ export const Icons = {
   comment: faComment,
   user: faUser,
   phone: faPhone,
+  file: faFile,
 };
