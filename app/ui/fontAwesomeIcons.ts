@@ -3,8 +3,8 @@ import {
   faLeftLong,
   faTag,
   faAward,
-  faEraser, 
-  faPencil, 
+  faEraser,
+  faPencil,
   faPlus,
   faBackspace,
   faEarListen,
@@ -20,6 +20,8 @@ import {
   faUser,
   faPhone,
   faFile,
+  faDriversLicense,
+  faMap,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Icons = {
@@ -44,4 +46,6 @@ export const Icons = {
   user: faUser,
   phone: faPhone,
   file: faFile,
+  dni: faDriversLicense,
+  map: faMap,
 };

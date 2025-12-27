@@ -1,17 +1,6 @@
 "use client";
 
-import {
-  faDriversLicense,
-  faFile,
-  faMailBulk,
-  faMap,
-  faPhone,
-  faUpload,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { validateFormShopping } from "@/lib/validations/validations";
 import { useEffect, useState } from "react";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import {
   componentBackground,
   componentBorder,
@@ -45,6 +34,13 @@ import SectionHeader, {
   SectionHeaderSkeleton,
 } from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import toast from "react-hot-toast";
+import {
+  ShoppingFormData,
+  shoppingSchema,
+} from "@/lib/validations/shopping.scheme";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -86,15 +82,6 @@ export default function ShoppingForm({ products }: FormProps) {
     setCurrentProducts(shoppingList);
   }, [products, searchParams]);
 
-  const [showModal, setShowModal] = useState(false);
-
-  /**
-   * Toggles the validation popup modal.
-   */
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
-
   const totalPrice = currentProducts.reduce((total, product) => {
     if (product.discountPrice || product.discountPrice === 0) {
       return total + product.discountPrice * product.quantity;
@@ -103,31 +90,48 @@ export default function ShoppingForm({ products }: FormProps) {
     return total + product.price * product.quantity;
   }, 0);
 
-  /**
-   * Handles form submission, validates input, and performs the respective action.
-   *
-   * @param {FormData} formData - The submitted form data.
-   */
-  const handlePayment = async (formData: FormData) => {
-    console.log(formData);
-    const isValid = validateFormShopping(formData);
-    if (!isValid) {
-      handleShowModal();
-      return;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ShoppingFormData>({
+    resolver: zodResolver(shoppingSchema),
+  });
+
+  const onSubmit = async (data: ShoppingFormData) => {
+    try {
+      const formData = new FormData();
+
+      formData.append(userIdName, data[userIdName]);
+
+      if (data[bargainCodeName]) {
+        formData.append(bargainCodeName, data[bargainCodeName]);
+      }
+
+      formData.append(userNameName, data[userNameName]);
+      formData.append(userFirstName, data[userFirstName]);
+      formData.append(userDNIName, data[userDNIName]);
+      formData.append(phoneNumberName, data[phoneNumberName]);
+      formData.append(emailName, data[emailName]);
+      formData.append(addressName, data[addressName]); //TODO Update
+      formData.append(audiometryFileName, data[audiometryFileName][0]);
+
+      const {
+        status,
+        id: _,
+        orderNumber,
+      } = await actionCreateOrder(formData, currentProducts, bargainCode);
+
+      if (status) {
+        toast.error("Ha habido un problema con el pedido");
+        return;
+      }
+
+      await redirectTPV(totalPrice, orderNumber);
+    } catch {
+      toast.error("No se ha podido realizar el pago");
     }
-
-    const {
-      status,
-      id: _,
-      orderNumber,
-    } = await actionCreateOrder(formData, currentProducts, bargainCode);
-
-    if (status) {
-      toast.error("Ha habido un problema con el pedido");
-      return;
-    }
-
-    await redirectTPV(totalPrice, orderNumber);
   };
 
   /**
@@ -170,7 +174,7 @@ export default function ShoppingForm({ products }: FormProps) {
 
   return (
     <form
-      action={handlePayment}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col-reverse lg:flex-row gap-3"
     >
       {/* Shopping Form */}
@@ -186,10 +190,14 @@ export default function ShoppingForm({ products }: FormProps) {
           {/* Hidden data */}
           <div>
             {/* User Id */}
-            <input type="hidden" name={userIdName} value={user?.id} />
+            <input type="hidden" value={user?.id} {...register(userIdName)} />
             {/* Bargain Code */}
             {bargainCode ? (
-              <input type="hidden" name={bargainCodeName} value={bargainCode} />
+              <input
+                type="hidden"
+                value={bargainCode}
+                {...register(bargainCodeName)}
+              />
             ) : (
               <></>
             )}
@@ -203,7 +211,9 @@ export default function ShoppingForm({ products }: FormProps) {
                 type={"text"}
                 placeholder={"Tu nombre"}
                 label={"Nombre del cliente"}
-                icon={faUser}
+                icon={Icons.user}
+                register={register(userNameName)}
+                error={errors[userNameName]?.message}
               />
             </div>
             {/* User Firstname */}
@@ -212,7 +222,9 @@ export default function ShoppingForm({ products }: FormProps) {
               type={"text"}
               placeholder={"Tus apellidos"}
               label={"Apellidos del cliente"}
-              icon={faUser}
+              icon={Icons.user}
+              register={register(userFirstName)}
+              error={errors[userFirstName]?.message}
             />
           </div>
           {/* User DNI */}
@@ -222,7 +234,9 @@ export default function ShoppingForm({ products }: FormProps) {
               type={"text"}
               placeholder={"99999999A"}
               label={"Documento identificativo"}
-              icon={faDriversLicense}
+              icon={Icons.dni}
+              register={register(userDNIName)}
+              error={errors[userDNIName]?.message}
             />
           </div>
         </article>
@@ -232,12 +246,14 @@ export default function ShoppingForm({ products }: FormProps) {
           <div className="flex flex-col md:flex-row md:gap-2">
             {/* Phone Number */}
             <div className="md:w-96">
-              <TextInput // TODO add prefix
+              <TextInput
                 name={phoneNumberName}
                 type={"number"}
                 placeholder={"+YY XXX XXX XXX"}
                 label={"Número de teléfono"}
-                icon={faPhone}
+                icon={Icons.phone}
+                register={register(phoneNumberName)}
+                error={errors[phoneNumberName]?.message}
               />
             </div>
             {/* E-mail */}
@@ -246,7 +262,9 @@ export default function ShoppingForm({ products }: FormProps) {
               type={"text"}
               placeholder={"email@example.com"}
               label={"Correo electrónico"}
-              icon={faMailBulk}
+              icon={Icons.email}
+              register={register(emailName)}
+              error={errors[emailName]?.message}
             />
           </div>
           {/* Address */}
@@ -255,14 +273,18 @@ export default function ShoppingForm({ products }: FormProps) {
             type={"text"}
             placeholder={"C/ Dirección Nº, Piso, Puerta, CP, Localidad"}
             label={"Dirección"}
-            icon={faMap}
+            icon={Icons.map}
+            register={register(addressName)}
+            error={errors[addressName]?.message}
           />
         </section>
         {/* Audiometry */}
         <FileInput
           name={audiometryFileName}
           label={"Archivo de Audiometría"}
-          icon={faFile}
+          icon={Icons.file}
+          register={register(audiometryFileName)}
+          error={errors[audiometryFileName]?.message?.toString()}
         />
       </section>
       {/* Summary */}
@@ -294,7 +316,7 @@ export default function ShoppingForm({ products }: FormProps) {
               <section className="self-center">
                 <SubmitButton
                   text={"Finalizar pedido"}
-                  icon={faUpload}
+                  icon={Icons.upload}
                   isDisable={false}
                 />
               </section>
@@ -319,10 +341,6 @@ export default function ShoppingForm({ products }: FormProps) {
           </article>
         </div>
       </section>
-      {/* Validation Pop-Up */}
-      <article className="flex flex-center shrink-0 justify-center h-full">
-        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
-      </article>
     </form>
   );
 }

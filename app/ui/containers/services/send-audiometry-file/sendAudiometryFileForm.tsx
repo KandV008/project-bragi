@@ -141,7 +141,6 @@ export function SendAudiometryFileForm(): JSX.Element {
           </div>
         </form>
       </section>
-      <article className="flex flex-center shrink-0 justify-center h-full"></article>
     </>
   );
 }

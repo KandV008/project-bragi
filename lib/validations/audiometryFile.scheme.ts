@@ -7,9 +7,17 @@ import {
 } from "@/app/config/JSONnames";
 
 export const sendAudiometryFileSchema = z.object({
-  [userNameName]: z.string().min(1, "El nombre es obligatorio"),
-  [contactEmailName]: z.string().email("El correo electrónico no es válido"),
-  [contactBodyName]: z.string().min(1, "El mensaje es obligatorio"),
+  [userNameName]: z
+    .string()
+    .min(1, "El nombre es obligatorio"),
+
+  [contactEmailName]: z
+    .email("El correo electrónico no es válido"),
+
+  [contactBodyName]: z
+    .string()
+    .min(1, "El mensaje es obligatorio"),
+    
   [audiometryFileName]: z
     .any()
     .refine((files) => files?.length === 1, "Debes subir un archivo")
