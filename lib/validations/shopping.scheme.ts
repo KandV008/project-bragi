@@ -4,8 +4,11 @@ import {
     audiometryFileName,
     bargainCodeName,
     contactEmailName,
+    countryName,
     emailName,
+    localityName,
     phoneNumberName,
+    postalCodeName,
     userDNIName,
     userFirstName,
     userIdName,
@@ -40,9 +43,21 @@ export const shoppingSchema = z.object({
     [emailName]: z
         .email("El correo electrónico no es válido"),
 
+    [postalCodeName]: z
+        .string()
+        .min(1, "El código postal es obligatorio"),
+
+    [countryName]: z
+        .string()
+        .min(1, "El país es obligatorio"),
+
+    [localityName]: z
+        .string()
+        .min(1, "La localidad es obligatoria"),
+
     [addressName]: z
         .string()
-        .min(1, "La dirección es obligatorio"),
+        .min(1, "La dirección es obligatoria"),
 
     [audiometryFileName]: z
         .any()

@@ -17,6 +17,9 @@ import {
   audiometryFileName,
   userDNIName,
   bargainCodeName,
+  postalCodeName,
+  localityName,
+  countryName,
 } from "@/app/config/JSONnames";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
@@ -114,7 +117,10 @@ export default function ShoppingForm({ products }: FormProps) {
       formData.append(userDNIName, data[userDNIName]);
       formData.append(phoneNumberName, data[phoneNumberName]);
       formData.append(emailName, data[emailName]);
-      formData.append(addressName, data[addressName]); //TODO Update
+      formData.append(addressName, data[addressName]);
+      formData.append(postalCodeName, data[postalCodeName]);
+      formData.append(localityName, data[localityName]);
+      formData.append(countryName, data[countryName]);
       formData.append(audiometryFileName, data[audiometryFileName][0]);
 
       const {
@@ -249,7 +255,7 @@ export default function ShoppingForm({ products }: FormProps) {
               <TextInput
                 name={phoneNumberName}
                 type={"number"}
-                placeholder={"+YY XXX XXX XXX"}
+                placeholder={"XXX XXX XXX"}
                 label={"Número de teléfono"}
                 icon={Icons.phone}
                 register={register(phoneNumberName)}
@@ -268,15 +274,44 @@ export default function ShoppingForm({ products }: FormProps) {
             />
           </div>
           {/* Address */}
-          <TextInput // TODO Add more information
-            name={addressName}
-            type={"text"}
-            placeholder={"C/ Dirección Nº, Piso, Puerta, CP, Localidad"}
-            label={"Dirección"}
-            icon={Icons.map}
-            register={register(addressName)}
-            error={errors[addressName]?.message}
-          />
+          <div>
+            <TextInput
+              name={addressName}
+              type={"text"}
+              placeholder={"C/ Dirección Nº, Piso, Puerta, etc"}
+              label={"Dirección"}
+              icon={Icons.map}
+              register={register(addressName)}
+              error={errors[addressName]?.message}
+            />
+            <TextInput
+              name={postalCodeName}
+              type={"text"}
+              placeholder={"XXXXX"}
+              label={"Código Postal"}
+              icon={Icons.map}
+              register={register(postalCodeName)}
+              error={errors[postalCodeName]?.message}
+            />
+            <TextInput
+              name={localityName}
+              type={"text"}
+              placeholder={"Localidad"}
+              label={"Localidad"}
+              icon={Icons.map}
+              register={register(localityName)}
+              error={errors[localityName]?.message}
+            />
+            <TextInput
+              name={countryName}
+              type={"text"}
+              placeholder={"País"}
+              label={"País"}
+              icon={Icons.map}
+              register={register(countryName)}
+              error={errors[countryName]?.message}
+            />
+          </div>
         </section>
         {/* Audiometry */}
         <FileInput

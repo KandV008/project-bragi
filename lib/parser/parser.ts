@@ -1,4 +1,4 @@
-import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName, userDNIName, usesName, accessoriesName } from "@/app/config/JSONnames";
+import { productIdName, nameName, categoryName, brandName, priceName, imageURLName, colorTextName, colorHexName, earSideName, earphoneShapeName, includeName, categoryNameParam, productDescriptionName, degreeOfLossName, bargainCodeName, bargainTitleName, bargainDescriptionName, noveltyTitleName, noveltyDescriptionName, promotionalImageName, userIdName, userNameName, userFirstName, phoneNumberName, emailName, addressName, audiometryFileName, contactEmailName, contactSubjectName, contactBodyName, dustWaterResistanceName, hasDustWaterResistanceName, endDateName, noveltyContextName, noveltyTypeName, bargainRequirementsName, userDNIName, usesName, accessoriesName, postalCodeName, localityName, countryName } from "@/app/config/JSONnames";
 import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 import { usesList } from "@/app/model/entities/product/enums/earphoneAttributes/Uses";
 import { COLOR_HEX_PREFIX_TAG, COLOR_TEXT_PREFIX_TAG, CONTEXT_CONVERT_TO_OBJECT, CONTEXT_PARSE_COLORS, CONTEXT_PARSE_DATE, CONTEXT_PARSE_FILE, CONTEXT_PARSE_NUMBER, CONTEXT_PARSE_PRICE, CONTEXT_PARSE_PRODUCT_IDS, CONTEXT_PARSE_START_AND_END_INDEX, CONTEXT_PARSE_STRING, CONTEXT_PARSE_STRING_LIST, CONTEXT_PARSE_STRING_OR_EMPTY, END_PREFIX_TAG, ERROR_TAG, INVALID_ATTRIBUTE_MESSAGE, INVALID_COLOR_COUNTERS_MESSAGE, INVALID_START_END_INDEXES_MESSAGE, START_PREFIX_TAG, USE_DEFAULT_VALUE_MESSAGE, VALUE_TAG, WARNING_TAG } from "./parserMessages";
@@ -275,7 +275,7 @@ export function parseUpdateOfShoppingList(formData: FormData): {
     const colorHex = parseStringOrEmpty(formData.get(colorHexName)?.toString(), "COLOR_HEX");
     const earSide = parseStringOrEmpty(formData.get(earSideName)?.toString(), "EAR_SIDE");
     const price = parseNumber(formData.get(priceName)?.toString(), "PRICE")
-    
+
     return { productId, colorText, colorHex, earSide, price }
 }
 
@@ -585,7 +585,14 @@ export function parseShoppingForm(formData: FormData): any {
     const newUserDNI = parseString(formData.get(userDNIName)?.toString(), "USER_DNI")
     const newPhoneNumber = parseString(formData.get(phoneNumberName)?.toString(), "PHONE_NUMBER")
     const newEmail = parseString(formData.get(emailName)?.toString(), "EMAIL")
+
     const newAddress = parseString(formData.get(addressName)?.toString(), "ADDRESS")
+    const newPostalCode = parseString(formData.get(postalCodeName)?.toString(), "POSTAL_CODE")
+    const newLocality = parseString(formData.get(localityName)?.toString(), "LOCALITY")
+    const newCountry = parseString(formData.get(countryName)?.toString(), "COUNTRY")
+
+    const formattedAddress = `${newAddress}, ${newPostalCode}, ${newLocality}, ${newCountry}`
+
     const newAudiometryFile = parseFile(formData.get(audiometryFileName), "AUDIOMETRY_FILE")
 
     return {
@@ -595,7 +602,7 @@ export function parseShoppingForm(formData: FormData): any {
         userDNI: newUserDNI,
         phoneNumber: newPhoneNumber,
         email: newEmail,
-        address: newAddress,
+        address: formattedAddress,
         audiometryFile: newAudiometryFile,
     };
 }
