@@ -44,7 +44,7 @@ export default function ShoppingListInformation(): JSX.Element {
       {/* Page header */}
       <SectionHeader text="Cesta de la compra" />
       {/* Shopping list and summary section */}
-      <section className="flex flex-col-reverse lg:flex-row gap-3 justify-center">
+      <section className="flex flex-col-reverse lg:flex-row gap-3 items-center lg:items-start justify-center">
         {/* Shopping list container */}
         <ShoppingList />
         <div className="shrink-0 z-10">

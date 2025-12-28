@@ -86,7 +86,7 @@ export default function Summary({
 
   return (
     <section
-      className={`sticky top-32 flex flex-col w-96 rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+      className={`sticky top-32 flex flex-col w-72 sm:w-96 rounded justify-between p-6 ${componentBorder} ${componentBackground} ${componentText}`}
     >
       <article className="flex flex-col gap-2 justify-center">
         <BargainInput

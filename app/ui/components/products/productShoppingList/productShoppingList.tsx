@@ -127,7 +127,7 @@ export default function ProductShoppingList({
       ${componentBorder}`}
     >
       {/* About */}
-      <div className="flex flex-row">
+      <div className="flex flex-col items-center sm:flex-row">
         {/* Image */}
         <>
           <Image
@@ -135,16 +135,16 @@ export default function ProductShoppingList({
             width={150}
             height={150}
             alt={"img-" + name}
-            className="size-64 md:size-56 2xl:size-48 bg-white rounded self-center justify-self-center"
+            className="size-48 sm:size-36 md:size-56 2xl:size-48 bg-white rounded self-center justify-self-center"
           />
         </>
         {/* Information */}
-        <article className="flex flex-row self-center 2xl:flex-col gap-2 rounded-md p-3">
-          {/* Product */}
+        <article className="flex flex-col lg:flex-row items-center self-center 2xl:flex-col gap-2 rounded-md p-3">
+          {/* Product */} 
           <div className="flex flex-col gap-1 2xl:flex-row text-start">
-            {/* Name */}
             <div className="flex flex-col ">
-              <span className="text-xl font-bold text-center">{name}</span>
+              {/* Name */}
+              <span className="text-xl font-bold">{name}</span>
               {/* Brand */}
               <span className="text-lg font-bold">{brand}</span>
             </div>
@@ -153,18 +153,18 @@ export default function ProductShoppingList({
           <div className="flex flex-col gap-2 text-start justify-between w-48">
             {/* EarSide */}
             {category === "EARPHONE" ? (
-              <div className="flex flex-row w-full">
+              <div className="flex flex-row lg:flex-col 2xl:flex-row w-full">
                 <span className="font-bold w-20">Lado</span>
-                <span className="">{showEarSide}</span>
+                <span className="lg:px-5 2xl:px-0">{showEarSide}</span>
               </div>
             ) : (
               <></>
             )}
             {/* Earphone Shape */}
             {category === "EARPHONE" ? (
-              <div className="flex flex-row w-full">
+              <div className="flex flex-row lg:flex-col 2xl:flex-row w-full">
                 <span className="font-bold w-20">Forma</span>
-                <span className="">{earphoneShape}</span>
+                <span className="lg:px-5 2xl:px-0">{earphoneShape}</span>
               </div>
             ) : (
               <></>
@@ -172,9 +172,9 @@ export default function ProductShoppingList({
 
             {/* Color */}
             {category === "EARPHONE" ? (
-              <div className="flex flex-row w-full">
+              <div className="flex flex-row lg:flex-col 2xl:flex-row w-full">
                 <span className="font-bold w-20">Color</span>
-                <span className="">{colorText}</span>
+                <span className="lg:px-5 2xl:px-0">{colorText}</span>
               </div>
             ) : (
               <></>
@@ -183,7 +183,7 @@ export default function ProductShoppingList({
         </article>
       </div>
       {/* Amount & Price */}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-col items-center gap-2 sm:gap-0 sm:flex-row sm:justify-between">
         {/* Amount Button */}
         <article
           className="gap-4 self-center
@@ -219,7 +219,7 @@ export default function ProductShoppingList({
           </div>
         </article>
         {/* Price */}
-        <div className="flex flex-col text-cente justify-center">
+        <div className="flex flex-col items-center text-center justify-center">
           <div className="flex flex-row gap-2">
             <span className="text-xl font-bold">Precio </span>
             <div className="flex flex-row gap-1 justify-center">

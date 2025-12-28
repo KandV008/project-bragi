@@ -87,11 +87,12 @@ export default function BargainInput({
             </article>
           ) : (
             <>
-                        <article className="font-semibold">
-              Código{" "}
-              <span className="font-extrabold text-lg">{bargain.code}</span>{" "}
-              no está aplicado. No se cumplen los requisitos mínimos necesarios.
-            </article>
+              <article className="font-semibold">
+                Código{" "}
+                <span className="font-extrabold text-lg">{bargain.code}</span>{" "}
+                no está aplicado. No se cumplen los requisitos mínimos
+                necesarios.
+              </article>
             </>
           )}
           <div className="self-center">
@@ -105,7 +106,10 @@ export default function BargainInput({
           </div>
         </section>
       ) : (
-        <form className="flex flex-col w-fit gap-2 mx-auto" onSubmit={formAction}>
+        <form
+          className="flex flex-col w-fit gap-2 mx-auto"
+          onSubmit={formAction}
+        >
           <label className="bg-transparent max-w-fit font-extrabold text-lg cursor-pointer">
             Código promocional
           </label>
@@ -121,7 +125,7 @@ export default function BargainInput({
               <input
                 type="text"
                 name="code"
-                className="w-36 h-full text-base font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
+                className="w-full h-full text-base font-bold bg-transparent cursor-pointer rounded px-1 placeholder:text-neutral-700"
                 placeholder="Código"
                 autoComplete="off"
                 required
