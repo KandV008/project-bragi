@@ -10,6 +10,8 @@ import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContex
 import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_COUNT_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
 import { getProduct } from "../product/product";
 import { checkAccessoryByPairs, checkRemoveAccessoryByPairs } from "@/lib/utils";
+import { AddShoppingListFormData } from "@/lib/validations/addShoppingList.scheme";
+import { ACCESSORY_VALUE, EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
 
 /**
  * Retrieves the shopping list for the authenticated user.
@@ -46,10 +48,10 @@ export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
  * @returns {Promise<number>} A promise that resolves to the total quantity of products in the shopping list.
  * @throws {Error} Throws an error if there's an issue fetching the shopping list or calculating the count.
  */
-export async function countShoppingList(): Promise<number>{
+export async function countShoppingList(): Promise<number> {
   Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_COUNT_SHOPPING_LIST);
 
-    try {
+  try {
     const shoppingList = await getShoppingList();
 
     const counter = shoppingList.reduce(((prev, product) => product.quantity + prev), 0)
@@ -124,10 +126,10 @@ export async function deleteProductsInShoppingList(productIds: string[]): Promis
 
 /**
  * Adds a product to the user's shopping list.
- * @param {FormData} formData - The form data containing product details.
+ * @param {AddShoppingListFormData} formData - The form data containing product details.
  * @throws {Error} - If an error occurs while retrieving products in the shopping list from the database. 
 */
-export async function addProductToShoppingList(formData: FormData) {
+export async function addProductToShoppingList(formData: AddShoppingListFormData) {
   Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_ADD_PRODUCT_TO_SHOPPING_LIST);
 
   try {

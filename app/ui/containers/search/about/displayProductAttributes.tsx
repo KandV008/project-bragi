@@ -52,6 +52,16 @@ import ArticleHeader, {
 } from "@/app/ui/components/tags/articleHeader/articleHeader";
 import { CountShoppingListContext } from "@/app/ui/components/contexts/countShoppingListContext";
 import { Icons } from "@/app/ui/fontAwesomeIcons";
+import {
+  AddShoppingListFormData,
+  addShoppingListSchema,
+} from "@/lib/validations/addShoppingList.scheme";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  ACCESSORY_VALUE,
+  EARPHONE_VALUE,
+} from "@/app/model/entities/product/enums/Category";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -113,6 +123,15 @@ export default function DisplayProductAttributes({
   const { user } = useUser();
   const { counter: _, setCounter } = useContext(CountShoppingListContext);
 
+  const {
+    handleSubmit,
+    setValue,
+    trigger,
+    formState: { errors },
+  } = useForm<AddShoppingListFormData>({
+    resolver: zodResolver(addShoppingListSchema),
+  });
+
   const priceFormatted = Number(price).toFixed(2);
 
   const LEFT_SIDE = "left";
@@ -122,14 +141,18 @@ export default function DisplayProductAttributes({
   const [isFavorite, setIsFavorite] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
 
-  const [showModal, setShowModal] = useState(false);
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
+  useEffect(() => {
+    if (category === EARPHONE_VALUE && colors) {
+      setValue(colorTextName, colors[colorIndex].name as any);
+      setValue(colorHexName, colors[colorIndex].hex as any);
+    }
+  }, [colorIndex, colors, category, setValue]);
 
   const [earSide, setEarSide] = useState("");
-  const handleEarSideButtonClick = (buttonName: string) => {
-    setEarSide(buttonName);
+  const handleEarSideButtonClick = async (side: string) => {
+    setEarSide(side);
+    setValue(earSideName, side as any);
+    await trigger(earSideName);
   };
   const getEarSideButtonClasses = (buttonName: string) => {
     const baseClasses = "h-8 w-24 border-2 rounded font-bold";
@@ -149,17 +172,31 @@ export default function DisplayProductAttributes({
     }
   }, [id, user]);
 
-  /* Form Handler */
-  const handleForm = (formData: FormData) => {
-    const isValid = validateAddShoppingCart(formData);
-    if (isValid || category === "ACCESSORY") {
-      addProductToShoppingList(formData)
-        .then((_) => toast.success("Se ha añadido a la cesta."))
-        .catch((_) => toast.error("No se ha podido añadir a la cesta."));
+  useEffect(() => {
+    setValue(productIdName, id as any);
+    setValue(nameName, name as any);
+    setValue(brandName, brand as any);
+    setValue(categoryName, category as any);
+    setValue(priceName, price as any);
+    setValue(imageURLName, imageURL as any);
+    setValue(accessoriesName, accessories.join(",") as any);
+    if(!earSide){
+      setValue(earSideName, "");
+    }
+    if(earphoneShape){
+      setValue(earphoneShapeName, earphoneShape as any);
+    }
+  }, [accessories, brand, category, earSide, earphoneShape, id, imageURL, name, price, setValue]);
 
-      updateCountShoppingList();
-    } else handleShowModal();
-  };
+const onSubmit = async (data: AddShoppingListFormData) => {
+  try {
+    await addProductToShoppingList(data);
+    updateCountShoppingList();
+    toast.success("Se ha añadido a la cesta.");
+  } catch {
+    toast.error("No se ha podido añadir a la cesta.");
+  }
+};
 
   const updateCountShoppingList = () => {
     if (earSide === BOTH_SIDE) {
@@ -217,6 +254,11 @@ export default function DisplayProductAttributes({
                   colors={colors}
                   action={(index: number) => setColorIndex(index)}
                 />
+                {colorHexName in errors && errors[colorHexName] && (
+                  <span className="text-pink-600 text-sm mt-1">
+                    {errors[colorHexName]?.message}
+                  </span>
+                )}
               </div>
             ) : (
               <></>
@@ -252,6 +294,11 @@ export default function DisplayProductAttributes({
                     <></>
                   )}
                 </div>
+                {earSideName in errors && errors[earSideName] && (
+                  <span className="text-pink-600 text-sm mt-1">
+                    {errors[earSideName]?.message}
+                  </span>
+                )}
               </div>
             ) : (
               <></>
@@ -268,40 +315,7 @@ export default function DisplayProductAttributes({
           </div>
           {/* Shopping Button */}
           <section className="flex flex-row items-center flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
-            <form action={handleForm}>
-              <input type="hidden" name={productIdName} value={id} />
-              {colors ? (
-                <>
-                  <input
-                    type="hidden"
-                    name={colorTextName}
-                    value={colors[colorIndex].name}
-                  />
-                  <input
-                    type="hidden"
-                    name={colorHexName}
-                    value={colors[colorIndex].hex}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-              <input type="hidden" name={earSideName} value={earSide} />
-              <input
-                type="hidden"
-                name={earphoneShapeName}
-                value={earphoneShape ? earphoneShape : " "}
-              />
-              <input type="hidden" name={nameName} value={name} />
-              <input type="hidden" name={categoryName} value={category} />
-              <input type="hidden" name={brandName} value={brand} />
-              <input type="hidden" name={priceName} value={price} />
-              <input type="hidden" name={imageURLName} value={imageURL} />
-              <input
-                type="hidden"
-                name={accessoriesName}
-                value={accessories.join(",")}
-              />
+            <form onSubmit={handleSubmit(onSubmit)}>
               <SubmitButton
                 text={"Añadir a la cesta"}
                 icon={Icons.shopping}
@@ -331,9 +345,6 @@ export default function DisplayProductAttributes({
           </>
         </article>
       </div>
-      <article className="flex flex-center shrink-0 justify-center h-full">
-        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
-      </article>
     </>
   );
 }
