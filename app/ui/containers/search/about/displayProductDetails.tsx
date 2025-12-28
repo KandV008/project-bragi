@@ -50,7 +50,7 @@ export default function DisplayProductDetails({
                  ${lightComponentBackground} ${componentBorder} ${componentText}`}
     >
       {/* Product Description */}
-      <article className="flex flex-col md:w-1/2 gap-2">
+      <article className="flex text-justify flex-col md:w-1/2 gap-2">
         <SectionHeader text={"Descripción"} />
         <Article label={""} value={description} />
       </article>
@@ -72,7 +72,7 @@ export default function DisplayProductDetails({
           {/* Uses of the product */}
           <div>
             <Article label={"Usos"} value={""} />
-            <div className="flex flex-row flex-wrap gap-5">
+            <div className="flex flex-row flex-wrap md:justify-center gap-5">
               {earphoneAttributes.uses.map((use, index) => (
                 <div
                   key={"uses-" + index}
