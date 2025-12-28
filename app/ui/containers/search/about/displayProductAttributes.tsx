@@ -1,6 +1,5 @@
 "use client";
 
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { validateAddShoppingCart } from "@/lib/validations/validations";
@@ -52,6 +51,7 @@ import ArticleHeader, {
   ArticleHeaderSkeleton,
 } from "@/app/ui/components/tags/articleHeader/articleHeader";
 import { CountShoppingListContext } from "@/app/ui/components/contexts/countShoppingListContext";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -108,11 +108,11 @@ export default function DisplayProductAttributes({
   brand,
   include,
   accessories,
-  disable = false
+  disable = false,
 }: ProductOptionsProps): JSX.Element {
   const { user } = useUser();
-  const { counter, setCounter } = useContext(CountShoppingListContext);
-  
+  const { counter: _, setCounter } = useContext(CountShoppingListContext);
+
   const priceFormatted = Number(price).toFixed(2);
 
   const LEFT_SIDE = "left";
@@ -163,16 +163,16 @@ export default function DisplayProductAttributes({
 
   const updateCountShoppingList = () => {
     if (earSide === BOTH_SIDE) {
-      setCounter(prev => prev + 2 + accessories.length);
+      setCounter((prev) => prev + 2 + accessories.length);
     } else {
-      setCounter(prev => prev + 1);
+      setCounter((prev) => prev + 1);
     }
-  }
+  };
 
   return (
     <>
       <div
-        className={`flex flex-col md:flex-row rounded rounded-tr-3xl p-5
+        className={`flex flex-col gap-3 md:gap-0 md:flex-row rounded rounded-tr-3xl p-5
             ${componentBorder} ${componentBackground} ${componentText}`}
       >
         {/* Product Image */}
@@ -188,22 +188,22 @@ export default function DisplayProductAttributes({
           <div className="flex flex-row justify-between">
             <div>
               {/* Name */}
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-row items-center justify-between">
                 <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
                   {name}
                 </h1>
-                <div className=" block xl:hidden">
-                  <FavoriteToggleButton productId={id} isActive={isFavorite} />
-                </div>
               </div>
               {/* Brand */}
               <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">{brand}</h2>
             </div>
             {/* Price */}
-            <div className="flex flex-col gap-2 first-letter:text-xl sm:text-2xl lg:text-3xl font-semibold w-fit">
+            <div className="flex flex-col gap-2 text-xl sm:text-2xl lg:text-3xl font-semibold w-fit">
               <h1>
                 <span className="font-bold">{priceFormatted}€</span>
               </h1>
+              <div className="hidden md:block xl:hidden text-base place-self-end">
+                <FavoriteToggleButton productId={id} isActive={isFavorite} />
+              </div>
             </div>
           </div>
           <br className="hidden sm:block" />
@@ -267,7 +267,7 @@ export default function DisplayProductAttributes({
             </div>
           </div>
           {/* Shopping Button */}
-          <section className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
+          <section className="flex flex-row items-center flex-wrap justify-center lg:justify-start gap-3 md:gap-2 xl:gap-1">
             <form action={handleForm}>
               <input type="hidden" name={productIdName} value={id} />
               {colors ? (
@@ -297,14 +297,18 @@ export default function DisplayProductAttributes({
               <input type="hidden" name={brandName} value={brand} />
               <input type="hidden" name={priceName} value={price} />
               <input type="hidden" name={imageURLName} value={imageURL} />
-              <input type="hidden" name={accessoriesName} value={accessories.join(",")} />
+              <input
+                type="hidden"
+                name={accessoriesName}
+                value={accessories.join(",")}
+              />
               <SubmitButton
                 text={"Añadir a la cesta"}
-                icon={faCartShopping}
+                icon={Icons.shopping}
                 isDisable={disable || !user ? true : false}
               />
             </form>
-            <div className="hidden xl:block">
+            <div className="block md:hidden xl:block">
               <FavoriteToggleButton productId={id} isActive={isFavorite} />
             </div>
           </section>

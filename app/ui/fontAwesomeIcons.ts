@@ -22,6 +22,7 @@ import {
   faFile,
   faDriversLicense,
   faMap,
+  faCartShopping
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Icons = {
@@ -48,4 +49,5 @@ export const Icons = {
   file: faFile,
   dni: faDriversLicense,
   map: faMap,
+  shopping: faCartShopping
 };

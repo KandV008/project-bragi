@@ -15,11 +15,11 @@ import dynamic from "next/dynamic";
 
 const AdminPanel = dynamic(() => import("../adminPanel"), { ssr: false });
 const DisplayProductAttributes = dynamic(
-  () => import("../../search/about/displayProductAttributes/displayProductAttributes"),
+  () => import("../../search/about/displayProductAttributes"),
   { ssr: false }
 );
 const DisplayProductDetails = dynamic(
-  () => import("../../search/about/displayProductDetails/displayProductDetails"),
+  () => import("../../search/about/displayProductDetails"),
   { ssr: false }
 );
 const SomeProductContainer = dynamic(

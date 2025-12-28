@@ -1,4 +1,4 @@
-import DisplayProductAttributes from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
+import DisplayProductAttributes from "@/app/ui/containers/search/about/displayProductAttributes";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
 import { render, screen } from "@testing-library/react";
 

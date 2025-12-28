@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
-import DisplayProductDetails from "@/app/ui/containers/search/about/displayProductDetails/displayProductDetails";
+import DisplayProductDetails from "@/app/ui/containers/search/about/displayProductDetails";
 
 describe("<DisplayProductDetails />", () => {
   const exampleDescription: string =

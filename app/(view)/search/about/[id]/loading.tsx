@@ -1,8 +1,8 @@
 "use client";
 
 import { SomeProductContainerSkeleton } from "@/app/ui/components/products/someProductContainer/someProductContainer";
-import { ProductDetailsSkeleton } from "@/app/ui/containers/search/about/displayProductDetails/displayProductDetails";
-import { ProductOptionsSkeleton } from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
+import { ProductDetailsSkeleton } from "@/app/ui/containers/search/about/displayProductDetails";
+import { ProductOptionsSkeleton } from "@/app/ui/containers/search/about/displayProductAttributes";
 
 /**
  * Loading component that displays skeleton loaders while the content is loading.
