@@ -7,7 +7,7 @@ import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList }
 import { Logger } from "@/app/config/Logger";
 import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
 import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
-import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_COUNT_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
+import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_COUNT_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_REMOVE_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
 import { getProduct } from "../product/product";
 import { checkAccessoryByPairs, checkRemoveAccessoryByPairs } from "@/lib/utils";
 import { AddShoppingListFormData } from "@/lib/validations/addShoppingList.scheme";
@@ -38,6 +38,31 @@ export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
   } catch (error) {
     Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_GET_SHOPPING_LIST, error);
     throw new Error(`[${METHOD_GET_SHOPPING_LIST}] ${error}`);
+  }
+}
+
+export async function removeShoppingList(){
+    Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_REMOVE_SHOPPING_LIST);
+
+  try {
+    const { userId } = auth();
+    const parsedUserId = parseString(userId?.toString(), "USER_ID");
+
+    const result = await sql`
+      DELETE FROM shoppingList
+      WHERE user_id = ${parsedUserId}
+      RETURNING product_id
+    `;
+
+    Logger.endFunction(
+      SHOPPING_LIST_CONTEXT,
+      METHOD_REMOVE_SHOPPING_LIST,
+      `Removed ${result.rowCount} products from shopping list for user ${parsedUserId}`
+    );
+
+  } catch (error) {
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_REMOVE_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_REMOVE_SHOPPING_LIST}] ${error}`);
   }
 }
 

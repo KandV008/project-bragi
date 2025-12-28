@@ -97,7 +97,6 @@ export default function ShoppingForm({ products }: FormProps) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<ShoppingFormData>({
     resolver: zodResolver(shoppingSchema),
   });

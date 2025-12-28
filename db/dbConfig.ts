@@ -37,6 +37,7 @@ export const METHOD_DELETE_NOVELTY = "deleteNovelty"
 export const METHOD_DELETE_NOVELTIES = "deleteNovelties"
 
 export const METHOD_GET_SHOPPING_LIST = "getShoppingList"
+export const METHOD_REMOVE_SHOPPING_LIST = "removeShoppingList"
 export const METHOD_COUNT_SHOPPING_LIST = "countShoppingList"
 export const METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST = "deleteProductInShoppingList"
 export const METHOD_ADD_PRODUCT_TO_SHOPPING_LIST = "addProductToShoppingList"

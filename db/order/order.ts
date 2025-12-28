@@ -10,6 +10,7 @@ require("dotenv").config({ path: ".env.local" });
 
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 import { auth } from "@clerk/nextjs/server";
+import { removeShoppingList } from "../shoppingList/shoppingList";
 
 const USERNAME = process.env.USER;
 const PASSWORD = process.env.PASSWORD;
@@ -222,6 +223,10 @@ export async function updateOrderStatus(orderNumber: number, status: string) {
     }
 
     const orderId = result._id.toString();
+
+    if (status === "PAID"){
+      await removeShoppingList()
+    }
 
     Logger.endFunction(ORDER_CONTEXT, METHOD_UPDATE_ORDER_STATUS, { orderId, status });
     return orderId;
