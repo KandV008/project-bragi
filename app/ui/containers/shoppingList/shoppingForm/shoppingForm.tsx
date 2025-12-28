@@ -181,16 +181,15 @@ export default function ShoppingForm({ products }: FormProps) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col-reverse lg:flex-row gap-3"
+      className="flex flex-col lg:flex-row gap-3"
     >
       {/* Shopping Form */}
       <section
-        className={`flex flex-col gap-5 p-5 sm:p-10  w-full
+        className={`flex flex-col gap-5 p-5 sm:p-10 w-full
                    ${componentBackground}
                    ${componentBorder} rounded-xl`}
       >
         <SectionHeader text={"Información del Usuario"} />
-
         {/* User Identification Data */}
         <article>
           {/* Hidden data */}
@@ -216,7 +215,7 @@ export default function ShoppingForm({ products }: FormProps) {
                 name={userNameName}
                 type={"text"}
                 placeholder={"Tu nombre"}
-                label={"Nombre del cliente"}
+                label={"Nombre"}
                 icon={Icons.user}
                 register={register(userNameName)}
                 error={errors[userNameName]?.message}
@@ -227,14 +226,14 @@ export default function ShoppingForm({ products }: FormProps) {
               name={userFirstName}
               type={"text"}
               placeholder={"Tus apellidos"}
-              label={"Apellidos del cliente"}
+              label={"Apellidos"}
               icon={Icons.user}
               register={register(userFirstName)}
               error={errors[userFirstName]?.message}
             />
           </div>
           {/* User DNI */}
-          <div className="w-80">
+          <div className="lg:w-80">
             <TextInput
               name={userDNIName}
               type={"text"}
@@ -256,7 +255,7 @@ export default function ShoppingForm({ products }: FormProps) {
                 name={phoneNumberName}
                 type={"number"}
                 placeholder={"XXX XXX XXX"}
-                label={"Número de teléfono"}
+                label={"Teléfono"}
                 icon={Icons.phone}
                 register={register(phoneNumberName)}
                 error={errors[phoneNumberName]?.message}
@@ -324,7 +323,7 @@ export default function ShoppingForm({ products }: FormProps) {
       </section>
       {/* Summary */}
       <section
-        className={`sticky top-32 z-0 flex flex-col h-fit w-max-1/3 rounded justify-start gap-4 p-6 ${componentBorder} ${componentBackground} ${componentText}`}
+        className={`lg:sticky lg:top-32 lg:z-0 flex flex-col h-fit w-max-80 rounded justify-start gap-4 p-6 ${componentBorder} ${componentBackground} ${componentText}`}
       >
         <div className="h-max-96">
           <SectionHeader text={"Resumen"} />
