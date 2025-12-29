@@ -59,7 +59,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
-  ACCESSORY_VALUE,
   EARPHONE_VALUE,
 } from "@/app/model/entities/product/enums/Category";
 

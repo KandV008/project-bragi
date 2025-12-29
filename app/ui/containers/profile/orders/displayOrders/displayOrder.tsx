@@ -8,6 +8,7 @@ import {
 } from "@/app/ui/tailwindClasses";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
 import ArticleHeader, { ArticleHeaderSkeleton } from "@/app/ui/components/tags/articleHeader/articleHeader";
+import { getDateValue, getSpanishHourValue } from "@/lib/utils";
 
 /**
  * Represents the properties of a product, used for displaying product details and options.
@@ -24,6 +25,7 @@ import ArticleHeader, { ArticleHeaderSkeleton } from "@/app/ui/components/tags/a
  */
 interface DisplayOrderProps {
   id: string;
+  orderNumber: number,
   creationDate: any;
   userName: string;
   firstName: string;
@@ -43,6 +45,7 @@ interface DisplayOrderProps {
  */
 export default function DisplayOrder({
   id,
+  orderNumber,
   creationDate,
   userName,
   firstName,
@@ -54,20 +57,20 @@ export default function DisplayOrder({
 }: DisplayOrderProps): JSX.Element {
   return (
     <div
-      className={`flex flex-col rounded rounded-tr-3xl p-5
+      className={`flex flex-col gap-3 rounded rounded-tr-3xl p-5
             ${componentBorder} ${componentBackground} ${componentText}`}
     >
       {/* Order Data */}
       <article className="flex flex-col md:justify-around">
         {/* Id */}
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row gap-2 justify-between">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold w-fit">
-            Pedido Nº {id}
+            Pedido Nº {orderNumber}
           </h1>
         </div>
         {/* Creation Date */}
         <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">
-          Fecha del Pedido: {creationDate}
+          Fecha del Pedido: {getDateValue(creationDate)}; {getSpanishHourValue(creationDate)}
         </h2>
         {/* Total Price */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold w-fit">
@@ -76,13 +79,13 @@ export default function DisplayOrder({
       </article>
       <div className={`w-full border-t my-3 ${componentBorder}`}></div>
       {/* Client Data */}
-      <section>
+      <section className="flex flex-col gap-2">
         {/* User Name and First Name */}
         <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">
           Cliente: {userName} {firstName}
         </h2>
         {/* Contact Data */}
-        <h2 className="text-lg sm:text-xl lg:text-2xl w-fit">
+        <h2 className="flex flex-col gap-2 text-lg sm:text-xl lg:text-2xl w-fit">
           <p>Teléfono asociado: {phoneNumber}</p>
           <p>Correo electrónico asociado: {email}</p>
           <p>Dirección asociado: {address}</p>
@@ -97,7 +100,7 @@ export default function DisplayOrder({
             {products.map((product, index) => (
               <li key={"product-" + index}>
                 {index + 1}. {product.name} - {product.brand} -{" "}
-                {product.earSide} - {product.colorText} - {product.price}
+                {product.earSide} - {product.colorText} - {Number(product.price).toFixed(2)}€
               </li>
             ))}
           </ul>

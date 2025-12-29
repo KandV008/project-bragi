@@ -122,9 +122,9 @@ export function mapDocumentToOrder(order: any): OrderEntity {
 
         const mongoBinary = order.audiometry_file.buffer as Binary;
         const mapBuffer: Buffer = Buffer.from(mongoBinary.buffer) ;
-
         const mappedProducts = order.products.map(mapDocumentToShoppingProductDTO)
-        const mappedSpecialsProducts = order.invalid_products.map(mapDocumentToShoppingProductDTO)
+        const mappedSpecialsProducts = order.invalid_products?.map(mapDocumentToShoppingProductDTO) || []
+
         const mappedAudiometryFile: audiometryFileProps = {
             buffer: mapBuffer,
             type: order.audiometry_file.type,
