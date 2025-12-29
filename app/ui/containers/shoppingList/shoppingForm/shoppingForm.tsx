@@ -154,12 +154,12 @@ export default function ShoppingForm({ products }: FormProps) {
       }),
     });
 
-    const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature } =
+    const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature, TPV_Origin } =
       await res.json();
 
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "https://sis-t.redsys.es:25443/sis/realizarPago";
+    form.action = TPV_Origin;
 
     const addInput = (name: string, value: string) => {
       const input = document.createElement("input");

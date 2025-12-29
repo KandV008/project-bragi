@@ -18,6 +18,7 @@ import crypto from "crypto";
 export async function POST(req: Request) {
   const { amount, order } = await req.json();
 
+  const tpvURL = process.env.REDSYS_ORIGIN!;
   const secretKey = process.env.REDSYS_SECRET_KEY!;
   const orderFormatted = String(order).padStart(12, "0").slice(0, 12);
 
@@ -32,6 +33,7 @@ export async function POST(req: Request) {
       Ds_SignatureVersion: "HMAC_SHA512_V2",
       Ds_MerchantParameters: base64Params,
       Ds_Signature: signatureBase64,
+      TPV_Origin: tpvURL,
     }),
     { status: 200 }
   );
