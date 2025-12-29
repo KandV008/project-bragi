@@ -44,6 +44,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icons } from "@/app/ui/fontAwesomeIcons";
+import Spinner from "@/app/ui/components/common/spinner/spinner";
 
 interface FormProps {
   products: ShoppingProductDTO[];
@@ -61,6 +62,7 @@ interface FormProps {
 export default function ShoppingForm({ products }: FormProps) {
   const { user } = useUser();
   const searchParams = useSearchParams();
+  const [isSpinnerActive, setSpinnerActive] = useState(false);
   const [bargainCode, setBargainCode] = useState<string | undefined>(undefined);
   const [currentProducts, setCurrentProducts] =
     useState<ShoppingProductDTO[]>(products);
@@ -103,6 +105,7 @@ export default function ShoppingForm({ products }: FormProps) {
 
   const onSubmit = async (data: ShoppingFormData) => {
     try {
+      setSpinnerActive(true);
       const formData = new FormData();
 
       formData.append(userIdName, data[userIdName]);
@@ -130,11 +133,13 @@ export default function ShoppingForm({ products }: FormProps) {
 
       if (status) {
         toast.error("Ha habido un problema con el pedido");
+        setSpinnerActive(false);
         return;
       }
 
       await redirectTPV(totalPrice, orderNumber);
     } catch {
+      setSpinnerActive(false);
       toast.error("No se ha podido realizar el pago");
     }
   };
@@ -154,8 +159,12 @@ export default function ShoppingForm({ products }: FormProps) {
       }),
     });
 
-    const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature, TPV_Origin } =
-      await res.json();
+    const {
+      Ds_SignatureVersion,
+      Ds_MerchantParameters,
+      Ds_Signature,
+      TPV_Origin,
+    } = await res.json();
 
     const form = document.createElement("form");
     form.method = "POST";
@@ -182,6 +191,13 @@ export default function ShoppingForm({ products }: FormProps) {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col lg:flex-row gap-3"
     >
+      {isSpinnerActive ? (
+        <div className="fixed top-36 right-0 xl:right-80 transform -translate-x-1/2 z-50">
+          <Spinner />
+        </div>
+      ) : (
+        <></>
+      )}
       {/* Shopping Form */}
       <section
         className={`flex flex-col gap-5 p-5 sm:p-10 w-full
