@@ -14,17 +14,27 @@ const inter = Inter({ subsets: ["latin"] });
  */
 export const metadata: Metadata = {
   metadataBase: new URL("https://audifonosxmenos.com"),
+  applicationName: 'AudifonosXmenos',
+  keywords: ['hearing aids', 'e-commerce', 'audífonos', 'products', "productos"],
+  authors: [{ name: 'KandV008', url: 'https://github.com/KandV008' }, ],
   title: {
     default: "Audífonos X menos",
     template: "%s - Audífonos X menos",
   },
   description:
     "Professional e-commerce for hearing aids and accessories, with the option to request appointments.",
-  twitter: {
+  openGraph: {
+    title: 'Audífonos X menos',
+    description: 'Professional e-commerce for hearing aids and accessories, with the option to request appointments.',
+    images: 'https://audifonosxmenos.com/opengraph-image.png'
+  },
+    twitter: {
     card: "summary_large_image",
+    title: 'Audífonos X menos',
+    description: 'Professional e-commerce for hearing aids and accessories, with the option to request appointments.',
+    images: 'https://audifonosxmenos.com/opengraph-image.png'
   },
 };
-
 
 /**
  * Root layout component that wraps around all pages.
