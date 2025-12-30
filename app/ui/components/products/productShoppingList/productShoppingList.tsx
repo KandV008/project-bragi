@@ -17,7 +17,6 @@ import {
 import AmountButton from "../../buttons/amountButton/amountButton";
 import { ShoppingListContext } from "../../contexts/shoppingListContext";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
-import { getProduct } from "@/db/product/product";
 import {
   checkAccessoryByPairs,
   checkRemoveAccessoryByPairs,
@@ -79,8 +78,8 @@ export default function ProductShoppingList({
   accessories,
 }: ProductInformationProps) {
   let showEarSide: string = getEarSideLabel(earSide);
-  const { shoppingList:_1, setShoppingList } = useContext(ShoppingListContext);
-  const { counter:_2, setCounter } = useContext(CountShoppingListContext);
+  const { shoppingList: _1, setShoppingList } = useContext(ShoppingListContext);
+  const { counter: _2, setCounter } = useContext(CountShoppingListContext);
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
@@ -140,7 +139,7 @@ export default function ProductShoppingList({
         </>
         {/* Information */}
         <article className="flex flex-col lg:flex-row items-center self-center 2xl:flex-col gap-2 rounded-md p-3">
-          {/* Product */} 
+          {/* Product */}
           <div className="flex flex-col gap-1 2xl:flex-row text-start">
             <div className="flex flex-col ">
               {/* Name */}
@@ -265,12 +264,12 @@ export default function ProductShoppingList({
         const shouldSkipAccessory =
           delta > 0
             ? !checkAccessoryByPairs(updated, name, accessories[0])
-            : checkRemoveAccessoryByPairs(updated, name, accessories[0]);
+            : !checkRemoveAccessoryByPairs(updated, name, accessories[0]);
 
         const finalList = shouldSkipAccessory
           ? updated
           : updated.map((product) =>
-              product.id === accessories[0] && product.price === 0
+              accessories.includes(product.id) && product.price === 0
                 ? {
                     ...product,
                     quantity: Math.max(product.quantity + delta, 0),

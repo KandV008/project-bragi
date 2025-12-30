@@ -2,8 +2,6 @@
 
 import { useContext, useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { validateAddShoppingCart } from "@/lib/validations/validations";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import {
   pressedButton,
   negativeComponentText,
@@ -20,7 +18,7 @@ import BigImage, {
   BigImageSkeleton,
 } from "@/app/ui/components/images/bigImage/bigImage";
 import Link from "next/link";
-import { addProductToShoppingList } from "@/db/shoppingList/shoppingList";
+import { addProductToShoppingList, countShoppingList } from "@/db/shoppingList/shoppingList";
 import { checkFavoriteRoute } from "@/app/api/routes";
 import { EarphoneColor } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneColor";
 import {
@@ -197,11 +195,12 @@ const onSubmit = async (data: AddShoppingListFormData) => {
   }
 };
 
-  const updateCountShoppingList = () => {
+  const updateCountShoppingList = async () => {
     if (earSide === BOTH_SIDE) {
       setCounter((prev) => prev + 2 + accessories.length);
     } else {
-      setCounter((prev) => prev + 1);
+      const newShoppingListCounter = await countShoppingList()
+      setCounter(newShoppingListCounter);
     }
   };
 
