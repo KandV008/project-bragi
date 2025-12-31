@@ -1,8 +1,6 @@
 import InDevelopmentMessage from "@/app/ui/components/messages/inDevelopmentMessage/inDevelopmentMessage";
 import { Metadata } from "next";
 
-export const dynamic = "force-static";
-
 /**
  * Metadata for the page, defining the title.
  */

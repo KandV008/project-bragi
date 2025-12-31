@@ -1,8 +1,6 @@
 import { SendAudiometryFileForm } from "@/app/ui/containers/services/send-audiometry-file/sendAudiometryFileForm";
 import { Metadata } from "next";
 
-export const dynamic = "force-static";
-
 /**
  * Metadata for the page, defining the title.
  */

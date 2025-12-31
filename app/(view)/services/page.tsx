@@ -10,8 +10,6 @@ import {
   faAward,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const dynamic = "force-static";
-
 /**
  * Page component that displays a list of available services.
  * This includes navigation buttons for various services such as appointments, offers, novelties, about us, and contact.

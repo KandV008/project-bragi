@@ -4,8 +4,6 @@ import { componentBackground, componentText } from "@/app/ui/tailwindClasses";
 import { Metadata } from "next";
 import Link from "next/link";
 
-export const dynamic = "force-static";
-
 /**
  * Metadata for the page, defining the title.
  */

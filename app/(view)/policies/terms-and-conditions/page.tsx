@@ -1,8 +1,6 @@
 import TermsAndConditions from "@/app/ui/containers/policies/termsAndConditions/termsAndConditions";
 import { Metadata } from "next";
 
-export const dynamic = "force-static";
-
 /**
  * Metadata for the page, defining the title.
  */
