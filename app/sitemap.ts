@@ -11,7 +11,9 @@ interface siteMapElement {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const allCategories: siteMapElement[] = [{fragmentedURL: "EARPHONE", priority: 1}, {fragmentedURL: "ACCESSORY", priority: 9}]
+  const allCategories: siteMapElement[] = [
+    {fragmentedURL: "EARPHONE", priority: 0.9}, 
+    {fragmentedURL: "ACCESSORY", priority: 1}]
   const allServices: siteMapElement[] = [
     {fragmentedURL:"about-us", changeFrequency:"yearly", priority:0.5}, 
     {fragmentedURL:"appointment", changeFrequency:"yearly", priority:0.6}, 
