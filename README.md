@@ -6,7 +6,7 @@ This web application is in property of [@KandV008](https://github.com/KandV008).
 
 | Current Version |
 | :-: |
-| `v1.0.0` |
+| `v1.1.0` |
 
 ## :clapper: Preview
 
