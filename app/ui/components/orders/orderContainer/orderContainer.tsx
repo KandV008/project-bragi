@@ -36,6 +36,7 @@ export default function OrderContainer({
           <Order
             key={order.id}
             id={order.id}
+            orderNumber={order.orderNumber}
             address={order.address}
             totalPrice={order.totalPrice}
             creationDate={order.creationDate}

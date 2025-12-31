@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getShoppingList } from '@/db/shoppingList/shoppingList';
 import { NextResponse } from 'next/server';
 

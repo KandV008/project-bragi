@@ -22,7 +22,7 @@ import SectionHeader, {
 import UnorderedList, {
   UnorderedListSkeleton,
 } from "@/app/ui/components/tags/unorderedList/unorderedList";
-import AdminPanel from "../../admin/adminPanel/adminPanel";
+import AdminPanel from "../../admin/adminPanel";
 import { Protect } from "@clerk/nextjs";
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 import { faBoltLightning } from "@fortawesome/free-solid-svg-icons";

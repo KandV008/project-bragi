@@ -2,42 +2,54 @@
 
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import UnorderedList, {
-  UnorderedListSkeleton,
-} from "@/app/ui/components/tags/unorderedList/unorderedList";
 import {
-  Article,
-  ArticleSkeleton,
-} from "@/app/ui/components/tags/article/article";
-import BigImage, {
-  BigImageSkeleton,
-} from "@/app/ui/components/images/bigImage/bigImage";
-import {
-  componentBackground,
-  componentBorder,
-  componentText,
   shimmer,
 } from "@/app/ui/tailwindClasses";
 import {
   getListOfProductsByIdRoute,
   getProductRoute,
-  getRelatedProductsRoute,
 } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
-import { EARPHONE_VALUE } from "@/app/model/entities/product/enums/Category";
-import { ColorButtonSkeleton } from "@/app/ui/components/buttons/colorButton/colorButton";
-import {
-  ColorArticle,
-  ColorArticleSkeleton,
-} from "@/app/ui/components/tags/colorArticle/colorArticle";
-import SectionHeader, {
-  SectionHeaderSkeleton,
-} from "@/app/ui/components/tags/sectionHeader/sectionHeader";
-import AdminPanel from "../../adminPanel/adminPanel";
-import SomeProductContainer from "@/app/ui/components/products/someProductContainer/someProductContainer";
-import DisplayProductAttributes from "../../../search/about/displayProductAttributes/displayProductAttributes";
-import DisplayProductDetails from "../../../search/about/displayProductDetails/displayProductDetails";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
+import dynamic from "next/dynamic";
+
+const AdminPanel = dynamic(() => import("../adminPanel"), { ssr: false });
+const DisplayProductAttributes = dynamic(
+  () => import("../../search/about/displayProductAttributes"),
+  { ssr: false }
+);
+const DisplayProductDetails = dynamic(
+  () => import("../../search/about/displayProductDetails"),
+  { ssr: false }
+);
+const SomeProductContainer = dynamic(
+  () => import("@/app/ui/components/products/someProductContainer/someProductContainer"),
+  { ssr: false }
+);
+const SectionHeaderSkeleton = dynamic(
+  () => import("@/app/ui/components/tags/sectionHeader/sectionHeader").then(mod => mod.SectionHeaderSkeleton),
+  { ssr: false }
+);
+const ArticleSkeleton = dynamic(
+  () => import("@/app/ui/components/tags/article/article").then(mod => mod.ArticleSkeleton),
+  { ssr: false }
+);
+const UnorderedListSkeleton = dynamic(
+  () => import("@/app/ui/components/tags/unorderedList/unorderedList").then(mod => mod.UnorderedListSkeleton),
+  { ssr: false }
+);
+const ColorArticleSkeleton = dynamic(
+  () => import("@/app/ui/components/tags/colorArticle/colorArticle").then(mod => mod.ColorArticleSkeleton),
+  { ssr: false }
+);
+const BigImageSkeleton = dynamic(
+  () => import("@/app/ui/components/images/bigImage/bigImage").then(mod => mod.BigImageSkeleton),
+  { ssr: false }
+);
+const ColorButtonSkeleton = dynamic(
+  () => import("@/app/ui/components/buttons/colorButton/colorButton").then(mod => mod.ColorButtonSkeleton),
+  { ssr: false }
+);
 
 /**
  * Admin product management page for viewing and editing a product's details.

@@ -15,6 +15,8 @@ import {
   componentBorder,
   hoverComponentBorder,
   negativeComponentText,
+  disableComponentBackground,
+  disableComponentBorder,
 } from "@/app/ui/tailwindClasses";
 
 /**
@@ -56,6 +58,11 @@ export default function AmountButton({
   price,
   updateQuantity,
 }: AmountButtonProps) {
+  const isDisable = price === 0;
+  const style = isDisable
+    ? `${disableComponentBackground} ${disableComponentBorder}`
+    : `${negativeComponentBackground} ${negativeHoverComponentBackground} ${componentBorder} ${hoverComponentBorder}`;
+
   /**
    * Handles form submission, executes the provided action,
    * and refreshes the page.
@@ -77,10 +84,11 @@ export default function AmountButton({
       <button
         type="submit"
         className={`flex flex-col p-2 rounded-xl 
-          ${negativeComponentBackground} ${negativeHoverComponentBackground} 
-          ${componentBorder} ${hoverComponentBorder} 
+          ${style} 
+           
           ${negativeComponentText}
         `}
+        disabled={isDisable}
       >
         <div className="self-center">
           <FontAwesomeIcon icon={symbol} className="mx-1" />

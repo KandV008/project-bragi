@@ -9,7 +9,6 @@ import {
 import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 import TextAreaInput from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
 import TextInput from "@/app/ui/components/inputs/textInput/textInput";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import {
   componentText,
@@ -17,16 +16,15 @@ import {
   componentBorder,
 } from "@/app/ui/tailwindClasses";
 import { sendContactEmail } from "@/lib/mail";
-import { validateContactForm } from "@/lib/validations/validations";
-import {
-  faEnvelope,
-  faPenNib,
-  faComment,
-  faUpload,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import toast from "react-hot-toast";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  contactSchema,
+  ContactFormData,
+} from "@/lib/validations/contact.scheme";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 
 /**
  * ContactForm component provides a form for users to send messages.
@@ -36,30 +34,23 @@ import toast from "react-hot-toast";
  * @returns {JSX.Element} The ContactForm component.
  */
 export function ContactForm(): JSX.Element {
-  const [showModal, setShowModal] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+  });
 
-  /**
-   * Toggles the validation popup modal.
-   */
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
-
-  /**
-   * Handles form submission, validates input, and performs the respective action.
-   * If the form is valid, it sends an email; otherwise, it shows a validation popup.
-   *
-   * @function
-   * @param {FormData} formData - The submitted form data.
-   */
-  const handleContactForm = (formData: FormData) => {
-    const isValid = validateContactForm(formData);
-
-    if (isValid) {
-      sendContactEmail(formData)
-        .then((_) => toast.success("Se ha enviado el correo."))
-        .catch((_) => toast.error("No se ha podido enviar el correo."));
-    } else handleShowModal();
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      await sendContactEmail(data);
+      toast.success("Se ha enviado el correo.");
+      reset();
+    } catch {
+      toast.error("No se ha podido enviar el correo.");
+    }
   };
 
   return (
@@ -93,7 +84,7 @@ export function ContactForm(): JSX.Element {
         </article>
         {/* Contact Form */}
         <form
-          action={handleContactForm}
+          onSubmit={handleSubmit(onSubmit)}
           className={`flex flex-col gap-5 p-5 sm:p-10 items-center justify-center lg:w-1/2
                      ${componentBackground}
                      ${componentBorder} rounded-xl`}
@@ -104,36 +95,41 @@ export function ContactForm(): JSX.Element {
             type={"text"}
             placeholder={"Me llamo..."}
             label={"Nombre"}
-            icon={faUser}
+            icon={Icons.user}
+            register={register(userNameName)}
+            error={errors[userNameName]?.message}
           />
           <TextInput
             name={contactEmailName}
             type={"text"}
             placeholder={"ejemplo@email.com"}
             label={"Correo Electrónico"}
-            icon={faEnvelope}
+            icon={Icons.email}
+            register={register(contactEmailName)}
+            error={errors[contactEmailName]?.message}
           />
           <TextInput
             name={contactSubjectName}
             type={"text"}
             placeholder={"Razón de contacto"}
             label={"Asunto del mensaje"}
-            icon={faPenNib}
+            icon={Icons.pen}
+            register={register(contactSubjectName)}
+            error={errors[contactSubjectName]?.message}
           />
           <TextAreaInput
             name={contactBodyName}
             placeholder={"Texto con el mensaje"}
             label={"Cuerpo del mensaje"}
-            icon={faComment}
+            icon={Icons.comment}
+            register={register(contactBodyName)}
+            error={errors[contactBodyName]?.message}
           />
           <div className="place-self-center">
-            <SubmitButton text={"Enviar"} icon={faUpload} isDisable={false} />
+            <SubmitButton text={"Enviar"} icon={Icons.upload} isDisable={false} />
           </div>
         </form>
       </section>
-      <article className="flex flex-center shrink-0 justify-center h-full">
-        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
-      </article>
     </>
   );
 }

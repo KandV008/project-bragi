@@ -26,3 +26,5 @@ export const getOrderRoute = "/api/orders/getOrder"
 
 export const checkCookiesStatusRoute = "/api/cookies/checkCookiesStatus"
 export const checkTermsAndConditionsRoute = "/api/cookies/checkTermsAndConditions"
+
+export const countShoppingListRoute = "/api/shopping/countShoppingList"

@@ -1,5 +1,14 @@
-import AdminBargainList from "@/app/ui/containers/admin/bargains/adminBargainList/adminBargainList";
+import { AdminBargainListSkeleton } from "@/app/ui/containers/admin/bargains/adminBargainList";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const AdminBargainList = dynamic(
+  () => import("@/app/ui/containers/admin/bargains/adminBargainList"),
+  {
+    ssr: false,
+    loading: () => <AdminBargainListSkeleton />,
+  }
+);
 
 /**
  * Metadata for the page, defining the title.

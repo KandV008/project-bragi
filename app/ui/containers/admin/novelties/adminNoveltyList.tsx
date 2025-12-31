@@ -3,13 +3,15 @@
 import { useState, useEffect } from "react";
 import { getNoveltiesRoute } from "@/app/api/routes";
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
-import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
-import { NoveltyContainerSkeleton } from "@/app/ui/components/novelties/noveltyContainer/noveltyContainer";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../../adminPanel/adminPanel";
 import { DeletingContext } from "@/app/ui/components/contexts/deletingContext";
-import AdminDeletionPanel from "../../adminDeletionPanel/adminDeletionPanel";
 import { deleteNovelties } from "@/db/novelty/novelty";
+import dynamic from "next/dynamic";
+
+const AdminPanel = dynamic(() => import("../adminPanel"), { ssr: false });
+const AdminDeletionPanel = dynamic(() => import("../adminDeletionPanel"), { ssr: false });
+const NoveltyContainer = dynamic(() => import("@/app/ui/components/novelties/noveltyContainer/noveltyContainer"), { ssr: false });
+const NoveltyContainerSkeleton = dynamic(() => import("@/app/ui/components/novelties/noveltyContainer/noveltyContainer").then(mod => mod.NoveltyContainerSkeleton), { ssr: false });
 
 /**
  * This component fetches and displays a paginated list of novelties (offers).

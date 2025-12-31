@@ -19,9 +19,12 @@ export const hoverFillRedComponentBackground = "hover:bg-red-500 hover:dark:bg-r
 
 export const hoverComponentEmptyBackground = "hover:bg-gray-300 hover:dark:bg-gray-700"
 
+export const disableComponentBackground = "bg-gray-500 dark:bg-gray-300"
+
 /* Border Classes */
 export const componentBorder = "border-emerald-900 dark:border-emerald-100 border-2"
 export const hoverComponentBorder = "hover:border-emerald-700 hover:dark:border-emerald-200 hover:border-2"
+export const disableComponentBorder = "border-gray-500 dark:border-gray-300 border-2"
 
 /* Text Classes */
 export const componentText = "text-emerald-900 dark:text-emerald-100"

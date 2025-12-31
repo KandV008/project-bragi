@@ -7,9 +7,11 @@ import { parseNewProductToShoppingList, parseString, parseUpdateOfShoppingList }
 import { Logger } from "@/app/config/Logger";
 import { applyNoveltyToList } from "@/app/model/entities/novelty/Novelty";
 import { NoveltyContext } from "@/app/model/entities/novelty/enums/NoveltyContext";
-import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
-import { getProduct } from "../product/product";
+import { METHOD_ADD_PRODUCT_TO_SHOPPING_LIST, METHOD_COUNT_SHOPPING_LIST, METHOD_DECREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_DELETE_PRODUCT_IN_SHOPPING_LIST, METHOD_GET_SHOPPING_LIST, METHOD_INCREMENT_PRODUCT_IN_SHOPPING_LIST, METHOD_REMOVE_SHOPPING_LIST, SHOPPING_LIST_CONTEXT } from "../dbConfig";
+import { getProduct, getProductsByIds } from "../product/product";
 import { checkAccessoryByPairs, checkRemoveAccessoryByPairs } from "@/lib/utils";
+import { AddShoppingListFormData } from "@/lib/validations/addShoppingList.scheme";
+import { ProductEntity } from "@/app/model/entities/product/Product";
 
 /**
  * Retrieves the shopping list for the authenticated user.
@@ -36,6 +38,54 @@ export async function getShoppingList(): Promise<ShoppingProductDTO[]> {
   } catch (error) {
     Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_GET_SHOPPING_LIST, error);
     throw new Error(`[${METHOD_GET_SHOPPING_LIST}] ${error}`);
+  }
+}
+
+export async function removeShoppingList() {
+  Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_REMOVE_SHOPPING_LIST);
+
+  try {
+    const { userId } = auth();
+    const parsedUserId = parseString(userId?.toString(), "USER_ID");
+
+    const result = await sql`
+      DELETE FROM shoppingList
+      WHERE user_id = ${parsedUserId}
+      RETURNING product_id
+    `;
+
+    Logger.endFunction(
+      SHOPPING_LIST_CONTEXT,
+      METHOD_REMOVE_SHOPPING_LIST,
+      `Removed ${result.rowCount} products from shopping list for user ${parsedUserId}`
+    );
+
+  } catch (error) {
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_REMOVE_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_REMOVE_SHOPPING_LIST}] ${error}`);
+  }
+}
+
+/**
+ * Counts the total quantity of products in the shopping list.
+ * This function retrieves the shopping list and calculates the sum of all product quantities.
+ *
+ * @returns {Promise<number>} A promise that resolves to the total quantity of products in the shopping list.
+ * @throws {Error} Throws an error if there's an issue fetching the shopping list or calculating the count.
+ */
+export async function countShoppingList(): Promise<number> {
+  Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_COUNT_SHOPPING_LIST);
+
+  try {
+    const shoppingList = await getShoppingList();
+
+    const counter = shoppingList.reduce(((prev, product) => product.quantity + prev), 0)
+
+    Logger.endFunction(SHOPPING_LIST_CONTEXT, METHOD_COUNT_SHOPPING_LIST, counter);
+    return counter;
+  } catch (error) {
+    Logger.errorFunction(SHOPPING_LIST_CONTEXT, METHOD_COUNT_SHOPPING_LIST, error);
+    throw new Error(`[${METHOD_COUNT_SHOPPING_LIST}] ${error}`);
   }
 }
 
@@ -101,10 +151,10 @@ export async function deleteProductsInShoppingList(productIds: string[]): Promis
 
 /**
  * Adds a product to the user's shopping list.
- * @param {FormData} formData - The form data containing product details.
+ * @param {AddShoppingListFormData} formData - The form data containing product details.
  * @throws {Error} - If an error occurs while retrieving products in the shopping list from the database. 
 */
-export async function addProductToShoppingList(formData: FormData) {
+export async function addProductToShoppingList(formData: AddShoppingListFormData) {
   Logger.startFunction(SHOPPING_LIST_CONTEXT, METHOD_ADD_PRODUCT_TO_SHOPPING_LIST);
 
   try {
@@ -201,15 +251,7 @@ async function handleOneEarSideEarphone(parsedProduct: AddProductInterface, pars
     return;
   }
 
-  const accessoryToAdd = parsedProduct.accessories[0]
-  const products = await getShoppingList()
-
-  if (!checkAccessoryByPairs(products, parsedProduct.name, accessoryToAdd)) {
-    return;
-  }
-
-  const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
-  await handleAddingProduct(parsedAccessory, parsedUserId)
+  await handleAccessories(parsedProduct, parsedUserId, 1);
 }
 
 
@@ -225,36 +267,38 @@ async function handleBothEarSideEarphone(parsedProduct: AddProductInterface, par
   }
 
   if (parsedProduct.accessories.length !== 0) {
-    const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
+    const parsedAccessories: AddProductInterface[] = await getParsedAccessories(parsedProduct);
 
-    await handleAddingProduct(parsedAccessory, parsedUserId)
+    parsedAccessories.map(async (p) => {
+      await handleAddingProduct(p, parsedUserId)
+    })
   }
 
   await handleAddingProduct(leftSide, parsedUserId)
   await handleAddingProduct(rightSide, parsedUserId)
 }
 
-async function getParsedAccessory(parsedProduct: AddProductInterface) {
-  const accessoryId = parsedProduct.accessories[0];
-  const accessory = await getProduct(accessoryId);
+async function getParsedAccessories(parsedProduct: AddProductInterface) {
+  const accessories: ProductEntity[] = await getProductsByIds(parsedProduct.accessories)
 
-  if (!accessory) {
+  if (!accessories || accessories.length === 0) {
     throw Error("Accessory not found");
   }
 
-  const parsedAccessory: AddProductInterface = {
-    productId: accessoryId,
+  const parsedAccessory: AddProductInterface[] = accessories.map((p) => ({
+    productId: p.id,
     colorText: "",
     colorHex: "",
     earSide: "",
     earphoneShape: "",
-    name: accessory.name,
-    category: accessory.category,
-    brand: accessory.brand,
+    name: p.name,
+    category: p.category,
+    brand: p.brand,
     price: 0,
-    imageURL: accessory.imageURL,
+    imageURL: p.imageURL,
     accessories: []
-  };
+  }));
+
   return parsedAccessory;
 }
 
@@ -309,15 +353,7 @@ async function prepareAccessoryAddition(productId: string, parsedUserId: string)
     accessories: product.earphoneAttributes.accessories
   }
 
-  const accessoryToAdd = parsedProduct.accessories[0]
-  const products = await getShoppingList()
-
-  if (!checkAccessoryByPairs(products, parsedProduct.name, accessoryToAdd)) {
-    return;
-  }
-
-  const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
-  await handleAddingProduct(parsedAccessory, parsedUserId)
+  await handleAccessories(parsedProduct, parsedUserId, 1);
 }
 
 async function handleIncrementProduct(productId: string, parsedUserId: string, colorText: string, colorHex: string, earSide: string, price: number) {
@@ -410,15 +446,23 @@ async function prepareAccessoryRemoval(productId: string, parsedUserId: string) 
     accessories: product.earphoneAttributes.accessories
   }
 
-  const accessoryToRemove = parsedProduct.accessories[0]
-  const products = await getShoppingList()
+  await handleAccessories(parsedProduct, parsedUserId, -1);
+}
 
-  if (checkRemoveAccessoryByPairs(products, parsedProduct.name, accessoryToRemove)) {
-    return;
-  }
+async function handleAccessories(parsedProduct: AddProductInterface, parsedUserId: string, delta: 1 | -1) {
+  const action = delta > 0 ? handleAddingProduct : handleRemovingProduct
+  const check = delta > 0 ? checkAccessoryByPairs : checkRemoveAccessoryByPairs
+  
+  const parsedAccessories: AddProductInterface[] = await getParsedAccessories(parsedProduct);
+  const products = await getShoppingList();
 
-  const parsedAccessory: AddProductInterface = await getParsedAccessory(parsedProduct);
-  await handleRemovingProduct(parsedAccessory, parsedUserId)
+  parsedAccessories.map(async (p) => {
+    if (!check(products, parsedProduct.name, p.productId)) {
+      return;
+    }
+
+    await action(p, parsedUserId);
+  });
 }
 
 async function handleRemovingProduct(parsedProduct: AddProductInterface, parsedUserId: string) {

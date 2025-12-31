@@ -1,18 +1,13 @@
 "use client";
 
-import {
-  faPaintRoller,
-  faLeftLong,
-  faTag,
-  faAward,
-} from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "@clerk/nextjs";
 import {
   componentBorder,
   componentBackground,
   componentText,
-} from "../../tailwindClasses";
+} from "@/app/ui/tailwindClasses";
 import MediumButtonWithIcon from "../../components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 
 /**
  * This component serves as the main dashboard for administrators, providing navigation
@@ -38,28 +33,28 @@ export default function AdminDashboard(): JSX.Element {
       
       {/* Navigation Buttons */}
       <MediumButtonWithIcon
-        icon={faPaintRoller}
+        icon={Icons.paintRoller}
         text={"Entidad Producto"}
         subtext={"Gestionar productos"}
         type={"default"}
         navigationURL="/admin/products"
       />
       <MediumButtonWithIcon
-        icon={faTag}
+        icon={Icons.tag}
         text={"Entidad Oferta"}
         subtext={"Gestionar ofertas"}
         type={"default"}
         navigationURL="/admin/bargains"
       />
       <MediumButtonWithIcon
-        icon={faAward}
+        icon={Icons.award}
         text={"Entidad Novedad"}
         subtext={"Gestionar novedades"}
         type={"default"}
         navigationURL="/admin/novelties"
       />
       <MediumButtonWithIcon
-        icon={faLeftLong}
+        icon={Icons.leftLong}
         text={"Salir"}
         subtext={"Salir del panel de control"}
         type={"warning"}

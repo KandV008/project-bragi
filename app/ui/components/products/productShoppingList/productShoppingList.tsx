@@ -17,11 +17,11 @@ import {
 import AmountButton from "../../buttons/amountButton/amountButton";
 import { ShoppingListContext } from "../../contexts/shoppingListContext";
 import { ShoppingProductDTO } from "@/app/model/entities/shoppingProductDTO/ShoppingProductDTO";
-import { getProduct } from "@/db/product/product";
 import {
   checkAccessoryByPairs,
   checkRemoveAccessoryByPairs,
 } from "@/lib/utils";
+import { CountShoppingListContext } from "../../contexts/countShoppingListContext";
 
 /**
  * Props for the ProductShoppingList component.
@@ -78,7 +78,8 @@ export default function ProductShoppingList({
   accessories,
 }: ProductInformationProps) {
   let showEarSide: string = getEarSideLabel(earSide);
-  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
+  const { shoppingList: _1, setShoppingList } = useContext(ShoppingListContext);
+  const { counter: _2, setCounter } = useContext(CountShoppingListContext);
 
   const [showModal, setShowModal] = useState(false);
   const [currentFormData, setFormData] = useState<FormData>();
@@ -125,7 +126,7 @@ export default function ProductShoppingList({
       ${componentBorder}`}
     >
       {/* About */}
-      <div className="flex flex-row">
+      <div className="flex flex-col items-center sm:flex-row">
         {/* Image */}
         <>
           <Image
@@ -133,16 +134,16 @@ export default function ProductShoppingList({
             width={150}
             height={150}
             alt={"img-" + name}
-            className="size-64 md:size-56 2xl:size-48 bg-white rounded self-center justify-self-center"
+            className="size-48 sm:size-36 md:size-56 2xl:size-48 bg-white rounded self-center justify-self-center"
           />
         </>
         {/* Information */}
-        <article className="flex flex-row self-center 2xl:flex-col gap-2 rounded-md p-3">
+        <article className="flex flex-col lg:flex-row items-center self-center 2xl:flex-col gap-2 rounded-md p-3">
           {/* Product */}
           <div className="flex flex-col gap-1 2xl:flex-row text-start">
-            {/* Name */}
             <div className="flex flex-col ">
-              <span className="text-xl font-bold text-center">{name}</span>
+              {/* Name */}
+              <span className="text-xl font-bold">{name}</span>
               {/* Brand */}
               <span className="text-lg font-bold">{brand}</span>
             </div>
@@ -151,18 +152,18 @@ export default function ProductShoppingList({
           <div className="flex flex-col gap-2 text-start justify-between w-48">
             {/* EarSide */}
             {category === "EARPHONE" ? (
-              <div className="flex flex-row w-full">
+              <div className="flex flex-row lg:flex-col 2xl:flex-row w-full">
                 <span className="font-bold w-20">Lado</span>
-                <span className="">{showEarSide}</span>
+                <span className="lg:px-5 2xl:px-0">{showEarSide}</span>
               </div>
             ) : (
               <></>
             )}
             {/* Earphone Shape */}
             {category === "EARPHONE" ? (
-              <div className="flex flex-row w-full">
+              <div className="flex flex-row lg:flex-col 2xl:flex-row w-full">
                 <span className="font-bold w-20">Forma</span>
-                <span className="">{earphoneShape}</span>
+                <span className="lg:px-5 2xl:px-0">{earphoneShape}</span>
               </div>
             ) : (
               <></>
@@ -170,9 +171,9 @@ export default function ProductShoppingList({
 
             {/* Color */}
             {category === "EARPHONE" ? (
-              <div className="flex flex-row w-full">
+              <div className="flex flex-row lg:flex-col 2xl:flex-row w-full">
                 <span className="font-bold w-20">Color</span>
-                <span className="">{colorText}</span>
+                <span className="lg:px-5 2xl:px-0">{colorText}</span>
               </div>
             ) : (
               <></>
@@ -181,7 +182,7 @@ export default function ProductShoppingList({
         </article>
       </div>
       {/* Amount & Price */}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-col items-center gap-2 sm:gap-0 sm:flex-row sm:justify-between">
         {/* Amount Button */}
         <article
           className="gap-4 self-center
@@ -217,7 +218,7 @@ export default function ProductShoppingList({
           </div>
         </article>
         {/* Price */}
-        <div className="flex flex-col text-cente justify-center">
+        <div className="flex flex-col items-center text-center justify-center">
           <div className="flex flex-row gap-2">
             <span className="text-xl font-bold">Precio </span>
             <div className="flex flex-row gap-1 justify-center">
@@ -248,61 +249,71 @@ export default function ProductShoppingList({
     </section>
   );
 
-  function updateQuantity(delta: 1 | -1): () => void {
-  return () =>
-    setShoppingList((prev) => {
-      const updated = prev.map((product) =>
-        isEquals(product)
-          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
-          : product
+  function updateQuantity(delta: 1 | -1) {
+    return () => {
+      setShoppingList((prev) => {
+        const updated = prev.map((product) =>
+          isEquals(product)
+            ? {
+                ...product,
+                quantity: Math.max(product.quantity + delta, 0),
+              }
+            : product
+        );
+
+        const shouldSkipAccessory =
+          delta > 0
+            ? !checkAccessoryByPairs(updated, name, accessories[0])
+            : !checkRemoveAccessoryByPairs(updated, name, accessories[0]);
+
+        const finalList = shouldSkipAccessory
+          ? updated
+          : updated.map((product) =>
+              accessories.includes(product.id) && product.price === 0
+                ? {
+                    ...product,
+                    quantity: Math.max(product.quantity + delta, 0),
+                  }
+                : product
+            );
+
+        const newCounter = finalList.reduce((prev, p) => prev + p.quantity, 0);
+        setCounter(newCounter);
+
+        return finalList;
+      });
+    };
+
+    function isEquals(product: ShoppingProductDTO) {
+      return (
+        product.id === id &&
+        product.name === name &&
+        product.earSide === earSide &&
+        product.earphoneShape === earphoneShape &&
+        product.colorText === colorText &&
+        product.colorHex === colorHex &&
+        product.price === price
       );
-
-      const shouldSkipAccessory =
-        delta > 0
-          ? !checkAccessoryByPairs(updated, name, accessories[0])
-          : checkRemoveAccessoryByPairs(updated, name, accessories[0]);
-
-      if (shouldSkipAccessory) return updated;
-
-      const updatedWithAccessory = updated.map((product) =>
-        product.id === accessories[0] && product.price === 0
-          ? { ...product, quantity: Math.max(product.quantity + delta, 0) }
-          : product
-      );
-
-      return updatedWithAccessory;
-    });
-
-  function isEquals(product: ShoppingProductDTO) {
-    return (
-      product.id === id &&
-      product.name === name &&
-      product.earSide === earSide &&
-      product.earphoneShape === earphoneShape &&
-      product.colorText === colorText &&
-      product.colorHex === colorHex &&
-      product.price === price
-    );
-  }
-}
-
-/**
- * Returns a label for the ear side (e.g., "Derecho", "Izquierda", "Ambos").
- *
- * @param earSide - The ear side value ("right", "left", or "both").
- * @returns A human-readable label for the ear side.
- */
-function getEarSideLabel(earSide: String) {
-  if (earSide === "right") {
-    return "Derecho";
+    }
   }
 
-  if (earSide === "left") {
-    return "Izquierdo";
-  }
+  /**
+   * Returns a label for the ear side (e.g., "Derecho", "Izquierda", "Ambos").
+   *
+   * @param earSide - The ear side value ("right", "left", or "both").
+   * @returns A human-readable label for the ear side.
+   */
+  function getEarSideLabel(earSide: String) {
+    if (earSide === "right") {
+      return "Derecho";
+    }
 
-  return "Ambos";
-}
+    if (earSide === "left") {
+      return "Izquierdo";
+    }
+
+    return "Ambos";
+  }
 }
 
 /**

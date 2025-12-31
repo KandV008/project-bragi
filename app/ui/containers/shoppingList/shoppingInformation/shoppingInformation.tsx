@@ -39,25 +39,18 @@ export default function ShoppingListInformation(): JSX.Element {
   if (isLoading) return <ShoppingListInformationSkeleton />;
   if (shoppingList.length === 0) return <NoShoppingCartMessage />;
 
-  console.warn("ORIGINAL:", originalShoppingList.current);
-  console.log("UPDATED:", shoppingList);
-
   return (
     <ShoppingListContext.Provider value={{shoppingList, setShoppingList}}>
       {/* Page header */}
       <SectionHeader text="Cesta de la compra" />
       {/* Shopping list and summary section */}
-      <section className="flex flex-col-reverse lg:flex-row gap-3 justify-center">
+      <section className="flex flex-col-reverse lg:flex-row gap-3 items-center lg:items-start justify-center">
         {/* Shopping list container */}
         <ShoppingList />
         <div className="shrink-0 z-10">
           {/* Order summary section */}
           <Summary
-            originalProducts={originalShoppingList.current}
             changeableProducts={shoppingList}
-            updateProducts={(newShoppingList: ShoppingProductDTO[]) =>
-              setShoppingList(newShoppingList)
-            }
           />
         </div>
       </section>

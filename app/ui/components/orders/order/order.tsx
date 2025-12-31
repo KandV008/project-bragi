@@ -1,3 +1,4 @@
+import { getDateValue, getSpanishHourValue } from "@/lib/utils";
 import {
   componentBackground,
   componentBorder,
@@ -6,17 +7,11 @@ import {
 } from "../../../tailwindClasses";
 import SeeMoreButton from "../../buttons/seeMoreButton/seeMoreButton";
 
-/**
- * Props for the `Order` component.
- */
 interface OrderProps {
-  /** Unique identifier for the order. */
   id: string;
-  /** Address associated with the order. */
+  orderNumber: number;
   address: string;
-  /** Total price of the order. */
   totalPrice: number;
-  /** Creation date of the order. */
   creationDate: any;
 }
 
@@ -28,6 +23,7 @@ interface OrderProps {
  */
 export default function Order({
   id,
+  orderNumber,
   address,
   totalPrice,
   creationDate,
@@ -39,21 +35,23 @@ export default function Order({
         ${componentText}
         ${componentBackground}`}
     >
-      <div className="flex flex-col sm:flex-row justify-between p-3 sm:p-5 gap-3">
+      <div className="flex flex-col justify-between p-3 sm:p-5 gap-3">
         <article className="text-center sm:text-justify">
           {/* Order ID */}
-          <h1 className="font-extrabold text-xl sm:text-2xl">Pedido Nº {id}</h1>
+          <h1 className="font-extrabold text-xl sm:text-2xl">
+            Pedido Nº {orderNumber}
+          </h1>
+          {/* Date of the order */}
+          <h2 className="font-bold text-lg sm:text-xl">
+            Fecha: {getDateValue(creationDate)}; {getSpanishHourValue(creationDate)}
+          </h2>
+        </article>
+        <article className="font-bold text-xl sm:text-2xl self-center text-start">
           {/* Address */}
           <p role="contentinfo" className="font-semibold text-lg sm:text-xl">
             Dirección: {address}
           </p>
-        </article>
-        <article className="font-bold text-xl sm:text-2xl self-center text-center">
-          {/* Date of the order */}
-          <h1 className="font-extrabold text-xl sm:text-2xl">
-            Fecha: {creationDate}
-          </h1>
-          {/* Address */}
+          {/* Price */}
           <p role="contentinfo" className="font-semibold text-lg sm:text-xl">
             Precio total: {totalPrice}
           </p>

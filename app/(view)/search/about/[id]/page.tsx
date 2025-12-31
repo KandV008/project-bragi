@@ -3,13 +3,13 @@
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Loading from "./loading";
-import DisplayProductDetails from "@/app/ui/containers/search/about/displayProductDetails/displayProductDetails";
-import DisplayProductAttributes from "@/app/ui/containers/search/about/displayProductAttributes/displayProductAttributes";
+import DisplayProductDetails from "@/app/ui/containers/search/about/displayProductDetails";
+import DisplayProductAttributes from "@/app/ui/containers/search/about/displayProductAttributes";
 import { getProductRoute, getRelatedProductsRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import SomeProductContainer from "@/app/ui/components/products/someProductContainer/someProductContainer";
 import { EarphoneShape } from "@/app/model/entities/product/enums/earphoneAttributes/EarphoneShape";
-import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
+import AdminPanel from "@/app/ui/containers/admin/adminPanel";
 
 /**
  * Page component that displays product details, attributes, related products, and a guarantee section.

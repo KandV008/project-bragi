@@ -1,19 +1,19 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getAllProductsRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
-import ProductContainer, {
-  ProductContainerSkeleton,
-} from "@/app/ui/components/products/productContainer/productContainer";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../../adminPanel/adminPanel";
-import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
-import { faArrowRight, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { DeletingContext } from "@/app/ui/components/contexts/deletingContext";
-import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton";
 import { deleteProductsByIds } from "@/db/product/product";
-import AdminDeletionPanel from "../../adminDeletionPanel/adminDeletionPanel";
+import dynamic from "next/dynamic";
+import { ProductContainerSkeleton } from "@/app/ui/components/products/productContainer/productContainer";
+
+const AdminPanel = dynamic(() => import("../adminPanel"));
+const AdminDeletionPanel = dynamic(() => import("../adminDeletionPanel"));
+const ProductContainer = dynamic(
+  () => import("@/app/ui/components/products/productContainer/productContainer")
+);
 
 /**
  * This component displays a list of products for administrative purposes. It fetches

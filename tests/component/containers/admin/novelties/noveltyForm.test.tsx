@@ -1,4 +1,4 @@
-import NoveltyForm from "@/app/ui/containers/admin/novelties/noveltyForm/noveltyForm";
+import NoveltyForm from "@/app/ui/containers/admin/novelties/noveltyForm";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
 import { render, screen } from "@testing-library/react";
 

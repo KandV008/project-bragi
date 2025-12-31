@@ -42,6 +42,7 @@ export default function Page(): JSX.Element {
     <div className="flex flex-col gap-3">
       <DisplayOrder
         id={order.id}
+        orderNumber={order.orderNumber}
         creationDate={order.creationDate}
         userName={order.userName}
         firstName={order.firstName}
