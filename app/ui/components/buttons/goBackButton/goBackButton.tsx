@@ -1,10 +1,10 @@
 "use client";
 
 import { fillYellowComponentBackground, componentBorder } from "@/app/ui/tailwindClasses";
-import { faBackspace } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import MediumButtonWithIcon from "../mediumButtonWithIcon/mediumButtonWithIcon";
 import SmallButtonWithIcon from "../smallButtonWithIcon/smallButtonWithIcon";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 
 
 /**
@@ -34,7 +34,7 @@ export default function GoBackButton({ link }: GoBackButtonInterface) {
         <div className="hidden md:block">
           {link ? (
             <MediumButtonWithIcon
-              icon={faBackspace}
+              icon={Icons.back}
               text={"Volver atrás"}
               subtext={"Volver a la página anterior"}
               type={"warning"}
@@ -42,7 +42,7 @@ export default function GoBackButton({ link }: GoBackButtonInterface) {
             />
           ) : (
             <MediumButtonWithIcon
-              icon={faBackspace}
+              icon={Icons.back}
               text={"Volver atrás"}
               subtext={"Volver a la página anterior"}
               type={"warning"}
@@ -57,14 +57,14 @@ export default function GoBackButton({ link }: GoBackButtonInterface) {
         >
           {link ? (
             <SmallButtonWithIcon
-              icon={faBackspace}
+              icon={Icons.back}
               text={"Volver atrás"}
               subtext={""}
               href={link}
             />
           ) : (
             <SmallButtonWithIcon
-              icon={faBackspace}
+              icon={Icons.back}
               text={"Volver atrás"}
               subtext={""}
               onClick={router.back}

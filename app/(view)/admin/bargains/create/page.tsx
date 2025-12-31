@@ -1,6 +1,16 @@
-import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
-import BargainForm from "@/app/ui/containers/admin/bargains/bargainForm/bargainForm";
+import { BargainFormSkeleton } from "@/app/ui/containers/admin/bargains/bargainForm";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const BargainForm = dynamic(
+  () => import("@/app/ui/containers/admin/bargains/bargainForm"),
+  { ssr: false, loading: () => <BargainFormSkeleton /> }
+);
+
+const AdminPanel = dynamic(
+  () => import("@/app/ui/containers/admin/adminPanel"),
+  { ssr: false }
+);
 
 /**
  * Metadata for the page, defining the title.

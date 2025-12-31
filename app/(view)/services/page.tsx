@@ -1,5 +1,3 @@
-"use client";
-
 import MediumButtonWithIcon from "@/app/ui/components/buttons/mediumButtonWithIcon/mediumButtonWithIcon";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
 import { componentBorder, componentBackground, componentText } from "@/app/ui/tailwindClasses";

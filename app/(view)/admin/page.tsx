@@ -1,5 +1,5 @@
-import AdminDashboard from "@/app/ui/containers/admin/adminDashboard";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 /**
  * Metadata for the page, defining the title.
@@ -7,6 +7,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Panel de Control",
 };
+
+const AdminDashboard = dynamic(() => import("@/app/ui/containers/admin/adminDashboard"), {
+  ssr: false, 
+  loading: () => <></>,
+});
 
 /**
  * Page component for the admin dashboard.

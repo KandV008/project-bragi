@@ -93,5 +93,5 @@ export function checkRemoveAccessoryByPairs(products: ShoppingProductDTO[],
         .reduce((sum, p) => sum + p.quantity, 0);
     const pairs = Math.min(leftQty, rightQty);
 
-    return pairs >= accessoryQty
+    return !(pairs >= accessoryQty)
 }

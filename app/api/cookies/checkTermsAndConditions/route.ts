@@ -1,4 +1,6 @@
-import { checkCookiesStatus, checkTermsAndConditions } from "@/lib/cookies";
+export const dynamic = "force-dynamic";
+
+import { checkTermsAndConditions } from "@/lib/cookies";
 import { NextResponse } from "next/server";
 
 /**

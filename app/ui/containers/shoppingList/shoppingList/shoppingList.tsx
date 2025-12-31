@@ -14,7 +14,6 @@ import { useContext } from "react";
  */
 export default function ShoppingList() {
   const { shoppingList, setShoppingList:_ } = useContext(ShoppingListContext)
-  console.log("shoppingList:", shoppingList);
 
   return (
     <section className="flex flex-col gap-5 w-full">

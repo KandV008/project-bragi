@@ -1,4 +1,4 @@
-import AdminUpdateBargain from "@/app/ui/containers/admin/bargains/adminUpdateBargain/adminUpdateBargain";
+import AdminUpdateBargain from "@/app/ui/containers/admin/bargains/adminUpdateBargain";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
 import { render, screen } from "@testing-library/react";
 

@@ -11,7 +11,7 @@ import { ProductEntity } from "@/app/model/entities/product/Product";
 import ProductContainer from "../../components/products/productContainer/productContainer";
 import Spinner from "../../components/common/spinner/spinner";
 import EmptyMessage from "../../components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../admin/adminPanel/adminPanel";
+import AdminPanel from "../admin/adminPanel";
 
 interface ProductsWithFilterProps {
   /** The API endpoint to fetch products from. */
@@ -137,7 +137,7 @@ export default function ProductsWithFilter({
       ) : (
         <></>
       )}
-      <div className="flex flex-col md:flex-row w-full justify-between gap-2">
+      <div className="flex flex-col md:flex-row w-full gap-2">
         {/* Big Screen Filter */}
         <div className="shrink-0 hidden md:flex">
           <Filter onChange={filterAction} category={category} />
@@ -168,7 +168,7 @@ export default function ProductsWithFilter({
         </div>
 
         {/* Product Container */}
-        <div className="md:size-fit lg:px-12">
+        <div className="md:size-fit lg:px-6">
           <ProductContainer
             products={products}
             moreProduct={addMoreProducts}

@@ -7,7 +7,7 @@ import NoveltyContainer from "@/app/ui/components/novelties/noveltyContainer/nov
 import { NoveltyEntity } from "@/app/model/entities/novelty/Novelty";
 import Spinner from "@/app/ui/components/common/spinner/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
+import AdminPanel from "@/app/ui/containers/admin/adminPanel";
 
 /**
  * Page component that handles the display of novelties.

@@ -1,5 +1,6 @@
-import AdminProductList from "@/app/ui/containers/admin/products/adminProductList/adminProductList";
+import { AdminProductListSkeleton } from "@/app/ui/containers/admin/products/adminProductList";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 /**
  * Metadata for the Admin Products Page
@@ -8,6 +9,14 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Administrar Productos",
 };
+
+const AdminProductList = dynamic(
+  () => import("@/app/ui/containers/admin/products/adminProductList"),
+  {
+    ssr: false,
+    loading: () => <AdminProductListSkeleton />,
+  }
+);
 
 /** 
  * This component renders the `AdminProductList`, which displays and manages the list of products.

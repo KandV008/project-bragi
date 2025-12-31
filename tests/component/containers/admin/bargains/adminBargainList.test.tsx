@@ -1,4 +1,4 @@
-import AdminBargainList from "@/app/ui/containers/admin/bargains/adminBargainList/adminBargainList";
+import AdminBargainList from "@/app/ui/containers/admin/bargains/adminBargainList";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
 import { render, screen } from "@testing-library/react";
 

@@ -1,4 +1,4 @@
-import ProductForm from "@/app/ui/containers/admin/products/productForm/productForm";
+import ProductForm from "@/app/ui/containers/admin/products/productForm";
 import { COMPONENT_TEST_TAG } from "@/tests/testConstants";
 import { render, screen } from "@testing-library/react";
 

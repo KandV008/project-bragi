@@ -70,7 +70,7 @@ export default function Product({
           />
         </div>
         <div className="flex flex-col w-full px-2">
-          <span className="text-xs md:text-sm xl:text-lg font-bold w-full text-center md:text-start">
+          <span className="text-xs md:text-sm xl:text-lg font-bold w-full h-10 md:h-11 xl:h-14 text-center md:text-start">
             {name}
           </span>
           <span className="text-xs md:text-sm xl:text-base w-full text-center md:text-start">

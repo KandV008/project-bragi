@@ -1,6 +1,16 @@
-import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
-import ProductForm from "@/app/ui/containers/admin/products/productForm/productForm";
+import { ProductFormSkeleton } from "@/app/ui/containers/admin/products/productForm";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const ProductForm = dynamic(
+  () => import("@/app/ui/containers/admin/products/productForm"),
+  { ssr: false, loading: () => <ProductFormSkeleton /> }
+);
+
+const AdminPanel = dynamic(
+  () => import("@/app/ui/containers/admin/adminPanel"),
+  { ssr: false }
+);
 
 /**
  * Metadata for the Create Product Page

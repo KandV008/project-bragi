@@ -5,6 +5,8 @@ import { parseAppointmentForm, parseContactForm, parseSendAudiometryFileForm, pa
 import { Logger } from "@/app/config/Logger";
 import createReceipt from "./receipt";
 import { getOrder } from "@/db/order/order";
+import { ContactFormData } from "./validations/contact.scheme";
+import { AppointmentFormData } from "./validations/appointment.scheme";
 
 require("dotenv").config({ path: ".env.local" });
 
@@ -29,19 +31,22 @@ const transporter = nodemailer.createTransport({
 /**
  * Sends a contact email with the provided form data.
  *
- * @param {FormData} formData - The form data containing email, subject, and body.
+ * @param {ContactFormData} data - The validated form data containing name, email, subject, and body.
  * @returns {Promise<void>} A promise that resolves when the email is sent.
  */
-export async function sendContactEmail(formData: FormData): Promise<void> {
+export async function sendContactEmail(data: ContactFormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendContactEmail")
 
-    const { name, email, subject, body } = parseContactForm(formData)
+    const { user_name, email, subject, body } = data;
 
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
         subject: "Contacto: " + subject,
-        text: "Nombre: " + name + "\nCorreo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
+        text:
+            "Nombre: " + user_name +
+            "\nCorreo electrónico: " + email +
+            "\nCuerpo del Mensaje: " + body,
     });
 
     Logger.endFunction(CONTEXT, "sendContactEmail", info.messageId)
@@ -50,13 +55,13 @@ export async function sendContactEmail(formData: FormData): Promise<void> {
 /**
  * Sends a contact email with the provided form data.
  *
- * @param {FormData} formData - The form data containing email, subject, and body.
+ * @param {FormData} data - The form data containing email, subject, and body.
  * @returns {Promise<void>} A promise that resolves when the email is sent.
  */
-export async function sendAudiometryFileEmail(formData: FormData): Promise<void> {
+export async function sendAudiometryFileEmail(data: FormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendAudiometryFileEmail")
 
-    const { name, email, body, audiometryFile } = parseSendAudiometryFileForm(formData)
+    const { name, email, body, audiometryFile } = parseSendAudiometryFileForm(data)
 
     const audiometryBuffer = Buffer.from(await audiometryFile.arrayBuffer());
 
@@ -67,7 +72,10 @@ export async function sendAudiometryFileEmail(formData: FormData): Promise<void>
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
         subject: "Archivo de Audiometría. Se requiere una recomendación.",
-        text: "Nombre: " + name + "\nCorreo electrónico: " + email + "\nCuerpo del Mensaje: " + body,
+        text: 
+            "Nombre: " + name + 
+            "\nCorreo electrónico: " + email + 
+            "\nCuerpo del Mensaje: " + body,
         attachments: [
             {
                 filename: sanitizedFileName,
@@ -84,19 +92,22 @@ export async function sendAudiometryFileEmail(formData: FormData): Promise<void>
  * Sends an appointment email with the provided form data.
  * Extracts user details from the form and sends an email to the contact address.
  *
- * @param {FormData} formData - The form data containing user input.
+ * @param {FormData} data - The form data containing user input.
  * @returns {Promise<void>} - A promise that resolves when the email is sent.
  */
-export async function sendAppointmentEmail(formData: FormData): Promise<void> {
+export async function sendAppointmentEmail(data: AppointmentFormData): Promise<void> {
     Logger.startFunction(CONTEXT, "sendAppointmentEmail")
 
-    const { userName, email, phoneNumber, body } = parseAppointmentForm(formData)
+    const { user_name, email, phone_number, body } = data
 
     const info = await transporter.sendMail({
         from: "contact@audifonosxmenos.com",
         to: "contact@audifonosxmenos.com",
-        subject: "Cita: " + userName,
-        text: "Correo electrónico: " + email + "\nNúmero de teléfono: " + phoneNumber + "\nConsideraciones: " + body,
+        subject: "Cita: " + user_name,
+        text: 
+            "Correo electrónico: " + email + 
+            "\nNúmero de teléfono: " + phone_number + 
+            "\nConsideraciones: " + body,
     });
 
     Logger.endFunction(CONTEXT, "sendAppointmentEmail", info.messageId)

@@ -1,6 +1,5 @@
 "use client";
 
-import { faEraser, faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
   componentBorder,
   componentBackground,
@@ -16,6 +15,7 @@ import toast from "react-hot-toast";
 import { actionDeleteNovelty } from "@/db/novelty/novelty";
 import { actionDeleteBargain } from "@/db/bargain/bargain";
 import { Protect } from "@clerk/nextjs";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 
 interface AdminPanelProps {
   entity: "product" | "novelty" | "bargain";
@@ -70,7 +70,7 @@ export default function AdminPanel({
             <>
               {/* Create Entity */}
               <FloatButton
-                icon={faPlus}
+                icon={Icons.plus}
                 text={"Crear Entidad"}
                 subtext={"Añadir un nueva entidad"}
                 type={"default"}
@@ -85,7 +85,7 @@ export default function AdminPanel({
             <>
               {/* Update Entity */}
               <FloatButton
-                icon={faPencil}
+                icon={Icons.pencil}
                 text={"Editar Entidad"}
                 subtext={"Actualizar los atributos"}
                 type={"warning"}
@@ -94,7 +94,7 @@ export default function AdminPanel({
               />
               {/* Delete Entity */}
               <FloatButton
-                icon={faEraser}
+                icon={Icons.eraser}
                 text={"Borrar Entidad"}
                 subtext={"Eliminar para siempre"}
                 type={"danger"}

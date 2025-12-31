@@ -7,7 +7,7 @@ import Loading from "./loading";
 import { getActiveBargainsRoute, getBargainsRoute } from "@/app/api/routes";
 import Spinner from "@/app/ui/components/common/spinner/spinner";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "@/app/ui/containers/admin/adminPanel/adminPanel";
+import AdminPanel from "@/app/ui/containers/admin/adminPanel";
 
 /**
  * Page component that displays a list of bargains.

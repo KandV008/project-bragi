@@ -1,5 +1,11 @@
-import AdminUpdateNovelty from "@/app/ui/containers/admin/novelties/adminUpdateNovelty/adminUpdateNovelty";
+import { AdminUpdateNoveltySkeleton } from "@/app/ui/containers/admin/novelties/adminUpdateNovelty";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const AdminUpdateNovelty = dynamic(
+  () => import("@/app/ui/containers/admin/novelties/adminUpdateNovelty"),
+  { ssr: false, loading: () => <AdminUpdateNoveltySkeleton /> }
+);
 
 /**
  * Metadata for the page, defining the title.

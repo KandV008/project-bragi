@@ -2,13 +2,15 @@
 
 import ProductForm, {
   ProductFormSkeleton,
-} from "@/app/ui/containers/admin/products/productForm/productForm";
+} from "@/app/ui/containers/admin/products/productForm";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getProductRoute } from "@/app/api/routes";
 import { ProductEntity } from "@/app/model/entities/product/Product";
 import EmptyMessage from "@/app/ui/components/messages/emptyMessage/emptyMessage";
-import AdminPanel from "../../adminPanel/adminPanel";
+import dynamic from "next/dynamic";
+
+const AdminPanel = dynamic(() => import("../adminPanel"), { ssr: false });
 
 /**
  * This component allows an admin to update the details of an existing product.

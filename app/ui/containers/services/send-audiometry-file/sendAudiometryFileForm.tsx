@@ -10,23 +10,20 @@ import SubmitButton from "@/app/ui/components/buttons/submitButton/submitButton"
 import FileInput from "@/app/ui/components/inputs/fileInput/fileInput";
 import TextAreaInput from "@/app/ui/components/inputs/textAreaInput/textAreaInput";
 import TextInput from "@/app/ui/components/inputs/textInput/textInput";
-import FormValidationPopUp from "@/app/ui/components/popUps/formValidationPopUp/formValidationPopUp";
 import SectionHeader from "@/app/ui/components/tags/sectionHeader/sectionHeader";
+import { Icons } from "@/app/ui/fontAwesomeIcons";
 import {
   componentText,
   componentBackground,
   componentBorder,
 } from "@/app/ui/tailwindClasses";
 import { sendAudiometryFileEmail } from "@/lib/mail";
-import { validateSendAudiometryFileForm } from "@/lib/validations/validations";
 import {
-  faEnvelope,
-  faComment,
-  faUpload,
-  faFile,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+  SendAudiometryFileFormData,
+  sendAudiometryFileSchema,
+} from "@/lib/validations/audiometryFile.scheme";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 /**
@@ -37,30 +34,33 @@ import toast from "react-hot-toast";
  * @returns {JSX.Element} The ContactForm component.
  */
 export function SendAudiometryFileForm(): JSX.Element {
-  const [showModal, setShowModal] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<SendAudiometryFileFormData>({
+    resolver: zodResolver(sendAudiometryFileSchema),
+  });
 
-  /**
-   * Toggles the validation popup modal.
-   */
-  const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
+  const onSubmit = async (data: SendAudiometryFileFormData) => {
+    try {
+      const formData = new FormData();
 
-  /**
-   * Handles form submission, validates input, and performs the respective action.
-   * If the form is valid, it sends an email; otherwise, it shows a validation popup.
-   *
-   * @function
-   * @param {FormData} formData - The submitted form data.
-   */
-  const handleContactForm = (formData: FormData) => {
-    const isValid = validateSendAudiometryFileForm(formData);
+      formData.append(userNameName, data[userNameName]);
+      formData.append(contactEmailName, data[contactEmailName]);
+      formData.append(contactBodyName, data[contactBodyName]);
+      formData.append(
+        audiometryFileName,
+        data[audiometryFileName][0]
+      );
 
-    if (isValid) {
-      sendAudiometryFileEmail(formData)
-        .then((_) => toast.success("Se ha enviado el correo."))
-        .catch((_) => toast.error("No se ha podido enviar el correo."));
-    } else handleShowModal();
+      await sendAudiometryFileEmail(formData);
+      toast.success("Se ha enviado el correo.");
+      reset();
+    } catch (e) {
+      toast.error("No se ha podido enviar el correo.");
+    }
   };
 
   return (
@@ -92,7 +92,7 @@ export function SendAudiometryFileForm(): JSX.Element {
         </article>
         {/* Contact Form */}
         <form
-          action={handleContactForm}
+          onSubmit={handleSubmit(onSubmit)}
           className={`flex flex-col gap-5 p-5 sm:p-10 items-center justify-center lg:w-1/2
                      ${componentBackground}
                      ${componentBorder} rounded-xl`}
@@ -103,35 +103,44 @@ export function SendAudiometryFileForm(): JSX.Element {
             type={"text"}
             placeholder={"Me llamo..."}
             label={"Nombre"}
-            icon={faUser}
+            icon={Icons.user}
+            register={register(userNameName)}
+            error={errors[userNameName]?.message}
           />
           <TextInput
             name={contactEmailName}
             type={"text"}
             placeholder={"ejemplo@email.com"}
             label={"Correo Electrónico"}
-            icon={faEnvelope}
+            icon={Icons.email}
+            register={register(contactEmailName)}
+            error={errors[contactEmailName]?.message}
           />
           <TextAreaInput
             name={contactBodyName}
             placeholder={"Información extra a tener en cuenta"}
             label={"Cuerpo del mensaje"}
-            icon={faComment}
+            icon={Icons.comment}
+            register={register(contactBodyName)}
+            error={errors[contactBodyName]?.message}
           />
           {/* Audiometry */}
           <FileInput
             name={audiometryFileName}
             label={"Archivo de Audiometría"}
-            icon={faFile}
+            icon={Icons.file}
+            register={register(audiometryFileName)}
+            error={errors[audiometryFileName]?.message?.toString()}
           />
           <div className="place-self-center">
-            <SubmitButton text={"Enviar"} icon={faUpload} isDisable={false} />
+            <SubmitButton
+              text={"Enviar"}
+              icon={Icons.upload}
+              isDisable={false}
+            />
           </div>
         </form>
       </section>
-      <article className="flex flex-center shrink-0 justify-center h-full">
-        {showModal && <FormValidationPopUp handleShowModal={handleShowModal} />}
-      </article>
     </>
   );
 }

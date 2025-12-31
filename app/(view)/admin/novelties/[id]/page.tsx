@@ -1,5 +1,6 @@
-import AboutNovelty from "@/app/ui/containers/services/novelties/aboutNovelty";
+import { AdminNoveltySkeleton } from "@/app/ui/containers/services/novelties/aboutNovelty";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 /**
  * Metadata for the page, defining the title.
@@ -7,6 +8,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Ver Novedad",
 };
+
+const AboutNovelty = dynamic(
+  () => import("@/app/ui/containers/services/novelties/aboutNovelty"),
+  { ssr: false, loading: () => <AdminNoveltySkeleton /> }
+);
 
 /**
  * Page component for viewing a novelty.

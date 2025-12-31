@@ -7,17 +7,14 @@ import {
   componentText,
   componentBorder,
 } from "../../../tailwindClasses";
+import { UseFormRegisterReturn } from "react-hook-form";
 
-/**
- * Props for the FileInput component.
- */
-interface TextInputProps {
-  /** Name attribute for the input */
+interface FileInputProps {
   name: string;
-  /** Label text for the input */
   label: string;
-  /** Icon displayed alongside the input */
   icon: IconDefinition;
+  register?: UseFormRegisterReturn;
+  error?: string;
 }
 
 /**
@@ -30,7 +27,9 @@ export default function FileInput({
   name,
   label,
   icon,
-}: TextInputProps): JSX.Element {
+  register,
+  error,
+}: FileInputProps): JSX.Element {
   return (
     <section className="flex flex-col w-full">
       <label
@@ -54,20 +53,16 @@ export default function FileInput({
           type="file"
           id={name}
           name={name}
-          className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1 
-                file:px-4 file:py-2 file:h-fit   file:w-full file:flex file:flex-col 
-                file:bg-emerald-900 hover:file:bg-emerald-800 
-                file:text-white file:font-semibold file:text-sm 
-                file:border-none file:rounded-lg
-                file:cursor-pointer "
-          autoComplete="off"
-          step="any"
-          maxLength={255}
-          readOnly={false}
+          className="w-full h-full text-xl font-bold bg-transparent cursor-pointer rounded px-1
+                     file:px-4 file:py-2 file:h-fit file:w-full file:flex file:flex-col
+                     file:bg-emerald-900 hover:file:bg-emerald-800 file:text-white
+                     file:font-semibold file:text-sm file:border-none file:rounded-lg
+                     file:cursor-pointer"
+          {...register}
           accept="image/*,.pdf"
-          required
         />
       </article>
+      {error && <span className="text-pink-600 text-sm mt-1">{error}</span>}
     </section>
   );
 }
